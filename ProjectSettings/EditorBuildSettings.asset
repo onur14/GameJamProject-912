@@ -8,12 +8,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CinematicDeskScene.unity
     guid: 5a4b3c2d1e0f9876543210abcdef0123
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
     path: "Assets/Scenes/Masadan Yak\u0131nla\u015Ft\u0131rma Anm.unity"
     guid: 1f6b8c2d4e5a47b39c0d1e2f3a4b5c6d
+  - enabled: 1
+    path: Assets/Working Folder/Muhammed/AnaMenu.unity
+    guid: c4b8a8ab2e8fccb4984da72a2e26564e
+  - enabled: 1
+    path: Assets/Working Folder/Muhammed/Muhammed Test Place.unity
+    guid: f1810f4361b2b0b408962283e137a71e
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
