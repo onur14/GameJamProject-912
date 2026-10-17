@@ -3751,6 +3751,7 @@ RectTransform:
   - {fileID: 2132215631}
   - {fileID: 1022063912}
   - {fileID: 1058868942}
+  - {fileID: 1482266213}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3790,6 +3791,309 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: 568874914}
   m_ActionId: 44b200b1-1557-4083-816c-b22cbdf77ddf
+--- !u!1 &1482266212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1482266213}
+  - component: {fileID: 1482266218}
+  - component: {fileID: 1482266217}
+  - component: {fileID: 1482266216}
+  - component: {fileID: 1482266215}
+  - component: {fileID: 1482266214}
+  m_Layer: 0
+  m_Name: "H\u0131zl\u0131 Soru Paneli"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1482266213
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482266212}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1414193902}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.02, y: 0.36}
+  m_AnchorMax: {x: 0.35, y: 0.88}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1482266214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482266212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e75ed7a3f823f14283e86147e2e1a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuickQuestionManager
+  resources: {fileID: 1414193903}
+  conversation: {fileID: 1130956320}
+  phone: {fileID: 1139218828}
+  briefingManager: {fileID: 1022063913}
+  view: {fileID: 1482266215}
+  scenarioQuestions:
+  - id: QQ-01
+    targetScenarioId: D-01
+    categoryTitle: "SAHA TALEB\u0130"
+    questionText: "B\xF6lge 3'teki ekip ek ambulans talep ediyor."
+    choiceALabel: "G\xD6NDER (-1)"
+    choiceAEffect:
+      ambulances: -1
+      firefighters: 0
+      rescue: 0
+    choiceAFeedback: "G\xD6NDER\u0130LD\u0130"
+    choiceBLabel: REDDET
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: "TALEP REDDED\u0130LD\u0130"
+    timerDuration: 10
+    appearanceDelayMin: 2.5
+    appearanceDelayMax: 4
+    timeoutFeedback: YANITLANMADI
+  - id: QQ-02
+    targetScenarioId: D-02
+    categoryTitle: "YANGIN DESTE\u011E\u0130"
+    questionText: "Yang\u0131n\u0131n yay\u0131lma riski artt\u0131. Ek itfaiye deste\u011Fi isteniyor."
+    choiceALabel: "G\xD6NDER (-1)"
+    choiceAEffect:
+      ambulances: 0
+      firefighters: -1
+      rescue: 0
+    choiceAFeedback: "\u0130TFA\u0130YE G\xD6NDER\u0130LD\u0130"
+    choiceBLabel: REDDET
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: "TALEP REDDED\u0130LD\u0130"
+    timerDuration: 9
+    appearanceDelayMin: 2.5
+    appearanceDelayMax: 3.5
+    timeoutFeedback: YANITLANMADI
+  - id: QQ-03
+    targetScenarioId: Y-02
+    categoryTitle: "KURTARMA TALEB\u0130"
+    questionText: "Enkaz b\xF6lgesindeki ekip ek kurtarma deste\u011Fi istiyor."
+    choiceALabel: "G\xD6NDER (-1)"
+    choiceAEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: -1
+    choiceAFeedback: "KURTARMA EK\u0130B\u0130 G\xD6NDER\u0130LD\u0130"
+    choiceBLabel: REDDET
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: "TALEP REDDED\u0130LD\u0130"
+    timerDuration: 8
+    appearanceDelayMin: 2
+    appearanceDelayMax: 3
+    timeoutFeedback: YANITLANMADI
+  - id: QQ-04
+    targetScenarioId: S-01
+    categoryTitle: "EK\u0130P Y\xD6NLEND\u0130RME"
+    questionText: "Yak\u0131ndaki ambulans yeni bir vakaya y\xF6nlendirilsin mi?"
+    choiceALabel: "Y\xD6NLEND\u0130R"
+    choiceAEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceAFeedback: "AMBULANS Y\xD6NLEND\u0130R\u0130LD\u0130"
+    choiceBLabel: "MEVCUT G\xD6REVDE TUT"
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: "MEVCUT G\xD6REVDE TUTULDU"
+    timerDuration: 8
+    appearanceDelayMin: 2
+    appearanceDelayMax: 3
+    timeoutFeedback: YANITLANMADI
+  - id: QQ-05
+    targetScenarioId: T-01
+    categoryTitle: "EK\u0130P D\xD6N\xDC\u015E\xDC"
+    questionText: "Bir saha ekibi g\xF6revini tamamlad\u0131. Merkeze geri \xE7a\u011Fr\u0131ls\u0131n m\u0131?"
+    choiceALabel: "GER\u0130 \xC7A\u011EIR (+1)"
+    choiceAEffect:
+      ambulances: 1
+      firefighters: 0
+      rescue: 0
+    choiceAFeedback: "AMBULANS MERKEZE D\xD6ND\xDC"
+    choiceBLabel: "B\xD6LGEDE TUT"
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: "EK\u0130P B\xD6LGEDE BIRAKILDI"
+    timerDuration: 7
+    appearanceDelayMin: 1.8
+    appearanceDelayMax: 2.8
+    timeoutFeedback: YANITLANMADI
+  - id: QQ-06
+    targetScenarioId: F-01
+    categoryTitle: "\xD6NCEL\u0130K SE\xC7\u0130M\u0130"
+    questionText: "Tek kurtarma ekibi m\xFCsait. Hangi b\xF6lgeye y\xF6nlendirilsin?"
+    choiceALabel: "B\xD6LGE A (-1)"
+    choiceAEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: -1
+    choiceAFeedback: "B\xD6LGE A'YA SEVK ED\u0130LD\u0130"
+    choiceBLabel: "B\xD6LGE B (-1)"
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: -1
+    choiceBFeedback: "B\xD6LGE B'YE SEVK ED\u0130LD\u0130"
+    timerDuration: 7
+    appearanceDelayMin: 1.8
+    appearanceDelayMax: 2.5
+    timeoutFeedback: YANITLANMADI
+  - id: QQ-07
+    targetScenarioId: K-01
+    categoryTitle: "ROTA DE\u011EERLEND\u0130RMES\u0130"
+    questionText: "Yak\u0131ndaki hastanede yo\u011Funluk bildirildi. Ambulans rotas\u0131 de\u011Fi\u015Ftirilsin mi?"
+    choiceALabel: "ROTAYI DE\u011E\u0130\u015ET\u0130R"
+    choiceAEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceAFeedback: "ALTERNAT\u0130F ROTA SE\xC7\u0130LD\u0130"
+    choiceBLabel: MEVCUT ROTAYI KORU
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: MEVCUT ROTA KORUNDU
+    timerDuration: 6
+    appearanceDelayMin: 1.5
+    appearanceDelayMax: 2.2
+    timeoutFeedback: YANITLANMADI
+  - id: QQ-08
+    targetScenarioId: K-02
+    categoryTitle: "REZERV TALEB\u0130"
+    questionText: "B\xFCy\xFCk olay b\xF6lgesi rezerv ekip deste\u011Fi talep ediyor."
+    choiceALabel: "REZERV G\xD6NDER (-1)"
+    choiceAEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: -1
+    choiceAFeedback: "REZERV EK\u0130P SEVK ED\u0130LD\u0130"
+    choiceBLabel: "REZERV\u0130 KORU"
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: REZERV KORUNDU
+    timerDuration: 5
+    appearanceDelayMin: 1.2
+    appearanceDelayMax: 2
+    timeoutFeedback: YANITLANMADI
+  questionDataAssets: []
+  returnStockCeiling: 5
+--- !u!114 &1482266215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482266212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e9051e17735e2843b769478c82de2a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuickQuestionView
+  font: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  audioSource: {fileID: 0}
+  arrivalClip: {fileID: 0}
+  warningTickClip: {fileID: 0}
+  frameColor: {r: 0.12, g: 0.18, b: 0.22, a: 0.98}
+  innerColor: {r: 0.035, g: 0.055, b: 0.075, a: 0.98}
+  headerBarColor: {r: 0.08, g: 0.13, b: 0.17, a: 1}
+  amberAccent: {r: 0.96, g: 0.69, b: 0.3, a: 1}
+  coolCyan: {r: 0.77, g: 0.9, b: 0.96, a: 1}
+  paperText: {r: 0.85, g: 0.91, b: 0.88, a: 1}
+  buttonBgColor: {r: 0.1, g: 0.16, b: 0.2, a: 1}
+  timerCoolColor: {r: 0.35, g: 0.65, b: 0.85, a: 1}
+  timerAmberColor: {r: 0.9, g: 0.65, b: 0.25, a: 1}
+  timerRedColor: {r: 0.85, g: 0.3, b: 0.25, a: 1}
+  entranceDuration: 0.25
+  exitDuration: 0.25
+  answerFeedbackDuration: 0.65
+  timeoutFeedbackDuration: 0.85
+--- !u!225 &1482266216
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482266212}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1482266217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482266212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &1482266218
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482266212}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1495238922
 GameObject:
   m_ObjectHideFlags: 0
@@ -5026,7 +5330,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a276cda150f842c180a7a27743901c83, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DispatchVisualFeedback
   conversation: {fileID: 1130956320}
   phone: {fileID: 1139218828}

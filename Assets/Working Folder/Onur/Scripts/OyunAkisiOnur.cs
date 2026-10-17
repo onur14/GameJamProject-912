@@ -33,8 +33,11 @@ public class OyunAkisiOnur : MonoBehaviour
     private TextMeshProUGUI uyariYazisi;
     private Coroutine geriSayimRutini;
     public event System.Action<int> ScenarioCompleted;
+    public event System.Action<int, string> ScenarioStarted;
+    public event System.Action<int> ScenarioClosing;
     public event System.Action<bool> DecisionResolved;
     public event System.Action<DispatchResourceEffect> UnitDispatched;
+    public void NotifyUnitDispatched(DispatchResourceEffect effect) { if (!effect.IsZero) UnitDispatched?.Invoke(effect); }
     public int ScenarioRevision { get; private set; }
     public bool LastDecisionCorrect { get; private set; }
     public bool GameOver { get; private set; }
@@ -49,6 +52,7 @@ public class OyunAkisiOnur : MonoBehaviour
     {
         if (GameOver) return;
         GameOver = true;
+        ScenarioClosing?.Invoke(ScenarioRevision);
         StopAllCoroutines();
         secimBekleniyor = false;
         geriSayimRutini = null;
@@ -80,6 +84,7 @@ public class OyunAkisiOnur : MonoBehaviour
     {
         if (completionSent || GameOver) return;
         completionSent = true;
+        ScenarioClosing?.Invoke(ScenarioRevision);
         ButonlariGizle();
         if (conversationView != null && (ConnectionEventChance >= 1f || Random.value < ConnectionEventChance))
             StartCoroutine(CompleteAfterConnectionRecovery());
@@ -296,6 +301,7 @@ public class OyunAkisiOnur : MonoBehaviour
     {
         if (senaryoBasladi || GameOver) return;
         senaryoBasladi = true;
+        ScenarioStarted?.Invoke(ScenarioRevision, currentScenario != null ? currentScenario.scenarioId : "D-01");
         if (conversationView != null) conversationView.gameObject.SetActive(true);
         else sohbetKanvas.gameObject.SetActive(true);
         StartCoroutine(currentScenario != null ? DataConversation() : GirisDiyalogu());

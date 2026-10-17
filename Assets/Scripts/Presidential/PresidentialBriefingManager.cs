@@ -16,6 +16,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     [SerializeField] private DispatchScenarioData[] scenarioOrder = new DispatchScenarioData[8];
     [SerializeField] private PresidentialBriefingData[] briefings = new PresidentialBriefingData[4];
     public UnityEvent<int> ScenarioRequested;
+    public event Action ShiftReset;
     public int CompletedScenarios { get; private set; }
     public ShiftPhase Phase { get; private set; }
     public IReadOnlyList<string> Decisions => decisions;
@@ -49,6 +50,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     }
     public void ResetNewShift()
     {
+        ShiftReset?.Invoke();
         StopAllCoroutines(); CompletedScenarios = 0; CorrectDecisions = 0; completedRevisions.Clear(); shown.Clear(); decisions.Clear(); current = null;
         conversation.ResetGameOver();
         if (cityHealth) cityHealth.ResetForNewShift();

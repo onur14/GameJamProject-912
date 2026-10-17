@@ -29,7 +29,7 @@ public static class CodexButtonBridge
     }
     [Serializable] public class Response
     {
-        public string id, error, scene;
+        public string id, error, scene, text;
         public ButtonInfo[] buttons;
     }
     static readonly string DirectoryPath = Path.GetFullPath("Library/CodexBridge");
@@ -89,7 +89,28 @@ public static class CodexButtonBridge
                 }
                 EditorSceneManager.MarkSceneDirty(button.gameObject.scene);
             }
-            else if (request.action != "inspect") throw new InvalidOperationException("Supported actions: inspect, edit.");
+            else if (request.action == "refresh")
+            {
+                AssetDatabase.Refresh();
+                response.text = "Refreshed AssetDatabase";
+            }
+            else if (request.action == "open_sample_scene")
+            {
+                EditorSceneManager.OpenScene("Assets/Scenes/SampleScene.unity");
+                response.text = "Opened SampleScene";
+            }
+            else if (request.action == "install_qq")
+            {
+                EditorSceneManager.OpenScene("Assets/Scenes/SampleScene.unity");
+                QuickQuestionInstaller.InstallOrUpdate();
+                response.text = "Installed Quick Question System";
+            }
+            else if (request.action == "run_qq_tests")
+            {
+                ExecuteQuickQuestionTests(response);
+                return;
+            }
+            else if (request.action != "inspect") throw new InvalidOperationException("Supported actions: inspect, edit, refresh, open_sample_scene, install_qq, run_qq_tests.");
             response.scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
             response.buttons = Buttons().Select(b => new ButtonInfo
             {
@@ -106,5 +127,10 @@ public static class CodexButtonBridge
         catch (Exception e) { response.error = e.Message; }
         string output = Path.Combine(DirectoryPath, "response.json");
         File.WriteAllText(output, JsonUtility.ToJson(response, true));
+    }
+
+    private static void ExecuteQuickQuestionTests(Response response)
+    {
+        QuickQuestionBridge.StartTests(response.id);
     }
 }
