@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: HAYIR! Sakın merdivenlere koşmayın!
+  m_text: "HAYIR! Sak\u0131n merdivenlere ko\u015Fmay\u0131n!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
   m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4282003750
-  m_fontColor: {r: 0.14901961, g: 0.19215687, b: 0.22745098, a: 1}
+  m_fontColor: {r: 0.91, g: 0.96, b: 0.93, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -98,14 +98,14 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 12
   m_fontSizeMax: 18
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 0.15
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 3
+  m_lineSpacing: 2
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4279900698
-  m_fontColor: {r: 0.14901961, g: 0.19215687, b: 0.22745098, a: 1}
+  m_fontColor: {r: 0.91, g: 0.96, b: 0.93, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -235,14 +235,14 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 0.15
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 3
+  m_lineSpacing: 2
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -427,7 +427,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4282003750
-  m_fontColor: {r: 0.14901961, g: 0.19215687, b: 0.22745098, a: 1}
+  m_fontColor: {r: 0.91, g: 0.96, b: 0.93, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -450,14 +450,14 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 12
   m_fontSizeMax: 20
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 0.15
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 3
+  m_lineSpacing: 2
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -554,7 +554,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Evet, binayı terk edin!
+  m_text: "Evet, binay\u0131 terk edin!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
   m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
@@ -564,7 +564,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4282003750
-  m_fontColor: {r: 0.14901961, g: 0.19215687, b: 0.22745098, a: 1}
+  m_fontColor: {r: 0.91, g: 0.96, b: 0.93, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -587,14 +587,14 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 12
   m_fontSizeMax: 18
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 0.15
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 3
+  m_lineSpacing: 2
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -702,7 +702,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4282003750
-  m_fontColor: {r: 0.14901961, g: 0.19215687, b: 0.22745098, a: 1}
+  m_fontColor: {r: 0.91, g: 0.96, b: 0.93, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -725,14 +725,14 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 0.15
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 3
+  m_lineSpacing: 2
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -778,7 +778,7 @@ GameObject:
   - component: {fileID: 7445754986739040688}
   - component: {fileID: 8190273645821093456}
   m_Layer: 5
-  m_Name: DispatchConversation
+  m_Name: OnurConversation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -870,6 +870,13 @@ MonoBehaviour:
   choiceSpace: 165
   callerColor: {r: 1, g: 1, b: 1, a: 1}
   operatorColor: {r: 0.82, g: 0.91, b: 1, a: 1}
+  charactersPerSecond: 38
+  typingAudio:
+    clip: {fileID: 0}
+    characterInterval: 3
+    volume: 0.045
+  callEndedDuration: 1.05
+  clickDebounce: 0.22
 --- !u!114 &8190273645821093456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1198,4 +1205,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-

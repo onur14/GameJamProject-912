@@ -153,6 +153,11 @@ public sealed class QuickQuestionView : MonoBehaviour
         questionBody = CreateText("QuestionText", innerGo.transform, new Vector2(0.05f, 0.51f), new Vector2(0.95f, 0.81f), 19, paperText);
         questionBody.alignment = TextAlignmentOptions.TopLeft;
         questionBody.textWrappingMode = TextWrappingModes.Normal;
+        questionBody.fontStyle = FontStyles.Bold;
+        questionBody.lineSpacing = 2f;
+        questionBody.enableAutoSizing = true;
+        questionBody.fontSizeMin = 16;
+        questionBody.fontSizeMax = 19;
 
         // Feedback label (e.g. "GÖNDERİLDİ", "TALEP REDDEDİLDİ", "YANITLANMADI")
         feedbackLabel = CreateText("FeedbackLabel", innerGo.transform, new Vector2(0.05f, 0.16f), new Vector2(0.95f, 0.40f), 22, amberAccent);
@@ -245,6 +250,8 @@ public sealed class QuickQuestionView : MonoBehaviour
 
         label = CreateText("Label", go.transform, new Vector2(0.04f, 0.04f), new Vector2(0.96f, 0.96f), 16, paperText);
         label.alignment = TextAlignmentOptions.Center;
+        label.fontStyle = FontStyles.Bold;
+        label.lineSpacing = 1f;
         label.enableAutoSizing = true;
         label.fontSizeMin = 12;
         label.fontSizeMax = 18;
@@ -254,6 +261,7 @@ public sealed class QuickQuestionView : MonoBehaviour
     public void Show(QuickQuestionConfig config, DispatchResources resources, Func<int,bool> onDecision, Action onTimeout, Func<int,bool> availability)
     {
         BuildUI();
+        transform.SetAsLastSibling();
         if (activeRoutine != null) StopCoroutine(activeRoutine);
 
         currentConfig = config;

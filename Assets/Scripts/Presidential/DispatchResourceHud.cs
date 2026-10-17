@@ -57,12 +57,14 @@ public sealed class DispatchResourceHud : MonoBehaviour
     {
         if(numbers[0])return;
         var bg=gameObject.GetComponent<Image>()??gameObject.AddComponent<Image>();bg.color=new Color(.035f,.06f,.08f,.98f);bg.raycastTarget=false;
-        Text("Kaynak Başlığı",transform,new Vector2(.07f,.89f),new Vector2(.94f,.98f),18,new Color(.95f,.70f,.35f)).text="SAHA EKİPLERİ";
+        var heading=Text("Kaynak Başlığı",transform,new Vector2(.07f,.89f),new Vector2(.94f,.98f),18,new Color(.98f,.76f,.43f));
+        heading.fontStyle=FontStyles.Bold;heading.text="SAHA EKİPLERİ";
         string[] labels={"AMBULANS","İTFAİYE","KURTARMA EKİBİ"};
         for(int i=0;i<3;i++)
         {
             float top=.875f-i*.28f;
-            Text(labels[i],transform,new Vector2(.07f,top-.08f),new Vector2(.94f,top),17,normal).text=labels[i];
+            var label=Text(labels[i],transform,new Vector2(.07f,top-.08f),new Vector2(.94f,top),17,normal);
+            label.fontStyle=FontStyles.Bold;label.text=labels[i];
             var iconObject=new GameObject(labels[i]+" İkonu",typeof(RectTransform),typeof(CanvasRenderer),typeof(DispatchUnitIcon));
             iconObject.transform.SetParent(transform,false);
             var icon=iconObject.GetComponent<DispatchUnitIcon>();icon.UnitIndex=i;icon.raycastTarget=false;icon.color=new Color(.69f,.81f,.86f);
@@ -70,6 +72,7 @@ public sealed class DispatchResourceHud : MonoBehaviour
             iconRect.offsetMin=iconRect.offsetMax=Vector2.zero;
             icons[i]=iconRect;
             numbers[i]=Text(labels[i]+" Sayısı",transform,new Vector2(.40f,top-.21f),new Vector2(.74f,top-.08f),38,normal);
+            numbers[i].fontStyle=FontStyles.Bold;
             numbers[i].enableAutoSizing=true;numbers[i].fontSizeMin=22;numbers[i].fontSizeMax=38;
             deltas[i]=Text("Değişim",transform,new Vector2(.76f,top-.19f),new Vector2(.98f,top-.09f),18,normal);
             warnings[i]=Text("Yetersizlik",transform,new Vector2(.07f,top-.27f),new Vector2(.96f,top-.21f),14,new Color(1,.46f,.35f));

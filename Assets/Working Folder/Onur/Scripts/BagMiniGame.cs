@@ -97,7 +97,7 @@ public sealed class BagMiniGame : MonoBehaviour
     private void Refresh()
     {
         attemptsLabel.text = string.Join(" ", new string('♥', attemptsLeft).ToCharArray());
-        attemptsLabel.color = new Color(.94f, .20f, .25f);
+        attemptsLabel.color = new Color(.98f, .60f, .55f);
         checkButton.interactable = !resolved;
     }
 }

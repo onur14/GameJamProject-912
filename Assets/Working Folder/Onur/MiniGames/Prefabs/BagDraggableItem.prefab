@@ -127,15 +127,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BagDraggableItem
   itemName: 
-  sourceSprite: {fileID: 0}
-  cropPixels:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
   icon: {fileID: 8084923561945322731}
-  nameLabel: {fileID: 212201086955905482}
+  startingPosition: {x: 0, y: 0}
+  bagPosition: {x: 0, y: 0}
   startingArea: {fileID: 0}
   correctArea: {fileID: 0}
   game: {fileID: 0}
@@ -204,17 +198,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "E\u015fya"
+  m_text: "E\u015Fya"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.06, g: 0.14, b: 0.18, a: 1}
+  m_fontColor: {r: 0.91, g: 0.96, b: 0.93, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -237,14 +231,14 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 0.15
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 2
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0

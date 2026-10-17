@@ -80,6 +80,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         Text("Kurum", board, new Vector2(.035f,.925f), new Vector2(.97f,.98f), 23, Paper).text = "ULUSAL AFET KOORDİNASYON MERKEZİ";
         Panel("Yayın Çizgisi", board, new Vector2(.035f,.907f), new Vector2(.965f,.911f), Amber);
         header = Text("Başlık", board, new Vector2(.035f,.84f), new Vector2(.965f,.9f), 25, Amber);
+        header.fontStyle = FontStyles.Bold;
         var portrait = Panel("Başkan Yayını", board, new Vector2(.035f,.465f), new Vector2(.49f,.825f), Color.white);
         portrait.sprite = presidentPortrait; portrait.preserveAspect = true; portrait.raycastTarget = false;
         var mouthObject=Rect("Başkan Konuşma",portrait.transform,Vector2.zero,Vector2.one).gameObject;
@@ -92,6 +93,11 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
             Text("Eksik Görsel", portrait.transform, Vector2.zero, Vector2.one, 22, Paper).text = "Başkan yayını\nGörsel referansı bekleniyor";
         }
         body = Text("Konuşma", board, new Vector2(.52f,.46f), new Vector2(.965f,.825f), 25, Paper);
+        body.fontStyle = FontStyles.Bold;
+        body.lineSpacing = 2f;
+        body.enableAutoSizing = true;
+        body.fontSizeMin = 21;
+        body.fontSizeMax = 25;
         stock = Text("Mevcut Kaynaklar", board, new Vector2(.035f,.365f), new Vector2(.965f,.44f), 23, Amber);
         offers[0] = Button("Plan A", board, new Vector2(.035f,.10f), new Vector2(.49f,.35f), out offerTexts[0]);
         offers[1] = Button("Plan B", board, new Vector2(.51f,.10f), new Vector2(.965f,.35f), out offerTexts[1]);
