@@ -38,9 +38,12 @@ public class OyunAkisiOnur : MonoBehaviour
     public event System.Action<int, string> ScenarioStarted;
     public event System.Action<int> ScenarioClosing;
     public event System.Action<bool> DecisionResolved;
+    public event System.Action DecisionTimedOut;
+    [SerializeField, Min(1)] private float unansweredDecisionSeconds = 15;
     public event System.Action<DispatchResourceEffect> UnitDispatched;
     public void NotifyUnitDispatched(DispatchResourceEffect effect) { if (!effect.IsZero) UnitDispatched?.Invoke(effect); }
     public int ScenarioRevision { get; private set; }
+    public int CompletedDialogueLines { get; private set; }
     public bool LastDecisionCorrect { get; private set; }
     public bool GameOver { get; private set; }
     public bool ManagedShift { get; set; }
@@ -329,6 +332,7 @@ public class OyunAkisiOnur : MonoBehaviour
     {
         if (senaryoBasladi || GameOver) return;
         senaryoBasladi = true;
+        CompletedDialogueLines = 0;
         ScenarioStarted?.Invoke(ScenarioRevision, currentScenario != null ? currentScenario.scenarioId : "D-01");
         if (callerInfo != null) callerInfo.Show(currentScenario);
         if (conversationView != null) conversationView.gameObject.SetActive(true);
@@ -395,8 +399,25 @@ public class OyunAkisiOnur : MonoBehaviour
 
     private IEnumerator SecimGeriSayimi()
     {
-        // Integrated dialogue choices wait for an explicit decision, never a timeout.
-        if (conversationView != null) { geriSayimYazisi.gameObject.SetActive(false); yield break; }
+        if (conversationView != null)
+        {
+            geriSayimYazisi.gameObject.SetActive(false);
+            float remaining = unansweredDecisionSeconds;
+            while (remaining > 0 && secimBekleniyor && !GameOver)
+            {
+                conversationView.SetDecisionTimer(remaining);
+                yield return null;
+                if (!conversationView.IsPaused) remaining -= Time.unscaledDeltaTime;
+            }
+            geriSayimRutini = null;
+            if (secimBekleniyor && !GameOver)
+            {
+                // One notification per decision, with no automatic choice or repeated penalty.
+                conversationView.SetDecisionTimer(0, true);
+                DecisionTimedOut?.Invoke();
+            }
+            yield break;
+        }
         float kalanSure = 10f;
         geriSayimYazisi.gameObject.SetActive(true);
 
@@ -477,11 +498,13 @@ public class OyunAkisiOnur : MonoBehaviour
         {
             yield return conversationView.ShowMessage(metin, sagdan, animasyonSuresi);
             yield return conversationView.WaitForAdvance();
+            CompletedDialogueLines++;
             yield break;
         }
         MesajEkle(metin, sagdan);
         yield return new WaitUntil(() => !animasyonCalisiyor && bekleyenMesajlar.Count == 0);
         yield return new WaitForSeconds(Mathf.Max(2f, metin.Length * 0.035f));
+        CompletedDialogueLines++;
     }
 
     private IEnumerator MesajlariYukariTasi(float mesafe)

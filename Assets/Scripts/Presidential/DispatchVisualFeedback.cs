@@ -42,13 +42,13 @@ public sealed class DispatchVisualFeedback : MonoBehaviour
     }
     private void OnEnable()
     {
-        if (conversation) conversation.DecisionResolved += Decision;
+        if (conversation) { conversation.DecisionResolved += Decision; conversation.DecisionTimedOut += Timeout; }
         if (phone) phone.FocusCompleted += Activate;
         ambience=StartCoroutine(MonitorIdle());
     }
     private void OnDisable()
     {
-        if (conversation) conversation.DecisionResolved -= Decision;
+        if (conversation) { conversation.DecisionResolved -= Decision; conversation.DecisionTimedOut -= Timeout; }
         if (phone) phone.FocusCompleted -= Activate;
         if (pulse != null) StopCoroutine(pulse);
         if (ambience != null) StopCoroutine(ambience);ambience=null;Alpha(monitorGlow,0);
@@ -63,6 +63,8 @@ public sealed class DispatchVisualFeedback : MonoBehaviour
             yield return interval;
         }
     }
+    public void SignalAlert(bool danger) => Begin(danger, danger ? wrongDuration : activationDuration);
+    private void Timeout() => SignalAlert(true);
     private void Activate() => Begin(false, activationDuration);
     private void Decision(bool correct) { DecisionPulseCount++; Begin(!correct, correct ? correctDuration : wrongDuration); }
     private void Begin(bool wrong, float duration)

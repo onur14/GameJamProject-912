@@ -22,7 +22,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Color callerColor = Color.white;
     [SerializeField] private Color operatorColor = new Color(.82f,.91f,1);
     [Header("Automatic conversation pace")]
-    [SerializeField, Min(0)] private float charactersPerSecond = 38;
+    [SerializeField, Min(0)] private float charactersPerSecond = 40;
     [SerializeField] private DialogueTypingAudio typingAudio = new DialogueTypingAudio();
     [SerializeField, Range(.8f,1.5f)] private float callEndedDuration = 1.05f;
     [SerializeField, Range(.15f,.4f)] private float clickDebounce = .22f;
@@ -33,7 +33,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     private ScrollRect scroll;
     private Button next;
     private TMP_Text nextLabel, effectA, effectB, latestBody;
-    private TMP_Text callEndedLabel, newCallLabel;
+    private TMP_Text callEndedLabel, newCallLabel, decisionTimer;
     private GameObject connectionOverlay;
     private RectTransform connectionFill;
     private readonly List<RectTransform> messages = new List<RectTransform>();
@@ -218,7 +218,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     }
     public IEnumerator WaitForAdvance()
     {
-        float displayTime = Mathf.Clamp(MessageText.text.Length * .012f, .8f, 1.8f);
+        float displayTime = Mathf.Clamp(MessageText.text.Length * .0115f, .8f, 1.8f);
         while(displayTime>0f || IsPaused)
         {
             if(!IsPaused)displayTime-=Time.unscaledDeltaTime;
@@ -338,6 +338,19 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         Anchor(textViewport,new Vector2(.015f,choicesVisible ? .625f : .02f),new Vector2(.985f,.98f));
         FitText();
     }
+    public void SetDecisionTimer(float remaining, bool expired = false)
+    {
+        if (decisionTimer == null)
+        {
+            decisionTimer = Text("Karar Süresi", panel, 16);
+            Anchor(decisionTimer.rectTransform, new Vector2(.035f,.015f), new Vector2(.965f,.10f));
+            decisionTimer.alignment = TextAlignmentOptions.Center;
+        }
+        decisionTimer.gameObject.SetActive(true);
+        decisionTimer.color = expired || remaining <= 5 ? new Color(1,.43f,.29f) : new Color(.95f,.75f,.38f);
+        decisionTimer.text = expired ? "YANIT GECİKTİ · ŞEHİR SAĞLIĞI -5" : "YANIT BEKLENİYOR · " + Mathf.CeilToInt(remaining) + " sn";
+    }
+
     public void SetChoices(string approve,string reject)
     {
         approveLabel.text=approve;rejectLabel.text=reject;awaitingAdvance=false;
@@ -356,6 +369,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     }
     public void SetChoicesVisible(bool visible)
     {
+        if (decisionTimer && !visible) decisionTimer.gameObject.SetActive(false);
         choicesVisible=visible;approveButton.gameObject.SetActive(visible);rejectButton.gameObject.SetActive(visible);
         if(next!=null)next.gameObject.SetActive(false);
         Layout();

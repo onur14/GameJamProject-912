@@ -12,11 +12,13 @@ public sealed class QuickQuestionManager : MonoBehaviour
     [SerializeField] private DispatchCallFlow phone;
     [SerializeField] private PresidentialBriefingManager briefingManager;
     [SerializeField] private QuickQuestionView view;
+    [SerializeField] private CityHealth cityHealth;
+    [SerializeField] private DispatchVisualFeedback visualFeedback;
 
     [Header("Scenario Questions (8 Slots)")]
     [Tooltip("One Quick Question configuration per scenario.")]
     [SerializeField] private QuickQuestionConfig[] scenarioQuestions = new QuickQuestionConfig[8];
-    [Tooltip("Second, sequential question for each scenario. Replace marked placeholders in the Inspector.")]
+    [Tooltip("Second, sequential information-verification question for each scenario.")]
     [SerializeField] private QuickQuestionConfig[] secondQuestions = new QuickQuestionConfig[8];
 
     [Header("Optional ScriptableObject Overrides")]
@@ -56,9 +58,12 @@ public sealed class QuickQuestionManager : MonoBehaviour
     private void Awake()
     {
         InitializeDefaultQuestionsIfNeeded();
+        ConfigureVerificationRewards();
     }
 
     [SerializeField, Min(0)] private int returnStockCeiling = 6;
+    [SerializeField, Min(0)] private int timelyResponseHealthReward = 2;
+    [SerializeField, Min(0)] private int verifiedAnswerHealthReward = 5;
     private string activeScenarioId;
     private readonly HashSet<int> scheduledRevisions = new HashSet<int>();
 
@@ -107,26 +112,58 @@ public sealed class QuickQuestionManager : MonoBehaviour
         if (secondQuestions.Length != 8) Array.Resize(ref secondQuestions, 8);
         for (int i = 0; i < 8; i++)
             if (secondQuestions[i] == null || string.IsNullOrEmpty(secondQuestions[i].id)
+                || secondQuestions[i].questionText == "Bu vakanın ikinci hızlı soru metni henüz yazılmadı."
                 || secondQuestions[i].targetScenarioId != scenarioQuestions[i].targetScenarioId
                 || !ids.Add(secondQuestions[i].id))
             {
-                secondQuestions[i] = new QuickQuestionConfig {
-                    id = "QQ-" + (i + 9).ToString("00"),
-                    targetScenarioId = scenarioQuestions[i].targetScenarioId,
-                    categoryTitle = "İKİNCİ SORU • DÜZENLENECEK",
-                    questionText = "Bu vakanın ikinci hızlı soru metni henüz yazılmadı.",
-                    choiceALabel = "ONAYLA",
-                    choiceBLabel = "REDDET",
-                    choiceAEffect = new DispatchResourceEffect(),
-                    choiceBEffect = new DispatchResourceEffect(),
-                    choiceAFeedback = "KAYDEDİLDİ",
-                    choiceBFeedback = "KAYDEDİLDİ",
-                    timerDuration = scenarioQuestions[i].timerDuration,
-                    appearanceDelayMin = 2f,
-                    appearanceDelayMax = 3f
-                };
+                secondQuestions[i] = GetDefaultSecondQuestions()[i];
                 ids.Add(secondQuestions[i].id);
             }
+    }
+
+    public void ConfigureVerificationRewards()
+    {
+        if (secondQuestions == null) return;
+        for (int i = 0; i < secondQuestions.Length; i++)
+        {
+            var q = secondQuestions[i]; if (q == null || !q.isDisinformation) continue;
+            var bonus = new DispatchResourceEffect { ambulances = i % 3 == 0 ? 1 : 0, firefighters = i % 3 == 1 ? 1 : 0, rescue = i % 3 == 2 ? 1 : 0 };
+            if (q.correctChoiceIndex == 0) q.choiceAEffect = bonus; else q.choiceBEffect = bonus;
+        }
+    }
+
+    public static QuickQuestionConfig[] GetDefaultSecondQuestions()
+    {
+        string[] ids = { "D-01", "D-02", "Y-02", "S-01", "T-01", "F-01", "K-01", "K-02" };
+        string[] questions = {
+            "Bir hesap 'Gece 03.15’te kesin deprem var' diyor. Paylaşalım mı?",
+            "Kaynağı belirsiz ses kaydı tahliye emri veriyor. Yayılsın mı?",
+            "Eski yangın videosu 'şimdi burada' diye yayılıyor. Düzeltelim mi?",
+            "Teyitsiz mesaj 'Tüm yollar açık' diyor. Resmî bilgi diye yayalım mı?",
+            "Sahte hesap 'Tsunami uyarısı kalktı' diyor. Resmî teyit isteyelim mi?",
+            "Tarihsiz fırtına haritası yeniden yayılıyor. Güncel diye sunalım mı?",
+            "Uzman adı olmayan deprem tahmini gündemde. Kaynağı doğrulayalım mı?",
+            "Kişisel IBAN isteyen yardım mesajını resmî duyuru diye paylaşalım mı?"
+        };
+        int[] correct = { 1, 1, 0, 1, 0, 1, 0, 1 };
+        var result = new QuickQuestionConfig[8];
+        for (int i = 0; i < result.Length; i++)
+        {
+            string good = "TEYİTSİZ BİLGİ ENGELLENDİ";
+            string bad = "YANLIŞ BİLGİ YAYILDI · SAĞLIK -10";
+            result[i] = new QuickQuestionConfig {
+                id = "QQ-" + (i + 9).ToString("00"), targetScenarioId = ids[i],
+                categoryTitle = "BİLGİ KİRLİLİĞİ / TEYİT", questionText = questions[i],
+                choiceALabel = "EVET", choiceBLabel = "HAYIR",
+                choiceAEffect = new DispatchResourceEffect(), choiceBEffect = new DispatchResourceEffect(),
+                choiceAFeedback = correct[i] == 0 ? good : bad, choiceBFeedback = correct[i] == 1 ? good : bad,
+                isDisinformation = true, correctChoiceIndex = correct[i],
+                wrongAnswerHealthDamage = 10, timeoutHealthDamage = 10,
+                timeoutFeedback = "MÜDAHALE EDİLMEDİ · SAĞLIK -10",
+                timerDuration = i < 4 ? 8 : 7, appearanceDelayMin = 1.4f, appearanceDelayMax = 2.2f
+            };
+        }
+        return result;
     }
 
     public static QuickQuestionConfig[] GetDefault8Questions()
@@ -283,6 +320,12 @@ public sealed class QuickQuestionManager : MonoBehaviour
     {
         while(phone && phone.State!=DispatchCallFlow.CallState.Conversation)
         {if(scenarioFinished || conversation.GameOver)yield break;yield return null;}
+        int requiredLines = resolvedInScenario == 0 ? 2 : 3;
+        while (conversation && conversation.CompletedDialogueLines < requiredLines)
+        {
+            if (scenarioFinished || currentScenarioRevision != revision || conversation.GameOver) yield break;
+            yield return null;
+        }
         float min=Mathf.Max(0,config.appearanceDelayMin);
         float delay=UnityEngine.Random.Range(min,Mathf.Max(min,config.appearanceDelayMax));
         for(float elapsed=0;elapsed<delay;)
@@ -314,6 +357,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
         if(config==null || !view || !resources || IsQuestionActive || view.IsActive || !isActiveAndEnabled || (conversation && conversation.GameOver))return;
         CurrentQuestion=config.Clone();IsQuestionActive=true;
         view.Show(CurrentQuestion,resources,OnChoiceSelected,OnTimeout,CanChoose);
+        if (visualFeedback) visualFeedback.SignalAlert(false);
         QuestionStarted?.Invoke(CurrentQuestion);
     }
 
@@ -331,7 +375,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
         var raw=choice==0?CurrentQuestion.choiceAEffect:CurrentQuestion.choiceBEffect;
         var effect=EffectiveCost(choice);
         // Do not claim a return succeeded when already at its configured ceiling.
-        if(!raw.IsZero && effect.IsZero)return false;
+        if(!raw.IsZero && effect.IsZero && !CurrentQuestion.isDisinformation)return false;
         return effect.CanApply(resources);
     }
     private bool OnChoiceSelected(int choice)
@@ -344,6 +388,25 @@ public sealed class QuickQuestionManager : MonoBehaviour
         result.selectedChoiceLabel=choice==0?config.choiceALabel:config.choiceBLabel;
         result.appliedEffect=effect;results.Add(result);
         if(conversation && (effect.ambulances<0 || effect.firefighters<0 || effect.rescue<0))conversation.NotifyUnitDispatched(effect);
+        if (config.isDisinformation)
+        {
+            bool wrong = choice != config.correctChoiceIndex;
+            if (wrong && cityHealth) cityHealth.ApplyDamage(config.wrongAnswerHealthDamage);
+            if (visualFeedback) visualFeedback.SignalAlert(wrong);
+        }
+        bool earnsReward = !config.isDisinformation || choice == config.correctChoiceIndex;
+        if (earnsReward && cityHealth)
+        {
+            int before = cityHealth.HealthPercent;
+            cityHealth.AddHealth(config.isDisinformation ? verifiedAnswerHealthReward : timelyResponseHealthReward);
+            int gained = cityHealth.HealthPercent - before;
+            string bonus = gained > 0 ? "ŞEHİR SAĞLIĞI +" + gained : "ŞEHİR SAĞLIĞI TAM";
+            if (effect.ambulances > 0) bonus += " · AMBULANS +" + effect.ambulances;
+            if (effect.firefighters > 0) bonus += " · İTFAİYE +" + effect.firefighters;
+            if (effect.rescue > 0) bonus += " · KURTARMA +" + effect.rescue;
+            if (config.isDisinformation && effect.IsZero) bonus += " · EKİP YEDEĞİ DOLU";
+            view.ShowRewardFeedback(bonus);
+        }
         QuestionResolved?.Invoke(result);ScheduleNextQuestion();return true;
     }
     private QuickQuestionResult CreateResult(QuickQuestionConfig config)
@@ -356,12 +419,18 @@ public sealed class QuickQuestionManager : MonoBehaviour
     {
         if(!IsQuestionActive)return;
         IsQuestionActive=false;var result=CreateResult(CurrentQuestion);
-        result.timedOut=true;result.selectedChoiceLabel="YANITLANMADI";results.Add(result);QuestionResolved?.Invoke(result);
+        result.timedOut=true;result.selectedChoiceLabel="YANITLANMADI";results.Add(result);
+        if (CurrentQuestion.isDisinformation)
+        {
+            if (cityHealth) cityHealth.ApplyDamage(CurrentQuestion.timeoutHealthDamage);
+            if (visualFeedback) visualFeedback.SignalAlert(true);
+        }
+        QuestionResolved?.Invoke(result);
         ScheduleNextQuestion();
     }
     private void ScheduleNextQuestion()
     {
-        if (scenarioFinished || currentScenarioRevision < 0 || resolvedInScenario >= 2) return;
+        if (scenarioFinished || (conversation && conversation.GameOver) || currentScenarioRevision < 0 || resolvedInScenario >= 2) return;
         resolvedInScenario++;
         if (resolvedInScenario != 1) return;
         QuickQuestionConfig next = GetQuestionForScenario(activeScenarioIndex, true);

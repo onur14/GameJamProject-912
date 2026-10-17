@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public sealed class PresidentialBriefingManager : MonoBehaviour
 {
-    public enum ShiftPhase { Scenario, Dialogue, Allocation, Confirmation, Final, AwaitingScenarioData }
+    public enum ShiftPhase { Scenario, Dialogue, Allocation, Confirmation, Final, AwaitingScenarioData, ShiftSummary }
     [SerializeField] private DispatchResources resources;
     [SerializeField] private OyunAkisiOnur conversation;
     [SerializeField] private DispatchCallFlow phone;
@@ -29,6 +29,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     private ResourceOffer offerA, offerB;
     private int line;
     private bool acceptingCompletion, applied;
+    [SerializeField, Min(1)] private int estimatedPeoplePerCorrectDecision = 1250;
 
     private void Awake()
     {
@@ -76,10 +77,18 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         }
         current = briefings[index]; line = 0; applied = false;
         phone.SetInteractionLocked(true);
-        view.Show($"RESMÎ BİLGİLENDİRME {index + 1}/4  /  {current.heading}");
-        Phase = ShiftPhase.Dialogue;
-        ShowLine();
+        Phase = ShiftPhase.ShiftSummary;
+        StartCoroutine(SummaryBeforeBroadcast(index));
     }
+    private IEnumerator SummaryBeforeBroadcast(int index)
+    {
+        yield return view.ShowShiftSummary(CompletedScenarios, CorrectDecisions,
+            CorrectDecisions * estimatedPeoplePerCorrectDecision, cityHealth ? cityHealth.HealthPercent : 100);
+        if (cityHealth && cityHealth.IsGameOver) yield break;
+        view.Show($"RESMÎ BİLGİLENDİRME {index + 1}/4  /  {current.heading}");
+        Phase = ShiftPhase.Dialogue; ShowLine();
+    }
+
     private void ShowLine()
     {
         if (current.dialogueLines != null && line < current.dialogueLines.Length)

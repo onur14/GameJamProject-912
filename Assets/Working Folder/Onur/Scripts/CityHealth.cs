@@ -52,27 +52,37 @@ public sealed class CityHealth : MonoBehaviour
 
     private void OnEnable()
     {
-        if (conversation != null) conversation.DecisionResolved += OnDecisionResolved;
+        if (conversation != null) { conversation.DecisionResolved += OnDecisionResolved; conversation.DecisionTimedOut += OnDecisionTimedOut; }
         if (choiceView != null) choiceView.ChoicesShown += ShowMissionNote;
     }
 
     private void OnDisable()
     {
-        if (conversation != null) conversation.DecisionResolved -= OnDecisionResolved;
+        if (conversation != null) { conversation.DecisionResolved -= OnDecisionResolved; conversation.DecisionTimedOut -= OnDecisionTimedOut; }
         if (choiceView != null) choiceView.ChoicesShown -= ShowMissionNote;
+    }
+
+    private void OnDecisionTimedOut()
+    {
+        if (!IsGameOver && briefing.Phase == PresidentialBriefingManager.ShiftPhase.Scenario) ApplyDamage(5);
     }
 
     private void OnDecisionResolved(bool correct)
     {
         if (correct || IsGameOver || briefing.Phase != PresidentialBriefingManager.ShiftPhase.Scenario) return;
 
-        HealthPercent = Mathf.Max(0, HealthPercent - WrongAnswerDamage);
-        Refresh();
+        ApplyDamage(WrongAnswerDamage);
+    }
 
+    public bool ApplyDamage(int percentagePoints)
+    {
+        if (IsGameOver || percentagePoints <= 0) return false;
+        HealthPercent = Mathf.Max(0, HealthPercent - percentagePoints);
+        Refresh();
         if (damageAnimation != null) StopCoroutine(damageAnimation);
         damageAnimation = StartCoroutine(AnimateDamage());
-
         if (HealthPercent == 0) EndGame();
+        return true;
     }
 
     public void ResetForNewShift()
@@ -120,6 +130,7 @@ public sealed class CityHealth : MonoBehaviour
         healthText = indicatorObject.GetComponent<TextMeshProUGUI>();
         healthText.font = healthFont != null ? healthFont : interfaceFont != null ? interfaceFont : TMP_Settings.defaultFontAsset;
         healthText.fontSize = 26;
+        healthText.fontStyle |= FontStyles.Bold; healthText.fontWeight = FontWeight.Heavy;
         healthText.alignment = TextAlignmentOptions.TopLeft;
         healthText.color = new Color(.87f, .96f, .91f);
         healthText.raycastTarget = false;
@@ -163,6 +174,7 @@ public sealed class CityHealth : MonoBehaviour
         label.transform.SetParent(parent, false);
         label.font = healthFont != null ? healthFont : interfaceFont != null ? interfaceFont : TMP_Settings.defaultFontAsset;
         label.fontSize = size;
+        label.fontStyle |= FontStyles.Bold; label.fontWeight = FontWeight.Heavy;
         label.text = text;
         label.color = new Color(.93f, .95f, .89f);
         label.alignment = TextAlignmentOptions.TopLeft;
@@ -175,9 +187,9 @@ public sealed class CityHealth : MonoBehaviour
         var root = new GameObject("İlk Karar Bilgi Notu", typeof(RectTransform), typeof(Image), typeof(CanvasGroup));
         missionNote = (RectTransform)root.transform;
         missionNote.SetParent(transform, false);
-        missionNote.anchorMin = missionNote.anchorMax = new Vector2(.025f, .48f);
+        missionNote.anchorMin = missionNote.anchorMax = new Vector2(.37f, .80f);
         missionNote.pivot = new Vector2(0, .5f);
-        missionNote.sizeDelta = new Vector2(270, 320);
+        missionNote.sizeDelta = new Vector2(500, 128);
         noteBorder = root.GetComponent<Image>();
         noteBorder.color = new Color(.95f, .67f, .24f);
         noteBorder.raycastTarget = false;
@@ -192,7 +204,7 @@ public sealed class CityHealth : MonoBehaviour
         inner.GetComponent<Image>().color = new Color(.055f, .095f, .14f, .98f);
         inner.GetComponent<Image>().raycastTarget = false;
         var body = NoteText("Görev Notu", innerRect,
-            "<color=#F2B54D>! GÖREV NOTU</color>\n\nDoğru ve yanlış cevapların kaynaklarını etkiler.\n\nŞehir sağlığı %0'a düşerse kaybedersin.\n\nAna görevin: şehri doğru bilinçlendirmek ve kaynakları yönetmek.", 17);
+            "<color=#F2B54D>! GÖREV NOTU</color>\nDoğru ve yanlış cevapların kaynaklarını etkiler.\nŞehir sağlığı %0'a düşerse kaybedersin.\nAna görevin: şehri doğru bilinçlendirmek ve kaynakları yönetmek.", 14);
         body.rectTransform.anchorMin = Vector2.zero; body.rectTransform.anchorMax = Vector2.one;
         body.rectTransform.offsetMin = new Vector2(14, 12); body.rectTransform.offsetMax = new Vector2(-14, -14);
         root.SetActive(false);

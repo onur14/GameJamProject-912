@@ -27,6 +27,8 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
     private float lastClick = -10;
     private bool showingOffers;
     private string completeLine;
+    private CanvasGroup shiftSummary;
+    public bool IsShiftSummaryVisible => shiftSummary != null && shiftSummary.gameObject.activeSelf;
     private static readonly Color Ink = new Color(.035f, .055f, .075f);
     private static readonly Color Paper = new Color(.83f, .88f, .84f);
     private static readonly Color Amber = new Color(.96f, .69f, .30f);
@@ -50,6 +52,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
     {
         var text = Rect(name, parent, min, max).gameObject.AddComponent<TextMeshProUGUI>();
         text.font = broadcastFont != null ? broadcastFont : TMP_Settings.defaultFontAsset;
+        text.fontStyle |= FontStyles.Bold; text.fontWeight = FontWeight.Heavy;
         text.fontSize = size; text.color = color; text.raycastTarget = false;
         text.textWrappingMode = TextWrappingModes.Normal;
         text.overflowMode = TextOverflowModes.Overflow;
@@ -114,6 +117,42 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         var area = ((RectTransform)transform).rect.size;
         board.localScale = Vector3.one * Mathf.Max(.01f, Mathf.Min(area.x / 1200, area.y / 800));
     }
+    public IEnumerator ShowShiftSummary(int completed, int correct, int estimatedHelped, int health)
+    {
+        Build(); Hide(); transform.SetAsLastSibling();
+        if (shiftSummary != null) Destroy(shiftSummary.gameObject);
+        var shade = Panel("Vardiya Özeti", transform, Vector2.zero, Vector2.one, new Color(.015f,.03f,.05f,.96f));
+        shiftSummary = shade.gameObject.AddComponent<CanvasGroup>();
+        var card = Rect("Özet Terminali", shade.transform, new Vector2(.08f,.17f), new Vector2(.92f,.83f));
+        bool critical = health <= 40;
+        Color accent = critical ? new Color(1,.34f,.25f) : health <= 65 ? Amber : new Color(.38f,.96f,.8f);
+        var line = Panel("Sinyal Çizgisi", card, new Vector2(0,.91f), new Vector2(1,.923f), accent);
+        var heading = Text("Vardiya Başlığı", card, new Vector2(0,.76f), new Vector2(1,.89f), 32, accent);
+        heading.text = completed >= 8 ? "GÜNLÜK VARDİYA SONU" : "VARDİYA ARA RAPORU";
+        var count = Text("Yardım Sayacı", card, new Vector2(0,.49f), new Vector2(1,.74f), 60, Paper);
+        var message = Text("Vardiya Değerlendirmesi", card, new Vector2(.02f,.15f), new Vector2(.98f,.46f), 25, Paper);
+        message.alignment = count.alignment = heading.alignment = TextAlignmentOptions.Center;
+        message.overflowMode = TextOverflowModes.Ellipsis;
+        message.text = critical ? "Şehir sağlığı kritik! Son yönlendirmelerin yeterli değil. Bilgi kirliliğini durdur, kaynaklarını dikkatli yönet."
+            : health <= 65 ? "Şehir sağlığı düşüyor. Teyitsiz bilgiye müdahale et ve yönlendirmelerini dikkatle seç."
+            : "Sen ve ekibin doğru yönlendirmelerinizle şehre yardımcı oldunuz. Hazırlığı ve kaynak dengesini koru!";
+        Text("Özet Alt Bilgi", card, new Vector2(.02f,0), new Vector2(.98f,.12f), 18, accent).text =
+            $"ŞEHİR SAĞLIĞI %{health}  /  {correct}/{completed} DOĞRU KARAR  /  BAŞKAN YAYINI BAĞLANIYOR";
+        shiftSummary.blocksRaycasts = true;
+        for (float t = 0; t < 5f; t += Time.unscaledDeltaTime)
+        {
+            float enter = Mathf.Clamp01(t / .3f);
+            shiftSummary.alpha = Mathf.Min(enter, Mathf.Clamp01((5f - t) / .3f));
+            card.anchoredPosition = Vector2.right * Mathf.Round(34 * Mathf.Pow(1 - enter, 3));
+            card.localScale = Vector3.one * (1 + .025f * (1 - enter));
+            line.color = Color.Lerp(accent, Color.white, Mathf.Max(0, Mathf.Sin(t * 18)) * Mathf.Clamp01(1 - t / .7f));
+            int shown = Mathf.RoundToInt(estimatedHelped * Mathf.SmoothStep(0, 1, Mathf.Clamp01(t / .8f)));
+            count.text = $"YAKLAŞIK {shown:N0} KİŞİ";
+            yield return null;
+        }
+        shiftSummary.gameObject.SetActive(false);
+    }
+
     public void Show(string title)
     {
         Build(); group.gameObject.SetActive(true); transform.SetAsLastSibling();
@@ -127,6 +166,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
     }
     public void Hide()
     {
+        if (shiftSummary != null) shiftSummary.gameObject.SetActive(false);
         if (typing != null) StopCoroutine(typing);
         typing = null;
         StopSpeaking();
