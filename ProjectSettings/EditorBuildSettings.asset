@@ -5,9 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/CinematicDeskScene.unity
+    guid: 5a4b3c2d1e0f9876543210abcdef0123
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: "Assets/Scenes/Masadan Yak\u0131nla\u015Ft\u0131rma Anm.unity"
+    guid: 1f6b8c2d4e5a47b39c0d1e2f3a4b5c6d
   - enabled: 1
     path: Assets/Working Folder/Muhammed/AnaMenu.unity
     guid: c4b8a8ab2e8fccb4984da72a2e26564e
