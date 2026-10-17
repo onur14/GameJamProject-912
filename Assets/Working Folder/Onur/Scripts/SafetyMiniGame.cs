@@ -149,8 +149,8 @@ public sealed class SafetyMiniGame : MonoBehaviour
         descriptionLabel.text = hasPoint ? points[selectedPoint].description : "İncelemek için bir tesisata dokun.";
         optionALabel.text = hasPoint ? points[selectedPoint].optionA : string.Empty;
         optionBLabel.text = hasPoint ? points[selectedPoint].optionB : string.Empty;
-        optionALabel.color = hasPoint && points[selectedPoint].selectedOption == 0 ? Color.yellow : Color.white;
-        optionBLabel.color = hasPoint && points[selectedPoint].selectedOption == 1 ? Color.yellow : Color.white;
+        optionALabel.color = hasPoint && points[selectedPoint].selectedOption == 0 ? new Color(.94f,.75f,.43f) : new Color(.88f,.93f,.90f);
+        optionBLabel.color = hasPoint && points[selectedPoint].selectedOption == 1 ? new Color(.94f,.75f,.43f) : new Color(.88f,.93f,.90f);
         if (points == null) return;
         foreach (ControlPoint point in points)
         {

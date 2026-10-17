@@ -76,6 +76,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         var go=new GameObject(name,typeof(RectTransform),typeof(TextMeshProUGUI));go.transform.SetParent(parent,false);
         var t=go.GetComponent<TMP_Text>();t.font=dialogueText.font;t.fontSize=size;t.raycastTarget=false;
         t.color=new Color(.80f,.87f,.84f);t.textWrappingMode=TextWrappingModes.Normal;
+        DispatchTextStyle.Apply(t);t.lineSpacing=2;
         return t;
     }
     private void BuildChat()
@@ -113,11 +114,12 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         Anchor((RectTransform)button.transform,new Vector2(right ? .51f : .035f,.115f),new Vector2(right ? .965f : .49f,.60f));
         Anchor(label.rectTransform,new Vector2(.055f,.27f),new Vector2(.945f,.95f));
         label.enableAutoSizing=true;label.fontSizeMin=23;label.fontSizeMax=26;label.fontSize=26;
-        label.alignment=TextAlignmentOptions.TopLeft;label.margin=Vector4.zero;label.raycastTarget=false;
-        label.textWrappingMode=TextWrappingModes.Normal;label.overflowMode=TextOverflowModes.Overflow;
-        label.color=new Color(.88f,.92f,.87f);
+        label.alignment=TextAlignmentOptions.MidlineLeft;label.margin=Vector4.zero;label.raycastTarget=false;
+        label.textWrappingMode=TextWrappingModes.Normal;label.overflowMode=TextOverflowModes.Truncate;
+        label.color=new Color(.91f,.94f,.90f);label.lineSpacing=2;DispatchTextStyle.Apply(label);
         Anchor(effect.rectTransform,new Vector2(.055f,.025f),new Vector2(.945f,.25f));
         effect.enableAutoSizing=true;effect.fontSizeMin=18;effect.fontSizeMax=21;effect.color=new Color(.96f,.73f,.37f);
+        effect.fontSizeMax=20;effect.fontSize=20;effect.lineSpacing=1;
         if(button.targetGraphic)button.targetGraphic.color=new Color(.11f,.18f,.21f);
         var colors=button.colors;colors.normalColor=Color.white;colors.highlightedColor=new Color(1.22f,1.26f,1.28f);
         colors.selectedColor=colors.highlightedColor;colors.fadeDuration=.12f;
@@ -160,8 +162,9 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         nameText.text=separator<0?string.Empty:message.Substring(0,separator).ToUpperInvariant();
         body.text=separator<0?message:message.Substring(separator+1).TrimStart();
         var image=bubble.GetComponent<Image>();if(image)image.color=fromRight?operatorColor:callerColor;
-        nameText.enableAutoSizing=false;nameText.fontSize=18;nameText.color=new Color(.12f,.20f,.26f);
-        body.enableAutoSizing=false;body.fontSize=26;body.color=new Color(.09f,.15f,.20f);
+        nameText.enableAutoSizing=false;nameText.fontSize=18;nameText.color=new Color(.08f,.15f,.20f);
+        body.enableAutoSizing=false;body.fontSize=26;body.color=new Color(.045f,.09f,.13f);
+        DispatchTextStyle.Apply(nameText,true);DispatchTextStyle.Apply(body);body.lineSpacing=2;
         body.textWrappingMode=TextWrappingModes.Normal;body.overflowMode=TextOverflowModes.Overflow;
         nameText.raycastTarget=false;body.raycastTarget=false;
         float width=Mathf.Min(textViewport.rect.width*.86f,620f);

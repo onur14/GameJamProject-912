@@ -51,6 +51,7 @@ public sealed class DispatchResourceHud : MonoBehaviour
         rect.anchorMin=min;rect.anchorMax=max;rect.offsetMin=rect.offsetMax=Vector2.zero;
         var t=go.GetComponent<TMP_Text>();t.font=font?font:TMP_Settings.defaultFontAsset;t.fontSize=size;t.color=color;t.raycastTarget=false;
         t.alignment=TextAlignmentOptions.MidlineLeft;t.textWrappingMode=TextWrappingModes.Normal;
+        DispatchTextStyle.Apply(t, size>=30 || name=="Kaynak Başlığı");t.lineSpacing=1;
         return t;
     }
     private void Build()
