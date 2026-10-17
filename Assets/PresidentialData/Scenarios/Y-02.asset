@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
   scenarioId: Y-02
   readyForPlay: 1
+  callerName: Kemal
+  callerLocation: Marmaris / Ormanlık alan
+  emergencyType: Orman yangını
+  situationSummary: Oğluyla birlikte duman ve alevlerin yakınında.
   sourceNotes: "Kaynak: kullan\u0131c\u0131n\u0131n 17.10.2026 tarihli k\u0131sa senaryo metni. Yaln\u0131zca konu\u015fmalar ve se\u00e7enekler g\u00fcncellendi; oyun kurallar\u0131 korundu."
   opening:
   - text: "KAZAZEDE: Alo! Orman yan\u0131yor, etraf\u0131m\u0131z duman oldu yeti\u015fin!"

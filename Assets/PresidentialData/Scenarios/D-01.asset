@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
   scenarioId: D-01
   readyForPlay: 1
+  callerName: Zeynep
+  callerLocation: İzmir / Bayraklı
+  emergencyType: Deprem
+  situationSummary: 7. katta, iki yaşındaki kızıyla sarsıntı sırasında içeride.
   sourceNotes: "Kaynak: kullan\u0131c\u0131n\u0131n 17.10.2026 tarihli k\u0131sa senaryo metni. Yaln\u0131zca konu\u015fmalar ve se\u00e7enekler g\u00fcncellendi; oyun kurallar\u0131 korundu."
   opening:
   - text: "KAZAZEDE: Alo! Kurban olay\u0131m yard\u0131m edin, y\u0131k\u0131l\u0131yoruz!"

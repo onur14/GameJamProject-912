@@ -18,6 +18,8 @@ public class OyunAkisiOnur : MonoBehaviour
     [SerializeField] private TextMeshProUGUI sahneGeriSayimi;
     [SerializeField] private TextMeshProUGUI sahneUyarisi;
     [SerializeField] private DispatchResources resources;
+    [SerializeField] private QuickQuestionManager quickQuestions;
+    [SerializeField] private CallerInfoView callerInfo;
     [SerializeField] private DispatchResources.ResourceType wrongChoiceResource = DispatchResources.ResourceType.Police;
     [SerializeField] private DispatchResources.ResourceType correctChoiceResource = DispatchResources.ResourceType.Ambulances;
     private const float ConnectionEventChance = 0.7f;
@@ -46,6 +48,7 @@ public class OyunAkisiOnur : MonoBehaviour
     public DispatchResources Resources => resources;
     private DispatchScenarioData currentScenario;
     private bool completionSent;
+    private bool waitingForQuickQuestions;
     public void ConfigureInitialScenario(DispatchScenarioData data) { currentScenario = data; }
 
     public void EndGame()
@@ -53,6 +56,7 @@ public class OyunAkisiOnur : MonoBehaviour
         if (GameOver) return;
         GameOver = true;
         ScenarioClosing?.Invoke(ScenarioRevision);
+        if (callerInfo != null) callerInfo.Clear();
         StopAllCoroutines();
         secimBekleniyor = false;
         geriSayimRutini = null;
@@ -71,9 +75,11 @@ public class OyunAkisiOnur : MonoBehaviour
         geriSayimRutini = null;
         bekleyenMesajlar.Clear();
         completionSent = false;
+        waitingForQuickQuestions = false;
         ScenarioRevision++;
         LastDecisionCorrect = false;
         currentScenario = data;
+        if (callerInfo != null) callerInfo.Show(data);
         senaryoBasladi = false;
         if (conversationView != null) conversationView.Clear();
         if (uyariYazisi != null) uyariYazisi.gameObject.SetActive(false);
@@ -83,13 +89,28 @@ public class OyunAkisiOnur : MonoBehaviour
     private void CompleteScenario()
     {
         if (completionSent || GameOver) return;
+        if (quickQuestions != null && !quickQuestions.QuickQuestionsComplete)
+        {
+            if (!waitingForQuickQuestions) StartCoroutine(WaitForQuickQuestions());
+            return;
+        }
         completionSent = true;
         ScenarioClosing?.Invoke(ScenarioRevision);
+        if (callerInfo != null) callerInfo.Clear();
         ButonlariGizle();
         if (conversationView != null && (ConnectionEventChance >= 1f || Random.value < ConnectionEventChance))
             StartCoroutine(CompleteAfterConnectionRecovery());
         else
             ScenarioCompleted?.Invoke(ScenarioRevision);
+    }
+
+    private IEnumerator WaitForQuickQuestions()
+    {
+        waitingForQuickQuestions = true;
+        while (!GameOver && quickQuestions != null && !quickQuestions.QuickQuestionsComplete)
+            yield return null;
+        waitingForQuickQuestions = false;
+        if (!GameOver) CompleteScenario();
     }
 
     private IEnumerator CompleteAfterConnectionRecovery()
@@ -309,6 +330,7 @@ public class OyunAkisiOnur : MonoBehaviour
         if (senaryoBasladi || GameOver) return;
         senaryoBasladi = true;
         ScenarioStarted?.Invoke(ScenarioRevision, currentScenario != null ? currentScenario.scenarioId : "D-01");
+        if (callerInfo != null) callerInfo.Show(currentScenario);
         if (conversationView != null) conversationView.gameObject.SetActive(true);
         else sohbetKanvas.gameObject.SetActive(true);
         StartCoroutine(currentScenario != null ? DataConversation() : GirisDiyalogu());

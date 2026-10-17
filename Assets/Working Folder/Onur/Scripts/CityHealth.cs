@@ -27,6 +27,7 @@ public sealed class CityHealth : MonoBehaviour
 
     public int HealthPercent { get; private set; } = StartingHealth;
     public bool IsGameOver { get; private set; }
+    public event System.Action GameEnded;
 
     public bool AddHealth(int percentagePoints)
     {
@@ -100,6 +101,7 @@ public sealed class CityHealth : MonoBehaviour
         gameOverOverlay.gameObject.SetActive(true);
         gameOverOverlay.transform.SetAsLastSibling();
         StartCoroutine(FadeToBlack());
+        GameEnded?.Invoke();
     }
 
     private void Refresh()

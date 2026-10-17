@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
   scenarioId: D-02
   readyForPlay: 1
+  callerName: Mehmet
+  callerLocation: Kahramanmaraş / Çarşı
+  emergencyType: Deprem
+  situationSummary: Duvarları çatlamış binada artçı sarsıntıdan endişeli.
   sourceNotes: "Kaynak: kullan\u0131c\u0131n\u0131n 17.10.2026 tarihli k\u0131sa senaryo metni. Yaln\u0131zca konu\u015fmalar ve se\u00e7enekler g\u00fcncellendi; oyun kurallar\u0131 korundu."
   opening:
   - text: "Operat\u00f6r: 912 Acil, dinliyorum. Adres ve durumunuz?"

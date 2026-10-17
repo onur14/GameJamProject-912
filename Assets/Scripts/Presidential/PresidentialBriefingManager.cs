@@ -17,6 +17,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     [SerializeField] private PresidentialBriefingData[] briefings = new PresidentialBriefingData[4];
     public UnityEvent<int> ScenarioRequested;
     public event Action ShiftReset;
+    public event Action RunCompleted;
     public int CompletedScenarios { get; private set; }
     public ShiftPhase Phase { get; private set; }
     public IReadOnlyList<string> Decisions => decisions;
@@ -150,11 +151,13 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     }
     private void ShowFinal()
     {
+        if (Phase == ShiftPhase.Final) return;
         Phase = ShiftPhase.Final; acceptingCompletion = false; phone.SetInteractionLocked(true);
         int weakest = Mathf.Min(resources.Ambulances, Mathf.Min(resources.Firefighters, resources.Police));
         string readiness = weakest >= 3 ? "Dengeli hazırlık: tüm hizmetlerde en az üç ekip hazır."
             : weakest > 0 ? "Sınırlı hazırlık: tüm hizmetler açık; yedek kapasite düşük."
             : "Kritik hazırlık: en az bir hizmette ekip kalmadı. İlk destek bu alana ayrılmalı.";
         view.Final($"8 vaka tamamlandı. {CorrectDecisions}/8 doğru yönlendirme; {decisions.Count} stratejik tahsis.\n\n{readiness}\n\nSon tahsis: {(decisions.Count > 0 ? decisions[decisions.Count - 1] : "Yok")}\n\nBu ekipler gelecek vardiyaya devredilir. Hazırlık, doğru bilgi ve dayanışma birlikte hayat kurtarır.", view.Stock(resources));
+        RunCompleted?.Invoke();
     }
 }

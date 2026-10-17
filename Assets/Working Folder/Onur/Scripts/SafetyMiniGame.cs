@@ -44,14 +44,16 @@ public sealed class SafetyMiniGame : MonoBehaviour
 
     public int AttemptsLeft => attemptsLeft;
     public bool IsResolved => resolved;
+    public bool Succeeded { get; private set; }
 
     private void Awake()
     {
-        // Existing answer data stays in Inspector; interaction now happens on the artwork.
-        if (optionAButton != null) optionAButton.gameObject.SetActive(false);
-        if (optionBButton != null) optionBButton.gameObject.SetActive(false);
-        if (pointNameLabel != null) pointNameLabel.gameObject.SetActive(false);
-        if (descriptionLabel != null) descriptionLabel.gameObject.SetActive(false);
+        optionAButton.onClick.AddListener(() => SelectOption(0));
+        optionBButton.onClick.AddListener(() => SelectOption(1));
+        optionAButton.gameObject.SetActive(true);
+        optionBButton.gameObject.SetActive(true);
+        pointNameLabel.gameObject.SetActive(true);
+        descriptionLabel.gameObject.SetActive(true);
         checkButton.onClick.AddListener(Check);
         closeButton.onClick.AddListener(window.Close);
         if (points != null)
@@ -67,8 +69,9 @@ public sealed class SafetyMiniGame : MonoBehaviour
     public void ResetForNewSession()
     {
         attemptsLeft = Mathf.Max(1, startingAttempts);
-        selectedPoint = -1;
+        selectedPoint = points != null && points.Length > 0 ? 0 : -1;
         resolved = false;
+        Succeeded = false;
         lastCheckTime = -10f;
         if (points != null)
             foreach (ControlPoint point in points)
@@ -81,7 +84,6 @@ public sealed class SafetyMiniGame : MonoBehaviour
     {
         if (resolved || points == null || index < 0 || index >= points.Length || points[index] == null) return;
         selectedPoint = index;
-        points[index].selectedOption = points[index].selectedOption < 0 ? 1 : 1 - points[index].selectedOption;
         Refresh();
     }
 
@@ -98,14 +100,16 @@ public sealed class SafetyMiniGame : MonoBehaviour
         lastCheckTime = Time.unscaledTime;
 
         bool correct = points != null && points.Length > 0;
+        int firstIncorrect = -1;
         if (correct)
-            foreach (ControlPoint point in points)
-                if (point == null || point.selectedOption < 0 || point.selectedOption != point.correctOption)
-                { correct = false; break; }
+            for (int index = 0; index < points.Length; index++)
+                if (points[index] == null || points[index].selectedOption != points[index].correctOption)
+                { correct = false; firstIncorrect = index; break; }
 
         if (correct)
         {
             resolved = true;
+            Succeeded = true;
             int gainedHealth = window.Award(rewardPoints);
             resultLabel.text = gainedHealth > 0
                 ? $"Tamamlandı  +{gainedHealth}%"
@@ -120,7 +124,11 @@ public sealed class SafetyMiniGame : MonoBehaviour
                 resolved = true;
                 resultLabel.text = "Hak kalmadı";
             }
-            else resultLabel.text = "Noktaları tekrar kontrol et";
+            else
+            {
+                selectedPoint = firstIncorrect;
+                resultLabel.text = "İşaretli tesisattaki kararı tekrar değerlendir.";
+            }
         }
 
         Refresh();
@@ -130,12 +138,29 @@ public sealed class SafetyMiniGame : MonoBehaviour
     {
         attemptsLabel.text = string.Join(" ", new string('♥', attemptsLeft).ToCharArray());
         attemptsLabel.color = new Color(.94f, .20f, .25f);
-        checkButton.interactable = !resolved;
+        bool allAnswered = points != null && points.Length > 0;
+        if (allAnswered)
+            foreach (ControlPoint point in points)
+                if (point == null || point.selectedOption < 0) { allAnswered = false; break; }
+        checkButton.interactable = !resolved && allAnswered;
+        bool hasPoint = points != null && selectedPoint >= 0 && selectedPoint < points.Length;
+        optionAButton.interactable = optionBButton.interactable = hasPoint && !resolved;
+        pointNameLabel.text = hasPoint ? points[selectedPoint].pointName : "Tesisat seç";
+        descriptionLabel.text = hasPoint ? points[selectedPoint].description : "İncelemek için bir tesisata dokun.";
+        optionALabel.text = hasPoint ? points[selectedPoint].optionA : string.Empty;
+        optionBLabel.text = hasPoint ? points[selectedPoint].optionB : string.Empty;
+        optionALabel.color = hasPoint && points[selectedPoint].selectedOption == 0 ? Color.yellow : Color.white;
+        optionBLabel.color = hasPoint && points[selectedPoint].selectedOption == 1 ? Color.yellow : Color.white;
         if (points == null) return;
         foreach (ControlPoint point in points)
         {
             if (point == null) continue;
             if (point.hotspotButton != null) point.hotspotButton.interactable = !resolved;
+            if (point.selectionMarker != null)
+                point.selectionMarker.color = hasPoint && point == points[selectedPoint]
+                    ? new Color(.35f, .9f, .92f, .95f)
+                    : point.selectedOption >= 0 ? new Color(.9f, .7f, .25f, .95f)
+                    : new Color(.21f, .41f, .53f, .9f);
             if (point.completionTick != null)
             {
                 point.completionTick.text = point.selectedOption < 0 ? string.Empty : "✓";

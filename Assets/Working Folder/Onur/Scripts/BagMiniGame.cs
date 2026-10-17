@@ -24,6 +24,7 @@ public sealed class BagMiniGame : MonoBehaviour
     public RectTransform DragLayer => dragLayer;
     public int AttemptsLeft => attemptsLeft;
     public bool IsResolved => resolved;
+    public bool Succeeded { get; private set; }
     public void CancelDrags()
     {
         if (items == null) return;
@@ -49,6 +50,7 @@ public sealed class BagMiniGame : MonoBehaviour
     {
         attemptsLeft = Mathf.Max(1, startingAttempts);
         resolved = false;
+        Succeeded = false;
         lastCheckTime = -10f;
         if (items != null)
             foreach (BagDraggableItem item in items)
@@ -71,6 +73,7 @@ public sealed class BagMiniGame : MonoBehaviour
         if (correct)
         {
             resolved = true;
+            Succeeded = true;
             int gainedHealth = window.Award(rewardPoints);
             resultLabel.text = gainedHealth > 0
                 ? $"Tamamlandı  +{gainedHealth}%"

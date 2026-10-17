@@ -7,7 +7,7 @@ Mevcut sahne: `Assets/Working Folder/Onur/Onur Test Place Integrated.unity`.
 
 - `BagMiniGame.prefab`: büyük çanta ortada, altı PNG eşya iki yanında; beyaz kartlar ve eski grid yerleşimleri kaldırıldı/gizlendi. Çanta içinde her eşyanın ayrı `bagPosition` yuvası var. Dışarı bırakılan eşya kendi başlangıç yerine döner.
 - `BagDraggableItem.prefab`: gerçek sprite kök Image'da; eski RawImage ve uzun eşya adı görünümü kapalı. Sprite hit test için üretilen kırpımlar readable olarak ayarlı.
-- `SafetyMiniGame.prefab`: tek çalışma yüzeyinde pano, gaz ve su görselleri. Her noktaya tıklama A/B görsel durumunu değiştirir. Küçük beyaz ✓ yalnızca etkileşimin yapıldığını belirtir; doğru cevabı açıklamaz. Eski soru/iki metin seçeneği alanları görünmez.
+- `SafetyMiniGame.prefab`: pano, gaz ve su görselleri üst sırada seçilebilir. Seçilen noktanın sorusu ve iki açık eylem seçeneği altta görünür. İşaret, cevaplanan noktayı gösterir; cevap doğruluğu ancak kontrolde açıklanır.
 - `MiniGameWindow.prefab`: aynı karartma ve 501 sıralı modal Canvas; daha küçük kontrol/kapat düğmeleri ve iki panel için ortak pencere sınırları. Yeni EventSystem yok.
 
 Yazılar: küçük başlık, tek satır yönerge, ♥ ♥ ♥, ✓ kontrol, X kapatma ve kısa sonuç.
@@ -30,14 +30,14 @@ Yeni sanat veya dosya adına dayalı doğruluk sınıflandırması yok. Altı e�
 - Her oyunda `startingAttempts` (varsayılan 3), `rewardPoints` (10).
 - `BagDraggableItem`: `startingArea`, `correctArea`, `startingPosition`, `bagPosition`, `icon`, `game`. `correctArea` boşsa eşya dışarıda kalmalıdır.
 - `BagDropZone`: `contentRoot` ve `isBagArea`.
-- `SafetyMiniGame.points`: `correctOption` (0/1), `hotspotButton`, `stateImage`, `stateA`, `stateB`, `completionTick`. Eski açıklama/A-B alanları uyumluluk için durur fakat gösterilmez.
-- Güvenlik cevapları mevcut Inspector TEST verisidir; gerçek elektrik/gaz müdahale talimatı değildir. Doğrulanmış içeriği yalnızca yetkili içerik sahibi Inspector'da değiştirmelidir.
+- `SafetyMiniGame.points`: `correctOption` (0/1), `hotspotButton`, `stateImage`, `stateA`, `stateB`, `completionTick`, `question`, `optionA`, `optionB`. Oyuncu bir noktayı seçer ve görünen eylemlerden birine basar; aynı noktaya dönüp cevabını değiştirebilir.
+- Güvenlik metinleri deprem sonrası genel tedbir olarak yazıldı; hasarlı tesisata doğrudan müdahale önerilmez. Oyun içeriği için son uzman kontrolü önerilir.
 
 ## Korunan kurallar
 
 Hak yalnızca başarısız ✓ kontrolünde azalır. Sürükleme ve durum değişimi hak harcamaz. Başarı sonucu kilitlenmeden önce değil, kilitlendikten sonra mevcut `CityHealth.AddHealth` üzerinden ödül uygulanır; tekrar ✓ veya kapat/aç ödülü tekrarlamaz. Başarısızlık ana oyunu bitirmez. Kapat/aç hak, seçim ve sonucu korur. Şehir sağlığı hesabı ve %100 sınırı değiştirilmedi.
 
-Pencere, mevcut telefon/konuşma `SetPaused` alanlarını kullanır ve önceki değerlerini geri yükler. Pencere kapanırken devam eden eşya sürüklemesi önce son geçerli yerine döner. `Time.timeScale` değişmez. Aynı pencere açıkken diğer oyun açılamaz; modal Image arka UI raycast'lerini engeller.
+Pencere, mevcut telefon/konuşma ve hızlı soru `SetPaused` alanlarını kullanır ve önceki değerlerini geri yükler. Pencere kapanırken devam eden eşya sürüklemesi önce son geçerli yerine döner. `Time.timeScale` değişmez. Aynı pencere açıkken diğer oyun açılamaz; modal Image arka UI raycast'lerini engeller.
 
 `Tools > Onur > Install Minigames` artık kurulmuş prefab varsa veriyi ve tasarımı yeniden üretmek yerine mevcut pencereyi sahneye bağlar; düzenlenen cevapları üzerine yazmaz.
 

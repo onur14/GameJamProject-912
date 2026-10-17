@@ -16,6 +16,8 @@ public sealed class QuickQuestionManager : MonoBehaviour
     [Header("Scenario Questions (8 Slots)")]
     [Tooltip("One Quick Question configuration per scenario.")]
     [SerializeField] private QuickQuestionConfig[] scenarioQuestions = new QuickQuestionConfig[8];
+    [Tooltip("Second, sequential question for each scenario. Replace marked placeholders in the Inspector.")]
+    [SerializeField] private QuickQuestionConfig[] secondQuestions = new QuickQuestionConfig[8];
 
     [Header("Optional ScriptableObject Overrides")]
     [SerializeField] private QuickQuestionData[] questionDataAssets;
@@ -32,6 +34,10 @@ public sealed class QuickQuestionManager : MonoBehaviour
     private int currentScenarioRevision = -1;
     private int activeScenarioIndex = -1;
     private bool scenarioFinished;
+    private int resolvedInScenario;
+
+    public bool QuickQuestionsComplete => currentScenarioRevision >= 0 && resolvedInScenario >= 2
+        && (view == null || !view.IsActive);
 
     public int AnsweredCount => results.FindAll(r => r.answered && !r.timedOut).Count;
     public int MissedCount => results.FindAll(r => r.timedOut).Count;
@@ -52,7 +58,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
         InitializeDefaultQuestionsIfNeeded();
     }
 
-    [SerializeField, Min(0)] private int returnStockCeiling = 5;
+    [SerializeField, Min(0)] private int returnStockCeiling = 6;
     private string activeScenarioId;
     private readonly HashSet<int> scheduledRevisions = new HashSet<int>();
 
@@ -71,14 +77,10 @@ public sealed class QuickQuestionManager : MonoBehaviour
     {
         if (!scheduledRevisions.Add(revision)) return;
         CancelActiveQuestion();
-        currentScenarioRevision = revision; activeScenarioId = scenarioId; scenarioFinished = false;
+        currentScenarioRevision = revision; activeScenarioId = scenarioId; scenarioFinished = false; resolvedInScenario = 0;
         activeScenarioIndex = briefingManager ? briefingManager.CompletedScenarios : 0;
-        QuickQuestionConfig config = null;
-        for (int i=0;i<8;i++)
-        {
-            var candidate=GetQuestionForScenario(i);
-            if(candidate!=null && candidate.targetScenarioId==scenarioId){config=candidate;break;}
-        }
+        QuickQuestionConfig config = GetQuestionForScenario(activeScenarioIndex);
+        if (config != null && config.targetScenarioId != scenarioId) config = null;
         if(config!=null)triggerRoutine=StartCoroutine(WaitAndTriggerQuestion(config,revision));
     }
     private void OnScenarioClosing(int revision)
@@ -101,6 +103,30 @@ public sealed class QuickQuestionManager : MonoBehaviour
                 ids.Add(scenarioQuestions[i].id);
             }
         }
+        if (secondQuestions == null) secondQuestions = new QuickQuestionConfig[8];
+        if (secondQuestions.Length != 8) Array.Resize(ref secondQuestions, 8);
+        for (int i = 0; i < 8; i++)
+            if (secondQuestions[i] == null || string.IsNullOrEmpty(secondQuestions[i].id)
+                || secondQuestions[i].targetScenarioId != scenarioQuestions[i].targetScenarioId
+                || !ids.Add(secondQuestions[i].id))
+            {
+                secondQuestions[i] = new QuickQuestionConfig {
+                    id = "QQ-" + (i + 9).ToString("00"),
+                    targetScenarioId = scenarioQuestions[i].targetScenarioId,
+                    categoryTitle = "İKİNCİ SORU • DÜZENLENECEK",
+                    questionText = "Bu vakanın ikinci hızlı soru metni henüz yazılmadı.",
+                    choiceALabel = "ONAYLA",
+                    choiceBLabel = "REDDET",
+                    choiceAEffect = new DispatchResourceEffect(),
+                    choiceBEffect = new DispatchResourceEffect(),
+                    choiceAFeedback = "KAYDEDİLDİ",
+                    choiceBFeedback = "KAYDEDİLDİ",
+                    timerDuration = scenarioQuestions[i].timerDuration,
+                    appearanceDelayMin = 2f,
+                    appearanceDelayMax = 3f
+                };
+                ids.Add(secondQuestions[i].id);
+            }
     }
 
     public static QuickQuestionConfig[] GetDefault8Questions()
@@ -259,18 +285,25 @@ public sealed class QuickQuestionManager : MonoBehaviour
         {if(scenarioFinished || conversation.GameOver)yield break;yield return null;}
         float min=Mathf.Max(0,config.appearanceDelayMin);
         float delay=UnityEngine.Random.Range(min,Mathf.Max(min,config.appearanceDelayMax));
-        for(float elapsed=0;elapsed<delay;elapsed+=Time.unscaledDeltaTime)
+        for(float elapsed=0;elapsed<delay;)
         {
             if(scenarioFinished || currentScenarioRevision!=revision || conversation.GameOver)yield break;
+            if (!phone || !phone.IsPaused) elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        while (view && view.IsActive)
+        {
+            if (scenarioFinished || currentScenarioRevision != revision || conversation.GameOver) yield break;
             yield return null;
         }
         if(!scenarioFinished && (!briefingManager || briefingManager.Phase==PresidentialBriefingManager.ShiftPhase.Scenario))TriggerQuestion(config);
         triggerRoutine=null;
     }
 
-    public QuickQuestionConfig GetQuestionForScenario(int index)
+    public QuickQuestionConfig GetQuestionForScenario(int index, bool second = false)
     {
         if(index<0)return null;
+        if (second) return secondQuestions != null && index < secondQuestions.Length ? secondQuestions[index] : null;
         if(questionDataAssets!=null && index<questionDataAssets.Length && questionDataAssets[index])return questionDataAssets[index].config;
         return scenarioQuestions!=null && index<scenarioQuestions.Length ? scenarioQuestions[index] : null;
     }
@@ -311,7 +344,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
         result.selectedChoiceLabel=choice==0?config.choiceALabel:config.choiceBLabel;
         result.appliedEffect=effect;results.Add(result);
         if(conversation && (effect.ambulances<0 || effect.firefighters<0 || effect.rescue<0))conversation.NotifyUnitDispatched(effect);
-        QuestionResolved?.Invoke(result);return true;
+        QuestionResolved?.Invoke(result);ScheduleNextQuestion();return true;
     }
     private QuickQuestionResult CreateResult(QuickQuestionConfig config)
     {
@@ -324,6 +357,16 @@ public sealed class QuickQuestionManager : MonoBehaviour
         if(!IsQuestionActive)return;
         IsQuestionActive=false;var result=CreateResult(CurrentQuestion);
         result.timedOut=true;result.selectedChoiceLabel="YANITLANMADI";results.Add(result);QuestionResolved?.Invoke(result);
+        ScheduleNextQuestion();
+    }
+    private void ScheduleNextQuestion()
+    {
+        if (scenarioFinished || currentScenarioRevision < 0 || resolvedInScenario >= 2) return;
+        resolvedInScenario++;
+        if (resolvedInScenario != 1) return;
+        QuickQuestionConfig next = GetQuestionForScenario(activeScenarioIndex, true);
+        if (next != null && next.targetScenarioId == activeScenarioId)
+            triggerRoutine = StartCoroutine(WaitAndTriggerQuestion(next, currentScenarioRevision));
     }
     public void CancelActiveQuestion()
     {
@@ -338,6 +381,6 @@ public sealed class QuickQuestionManager : MonoBehaviour
     public void ResetForNewShift()
     {
         CancelActiveQuestion();results.Clear();scheduledRevisions.Clear();
-        currentScenarioRevision=-1;activeScenarioIndex=-1;activeScenarioId=null;scenarioFinished=false;
+        currentScenarioRevision=-1;activeScenarioIndex=-1;activeScenarioId=null;scenarioFinished=false;resolvedInScenario=0;
     }
 }

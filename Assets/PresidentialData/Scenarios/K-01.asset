@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
   scenarioId: K-01
   readyForPlay: 1
+  callerName: Emre
+  callerLocation: ""
+  emergencyType: Söylenti teyidi
+  situationSummary: Deprem söylentisi nedeniyle bölgede panik yaşanıyor.
   sourceNotes: "Kaynak: kullan\u0131c\u0131n\u0131n 17.10.2026 tarihli k\u0131sa senaryo metni. Yaln\u0131zca konu\u015fmalar ve se\u00e7enekler g\u00fcncellendi; oyun kurallar\u0131 korundu."
   opening:
   - text: "Operat\u00f6r: 912 \u0130hbar ve Teyit Masas\u0131, buyrun?"

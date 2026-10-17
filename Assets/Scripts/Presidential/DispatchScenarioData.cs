@@ -9,6 +9,11 @@ public sealed class DispatchScenarioData : ScriptableObject
     public string scenarioId;
     public bool readyForPlay = true;
     [TextArea(2, 5)] public string sourceNotes;
+    [Header("Caller information")]
+    public string callerName;
+    public string callerLocation;
+    public string emergencyType;
+    [TextArea(1, 3)] public string situationSummary;
     public Line[] opening;
     public string choiceA, choiceB;
     public bool correctChoiceIsB = true;

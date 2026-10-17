@@ -57,12 +57,14 @@ public sealed class QuickQuestionView : MonoBehaviour
     private Coroutine activeRoutine;
     private bool isHandlingResponse;
     private float questionDuration;
-    private float questionStartTime;
+    private float elapsedResponseTime;
+    public bool IsPaused { get; private set; }
+    public void SetPaused(bool paused) { IsPaused = paused; }
     private Vector2 restingPosition;
 
     public bool IsActive => visible;
-    public bool Ready => visible && canvasGroup.interactable && !isHandlingResponse;
-    public float ElapsedResponseTime => questionStartTime < 0 ? 0 : Mathf.Clamp(Time.unscaledTime-questionStartTime,0,questionDuration);
+    public bool Ready => visible && canvasGroup.interactable && !isHandlingResponse && !IsPaused;
+    public float ElapsedResponseTime => Mathf.Clamp(elapsedResponseTime, 0, questionDuration);
     public float RemainingFraction => timerBarFill ? timerBarFill.rectTransform.anchorMax.x : 0;
     public Button ButtonA => buttonA;
     public Button ButtonB => buttonB;
@@ -87,6 +89,7 @@ public sealed class QuickQuestionView : MonoBehaviour
             canvasGroup.blocksRaycasts = false;
         }
         isHandlingResponse = false;
+        IsPaused = false;
         if(currentResources)currentResources.Changed-=UpdateButtonAvailability;
         visible = false;
     }
@@ -262,7 +265,7 @@ public sealed class QuickQuestionView : MonoBehaviour
         timeoutCallback = onTimeout;
         isHandlingResponse = false;
         questionDuration = Mathf.Max(1f, config.timerDuration);
-        questionStartTime = -1;
+        elapsedResponseTime = 0;
         timerBarFill.rectTransform.anchorMax=Vector2.one;timerBarFill.color=timerCoolColor;
 
         // Apply content
@@ -344,12 +347,13 @@ public sealed class QuickQuestionView : MonoBehaviour
         if (borderPulseImage) borderPulseImage.color = new Color(amberAccent.r, amberAccent.g, amberAccent.b, 0f);
 
         // 2. Active countdown loop
-        questionStartTime=Time.unscaledTime;
         float remaining = questionDuration;
         bool tickPlayed = false;
 
         while (remaining > 0f && !isHandlingResponse)
         {
+            if (IsPaused) { yield return null; continue; }
+            elapsedResponseTime += Time.unscaledDeltaTime;
             remaining = questionDuration - ElapsedResponseTime;
             float progress = Mathf.Clamp01(remaining / questionDuration);
 

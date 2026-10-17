@@ -105,12 +105,31 @@ public static class CodexButtonBridge
                 QuickQuestionInstaller.InstallOrUpdate();
                 response.text = "Installed Quick Question System";
             }
+            else if (request.action == "install_onur")
+            {
+                OnurPlayableInstaller.Install();
+                response.text = "Integrated Onur playable flow";
+            }
+            else if (request.action == "save_active")
+            {
+                EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+                response.text = "Saved active scene";
+            }
+            else if (request.action == "validate_onur")
+            {
+                response.text = OnurPlayableChecks.ValidateScenes();
+            }
+            else if (request.action == "smoke_onur")
+            {
+                OnurPlayableChecks.StartSmoke();
+                response.text = "Started Onur Play Mode smoke test";
+            }
             else if (request.action == "run_qq_tests")
             {
                 ExecuteQuickQuestionTests(response);
                 return;
             }
-            else if (request.action != "inspect") throw new InvalidOperationException("Supported actions: inspect, edit, refresh, open_sample_scene, install_qq, run_qq_tests.");
+            else if (request.action != "inspect") throw new InvalidOperationException("Supported actions: inspect, edit, refresh, open_sample_scene, install_qq, install_onur, save_active, validate_onur, smoke_onur, run_qq_tests.");
             response.scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
             response.buttons = Buttons().Select(b => new ButtonInfo
             {

@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
   scenarioId: S-01
   readyForPlay: 1
+  callerName: Serdar
+  callerLocation: Basın Ekspres alt geçidi
+  emergencyType: Sel
+  situationSummary: Su yükselen alt geçitte araç içinde.
   sourceNotes: "Kaynak: kullan\u0131c\u0131n\u0131n 17.10.2026 tarihli k\u0131sa senaryo metni. Yaln\u0131zca konu\u015fmalar ve se\u00e7enekler g\u00fcncellendi; oyun kurallar\u0131 korundu."
   opening:
   - text: "Operat\u00f6r: 912 Acil, dinliyorum."

@@ -12,10 +12,14 @@ public sealed class MiniGameWindow : MonoBehaviour
     [SerializeField] private CityHealth cityHealth;
     [SerializeField] private DispatchCallFlow phone;
     [SerializeField] private OnurConversationView conversationView;
+    [SerializeField] private QuickQuestionView quickQuestionView;
 
     private bool wasPhonePaused;
     private bool wasConversationPaused;
+    private bool wasQuickQuestionPaused;
     private bool isOpen;
+    public int SuccessfulTasks => (bagGame != null && bagGame.Succeeded ? 1 : 0)
+        + (safetyGame != null && safetyGame.Succeeded ? 1 : 0);
     [SerializeField, Range(0f, 3f)] private float mistakeShakePixels = 2f;
     [SerializeField, Range(.1f, .3f)] private float mistakeShakeDuration = .2f;
     private Coroutine mistake;
@@ -44,8 +48,10 @@ public sealed class MiniGameWindow : MonoBehaviour
         isOpen = true;
         wasPhonePaused = phone != null && phone.IsPaused;
         wasConversationPaused = conversationView != null && conversationView.IsPaused;
+        wasQuickQuestionPaused = quickQuestionView != null && quickQuestionView.IsPaused;
         if (phone != null) phone.SetPaused(true);
         if (conversationView != null) conversationView.SetPaused(true);
+        if (quickQuestionView != null) quickQuestionView.SetPaused(true);
         bagGame.gameObject.SetActive(panel == bagGame.gameObject);
         safetyGame.gameObject.SetActive(panel == safetyGame.gameObject);
         overlay.gameObject.SetActive(true);
@@ -63,6 +69,7 @@ public sealed class MiniGameWindow : MonoBehaviour
         safetyGame.gameObject.SetActive(false);
         if (phone != null) phone.SetPaused(wasPhonePaused);
         if (conversationView != null) conversationView.SetPaused(wasConversationPaused);
+        if (quickQuestionView != null) quickQuestionView.SetPaused(wasQuickQuestionPaused);
     }
     private void OnDisable() { Close(); }
 
