@@ -15,6 +15,10 @@ public sealed class SafetyMiniGame : MonoBehaviour
         [Range(0, 1)] public int correctOption;
         public Button hotspotButton;
         public Image selectionMarker;
+        public Image stateImage;
+        public Sprite stateA;
+        public Sprite stateB;
+        public TMP_Text completionTick;
         [NonSerialized] public int selectedOption = -1;
     }
 
@@ -43,8 +47,11 @@ public sealed class SafetyMiniGame : MonoBehaviour
 
     private void Awake()
     {
-        optionAButton.onClick.AddListener(() => SelectOption(0));
-        optionBButton.onClick.AddListener(() => SelectOption(1));
+        // Existing answer data stays in Inspector; interaction now happens on the artwork.
+        if (optionAButton != null) optionAButton.gameObject.SetActive(false);
+        if (optionBButton != null) optionBButton.gameObject.SetActive(false);
+        if (pointNameLabel != null) pointNameLabel.gameObject.SetActive(false);
+        if (descriptionLabel != null) descriptionLabel.gameObject.SetActive(false);
         checkButton.onClick.AddListener(Check);
         closeButton.onClick.AddListener(window.Close);
         if (points != null)
@@ -74,6 +81,7 @@ public sealed class SafetyMiniGame : MonoBehaviour
     {
         if (resolved || points == null || index < 0 || index >= points.Length || points[index] == null) return;
         selectedPoint = index;
+        points[index].selectedOption = points[index].selectedOption < 0 ? 1 : 1 - points[index].selectedOption;
         Refresh();
     }
 
@@ -100,18 +108,19 @@ public sealed class SafetyMiniGame : MonoBehaviour
             resolved = true;
             int gainedHealth = window.Award(rewardPoints);
             resultLabel.text = gainedHealth > 0
-                ? $"Ev güvenlik kontrolü tamamlandı. Şehir sağlığı +{gainedHealth}."
-                : "Ev güvenlik kontrolü tamamlandı. Şehir sağlığı değişmedi.";
+                ? $"Tamamlandı  +{gainedHealth}%"
+                : "Tamamlandı";
         }
         else
         {
             attemptsLeft--;
+            window.ShowMistake((RectTransform)transform);
             if (attemptsLeft <= 0)
             {
                 resolved = true;
-                resultLabel.text = "Minigame başarısız. Şehir sağlığı kazanılmadı.";
+                resultLabel.text = "Hak kalmadı";
             }
-            else resultLabel.text = "Eksik veya hatalı seçim var. Düzeltip tekrar kontrol edin.";
+            else resultLabel.text = "Noktaları tekrar kontrol et";
         }
 
         Refresh();
@@ -119,25 +128,26 @@ public sealed class SafetyMiniGame : MonoBehaviour
 
     private void Refresh()
     {
-        attemptsLabel.text = $"Kalan hak: {attemptsLeft}";
+        attemptsLabel.text = string.Join(" ", new string('♥', attemptsLeft).ToCharArray());
+        attemptsLabel.color = new Color(.94f, .20f, .25f);
         checkButton.interactable = !resolved;
-        bool hasPoint = points != null && selectedPoint >= 0 && selectedPoint < points.Length;
-        optionAButton.interactable = optionBButton.interactable = hasPoint && !resolved;
-        pointNameLabel.text = hasPoint ? points[selectedPoint].pointName : "Kontrol noktası seçin";
-        descriptionLabel.text = hasPoint ? points[selectedPoint].description : "Görsel üzerindeki işaretlerden birine tıklayın.";
-        optionALabel.text = hasPoint ? points[selectedPoint].optionA : "Seçenek A";
-        optionBLabel.text = hasPoint ? points[selectedPoint].optionB : "Seçenek B";
-        optionALabel.color = hasPoint && points[selectedPoint].selectedOption == 0 ? Color.yellow : Color.white;
-        optionBLabel.color = hasPoint && points[selectedPoint].selectedOption == 1 ? Color.yellow : Color.white;
         if (points == null) return;
         foreach (ControlPoint point in points)
         {
             if (point == null) continue;
             if (point.hotspotButton != null) point.hotspotButton.interactable = !resolved;
-            if (point.selectionMarker != null)
-                point.selectionMarker.color = point.selectedOption < 0
-                    ? new Color(.21f, .41f, .53f, .9f)
-                    : new Color(.9f, .7f, .25f, .95f);
+            if (point.completionTick != null)
+            {
+                point.completionTick.text = point.selectedOption < 0 ? string.Empty : "✓";
+                point.completionTick.color = Color.white; // Completed interaction, not correctness.
+                var mark = point.completionTick.GetComponentInChildren<MiniGameCheckGraphic>(true);
+                if (mark != null) mark.gameObject.SetActive(point.selectedOption >= 0);
+            }
+            if (point.stateImage != null)
+            {
+                Sprite sprite = point.selectedOption == 1 ? point.stateB : point.stateA;
+                if (sprite != null) point.stateImage.sprite = sprite;
+            }
         }
     }
 }

@@ -17,13 +17,23 @@ public sealed class BagMiniGame : MonoBehaviour
     private int attemptsLeft;
     private bool resolved;
     private float lastCheckTime = -10f;
+    private BagDropZone bagArea;
+    public BagDropZone BagArea => bagArea;
+    public void HighlightBag(bool active) { if (bagArea != null) bagArea.SetHighlighted(active); }
 
     public RectTransform DragLayer => dragLayer;
     public int AttemptsLeft => attemptsLeft;
     public bool IsResolved => resolved;
+    public void CancelDrags()
+    {
+        if (items == null) return;
+        foreach (var item in items) if (item != null) item.CancelDrag();
+    }
 
     private void Awake()
     {
+        foreach (var zone in GetComponentsInChildren<BagDropZone>(true))
+            if (zone.IsBagArea) { bagArea = zone; break; }
         checkButton.onClick.AddListener(Check);
         closeButton.onClick.AddListener(window.Close);
         ResetForNewSession();
@@ -51,6 +61,7 @@ public sealed class BagMiniGame : MonoBehaviour
     {
         if (resolved || Time.unscaledTime - lastCheckTime < .3f) return;
         lastCheckTime = Time.unscaledTime;
+        CancelDrags();
 
         bool correct = items != null && items.Length > 0;
         if (correct)
@@ -62,18 +73,19 @@ public sealed class BagMiniGame : MonoBehaviour
             resolved = true;
             int gainedHealth = window.Award(rewardPoints);
             resultLabel.text = gainedHealth > 0
-                ? $"Afet çantası tamamlandı. Şehir sağlığı +{gainedHealth}."
-                : "Afet çantası tamamlandı. Şehir sağlığı değişmedi.";
+                ? $"Tamamlandı  +{gainedHealth}%"
+                : "Tamamlandı";
         }
         else
         {
             attemptsLeft--;
+            window.ShowMistake((RectTransform)transform);
             if (attemptsLeft <= 0)
             {
                 resolved = true;
-                resultLabel.text = "Minigame başarısız. Şehir sağlığı kazanılmadı.";
+                resultLabel.text = "Hak kalmadı";
             }
-            else resultLabel.text = "Yerleşim eksik veya hatalı. Düzeltip tekrar kontrol edin.";
+            else resultLabel.text = "Yerleşimi düzelt";
         }
 
         Refresh();
@@ -81,7 +93,8 @@ public sealed class BagMiniGame : MonoBehaviour
 
     private void Refresh()
     {
-        attemptsLabel.text = $"Kalan hak: {attemptsLeft}";
+        attemptsLabel.text = string.Join(" ", new string('♥', attemptsLeft).ToCharArray());
+        attemptsLabel.color = new Color(.94f, .20f, .25f);
         checkButton.interactable = !resolved;
     }
 }

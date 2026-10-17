@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
-public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerDownHandler
 {
     [SerializeField] private string itemName;
     [SerializeField] private Image icon;
@@ -22,6 +22,7 @@ public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHa
     private int previousSibling;
     private bool dragging;
     private bool dropped;
+    private bool draggedThisPress;
 
     public BagDropZone CurrentArea => currentArea;
     public bool IsCorrectlyPlaced => correctArea == null
@@ -32,7 +33,8 @@ public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHa
     {
         rect = (RectTransform)transform;
         group = GetComponent<CanvasGroup>();
-        if (icon != null) icon.alphaHitTestMinimumThreshold = .1f;
+        // Keep an accessible hit rectangle even around thin/transparent sprite edges.
+        if (icon != null) icon.alphaHitTestMinimumThreshold = 0f;
         if (currentArea == null) currentArea = startingArea;
     }
 
@@ -46,12 +48,15 @@ public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHa
     {
         if (game == null || game.IsResolved || currentArea == null) return;
         dragging = true;
+        draggedThisPress = true;
         dropped = false;
         previousArea = currentArea;
         previousSibling = transform.GetSiblingIndex();
         dragLayer = game.DragLayer;
         rect.SetParent(dragLayer, true);
         rect.SetAsLastSibling();
+        rect.localScale = Vector3.one * 1.08f;
+        game.HighlightBag(true);
         group.blocksRaycasts = false;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(dragLayer, eventData.position,
             eventData.pressEventCamera, out Vector2 pointer);
@@ -76,6 +81,17 @@ public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHa
             transform.SetSiblingIndex(previousSibling);
         }
         group.blocksRaycasts = true;
+        game.HighlightBag(false);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button != PointerEventData.InputButton.Left || draggedThisPress || dragging || game == null || game.IsResolved) return;
+        Place(currentArea != null && currentArea.IsBagArea ? startingArea : game.BagArea);
+    }
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left) draggedThisPress = false;
     }
 
     public void DropInto(BagDropZone area)
@@ -92,6 +108,15 @@ public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHa
         rect.SetParent(area.ContentRoot, false);
         rect.localScale = area.IsBagArea ? Vector3.one * .58f : Vector3.one;
         rect.localRotation = Quaternion.identity;
+        rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(.5f, .5f);
         rect.anchoredPosition = area.IsBagArea ? bagPosition : startingPosition;
+    }
+    public void CancelDrag()
+    {
+        if (!dragging) return;
+        dragging = false;
+        Place(previousArea);
+        if (group != null) group.blocksRaycasts = true;
+        if (game != null) game.HighlightBag(false);
     }
 }

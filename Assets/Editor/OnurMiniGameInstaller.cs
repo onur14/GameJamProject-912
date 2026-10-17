@@ -38,6 +38,19 @@ public static class OnurMiniGameInstaller
             return;
         }
 
+        // Reconnect an installed window without overwriting authored items, answers or layout.
+        var existing = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabFolder + "/MiniGameWindow.prefab");
+        if (existing != null)
+        {
+            try { ConnectScene(existing); AssetDatabase.SaveAssets(); }
+            finally
+            {
+                if (SceneManager.GetActiveScene().path != previousPath)
+                    EditorSceneManager.OpenScene(previousPath, OpenSceneMode.Single);
+            }
+            return;
+        }
+
         try
         {
             EnsureFolder("Assets/Working Folder/Onur", "MiniGames");
