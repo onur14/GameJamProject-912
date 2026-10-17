@@ -141,6 +141,7 @@ public sealed class QuickQuestionView : MonoBehaviour
         // Category title (e.g. "SAHA TALEBİ")
         categoryLabel = CreateText("CategoryLabel", headerGo.transform, new Vector2(0.04f, 0.1f), new Vector2(0.70f, 0.9f), 17, amberAccent);
         categoryLabel.fontStyle = FontStyles.Bold;
+        DispatchTextStyle.Apply(categoryLabel, true);
         categoryLabel.alignment = TextAlignmentOptions.MidlineLeft;
 
         // Status tag (e.g. "[ ! ACİL ]")
@@ -158,6 +159,7 @@ public sealed class QuickQuestionView : MonoBehaviour
         feedbackLabel = CreateText("FeedbackLabel", innerGo.transform, new Vector2(0.05f, 0.16f), new Vector2(0.95f, 0.40f), 22, amberAccent);
         feedbackLabel.alignment = TextAlignmentOptions.Center;
         feedbackLabel.fontStyle = FontStyles.Bold;
+        DispatchTextStyle.Apply(feedbackLabel, true);
         feedbackLabel.alpha = 0f;
 
         // Choice Buttons Area
@@ -214,6 +216,7 @@ public sealed class QuickQuestionView : MonoBehaviour
         text.color = color;
         text.raycastTarget = false;
         text.textWrappingMode = TextWrappingModes.Normal;
+        DispatchTextStyle.Apply(text);text.lineSpacing=2;
         return text;
     }
 
