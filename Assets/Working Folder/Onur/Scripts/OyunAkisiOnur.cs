@@ -17,6 +17,9 @@ public class OyunAkisiOnur : MonoBehaviour
     [SerializeField] private DispatchCallFlow dispatchCallFlow;
     [SerializeField] private TextMeshProUGUI sahneGeriSayimi;
     [SerializeField] private TextMeshProUGUI sahneUyarisi;
+    [SerializeField] private DispatchResources resources;
+    [SerializeField] private DispatchResources.ResourceType wrongChoiceResource = DispatchResources.ResourceType.Police;
+    [SerializeField] private DispatchResources.ResourceType correctChoiceResource = DispatchResources.ResourceType.Ambulances;
 
     private readonly Queue<MesajIstegi> bekleyenMesajlar = new Queue<MesajIstegi>();
     private readonly List<RectTransform> mesajlar = new List<RectTransform>();
@@ -204,6 +207,7 @@ public class OyunAkisiOnur : MonoBehaviour
     {
         if (!secimBekleniyor) return;
         secimBekleniyor = false;
+        if (resources != null) resources.Spend(wrongChoiceResource);
         GeriSayimiDurdur();
         ButonlariGizle();
         StartCoroutine(YanlisSecim());
@@ -213,6 +217,7 @@ public class OyunAkisiOnur : MonoBehaviour
     {
         if (!secimBekleniyor) return;
         secimBekleniyor = false;
+        if (resources != null) resources.Spend(correctChoiceResource);
         GeriSayimiDurdur();
         ButonlariGizle();
         StartCoroutine(DogruSecim());
