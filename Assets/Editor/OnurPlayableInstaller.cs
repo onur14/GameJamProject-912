@@ -210,7 +210,7 @@ public static class OnurPlayableInstaller
         settingsRect.anchoredPosition = new Vector2(0, -348);
         settingsRect.sizeDelta = new Vector2(320, 52);
         settingsButton.targetGraphic = settingsButton.GetComponent<Image>();
-        settingsButton.targetGraphic.color = play.targetGraphic.color;
+        settingsButton.targetGraphic.color = new Color(.11f, .29f, .36f, 1f);
         Label("Metin", settingsButton.transform, Vector2.zero, Vector2.one, "AYARLAR", 24, TextAlignmentOptions.Center);
 
         var controller = canvas.gameObject.AddComponent<MasterVolumeSettings>();
@@ -292,8 +292,8 @@ public static class OnurPlayableInstaller
             .SelectMany(root => root.GetComponentsInChildren<CallerInfoView>(true)).FirstOrDefault();
         if (caller == null)
         {
-            Image callerPanel = Panel("Arayan Bilgisi", canvas.transform, new Vector2(.37f, .45f),
-                new Vector2(.63f, .77f), new Color(.035f, .085f, .11f, .96f));
+            Image callerPanel = Panel("Arayan Bilgisi", canvas.transform, new Vector2(.14f, .40f),
+                new Vector2(.35f, .81f), new Color(.035f, .085f, .11f, .96f));
             callerPanel.raycastTarget = false;
             caller = callerPanel.gameObject.AddComponent<CallerInfoView>();
             Label("Panel Başlığı", caller.transform, new Vector2(.05f, .78f), new Vector2(.95f, .96f),

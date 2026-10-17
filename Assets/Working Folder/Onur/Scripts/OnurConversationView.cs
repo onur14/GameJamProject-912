@@ -75,7 +75,8 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     {
         var go=new GameObject(name,typeof(RectTransform),typeof(TextMeshProUGUI));go.transform.SetParent(parent,false);
         var t=go.GetComponent<TMP_Text>();t.font=dialogueText.font;t.fontSize=size;t.raycastTarget=false;
-        t.color=new Color(.80f,.87f,.84f);t.textWrappingMode=TextWrappingModes.Normal;
+        t.fontStyle=FontStyles.Bold;t.characterSpacing=.2f;t.lineSpacing=2f;
+        t.color=new Color(.86f,.93f,.90f);t.textWrappingMode=TextWrappingModes.Normal;
         return t;
     }
     private void BuildChat()
@@ -112,12 +113,14 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         button.transform.SetParent(panel,false);
         Anchor((RectTransform)button.transform,new Vector2(right ? .51f : .035f,.115f),new Vector2(right ? .965f : .49f,.60f));
         Anchor(label.rectTransform,new Vector2(.055f,.27f),new Vector2(.945f,.95f));
-        label.enableAutoSizing=true;label.fontSizeMin=23;label.fontSizeMax=26;label.fontSize=26;
-        label.alignment=TextAlignmentOptions.TopLeft;label.margin=Vector4.zero;label.raycastTarget=false;
+        label.enableAutoSizing=true;label.fontSizeMin=20;label.fontSizeMax=26;label.fontSize=26;
+        label.fontStyle=FontStyles.Bold;label.characterSpacing=.1f;label.lineSpacing=2f;
+        label.alignment=TextAlignmentOptions.MidlineLeft;label.margin=new Vector4(4,2,4,2);label.raycastTarget=false;
         label.textWrappingMode=TextWrappingModes.Normal;label.overflowMode=TextOverflowModes.Overflow;
         label.color=new Color(.88f,.92f,.87f);
         Anchor(effect.rectTransform,new Vector2(.055f,.025f),new Vector2(.945f,.25f));
-        effect.enableAutoSizing=true;effect.fontSizeMin=18;effect.fontSizeMax=21;effect.color=new Color(.96f,.73f,.37f);
+        effect.enableAutoSizing=true;effect.fontSizeMin=17;effect.fontSizeMax=20;effect.color=new Color(.98f,.77f,.43f);
+        effect.alignment=TextAlignmentOptions.MidlineLeft;
         if(button.targetGraphic)button.targetGraphic.color=new Color(.11f,.18f,.21f);
         var colors=button.colors;colors.normalColor=Color.white;colors.highlightedColor=new Color(1.22f,1.26f,1.28f);
         colors.selectedColor=colors.highlightedColor;colors.fadeDuration=.12f;
@@ -160,14 +163,16 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         nameText.text=separator<0?string.Empty:message.Substring(0,separator).ToUpperInvariant();
         body.text=separator<0?message:message.Substring(separator+1).TrimStart();
         var image=bubble.GetComponent<Image>();if(image)image.color=fromRight?operatorColor:callerColor;
-        nameText.enableAutoSizing=false;nameText.fontSize=18;nameText.color=new Color(.12f,.20f,.26f);
-        body.enableAutoSizing=false;body.fontSize=26;body.color=new Color(.09f,.15f,.20f);
+        nameText.enableAutoSizing=false;nameText.fontSize=18;nameText.fontStyle=FontStyles.Bold;
+        nameText.color=new Color(.10f,.17f,.22f);
+        body.enableAutoSizing=false;body.fontSize=26;body.fontStyle=FontStyles.Bold;
+        body.characterSpacing=.1f;body.lineSpacing=2f;body.color=new Color(.07f,.12f,.17f);
         body.textWrappingMode=TextWrappingModes.Normal;body.overflowMode=TextOverflowModes.Overflow;
         nameText.raycastTarget=false;body.raycastTarget=false;
         float width=Mathf.Min(textViewport.rect.width*.86f,620f);
         body.margin=Vector4.zero;
-        float bodyHeight=Mathf.Max(32,body.GetPreferredValues(body.text,width-32,0).y+4);
-        float height=bodyHeight+42;
+        float bodyHeight=Mathf.Max(32,body.GetPreferredValues(body.text,width-32,0).y+8);
+        float height=bodyHeight+44;
         bubble.anchorMin=bubble.anchorMax=new Vector2(fromRight?1:0,1);bubble.pivot=new Vector2(fromRight?1:0,1);
         bubble.sizeDelta=new Vector2(width,height);bubble.anchoredPosition=new Vector2(fromRight?-sidePadding:sidePadding,0);
         nameText.rectTransform.anchorMin=new Vector2(0,1);nameText.rectTransform.anchorMax=Vector2.one;

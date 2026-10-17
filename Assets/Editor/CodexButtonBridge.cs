@@ -110,6 +110,15 @@ public static class CodexButtonBridge
                 OnurPlayableInstaller.Install();
                 response.text = "Integrated Onur playable flow";
             }
+            else if (request.action == "polish_typography")
+            {
+                OnurTypographyPolish.Apply();
+                response.text = "Polished Onur typography";
+            }
+            else if (request.action == "verify_typography")
+            {
+                response.text = OnurTypographyPolish.VerifyTurkishGlyphs();
+            }
             else if (request.action == "save_active")
             {
                 EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
@@ -129,7 +138,7 @@ public static class CodexButtonBridge
                 ExecuteQuickQuestionTests(response);
                 return;
             }
-            else if (request.action != "inspect") throw new InvalidOperationException("Supported actions: inspect, edit, refresh, open_sample_scene, install_qq, install_onur, save_active, validate_onur, smoke_onur, run_qq_tests.");
+            else if (request.action != "inspect") throw new InvalidOperationException("Supported actions: inspect, edit, refresh, open_sample_scene, install_qq, install_onur, polish_typography, verify_typography, save_active, validate_onur, smoke_onur, run_qq_tests.");
             response.scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
             response.buttons = Buttons().Select(b => new ButtonInfo
             {
