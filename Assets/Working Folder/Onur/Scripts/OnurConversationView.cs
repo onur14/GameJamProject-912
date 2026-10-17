@@ -22,7 +22,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Color callerColor = Color.white;
     [SerializeField] private Color operatorColor = new Color(.82f,.91f,1);
     [Header("Automatic conversation pace")]
-    [SerializeField, Min(0)] private float charactersPerSecond = 38;
+    [SerializeField, Min(0)] private float charactersPerSecond = 40;
     [SerializeField] private DialogueTypingAudio typingAudio = new DialogueTypingAudio();
     [SerializeField, Range(.8f,1.5f)] private float callEndedDuration = 1.05f;
     [SerializeField, Range(.15f,.4f)] private float clickDebounce = .22f;
@@ -216,7 +216,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     }
     public IEnumerator WaitForAdvance()
     {
-        float displayTime = Mathf.Clamp(MessageText.text.Length * .012f, .8f, 1.8f);
+        float displayTime = Mathf.Clamp(MessageText.text.Length * .0115f, .8f, 1.8f);
         while(displayTime>0f || IsPaused)
         {
             if(!IsPaused)displayTime-=Time.unscaledDeltaTime;

@@ -89,6 +89,8 @@ public sealed class QuickQuestionView : MonoBehaviour
             canvasGroup.blocksRaycasts = false;
         }
         isHandlingResponse = false;
+        if (panelRect) panelRect.anchoredPosition = restingPosition;
+        if (borderPulseImage) borderPulseImage.color = Color.clear;
         IsPaused = false;
         if(currentResources)currentResources.Changed-=UpdateButtonAvailability;
         visible = false;
@@ -272,6 +274,7 @@ public sealed class QuickQuestionView : MonoBehaviour
         timerBarFill.rectTransform.anchorMax=Vector2.one;timerBarFill.color=timerCoolColor;
 
         // Apply content
+        statusTag.text = config.isDisinformation ? "TEYİT" : "ACİL";
         categoryLabel.text = config.categoryTitle;
         questionBody.text = config.questionText;
         labelA.text = config.choiceALabel;
@@ -321,7 +324,7 @@ public sealed class QuickQuestionView : MonoBehaviour
     private IEnumerator RunQuestionCycle()
     {
         // 1. Entrance animation (fade in & subtle slide from left)
-        panelRect.anchoredPosition = restingPosition + new Vector2(-28f, 0f);
+        panelRect.anchoredPosition = restingPosition + new Vector2(-52f, 0f);
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = true;
@@ -333,7 +336,7 @@ public sealed class QuickQuestionView : MonoBehaviour
             float t = Mathf.Clamp01(elapsed / entranceDuration);
             float smooth = Mathf.SmoothStep(0f, 1f, t);
             canvasGroup.alpha = smooth;
-            panelRect.anchoredPosition = Vector2.Lerp(restingPosition + new Vector2(-28f, 0f), restingPosition, smooth);
+            panelRect.anchoredPosition = Vector2.Lerp(restingPosition + new Vector2(-52f, 0f), restingPosition, smooth);
 
             // Amber border pulse
             if (borderPulseImage)
@@ -359,6 +362,15 @@ public sealed class QuickQuestionView : MonoBehaviour
             elapsedResponseTime += Time.unscaledDeltaTime;
             remaining = questionDuration - ElapsedResponseTime;
             float progress = Mathf.Clamp01(remaining / questionDuration);
+
+            bool critical = progress <= .3f;
+            statusTag.text = (currentConfig.isDisinformation ? "TEYİT " : "ACİL ") + Mathf.CeilToInt(remaining) + "s";
+            statusTag.color = critical ? timerRedColor : coolCyan;
+            if (borderPulseImage) borderPulseImage.color = critical
+                ? new Color(timerRedColor.r, timerRedColor.g, timerRedColor.b, .3f + .4f * Mathf.Abs(Mathf.Sin(Time.unscaledTime * 9)))
+                : Color.clear;
+            panelRect.anchoredPosition = restingPosition + (critical
+                ? Vector2.right * Mathf.Round(Mathf.Sin(Time.unscaledTime * 35)) : Vector2.zero);
 
             // Update timer bar fill & color
             if (timerBarFill)
@@ -407,7 +419,7 @@ public sealed class QuickQuestionView : MonoBehaviour
 
             // Show timeout feedback
             feedbackLabel.text = currentConfig.timeoutFeedback;
-            feedbackLabel.color = timerAmberColor;
+            feedbackLabel.color = currentConfig.isDisinformation ? timerRedColor : timerAmberColor;
             feedbackLabel.alpha = 1f;
             buttonA.gameObject.SetActive(false);
             buttonB.gameObject.SetActive(false);
@@ -431,7 +443,8 @@ public sealed class QuickQuestionView : MonoBehaviour
 
         string feedback = choiceIndex == 0 ? currentConfig.choiceAFeedback : currentConfig.choiceBFeedback;
         feedbackLabel.text = feedback;
-        feedbackLabel.color = coolCyan;
+        bool wrong = currentConfig.isDisinformation && choiceIndex != currentConfig.correctChoiceIndex;
+        feedbackLabel.color = wrong ? timerRedColor : coolCyan;
         feedbackLabel.alpha = 1f;
 
         buttonA.gameObject.SetActive(false);

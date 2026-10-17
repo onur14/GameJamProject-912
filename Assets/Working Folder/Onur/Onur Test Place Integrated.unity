@@ -193,8 +193,13 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1452182749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
   m_AnchorMin: {x: 0.055, y: 0.93}
   m_AnchorMax: {x: 0.955, y: 1}
+=======
+  m_AnchorMin: {x: 0.055, y: 0.88}
+  m_AnchorMax: {x: 0.945, y: 0.985}
+>>>>>>> Stashed changes
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -218,7 +223,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "ARAYAN B\u0130LG\u0130S\u0130"
+  m_text: "AKT\u0130F \xC7A\u011ERI"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 147277ac6eaf2f14e92026bcde3a6e88, type: 2}
@@ -228,7 +233,11 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontColor: {r: 0.69, g: 0.79, b: 0.83, a: 1}
+=======
+  m_fontColor: {r: 0.49, g: 0.69, b: 0.72, a: 1}
+>>>>>>> Stashed changes
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -245,8 +254,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 7
   m_fontSizeBase: 11
+=======
+  m_fontSize: 12
+  m_fontSizeBase: 12
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 6.7
@@ -760,6 +774,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7445754986739040688, guid: 57e97a4591af4d4ca70a4d63c221c3ef, type: 3}
+      propertyPath: charactersPerSecond
+      value: 40
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -877,8 +895,13 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1452182749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
   m_AnchorMin: {x: 0.055, y: 0.535}
   m_AnchorMax: {x: 0.955, y: 0.64}
+=======
+  m_AnchorMin: {x: 0.055, y: 0.48}
+  m_AnchorMax: {x: 0.945, y: 0.66}
+>>>>>>> Stashed changes
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -920,7 +943,11 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontColor: {r: 0.81, g: 0.87, b: 0.85, a: 1}
+=======
+  m_fontColor: {r: 0.83, g: 0.9, b: 0.87, a: 1}
+>>>>>>> Stashed changes
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -937,12 +964,21 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 7.2
   m_fontSizeBase: 11.5
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 6.7
   m_fontSizeMax: 7.2
+=======
+  m_fontSize: 16
+  m_fontSizeBase: 16
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 13
+  m_fontSizeMax: 16
+>>>>>>> Stashed changes
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -956,7 +992,11 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
+<<<<<<< Updated upstream
   m_overflowMode: 3
+=======
+  m_overflowMode: 1
+>>>>>>> Stashed changes
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
@@ -2502,8 +2542,13 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1452182749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
   m_AnchorMin: {x: 0.055, y: 0.448}
   m_AnchorMax: {x: 0.955, y: 0.523}
+=======
+  m_AnchorMin: {x: 0.055, y: 0.31}
+  m_AnchorMax: {x: 0.945, y: 0.48}
+>>>>>>> Stashed changes
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2545,7 +2590,11 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontColor: {r: 0.81, g: 0.87, b: 0.85, a: 1}
+=======
+  m_fontColor: {r: 0.83, g: 0.9, b: 0.87, a: 1}
+>>>>>>> Stashed changes
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2562,12 +2611,21 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 7.2
   m_fontSizeBase: 11.5
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 6.7
   m_fontSizeMax: 7.2
+=======
+  m_fontSize: 16
+  m_fontSizeBase: 16
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 13
+  m_fontSizeMax: 16
+>>>>>>> Stashed changes
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -2581,7 +2639,11 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
+<<<<<<< Updated upstream
   m_overflowMode: 3
+=======
+  m_overflowMode: 1
+>>>>>>> Stashed changes
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
@@ -2678,6 +2740,7 @@ MonoBehaviour:
   ScenarioRequested:
     m_PersistentCalls:
       m_Calls: []
+  estimatedPeoplePerCorrectDecision: 1250
 --- !u!114 &1094786585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3503,6 +3566,7 @@ GameObject:
   - component: {fileID: 1452182751}
   - component: {fileID: 1452182750}
   - component: {fileID: 1452182748}
+  - component: {fileID: 1452182752}
   m_Layer: 0
   m_Name: Arayan Bilgisi
   m_TagString: Untagged
@@ -3547,8 +3611,13 @@ RectTransform:
   - {fileID: 2012347024}
   m_Father: {fileID: 1497108762}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
   m_AnchorMin: {x: 0.346, y: 0.335}
   m_AnchorMax: {x: 0.425, y: 0.573}
+=======
+  m_AnchorMin: {x: 0.02, y: 0.07}
+  m_AnchorMax: {x: 0.35, y: 0.335}
+>>>>>>> Stashed changes
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3565,7 +3634,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
+<<<<<<< Updated upstream
   m_Color: {r: 0, g: 0, b: 0, a: 0}
+=======
+  m_Color: {r: 0.04, g: 0.09, b: 0.12, a: 0.97}
+>>>>>>> Stashed changes
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3590,6 +3663,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1452182747}
   m_CullTransparentMesh: 1
+--- !u!225 &1452182752
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1452182747}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1497108761
 GameObject:
   m_ObjectHideFlags: 0
@@ -4625,6 +4710,8 @@ MonoBehaviour:
   phone: {fileID: 1139218828}
   briefingManager: {fileID: 1094786584}
   view: {fileID: 1835180693}
+  cityHealth: {fileID: 3000000032}
+  visualFeedback: {fileID: 2099120001}
   scenarioQuestions:
   - id: QQ-01
     targetScenarioId: D-01
@@ -4642,6 +4729,10 @@ MonoBehaviour:
       firefighters: 0
       rescue: 0
     choiceBFeedback: "TALEP REDDED\u0130LD\u0130"
+    isDisinformation: 0
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 0
+    timeoutHealthDamage: 0
     timerDuration: 10
     appearanceDelayMin: 2.5
     appearanceDelayMax: 4
@@ -4662,6 +4753,10 @@ MonoBehaviour:
       firefighters: 0
       rescue: 0
     choiceBFeedback: "TALEP REDDED\u0130LD\u0130"
+    isDisinformation: 0
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 0
+    timeoutHealthDamage: 0
     timerDuration: 9
     appearanceDelayMin: 2.5
     appearanceDelayMax: 3.5
@@ -4682,6 +4777,10 @@ MonoBehaviour:
       firefighters: 0
       rescue: 0
     choiceBFeedback: "TALEP REDDED\u0130LD\u0130"
+    isDisinformation: 0
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 0
+    timeoutHealthDamage: 0
     timerDuration: 8
     appearanceDelayMin: 2
     appearanceDelayMax: 3
@@ -4702,6 +4801,10 @@ MonoBehaviour:
       firefighters: 0
       rescue: 0
     choiceBFeedback: "MEVCUT G\xD6REVDE TUTULDU"
+    isDisinformation: 0
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 0
+    timeoutHealthDamage: 0
     timerDuration: 8
     appearanceDelayMin: 2
     appearanceDelayMax: 3
@@ -4722,6 +4825,10 @@ MonoBehaviour:
       firefighters: 0
       rescue: 0
     choiceBFeedback: "EK\u0130P B\xD6LGEDE BIRAKILDI"
+    isDisinformation: 0
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 0
+    timeoutHealthDamage: 0
     timerDuration: 7
     appearanceDelayMin: 1.8
     appearanceDelayMax: 2.8
@@ -4742,6 +4849,10 @@ MonoBehaviour:
       firefighters: 0
       rescue: -1
     choiceBFeedback: "B\xD6LGE B'YE SEVK ED\u0130LD\u0130"
+    isDisinformation: 0
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 0
+    timeoutHealthDamage: 0
     timerDuration: 7
     appearanceDelayMin: 1.8
     appearanceDelayMax: 2.5
@@ -4762,6 +4873,10 @@ MonoBehaviour:
       firefighters: 0
       rescue: 0
     choiceBFeedback: MEVCUT ROTA KORUNDU
+    isDisinformation: 0
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 0
+    timeoutHealthDamage: 0
     timerDuration: 6
     appearanceDelayMin: 1.5
     appearanceDelayMax: 2.2
@@ -4782,6 +4897,10 @@ MonoBehaviour:
       firefighters: 0
       rescue: 0
     choiceBFeedback: REZERV KORUNDU
+    isDisinformation: 0
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 0
+    timeoutHealthDamage: 0
     timerDuration: 5
     appearanceDelayMin: 1.2
     appearanceDelayMax: 2
@@ -4789,164 +4908,196 @@ MonoBehaviour:
   secondQuestions:
   - id: QQ-09
     targetScenarioId: D-01
-    categoryTitle: "\u0130K\u0130NC\u0130 SORU \u2022 D\xDCZENLENECEK"
-    questionText: "Bu vakan\u0131n ikinci h\u0131zl\u0131 soru metni hen\xFCz yaz\u0131lmad\u0131."
-    choiceALabel: ONAYLA
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    questionText: "Bir hesap 'Gece 03.15\u2019te kesin deprem var' diyor. Payla\u015Fal\u0131m m\u0131?"
+    choiceALabel: EVET
     choiceAEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceAFeedback: "KAYDED\u0130LD\u0130"
-    choiceBLabel: REDDET
+    choiceAFeedback: "YANLI\u015E B\u0130LG\u0130 YAYILDI \xB7 SA\u011ELIK -10"
+    choiceBLabel: HAYIR
     choiceBEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceBFeedback: "KAYDED\u0130LD\u0130"
-    timerDuration: 10
-    appearanceDelayMin: 2
-    appearanceDelayMax: 3
-    timeoutFeedback: YANITLANMADI
+    choiceBFeedback: "TEY\u0130TS\u0130Z B\u0130LG\u0130 ENGELLEND\u0130"
+    isDisinformation: 1
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
+    timerDuration: 8
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-10
     targetScenarioId: D-02
-    categoryTitle: "\u0130K\u0130NC\u0130 SORU \u2022 D\xDCZENLENECEK"
-    questionText: "Bu vakan\u0131n ikinci h\u0131zl\u0131 soru metni hen\xFCz yaz\u0131lmad\u0131."
-    choiceALabel: ONAYLA
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    questionText: "Kayna\u011F\u0131 belirsiz ses kayd\u0131 tahliye emri veriyor. Yay\u0131ls\u0131n m\u0131?"
+    choiceALabel: EVET
     choiceAEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceAFeedback: "KAYDED\u0130LD\u0130"
-    choiceBLabel: REDDET
+    choiceAFeedback: "YANLI\u015E B\u0130LG\u0130 YAYILDI \xB7 SA\u011ELIK -10"
+    choiceBLabel: HAYIR
     choiceBEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceBFeedback: "KAYDED\u0130LD\u0130"
-    timerDuration: 9
-    appearanceDelayMin: 2
-    appearanceDelayMax: 3
-    timeoutFeedback: YANITLANMADI
+    choiceBFeedback: "TEY\u0130TS\u0130Z B\u0130LG\u0130 ENGELLEND\u0130"
+    isDisinformation: 1
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
+    timerDuration: 8
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-11
     targetScenarioId: Y-02
-    categoryTitle: "\u0130K\u0130NC\u0130 SORU \u2022 D\xDCZENLENECEK"
-    questionText: "Bu vakan\u0131n ikinci h\u0131zl\u0131 soru metni hen\xFCz yaz\u0131lmad\u0131."
-    choiceALabel: ONAYLA
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    questionText: "Eski yang\u0131n videosu '\u015Fimdi burada' diye yay\u0131l\u0131yor. D\xFCzeltelim mi?"
+    choiceALabel: EVET
     choiceAEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceAFeedback: "KAYDED\u0130LD\u0130"
-    choiceBLabel: REDDET
+    choiceAFeedback: "TEY\u0130TS\u0130Z B\u0130LG\u0130 ENGELLEND\u0130"
+    choiceBLabel: HAYIR
     choiceBEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceBFeedback: "KAYDED\u0130LD\u0130"
+    choiceBFeedback: "YANLI\u015E B\u0130LG\u0130 YAYILDI \xB7 SA\u011ELIK -10"
+    isDisinformation: 1
+    correctChoiceIndex: 0
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
     timerDuration: 8
-    appearanceDelayMin: 2
-    appearanceDelayMax: 3
-    timeoutFeedback: YANITLANMADI
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-12
     targetScenarioId: S-01
-    categoryTitle: "\u0130K\u0130NC\u0130 SORU \u2022 D\xDCZENLENECEK"
-    questionText: "Bu vakan\u0131n ikinci h\u0131zl\u0131 soru metni hen\xFCz yaz\u0131lmad\u0131."
-    choiceALabel: ONAYLA
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    questionText: "Teyitsiz mesaj 'T\xFCm yollar a\xE7\u0131k' diyor. Resm\xEE bilgi diye yayal\u0131m m\u0131?"
+    choiceALabel: EVET
     choiceAEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceAFeedback: "KAYDED\u0130LD\u0130"
-    choiceBLabel: REDDET
+    choiceAFeedback: "YANLI\u015E B\u0130LG\u0130 YAYILDI \xB7 SA\u011ELIK -10"
+    choiceBLabel: HAYIR
     choiceBEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceBFeedback: "KAYDED\u0130LD\u0130"
+    choiceBFeedback: "TEY\u0130TS\u0130Z B\u0130LG\u0130 ENGELLEND\u0130"
+    isDisinformation: 1
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
     timerDuration: 8
-    appearanceDelayMin: 2
-    appearanceDelayMax: 3
-    timeoutFeedback: YANITLANMADI
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-13
     targetScenarioId: T-01
-    categoryTitle: "\u0130K\u0130NC\u0130 SORU \u2022 D\xDCZENLENECEK"
-    questionText: "Bu vakan\u0131n ikinci h\u0131zl\u0131 soru metni hen\xFCz yaz\u0131lmad\u0131."
-    choiceALabel: ONAYLA
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    questionText: "Sahte hesap 'Tsunami uyar\u0131s\u0131 kalkt\u0131' diyor. Resm\xEE teyit isteyelim mi?"
+    choiceALabel: EVET
     choiceAEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceAFeedback: "KAYDED\u0130LD\u0130"
-    choiceBLabel: REDDET
+    choiceAFeedback: "TEY\u0130TS\u0130Z B\u0130LG\u0130 ENGELLEND\u0130"
+    choiceBLabel: HAYIR
     choiceBEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceBFeedback: "KAYDED\u0130LD\u0130"
+    choiceBFeedback: "YANLI\u015E B\u0130LG\u0130 YAYILDI \xB7 SA\u011ELIK -10"
+    isDisinformation: 1
+    correctChoiceIndex: 0
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
     timerDuration: 7
-    appearanceDelayMin: 2
-    appearanceDelayMax: 3
-    timeoutFeedback: YANITLANMADI
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-14
     targetScenarioId: F-01
-    categoryTitle: "\u0130K\u0130NC\u0130 SORU \u2022 D\xDCZENLENECEK"
-    questionText: "Bu vakan\u0131n ikinci h\u0131zl\u0131 soru metni hen\xFCz yaz\u0131lmad\u0131."
-    choiceALabel: ONAYLA
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    questionText: "Tarihsiz f\u0131rt\u0131na haritas\u0131 yeniden yay\u0131l\u0131yor. G\xFCncel diye sunal\u0131m m\u0131?"
+    choiceALabel: EVET
     choiceAEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceAFeedback: "KAYDED\u0130LD\u0130"
-    choiceBLabel: REDDET
+    choiceAFeedback: "YANLI\u015E B\u0130LG\u0130 YAYILDI \xB7 SA\u011ELIK -10"
+    choiceBLabel: HAYIR
     choiceBEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceBFeedback: "KAYDED\u0130LD\u0130"
+    choiceBFeedback: "TEY\u0130TS\u0130Z B\u0130LG\u0130 ENGELLEND\u0130"
+    isDisinformation: 1
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
     timerDuration: 7
-    appearanceDelayMin: 2
-    appearanceDelayMax: 3
-    timeoutFeedback: YANITLANMADI
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-15
     targetScenarioId: K-01
-    categoryTitle: "\u0130K\u0130NC\u0130 SORU \u2022 D\xDCZENLENECEK"
-    questionText: "Bu vakan\u0131n ikinci h\u0131zl\u0131 soru metni hen\xFCz yaz\u0131lmad\u0131."
-    choiceALabel: ONAYLA
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    questionText: "Uzman ad\u0131 olmayan deprem tahmini g\xFCndemde. Kayna\u011F\u0131 do\u011Frulayal\u0131m m\u0131?"
+    choiceALabel: EVET
     choiceAEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceAFeedback: "KAYDED\u0130LD\u0130"
-    choiceBLabel: REDDET
+    choiceAFeedback: "TEY\u0130TS\u0130Z B\u0130LG\u0130 ENGELLEND\u0130"
+    choiceBLabel: HAYIR
     choiceBEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceBFeedback: "KAYDED\u0130LD\u0130"
-    timerDuration: 6
-    appearanceDelayMin: 2
-    appearanceDelayMax: 3
-    timeoutFeedback: YANITLANMADI
+    choiceBFeedback: "YANLI\u015E B\u0130LG\u0130 YAYILDI \xB7 SA\u011ELIK -10"
+    isDisinformation: 1
+    correctChoiceIndex: 0
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
+    timerDuration: 7
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-16
     targetScenarioId: K-02
-    categoryTitle: "\u0130K\u0130NC\u0130 SORU \u2022 D\xDCZENLENECEK"
-    questionText: "Bu vakan\u0131n ikinci h\u0131zl\u0131 soru metni hen\xFCz yaz\u0131lmad\u0131."
-    choiceALabel: ONAYLA
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    questionText: "Ki\u015Fisel IBAN isteyen yard\u0131m mesaj\u0131n\u0131 resm\xEE duyuru diye payla\u015Fal\u0131m m\u0131?"
+    choiceALabel: EVET
     choiceAEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceAFeedback: "KAYDED\u0130LD\u0130"
-    choiceBLabel: REDDET
+    choiceAFeedback: "YANLI\u015E B\u0130LG\u0130 YAYILDI \xB7 SA\u011ELIK -10"
+    choiceBLabel: HAYIR
     choiceBEffect:
       ambulances: 0
       firefighters: 0
       rescue: 0
-    choiceBFeedback: "KAYDED\u0130LD\u0130"
-    timerDuration: 5
-    appearanceDelayMin: 2
-    appearanceDelayMax: 3
-    timeoutFeedback: YANITLANMADI
+    choiceBFeedback: "TEY\u0130TS\u0130Z B\u0130LG\u0130 ENGELLEND\u0130"
+    isDisinformation: 1
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
+    timerDuration: 7
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   questionDataAssets: []
   returnStockCeiling: 6
 --- !u!1 &1887891241
@@ -5303,7 +5454,11 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontColor: {r: 0.81, g: 0.87, b: 0.85, a: 1}
+=======
+  m_fontColor: {r: 0.83, g: 0.9, b: 0.87, a: 1}
+>>>>>>> Stashed changes
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5324,8 +5479,13 @@ MonoBehaviour:
   m_fontSizeBase: 11.5
   m_fontWeight: 400
   m_enableAutoSizing: 1
+<<<<<<< Updated upstream
   m_fontSizeMin: 6.7
   m_fontSizeMax: 7.2
+=======
+  m_fontSizeMin: 13
+  m_fontSizeMax: 16
+>>>>>>> Stashed changes
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -5339,7 +5499,11 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
+<<<<<<< Updated upstream
   m_overflowMode: 3
+=======
+  m_overflowMode: 1
+>>>>>>> Stashed changes
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
@@ -5388,7 +5552,11 @@ RectTransform:
   m_Father: {fileID: 1452182749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.055, y: 0.035}
+<<<<<<< Updated upstream
   m_AnchorMax: {x: 0.955, y: 0.417}
+=======
+  m_AnchorMax: {x: 0.945, y: 0.31}
+>>>>>>> Stashed changes
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5520,8 +5688,13 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1452182749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
   m_AnchorMin: {x: 0.055, y: 0.652}
   m_AnchorMax: {x: 0.955, y: 0.72}
+=======
+  m_AnchorMin: {x: 0.055, y: 0.66}
+  m_AnchorMax: {x: 0.945, y: 0.85}
+>>>>>>> Stashed changes
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5563,7 +5736,11 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontColor: {r: 0.81, g: 0.87, b: 0.85, a: 1}
+=======
+  m_fontColor: {r: 0.4, g: 0.96, b: 0.82, a: 1}
+>>>>>>> Stashed changes
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5580,12 +5757,21 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 7.2
   m_fontSizeBase: 11.5
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 6.7
   m_fontSizeMax: 7.2
+=======
+  m_fontSize: 21
+  m_fontSizeBase: 21
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 18
+  m_fontSizeMax: 21
+>>>>>>> Stashed changes
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -5599,7 +5785,11 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
+<<<<<<< Updated upstream
   m_overflowMode: 3
+=======
+  m_overflowMode: 1
+>>>>>>> Stashed changes
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0

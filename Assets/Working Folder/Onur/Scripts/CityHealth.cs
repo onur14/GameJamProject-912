@@ -66,13 +66,18 @@ public sealed class CityHealth : MonoBehaviour
     {
         if (correct || IsGameOver || briefing.Phase != PresidentialBriefingManager.ShiftPhase.Scenario) return;
 
-        HealthPercent = Mathf.Max(0, HealthPercent - WrongAnswerDamage);
-        Refresh();
+        ApplyDamage(WrongAnswerDamage);
+    }
 
+    public bool ApplyDamage(int percentagePoints)
+    {
+        if (IsGameOver || percentagePoints <= 0) return false;
+        HealthPercent = Mathf.Max(0, HealthPercent - percentagePoints);
+        Refresh();
         if (damageAnimation != null) StopCoroutine(damageAnimation);
         damageAnimation = StartCoroutine(AnimateDamage());
-
         if (HealthPercent == 0) EndGame();
+        return true;
     }
 
     public void ResetForNewShift()

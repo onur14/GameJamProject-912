@@ -63,6 +63,7 @@ public sealed class DispatchVisualFeedback : MonoBehaviour
             yield return interval;
         }
     }
+    public void SignalAlert(bool danger) => Begin(danger, danger ? wrongDuration : activationDuration);
     private void Activate() => Begin(false, activationDuration);
     private void Decision(bool correct) { DecisionPulseCount++; Begin(!correct, correct ? correctDuration : wrongDuration); }
     private void Begin(bool wrong, float duration)

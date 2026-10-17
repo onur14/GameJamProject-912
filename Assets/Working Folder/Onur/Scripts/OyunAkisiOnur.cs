@@ -41,6 +41,7 @@ public class OyunAkisiOnur : MonoBehaviour
     public event System.Action<DispatchResourceEffect> UnitDispatched;
     public void NotifyUnitDispatched(DispatchResourceEffect effect) { if (!effect.IsZero) UnitDispatched?.Invoke(effect); }
     public int ScenarioRevision { get; private set; }
+    public int CompletedDialogueLines { get; private set; }
     public bool LastDecisionCorrect { get; private set; }
     public bool GameOver { get; private set; }
     public bool ManagedShift { get; set; }
@@ -329,6 +330,7 @@ public class OyunAkisiOnur : MonoBehaviour
     {
         if (senaryoBasladi || GameOver) return;
         senaryoBasladi = true;
+        CompletedDialogueLines = 0;
         ScenarioStarted?.Invoke(ScenarioRevision, currentScenario != null ? currentScenario.scenarioId : "D-01");
         if (callerInfo != null) callerInfo.Show(currentScenario);
         if (conversationView != null) conversationView.gameObject.SetActive(true);
@@ -477,11 +479,13 @@ public class OyunAkisiOnur : MonoBehaviour
         {
             yield return conversationView.ShowMessage(metin, sagdan, animasyonSuresi);
             yield return conversationView.WaitForAdvance();
+            CompletedDialogueLines++;
             yield break;
         }
         MesajEkle(metin, sagdan);
         yield return new WaitUntil(() => !animasyonCalisiyor && bekleyenMesajlar.Count == 0);
         yield return new WaitForSeconds(Mathf.Max(2f, metin.Length * 0.035f));
+        CompletedDialogueLines++;
     }
 
     private IEnumerator MesajlariYukariTasi(float mesafe)

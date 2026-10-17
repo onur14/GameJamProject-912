@@ -20,6 +20,12 @@ public class QuickQuestionConfig
     public DispatchResourceEffect choiceBEffect = new DispatchResourceEffect();
     public string choiceBFeedback = "TALEP REDDEDİLDİ";
 
+    [Header("Information verification")]
+    public bool isDisinformation;
+    [Range(0, 1)] public int correctChoiceIndex = 1;
+    [Min(0)] public int wrongAnswerHealthDamage;
+    [Min(0)] public int timeoutHealthDamage;
+
     [Header("Timing")]
     [Tooltip("Response limit in seconds.")]
     [Min(1f)] public float timerDuration = 10f;
@@ -48,6 +54,10 @@ public class QuickQuestionConfig
             timerDuration = timerDuration,
             appearanceDelayMin = appearanceDelayMin,
             appearanceDelayMax = appearanceDelayMax,
+            isDisinformation = isDisinformation,
+            correctChoiceIndex = correctChoiceIndex,
+            wrongAnswerHealthDamage = wrongAnswerHealthDamage,
+            timeoutHealthDamage = timeoutHealthDamage,
             timeoutFeedback = timeoutFeedback
         };
     }
