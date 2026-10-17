@@ -20,6 +20,7 @@ public class OyunAkisiOnur : MonoBehaviour
     [SerializeField] private DispatchResources resources;
     [SerializeField] private DispatchResources.ResourceType wrongChoiceResource = DispatchResources.ResourceType.Police;
     [SerializeField] private DispatchResources.ResourceType correctChoiceResource = DispatchResources.ResourceType.Ambulances;
+    private const float ConnectionEventChance = 1f;
 
     private readonly Queue<MesajIstegi> bekleyenMesajlar = new Queue<MesajIstegi>();
     private readonly List<RectTransform> mesajlar = new List<RectTransform>();
@@ -63,6 +64,15 @@ public class OyunAkisiOnur : MonoBehaviour
         if (completionSent) return;
         completionSent = true;
         ButonlariGizle();
+        if (conversationView != null && (ConnectionEventChance >= 1f || Random.value < ConnectionEventChance))
+            StartCoroutine(CompleteAfterConnectionRecovery());
+        else
+            ScenarioCompleted?.Invoke(ScenarioRevision);
+    }
+
+    private IEnumerator CompleteAfterConnectionRecovery()
+    {
+        yield return conversationView.RecoverConnection();
         ScenarioCompleted?.Invoke(ScenarioRevision);
     }
 

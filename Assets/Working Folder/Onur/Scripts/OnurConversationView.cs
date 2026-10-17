@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public sealed class OnurConversationView : MonoBehaviour
@@ -22,11 +23,15 @@ public sealed class OnurConversationView : MonoBehaviour
     [Header("Automatic conversation pace")]
     [SerializeField, Min(0)] private float charactersPerSecond = 0;
     [SerializeField, Range(.15f,.4f)] private float clickDebounce = .22f;
+    private const float ConnectionGainPerPress = .12f;
+    private const float ConnectionDecayPerSecond = .07f;
     private OyunAkisiOnur hikaye;
     private RectTransform panel, textViewport, textContent;
     private ScrollRect scroll;
     private Button next;
     private TMP_Text nextLabel, effectA, effectB, latestBody;
+    private GameObject connectionOverlay;
+    private RectTransform connectionFill;
     private readonly List<RectTransform> messages = new List<RectTransform>();
     private bool choicesVisible, awaitingAdvance, typing, bothUnavailable;
     private float lastClick = -10;
@@ -180,6 +185,53 @@ public sealed class OnurConversationView : MonoBehaviour
         yield return new WaitForSecondsRealtime(displayTime);
         awaitingAdvance = false;
     }
+    public IEnumerator RecoverConnection()
+    {
+        Clear();
+        if(connectionOverlay==null)BuildConnectionOverlay();
+        connectionFill.anchorMax=new Vector2(0f,1f);
+        connectionOverlay.SetActive(true);
+        connectionOverlay.transform.SetAsLastSibling();
+        float progress=0;
+        while(progress<1f)
+        {
+            if(Keyboard.current!=null && Keyboard.current.spaceKey.wasPressedThisFrame)
+                progress=Mathf.Min(1f,progress+ConnectionGainPerPress);
+            else
+                progress=Mathf.Max(0f,progress-ConnectionDecayPerSecond*Time.unscaledDeltaTime);
+            connectionFill.anchorMax=new Vector2(progress,1f);
+            yield return null;
+        }
+        connectionOverlay.SetActive(false);
+    }
+    private void BuildConnectionOverlay()
+    {
+        connectionOverlay=new GameObject("Bağlantı Kurtarma",typeof(RectTransform),typeof(Image));
+        var overlayRect=(RectTransform)connectionOverlay.transform;overlayRect.SetParent(panel,false);
+        Anchor(overlayRect,Vector2.zero,Vector2.one);
+        connectionOverlay.GetComponent<Image>().color=new Color(.04f,.09f,.12f,.97f);
+
+        var title=Text("Bağlantı Uyarısı",overlayRect,34);
+        Anchor(title.rectTransform,new Vector2(.08f,.54f),new Vector2(.92f,.72f));
+        title.text="Bağlantı kesildi";title.alignment=TextAlignmentOptions.Center;
+        title.color=new Color(1f,.65f,.4f);
+
+        var instruction=Text("Kurtarma Talimatı",overlayRect,19);
+        Anchor(instruction.rectTransform,new Vector2(.08f,.42f),new Vector2(.92f,.52f));
+        instruction.text="SPACE tuşuna art arda bas";instruction.alignment=TextAlignmentOptions.Center;
+
+        var bar=new GameObject("Bağlantı Çubuğu",typeof(RectTransform),typeof(Image));
+        var barRect=(RectTransform)bar.transform;barRect.SetParent(overlayRect,false);
+        Anchor(barRect,new Vector2(.12f,.30f),new Vector2(.88f,.37f));
+        bar.GetComponent<Image>().color=new Color(.12f,.19f,.22f);
+        bar.GetComponent<Image>().raycastTarget=false;
+
+        var fill=new GameObject("İlerleme",typeof(RectTransform),typeof(Image));
+        connectionFill=(RectTransform)fill.transform;connectionFill.SetParent(barRect,false);
+        Anchor(connectionFill,Vector2.zero,new Vector2(0f,1f));
+        fill.GetComponent<Image>().color=new Color(.42f,.87f,.69f);
+        fill.GetComponent<Image>().raycastTarget=false;
+    }
     private void FitText()
     {
         if(textViewport==null)return;
@@ -217,6 +269,7 @@ public sealed class OnurConversationView : MonoBehaviour
     public void Clear()
     {
         awaitingAdvance=false;typing=false;bothUnavailable=false;
+        if(connectionOverlay!=null)connectionOverlay.SetActive(false);
         foreach(var row in messages)if(row){row.gameObject.SetActive(false);Destroy(row.gameObject);}
         messages.Clear();latestBody=null;SetChoicesVisible(false);
     }
