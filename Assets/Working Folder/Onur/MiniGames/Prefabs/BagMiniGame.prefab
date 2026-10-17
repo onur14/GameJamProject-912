@@ -188,15 +188,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.84, g: 0.92, b: 0.91, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -219,14 +219,14 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0.15
+  m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 2
+  m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -324,17 +324,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text:
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.91, g: 0.96, b: 0.93, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -354,17 +354,17 @@ MonoBehaviour:
   m_fontSize: 30
   m_fontSizeBase: 30
   m_fontWeight: 400
-  m_enableAutoSizing: 1
-  m_fontSizeMin: 27
-  m_fontSizeMax: 30
-  m_fontStyle: 1
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0.15
+  m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 2
+  m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -649,15 +649,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "AFET \xC7ANTASI"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.98, g: 0.78, b: 0.47, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -680,14 +680,14 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0.15
+  m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 2
+  m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -786,15 +786,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "S\xFCr\xFCkle veya t\u0131kla, sonra kontrol et."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.84, g: 0.92, b: 0.91, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -814,17 +814,17 @@ MonoBehaviour:
   m_fontSize: 17
   m_fontSizeBase: 17
   m_fontWeight: 400
-  m_enableAutoSizing: 1
-  m_fontSizeMin: 14
-  m_fontSizeMax: 17
-  m_fontStyle: 1
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0.15
+  m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 2
+  m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -911,7 +911,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81c098dc5b7a4ce43ab39f6ccd26024c, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::MiniGameCheckGraphic
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -988,15 +988,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\xC7ANTA ALANI"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.91, g: 0.96, b: 0.93, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1019,14 +1019,14 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0.15
+  m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 2
+  m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -1246,15 +1246,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: X
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.91, g: 0.96, b: 0.93, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1274,17 +1274,17 @@ MonoBehaviour:
   m_fontSize: 22
   m_fontSizeBase: 22
   m_fontWeight: 400
-  m_enableAutoSizing: 1
-  m_fontSizeMin: 19
-  m_fontSizeMax: 22
-  m_fontStyle: 1
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0.15
+  m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 2
+  m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -1539,15 +1539,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "KULLANILAB\u0130L\u0130R E\u015EYALAR"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.91, g: 0.96, b: 0.93, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1570,14 +1570,14 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0.15
+  m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 2
+  m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -1828,15 +1828,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u2665 \u2665 \u2665"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.98, g: 0.6, b: 0.55, a: 1}
+  m_fontColor: {r: 0.94, g: 0.2, b: 0.25, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1859,14 +1859,14 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0.15
+  m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 2
+  m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -1906,38 +1906,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9037894968622014003}
     m_Modifications:
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontStyle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.93
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.96
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_lineSpacing
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_characterSpacing
-      value: 0.15
-      objectReference: {fileID: 0}
     - target: {fileID: 1400867055543039311, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
       propertyPath: m_Name
       value: 'TEST: Su'
@@ -2076,7 +2044,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8084923561945322731, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
       propertyPath: m_Sprite
-      value: 
+      value:
       objectReference: {fileID: 21300000, guid: 74b57ab992ae4d518a7c22f60350945d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2107,38 +2075,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9037894968622014003}
     m_Modifications:
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontStyle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.93
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.96
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_lineSpacing
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_characterSpacing
-      value: 0.15
-      objectReference: {fileID: 0}
     - target: {fileID: 1400867055543039311, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
       propertyPath: m_Name
       value: "TEST: \u0130lk yard\u0131m"
@@ -2277,7 +2213,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8084923561945322731, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
       propertyPath: m_Sprite
-      value: 
+      value:
       objectReference: {fileID: 21300000, guid: a9e9f3fa55d44a5f8e778768202ed612, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2308,38 +2244,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9037894968622014003}
     m_Modifications:
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontStyle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.93
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.96
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_lineSpacing
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_characterSpacing
-      value: 0.15
-      objectReference: {fileID: 0}
     - target: {fileID: 1400867055543039311, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
       propertyPath: m_Name
       value: 'TEST: Fener'
@@ -2478,7 +2382,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8084923561945322731, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
       propertyPath: m_Sprite
-      value: 
+      value:
       objectReference: {fileID: 21300000, guid: 23ac4dad0653470695512f31713b2046, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2509,38 +2413,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9037894968622014003}
     m_Modifications:
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontStyle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.93
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.96
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_lineSpacing
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_characterSpacing
-      value: 0.15
-      objectReference: {fileID: 0}
     - target: {fileID: 1400867055543039311, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
       propertyPath: m_Name
       value: 'TEST: Top'
@@ -2675,7 +2547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8084923561945322731, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
       propertyPath: m_Sprite
-      value: 
+      value:
       objectReference: {fileID: 21300000, guid: 92a023cbdb2c4fadacb5da9bfcde943b, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2706,38 +2578,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9037894968622014003}
     m_Modifications:
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontStyle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.93
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.96
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_lineSpacing
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_characterSpacing
-      value: 0.15
-      objectReference: {fileID: 0}
     - target: {fileID: 1400867055543039311, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
       propertyPath: m_Name
       value: 'TEST: Oyun kolu'
@@ -2872,7 +2712,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8084923561945322731, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
       propertyPath: m_Sprite
-      value: 
+      value:
       objectReference: {fileID: 21300000, guid: 928b28386ffd424596514b4c9e13db2f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2903,38 +2743,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9037894968622014003}
     m_Modifications:
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontStyle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.93
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.96
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_lineSpacing
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-    - target: {fileID: 212201086955905482, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
-      propertyPath: m_characterSpacing
-      value: 0.15
-      objectReference: {fileID: 0}
     - target: {fileID: 1400867055543039311, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
       propertyPath: m_Name
       value: 'TEST: Radyo'
@@ -3073,7 +2881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8084923561945322731, guid: 5d9c6dc34293e9f4a9549e1ae5a3baa9, type: 3}
       propertyPath: m_Sprite
-      value: 
+      value:
       objectReference: {fileID: 21300000, guid: 9754c18824064add90755607f6345581, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

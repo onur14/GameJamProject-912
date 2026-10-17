@@ -105,7 +105,6 @@ public static class OnurPlayableChecks
         try
         {
             await Wait(() => SceneManager.GetActiveScene().name == "OnurAnaMenu");
-            File.AppendAllText(ReportPath, $"Oyun görüntüsü: {Screen.width}x{Screen.height}\n");
             var volume = UnityEngine.Object.FindAnyObjectByType<MasterVolumeSettings>();
             await Capture("menu");
             volume.GetComponentsInChildren<Button>(true).First(button => button.name == "Ayarlar").onClick.Invoke();
@@ -126,7 +125,6 @@ public static class OnurPlayableChecks
             var questions = UnityEngine.Object.FindAnyObjectByType<QuickQuestionManager>();
             var questionView = UnityEngine.Object.FindAnyObjectByType<QuickQuestionView>();
             await Wait(() => questionView.Ready, 30000);
-            await Capture("quick-question");
             Require(questions.CurrentQuestion.id == "QQ-01", "İlk soru sıralı başladı");
             questionView.ButtonB.onClick.Invoke();
             await Wait(() => questionView.Ready && questions.CurrentQuestion.id == "QQ-09", 30000);

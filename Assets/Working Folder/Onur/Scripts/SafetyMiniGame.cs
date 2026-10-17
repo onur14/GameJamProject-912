@@ -137,7 +137,7 @@ public sealed class SafetyMiniGame : MonoBehaviour
     private void Refresh()
     {
         attemptsLabel.text = string.Join(" ", new string('♥', attemptsLeft).ToCharArray());
-        attemptsLabel.color = new Color(.98f, .60f, .55f);
+        attemptsLabel.color = new Color(.94f, .20f, .25f);
         bool allAnswered = points != null && points.Length > 0;
         if (allAnswered)
             foreach (ControlPoint point in points)
@@ -149,10 +149,8 @@ public sealed class SafetyMiniGame : MonoBehaviour
         descriptionLabel.text = hasPoint ? points[selectedPoint].description : "İncelemek için bir tesisata dokun.";
         optionALabel.text = hasPoint ? points[selectedPoint].optionA : string.Empty;
         optionBLabel.text = hasPoint ? points[selectedPoint].optionB : string.Empty;
-        optionALabel.color = hasPoint && points[selectedPoint].selectedOption == 0
-            ? new Color(.98f, .78f, .47f) : new Color(.91f, .96f, .93f);
-        optionBLabel.color = hasPoint && points[selectedPoint].selectedOption == 1
-            ? new Color(.98f, .78f, .47f) : new Color(.91f, .96f, .93f);
+        optionALabel.color = hasPoint && points[selectedPoint].selectedOption == 0 ? Color.yellow : Color.white;
+        optionBLabel.color = hasPoint && points[selectedPoint].selectedOption == 1 ? Color.yellow : Color.white;
         if (points == null) return;
         foreach (ControlPoint point in points)
         {
