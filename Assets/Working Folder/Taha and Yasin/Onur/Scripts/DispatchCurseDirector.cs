@@ -18,6 +18,8 @@ public sealed class DispatchCurseDirector : MonoBehaviour
     [SerializeField, Min(1)] private int slownessAtScenario = 2;
     [SerializeField, Min(1)] private int fogAtScenario = 5;
     private bool slownessApplied, fogApplied, retrying;
+    public bool PresidentPenaltyPending { get; private set; }
+    public void ConsumePresidentPenalty() { PresidentPenaltyPending = false; }
     private int slownessUntil = -1, fogUntil = -1;
     private RectTransform slowBadge, fogBadge, banner;
     private TMP_Text slowCount, fogCount, heading, detail;
@@ -39,7 +41,7 @@ public sealed class DispatchCurseDirector : MonoBehaviour
     public int FogRemaining => Mathf.Max(0, fogUntil - briefing.CompletedScenarios);
     public bool SlownessVisible => slowBadge && slowBadge.gameObject.activeSelf;
     public bool FogVisible => fogBadge && fogBadge.gameObject.activeSelf;
-    public int AdjustAwarenessGain(int points) => IsFogActive ? Mathf.CeilToInt(points * .5f) : points;
+    public int AdjustPresidentBonus(int points) => PresidentPenaltyPending && points > 0 ? Mathf.FloorToInt(points * .5f) : points;
 
     private void Awake() { Build(); awareness.CurseDirector = this; }
     private void OnEnable()
@@ -53,7 +55,7 @@ public sealed class DispatchCurseDirector : MonoBehaviour
     private void OnDestroy() { if(awareness && awareness.CurseDirector==this) awareness.CurseDirector=null; }
     private void ResetRun()
     {
-        slownessApplied=fogApplied=retrying=captured=false;slownessUntil=fogUntil=-1;HideNotice();RefreshBadges();
+        slownessApplied=fogApplied=retrying=captured=false;PresidentPenaltyPending=false;slownessUntil=fogUntil=-1;HideNotice();RefreshBadges();
     }
     private void Started(int revision, string scenario)
     {
@@ -67,7 +69,7 @@ public sealed class DispatchCurseDirector : MonoBehaviour
     {
         if(slownessApplied)return;
         slownessApplied=true;slownessUntil=briefing.CompletedScenarios+2;
-        int a=Mathf.Min(3,resources.Ambulances), f=Mathf.Min(3,resources.Firefighters), r=Mathf.Min(3,resources.Police);
+        int a=Mathf.Min(2,resources.Ambulances), f=Mathf.Min(2,resources.Firefighters), r=Mathf.Min(2,resources.Police);
         resources.TryApply(-a,-f,-r);
         Announce("YAVAŞLIK CEZASI",$"Ambulans -{a}   /   İtfaiye -{f}   /   Kurtarma -{r}\nHızından bağımsız lanet · 2 vaka",slownessEmblem,new Color(1,.30f,.20f));
         RefreshBadges();
@@ -75,8 +77,8 @@ public sealed class DispatchCurseDirector : MonoBehaviour
     public void ApplyFog()
     {
         if(fogApplied)return;
-        fogApplied=true;fogUntil=briefing.CompletedScenarios+2;
-        Announce("BİLGİ SİSİ","Halk bilinci kazanımları %50 azaldı\n2 vaka boyunca",fogEmblem,new Color(.78f,.48f,1));
+        fogApplied=true;PresidentPenaltyPending=true;fogUntil=briefing.CompletedScenarios+2;
+        Announce("BİLGİ SİSİ","Sonraki başkan tahsisinin bonusları %50 azaldı\nAmblem 2 vaka görünür",fogEmblem,new Color(.78f,.48f,1));
         RefreshBadges();
     }
     public void CaptureCheckpoint()
@@ -122,7 +124,7 @@ public sealed class DispatchCurseDirector : MonoBehaviour
     }
     private RectTransform Badge(string name,Transform parent,float x,Sprite sprite,out TMP_Text count)
     {
-        var r=Rect(name,parent,new Vector2(x,.005f),new Vector2(x+.065f,.070f));
+        var r=Rect(name,parent,new Vector2(x,.005f),new Vector2(x+.105f,.135f));
         var bg=r.gameObject.AddComponent<Image>();bg.color=new Color(.04f,.035f,.065f,.94f);bg.raycastTarget=false;
         var image=Rect("Amblem",r,new Vector2(.02f,.02f),new Vector2(.78f,.98f)).gameObject.AddComponent<Image>();image.sprite=sprite;image.preserveAspect=true;image.raycastTarget=false;
         count=Text("Kalan Vaka",r,new Vector2(.73f,.05f),new Vector2(.99f,.5f),18);r.gameObject.SetActive(false);return r;
@@ -132,7 +134,7 @@ public sealed class DispatchCurseDirector : MonoBehaviour
         var root=Rect("Lanet Göstergeleri",GetComponentInParent<Canvas>().rootCanvas.transform,Vector2.zero,Vector2.one);
         var c=root.gameObject.AddComponent<Canvas>();c.overrideSorting=true;c.sortingOrder=650;
         slowBadge=Badge("Yavaşlık Cezası",root,.02f,slownessEmblem,out slowCount);
-        fogBadge=Badge("Bilgi Sisi",root,.095f,fogEmblem,out fogCount);
+        fogBadge=Badge("Bilgi Sisi",root,.135f,fogEmblem,out fogCount);
         flash=Rect("Lanet Işığı",root,Vector2.zero,Vector2.one).gameObject.AddComponent<Image>();flash.color=Color.clear;flash.raycastTarget=false;
         banner=Rect("Lanet Duyurusu",root,new Vector2(.28f,.52f),new Vector2(.82f,.86f));
         var bg=banner.gameObject.AddComponent<Image>();bg.color=new Color(.035f,.02f,.06f,.97f);bg.raycastTarget=false;
@@ -147,7 +149,7 @@ public sealed class DispatchCurseDirector : MonoBehaviour
         if(intro!=null)StopCoroutine(intro);
         heading.text="LANET: "+title;heading.color=color;detail.text=explanation;emblem.sprite=sprite;
         notice.gameObject.SetActive(true);intro=StartCoroutine(AnimateNotice(color));
-        var sounds=GetComponent<DispatchAudioCues>();if(sounds)sounds.PlayCurse();
+        var sounds=GetComponent<DispatchSceneAudioCues>();if(sounds)sounds.PlayCurse();
     }
     private IEnumerator AnimateNotice(Color color)
     {

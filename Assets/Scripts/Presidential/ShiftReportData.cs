@@ -105,11 +105,7 @@ public sealed class ShiftReportData
             else if(FailedTasks>0)lines.Add($"{FailedTasks} hazırlık görevi başarısız sonuçlandı.");
             if(Ambulances==0||Firefighters==0||RescueTeams==0)lines.Add("Bazı hizmetlerde ekip kapasitesi tükendi.");
             if(SlowResponses)lines.Add("Destek taleplerine yanıtlar gecikti.");
-<<<<<<< Updated upstream
-            if(lines.Count<2)lines.Add(Health==0 ? "Halk bilinci %0'a düştü; vardiya sonlandı." : "Vardiya başarı koşulları sağlanamadı.");
-=======
             if(lines.Count<2)lines.Add(Health==0 ? "Halk bilinci %0'a düştü; son vakanın başlangıç kaydı korunuyor." : "Vardiya başarı koşulları sağlanamadı.");
->>>>>>> Stashed changes
             if(lines.Count<2)lines.Add($"Tamamlanan çağrı: {Completed}; doğru karar: {Correct}.");
         }
         return lines.Take(4).ToArray();

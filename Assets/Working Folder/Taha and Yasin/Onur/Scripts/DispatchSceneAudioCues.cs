@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // Reuses the authored phone sources; no additional looping notification layer.
-public sealed class DispatchAudioCues : MonoBehaviour
+public sealed class DispatchSceneAudioCues : MonoBehaviour
 {
     [SerializeField] private DispatchCallFlow phone;
     [SerializeField] private OyunAkisiOnur flow;

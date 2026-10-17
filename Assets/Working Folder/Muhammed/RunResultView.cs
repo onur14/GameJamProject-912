@@ -52,13 +52,9 @@ public sealed class RunResultView : MonoBehaviour
 
     public void ShowFailure()
     {
-<<<<<<< Updated upstream
-        Show("GÖREV BAŞARISIZ", "Halk bilinci %0'a düştü.");
-=======
         Show("HALK BİLİNCİ TÜKENDİ", "Son vakanın başlangıç kaydı korunuyor.");
         var label = replayButton.GetComponentInChildren<TMP_Text>();
         if (label) label.text = "SON VAKADAN DEVAM ET";
->>>>>>> Stashed changes
     }
 
     private void Show(string title, string reason)

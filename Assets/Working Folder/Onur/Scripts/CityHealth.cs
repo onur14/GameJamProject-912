@@ -24,12 +24,11 @@ public sealed class CityHealth : MonoBehaviour
     private TMP_Text healthText;
     private CanvasGroup gameOverOverlay;
     private Coroutine damageAnimation;
-<<<<<<< Updated upstream
     private ScenarioCheckpoint checkpoint;
     public ScenarioCheckpoint Checkpoint => checkpoint;
     private void Start()
     {
-        if(!enabled)return;
+        if(!enabled || GetComponent<DispatchCurseDirector>())return;
         var sounds=gameObject.AddComponent<DispatchAudioCues>();sounds.Initialize(conversation,phone);
         var curses=gameObject.AddComponent<DispatchCurseController>();curses.Initialize(conversation,briefing,choiceView,phone,interfaceFont);
         checkpoint=gameObject.AddComponent<ScenarioCheckpoint>();checkpoint.Initialize(this,conversation,briefing,phone,choiceView,curses,interfaceFont);
@@ -42,9 +41,7 @@ public sealed class CityHealth : MonoBehaviour
         if(healthIndicator){healthIndicator.localScale=Vector3.one;healthIndicator.localRotation=Quaternion.identity;}
         if(gameOverOverlay)gameOverOverlay.gameObject.SetActive(false);Refresh();
     }
-=======
     public DispatchCurseDirector CurseDirector { get; set; }
->>>>>>> Stashed changes
 
     public int HealthPercent { get; private set; } = StartingHealth;
     public bool IsGameOver { get; private set; }
@@ -55,7 +52,6 @@ public sealed class CityHealth : MonoBehaviour
     public bool AddHealth(int percentagePoints)
     {
         if (IsGameOver || percentagePoints <= 0 || HealthPercent >= StartingHealth) return false;
-        if (CurseDirector != null) percentagePoints = CurseDirector.AdjustAwarenessGain(percentagePoints);
         HealthPercent = Mathf.Min(StartingHealth, HealthPercent + percentagePoints);
         Refresh();
         return true;
@@ -242,11 +238,7 @@ public sealed class CityHealth : MonoBehaviour
         inner.GetComponent<Image>().color = new Color(.055f, .095f, .14f, .98f);
         inner.GetComponent<Image>().raycastTarget = false;
         var body = NoteText("Görev Notu", innerRect,
-<<<<<<< Updated upstream
             "<color=#F2B54D>! GÖREV NOTU</color>\nDoğru ve yanlış cevapların kaynaklarını etkiler.\nHalk bilinci %0 olursa bu senaryonun başına dönersin.\nAna görevin: toplumu bilinçlendirmek ve kaynakları yönetmek.", 14);
-=======
-            "<color=#F2B54D>! GÖREV NOTU</color>\nDoğru ve yanlış cevapların kaynaklarını etkiler.\nHalk bilinci %0'a düşerse kaybedersin.\nAna görevin: şehri doğru bilinçlendirmek ve kaynakları yönetmek.", 14);
->>>>>>> Stashed changes
         body.rectTransform.anchorMin = Vector2.zero; body.rectTransform.anchorMax = Vector2.one;
         body.rectTransform.offsetMin = new Vector2(14, 12); body.rectTransform.offsetMax = new Vector2(-14, -14);
         root.SetActive(false);

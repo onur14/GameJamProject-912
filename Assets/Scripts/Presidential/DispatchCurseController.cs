@@ -25,7 +25,9 @@ public sealed class DispatchCurseController : MonoBehaviour
     public CurseKind ActiveCurse { get; private set; }
     public bool IsAnnouncing => announcement!=null;
     public int RemainingScenarios => ActiveCurse==CurseKind.None?0:Mathf.Max(0,expiresAfter-briefing.CompletedScenarios);
-    public float QuestionTimeMultiplier => ActiveCurse==CurseKind.InformationFog?.75f:1;
+    public float QuestionTimeMultiplier => 1;
+    public bool PresidentPenaltyPending { get; private set; }
+    public void ConsumePresidentPenalty() { PresidentPenaltyPending=false; }
     public RectTransform Badge => badge;
 
     public void Initialize(OyunAkisiOnur flow,PresidentialBriefingManager manager,OnurConversationView view,DispatchCallFlow telephone,TMP_FontAsset font)
@@ -35,9 +37,9 @@ public sealed class DispatchCurseController : MonoBehaviour
         var canvas=root.gameObject.AddComponent<Canvas>();canvas.overrideSorting=true;canvas.sortingOrder=850;root.gameObject.AddComponent<GraphicRaycaster>();
         var sheet=Resources.Load<Texture2D>("Disaster/CurseEmblems");
         if(sheet){slowIcon=PreparationUI.Sprite(sheet,new Rect(0,0,.5f,1));fogIcon=PreparationUI.Sprite(sheet,new Rect(.5f,0,.5f,1));}
-        badge=Panel("Aktif Lanet Amblemi",root,new Vector2(.017f,.012f),new Vector2(.345f,.069f),new Color(.12f,.055f,.065f,.98f)).rectTransform;
-        badgeIcon=Panel("Lanet Amblemi",badge,new Vector2(.01f,.05f),new Vector2(.12f,.95f),Color.white);badgeIcon.preserveAspect=true;
-        badgeText=Label("Lanet Kalan Senaryo",badge,new Vector2(.135f,.04f),new Vector2(.98f,.96f),"",font,19);badgeText.alignment=TextAlignmentOptions.Left;badgeText.color=Amber;
+        badge=Panel("Aktif Lanet Amblemi",root,new Vector2(.017f,.012f),new Vector2(.37f,.135f),new Color(.12f,.055f,.065f,.98f)).rectTransform;
+        badgeIcon=Panel("Lanet Amblemi",badge,new Vector2(.01f,.05f),new Vector2(.25f,.95f),Color.white);badgeIcon.preserveAspect=true;
+        badgeText=Label("Lanet Kalan Senaryo",badge,new Vector2(.27f,.04f),new Vector2(.98f,.96f),"",font,19);badgeText.alignment=TextAlignmentOptions.Left;badgeText.color=Amber;
         notice=Panel("Lanet Geliş Örtüsü",root,Vector2.zero,Vector2.one,new Color(.05f,.005f,.015f,.65f)).rectTransform;notice.GetComponent<Image>().raycastTarget=true;
         noticeGroup=notice.gameObject.AddComponent<CanvasGroup>();
         flash=Panel("Lanet Kenar Parlaması",notice,Vector2.zero,Vector2.one,new Color(.7f,.14f,.07f,.08f));
@@ -56,11 +58,11 @@ public sealed class DispatchCurseController : MonoBehaviour
         int number=briefing.CompletedScenarios+1;
         if((number==2||number==5)&&triggered.Add(number))
         {
-            ActiveCurse=number==2?CurseKind.Slowness:CurseKind.InformationFog;expiresAfter=briefing.CompletedScenarios+2;
+            ActiveCurse=number==2?CurseKind.Slowness:CurseKind.InformationFog;if(number==5)PresidentPenaltyPending=true;expiresAfter=briefing.CompletedScenarios+2;
             if(ActiveCurse==CurseKind.Slowness)
             {
                 var stock=briefing.Resources;
-                stock.TryApply(-Mathf.Min(3,stock.Ambulances),-Mathf.Min(3,stock.Firefighters),-Mathf.Min(3,stock.RescueTeams));
+                stock.TryApply(-Mathf.Min(2,stock.Ambulances),-Mathf.Min(2,stock.Firefighters),-Mathf.Min(2,stock.RescueTeams));
             }
             RefreshBadge();announcement=StartCoroutine(Announce());
         }
@@ -82,7 +84,7 @@ public sealed class DispatchCurseController : MonoBehaviour
         phone.SetPaused(true);if(chat)chat.SetPaused(true);if(questions)questions.SetPaused(true);
         notice.gameObject.SetActive(true);largeIcon.sprite=badgeIcon.sprite;
         title.text=ActiveCurse==CurseKind.Slowness?"YAVAŞLIK CEZASI":"BİLGİ SİSİ";
-        description.text=ActiveCurse==CurseKind.Slowness?"Hızından bağımsız!\nHer ekipten −3 kaynak.\nAmblem iki senaryo sonra kaybolur.":"Hızlı Soruların süresi %25 kısalır.\nTeyit et, kararını geciktirme.\nEtki iki senaryo sürer.";
+        description.text=ActiveCurse==CurseKind.Slowness?"Hızından bağımsız!\nHer ekipten −2 kaynak.\nAmblem iki senaryo sonra kaybolur.":"Başkanın kaynak bonusları %50 azalır.\nKaynaklarını dikkatli yönet.\nEtki iki senaryo sürer.";
         var sound=FindAnyObjectByType<DispatchAudioCues>();if(sound)sound.PlayCurse();
         for(float t=0;t<2.35f;t+=Time.unscaledDeltaTime)
         {
@@ -102,7 +104,7 @@ public sealed class DispatchCurseController : MonoBehaviour
     {
         if(announcement==null)return;StopCoroutine(announcement);announcement=null;FinishAnnouncement();
     }
-    private void ResetCurses(){CancelAnnouncement();triggered.Clear();ActiveCurse=CurseKind.None;RefreshBadge();}
+    private void ResetCurses(){CancelAnnouncement();triggered.Clear();PresidentPenaltyPending=false;ActiveCurse=CurseKind.None;RefreshBadge();}
     private void OnDestroy()
     {
         if(conversation)conversation.ScenarioStarted-=OnScenarioStarted;if(briefing)briefing.ShiftReset-=ResetCurses;

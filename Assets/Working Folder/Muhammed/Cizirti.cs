@@ -9,16 +9,16 @@ public class Cizirti : MonoBehaviour
     public void TelefonAc()
     {
         CancelInvoke(nameof(CizirtiSesiCal));
-        if(TiklamaSesi && TelsizAcilisSesi)TiklamaSesi.PlayOneShot(TelsizAcilisSesi);
+        if(TiklamaSesi && TiklamaSesi.isActiveAndEnabled && TelsizAcilisSesi)TiklamaSesi.PlayOneShot(TelsizAcilisSesi);
         Invoke(nameof(CizirtiSesiCal),.18f);
     }
-    private void CizirtiSesiCal() { if(CizirtiSesi && !CizirtiSesi.isPlaying)CizirtiSesi.Play(); }
+    private void CizirtiSesiCal() { if(CizirtiSesi && CizirtiSesi.isActiveAndEnabled && !CizirtiSesi.isPlaying)CizirtiSesi.Play(); }
     public void TelefonKapat()
     {
         CancelInvoke(nameof(CizirtiSesiCal));
         if(CizirtiSesi)CizirtiSesi.Stop();
         if(Time.unscaledTime-lastClose<.2f)return;
         lastClose=Time.unscaledTime;
-        if(TiklamaSesi && TelsizKapanisSesi)TiklamaSesi.PlayOneShot(TelsizKapanisSesi);
+        if(TiklamaSesi && TiklamaSesi.isActiveAndEnabled && TelsizKapanisSesi)TiklamaSesi.PlayOneShot(TelsizKapanisSesi);
     }
 }

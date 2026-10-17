@@ -93,7 +93,7 @@ public static class OperatorCurseChecks
                 if(briefing.CompletedScenarios>=4&&briefing.CompletedScenarios<=5)
                 {
                     var original=new[]{questions.GetQuestionForScenario(briefing.CompletedScenarios),questions.GetQuestionForScenario(briefing.CompletedScenarios,true)}.FirstOrDefault(c=>c.id==q.id);
-                    if(original!=null){Check(Mathf.Abs(q.timerDuration-original.timerDuration*.75f)<.001f,"Bilgi Sisi reduces cloned question duration by 25 percent");fogSeen=true;}
+                    if(original!=null){Check(Mathf.Abs(q.timerDuration-original.timerDuration)<.001f,"Bilgi Sisi preserves original question duration");fogSeen=true;}
                 }
             };
             while(SceneManager.GetActiveScene().path==PreparationRun.OperatorScene)
@@ -103,7 +103,7 @@ public static class OperatorCurseChecks
                 if(briefing.CompletedScenarios==1&&!recovered)
                 {
                     recovered=true;Check(curses.ActiveCurse==DispatchCurseController.CurseKind.Slowness&&curses.RemainingScenarios==2,"Slowness arrives independently of player response speed");
-                    Check(lastDelta==new Vector3Int(-3,-3,-3)&&resources.Ambulances>=0&&resources.Firefighters>=0&&resources.RescueTeams>=0,"Curse immediately removes exactly three ambulances, fire and rescue teams");
+                    Check(lastDelta==new Vector3Int(-2,-2,-2)&&resources.Ambulances>=0&&resources.Firefighters>=0&&resources.RescueTeams>=0,"Curse immediately removes exactly two ambulances, fire and rescue teams");
                     Check(curses.Badge.gameObject.activeInHierarchy,"Curse emblem appears in lower-left HUD");await Capture("01-slowness-impact");
                     await Wait(()=>!curses.IsAnnouncing);await Capture("02-slowness-badge");
                     int revision=conversation.ScenarioRevision,results=questions.Results.Count,awareness=checkpoint.SnapshotAwareness;

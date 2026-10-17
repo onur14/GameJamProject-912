@@ -1040,7 +1040,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7445754986739040688, guid: 98a6ef31f01dcd747b30909096eb7534, type: 3}
       propertyPath: typingAudio.clip
-      value:
+      value: 
       objectReference: {fileID: 8300000, guid: db06a4c13f5453040a870c31939ff7c0, type: 3}
     - target: {fileID: 7445754986739040688, guid: 98a6ef31f01dcd747b30909096eb7534, type: 3}
       propertyPath: typingAudio.volume
@@ -6446,7 +6446,7 @@ MonoBehaviour:
   callerInfo: {fileID: 1452182748}
   wrongChoiceResource: 2
   correctChoiceResource: 1
-  unansweredDecisionSeconds: 15
+  unansweredDecisionSeconds: 12
 --- !u!114 &3000000011 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7445754986739040688, guid: 98a6ef31f01dcd747b30909096eb7534, type: 3}
@@ -6915,7 +6915,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 727f1094e75fd2142aaad0a074ad22aa, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cizirti
   CizirtiSesi: {fileID: 1491410357}
   TiklamaSesi: {fileID: 151389143}
@@ -6931,7 +6931,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e7d14dc95040b043955a8877b2b679c, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DispatchAudioCues
   phone: {fileID: 1139218828}
   flow: {fileID: 3000000010}
@@ -6949,7 +6949,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ecd2eb1297eed264aa907d2a364df4f9, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DispatchCurseDirector
   flow: {fileID: 3000000010}
   briefing: {fileID: 1094786584}

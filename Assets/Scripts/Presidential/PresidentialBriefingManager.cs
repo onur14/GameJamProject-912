@@ -156,7 +156,20 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         if (offerA == null || offerB == null) { Debug.LogError("İki tahsis planı atanmalı."); return; }
         if (!offerA.IsValid(resources) && !offerB.IsValid(resources))
         { offerA = EmergencyOffer(resources, true); offerB = EmergencyOffer(resources, false); }
+        offerA = AdjustCurseOffer(offerA); offerB = AdjustCurseOffer(offerB);
         view.Offers(offerA, offerB, resources);
+    }
+    public ResourceOffer AdjustCurseOffer(ResourceOffer source)
+    {
+        if (source == null) return null;
+        var director = cityHealth ? cityHealth.CurseDirector : null;
+        var legacy = director ? null : FindAnyObjectByType<DispatchCurseController>();
+        bool fog = director ? director.PresidentPenaltyPending : legacy && legacy.PresidentPenaltyPending;
+        if (!fog) return source;
+        return new ResourceOffer { title = source.title, rationale = source.rationale + "\nBİLGİ SİSİ: pozitif bonuslar yarıya indi.",
+            ambulances = source.ambulances > 0 ? source.ambulances / 2 : source.ambulances,
+            firefighters = source.firefighters > 0 ? source.firefighters / 2 : source.firefighters,
+            thirdTeam = source.thirdTeam > 0 ? source.thirdTeam / 2 : source.thirdTeam };
     }
     private void OnResourcesChanged()
     {
@@ -169,6 +182,9 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         // Lock before the resource event can re-enter the offer controller.
         applied = true; Phase = ShiftPhase.Confirmation;
         if (plan == null || !plan.Apply(resources)) { applied = false; ShowOffers(); return; }
+        var director = cityHealth ? cityHealth.CurseDirector : null;
+        if(director)director.ConsumePresidentPenalty();
+        else { var curse=FindAnyObjectByType<DispatchCurseController>();if(curse)curse.ConsumePresidentPenalty(); }
         decisions.Add(plan.title);
         view.Line($"TAHSİS ONAYLANDI: {plan.title}\n{view.AllocationSummary(plan)}\n\n{current.closing}", view.Stock(resources));
         view.ConfirmAllocation();

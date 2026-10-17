@@ -24,11 +24,7 @@ public sealed class DialogueTypingAudio
             source=owner.AddComponent<AudioSource>();source.playOnAwake=false;
             source.loop=false;source.spatialBlend=0;source.volume=1;
         }
-<<<<<<< Updated upstream
-        source.Stop();source.PlayOneShot(clip,volume);lastCharacter=visible;nextSound=Time.unscaledTime+.085f;
-=======
-        source.PlayOneShot(clip,volume);lastCharacter=visible;nextSound=Time.unscaledTime+.09f;
->>>>>>> Stashed changes
+        source.Stop();source.PlayOneShot(clip,volume);lastCharacter=visible;nextSound=Time.unscaledTime+.09f;
     }
     public void Stop() { if(source)source.Stop(); }
 }

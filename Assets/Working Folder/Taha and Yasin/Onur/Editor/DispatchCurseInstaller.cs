@@ -38,7 +38,7 @@ public static class DispatchCurseInstaller
         if(!ring)ring=Source(phone.transform,"Telefon Zili");ring.playOnAwake=false;ring.spatialBlend=0;ring.volume=.23f;
         Set(ps,"ringAudioSource",ring);Set(ps,"ringClip",Clip("Assets/SoundEffect/Telefon.wav"));ps.FindProperty("ringVolume").floatValue=.23f;ps.ApplyModifiedProperties();
         var source=Source(health.transform,"Bildirim Tıkları");source.playOnAwake=false;source.loop=false;source.volume=.45f;source.spatialBlend=0;
-        var cues=health.GetComponent<DispatchAudioCues>();if(!cues)cues=health.gameObject.AddComponent<DispatchAudioCues>();var cs=new SerializedObject(cues);
+        var cues=health.GetComponent<DispatchSceneAudioCues>();if(!cues)cues=health.gameObject.AddComponent<DispatchSceneAudioCues>();var cs=new SerializedObject(cues);
         Set(cs,"phone",phone);Set(cs,"flow",flow);Set(cs,"awareness",health);Set(cs,"radio",radio);Set(cs,"notices",source);Set(cs,"blink",Clip(Root+"/Audio/NotificationBlink.wav"));cs.ApplyModifiedProperties();
         var questionView=UnityEngine.Object.FindFirstObjectByType<QuickQuestionView>(FindObjectsInactive.Include);var qs=new SerializedObject(questionView);
         Set(qs,"audioSource",source);Set(qs,"arrivalClip",Clip(Root+"/Audio/NotificationBlink.wav"));Set(qs,"warningTickClip",Clip(Root+"/Audio/NotificationBlink.wav"));qs.ApplyModifiedProperties();
