@@ -1664,6 +1664,7 @@ MonoBehaviour:
   conversation: {fileID: 3000000010}
   phone: {fileID: 1139218828}
   view: {fileID: 1094786585}
+  cityHealth: {fileID: 3000000032}
   scenarioOrder:
   - {fileID: 11400000, guid: 04d2fc80345d38140894fdd61f9feb65, type: 2}
   - {fileID: 11400000, guid: bad312ca35491ae4c837bb7426f94725, type: 2}
@@ -2092,6 +2093,7 @@ GameObject:
   - component: {fileID: 1414193899}
   - component: {fileID: 3000000012}
   - component: {fileID: 2099120001}
+  - component: {fileID: 3000000032}
   m_Layer: 5
   m_Name: DispatchRoomCanvas
   m_TagString: Untagged
@@ -3524,3 +3526,19 @@ MonoBehaviour:
   correctDuration: 0.26
   coolOpacity: 0.065
   activationDuration: 0.28
+--- !u!114 &3000000032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414193898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c1e792ca33f4ce78e5120dd0479921a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CityHealth
+  conversation: {fileID: 3000000010}
+  briefing: {fileID: 1094786584}
+  phone: {fileID: 1139218828}
+  interfaceFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
