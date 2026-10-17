@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c59921a22062079419e0bffed4cfa04b, type: 3}
+  m_Name: S-01
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
+  scenarioId: S-01
+  readyForPlay: 1
+  sourceNotes: "Kaynak: afet_senaryolari_kaynak_12.md. Vatanda\u015F s\xF6zleri kaynaktan aynen al\u0131nm\u0131\u015Ft\u0131r."
+  opening:
+  - text: "Operat\xF6r: 912 Acil, dinliyorum."
+    fromOperator: 1
+  - text: "KAZAZEDE: Alo! \u0130stanbul Bas\u0131n Ekspres taraf\u0131nday\u0131z, k\xF6pr\xFCl\xFC alt ge\xE7idin a\u011Fz\u0131nday\u0131z! \u0130nan\u0131lmaz bir sa\u011Fanak var, \xF6n\xFCm\xFCzdeki \xE7ukur su dolmu\u015F!"
+    fromOperator: 0
+  - text: "Operat\xF6r: Beyefendi sakin olun. \u0130sminizi \xF6\u011Frenebilir miyim? Arac\u0131n\u0131z\u0131n durumu nedir?"
+    fromOperator: 1
+  - text: "KAZAZEDE: Serdar ben. \u015Eirket arac\u0131yla sevkiyattayd\u0131m. \xD6n\xFCmdeki k\xFC\xE7\xFCk ara\xE7lar durdu ama benim alt\u0131mdaki b\xFCy\xFCk 4x4 SUV. Su tekerle\u011Fin yar\u0131s\u0131na geliyor gibi. Gaza bas\u0131p yard\u0131rsam 50 metre sonra k\xF6pr\xFC \xE7\u0131k\u0131\u015F\u0131 kuru, ge\xE7erim gibi duruyor!"
+    fromOperator: 0
+  - text: "Operat\xF6r: Serdar Bey, alt ge\xE7itlerde su seviyesi saniyeler i\xE7inde ikiye katlan\u0131r."
+    fromOperator: 1
+  - text: "Serdar: Operat\xF6r, ara\xE7 y\xFCksek diyorum, arkadaki trafik de s\u0131k\u0131\u015Ft\u0131r\u0131yor! Gaza y\xFCklenip ge\xE7ece\u011Fim?!"
+    fromOperator: 0
+  choiceA: "Arac\u0131n\u0131z y\xFCksekse ge\xE7in, h\u0131zl\u0131ca gaza bas\u0131p alt ge\xE7itten \xE7\u0131kmaya \xE7al\u0131\u015F\u0131n!"
+  choiceB: "HEMEN DURUN! Konta\u011F\u0131 kapat\u0131n, kemerleri \xE7\xF6z\xFCn, arac\u0131 terk edip y\xFCksek ref\xFCje t\u0131rman\u0131n!"
+  correctChoiceIsB: 1
+  resourceA: 2
+  resourceB: 2
+  dispatchA: 1
+  dispatchB: 1
+  outcomeA:
+  - text: "Serdar: Bast\u0131m gaza gidiyorum! ... Lan motor tekledi! Stop etti araba! Su aniden \xF6n cama dayand\u0131! Kap\u0131y\u0131 a\xE7am\u0131yorum, suyun a\u011F\u0131rl\u0131\u011F\u0131ndan kap\u0131 itilmiyor! ALO! ARABA Y\xDCZ\xDCYOR, YARDIM ED\u0130N!!"
+    fromOperator: 0
+  outcomeB:
+  - text: "Operat\xF6r: Serdar Bey hemen durun! 30 cm su bile arac\u0131 s\xFCr\xFCkler, alt ge\xE7it \xE7ukurdur! Derhal kap\u0131y\u0131 a\xE7\u0131n, inin ve y\xFCksek ref\xFCj bariyerlerine t\u0131rman\u0131n!"
+    fromOperator: 1
+  - text: "Serdar: Tamam... \u0130ndim arabadan, su belime geldi bir anda! Bariyerlere t\u0131rmand\u0131m... \u0130nanam\u0131yorum, araba arkamdan y\xFCzmeye ba\u015Flad\u0131, alt ge\xE7it g\xF6l oldu! Arabada kalsayd\u0131m bitmi\u015Ftim..."
+    fromOperator: 0

@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c59921a22062079419e0bffed4cfa04b, type: 3}
+  m_Name: Y-02
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
+  scenarioId: Y-02
+  readyForPlay: 1
+  sourceNotes: "Kaynak: afet_senaryolari_kaynak_12.md. Vatanda\u015F s\xF6zleri kaynaktan aynen al\u0131nm\u0131\u015Ft\u0131r."
+  opening:
+  - text: "Operat\xF6r: 912 Acil, operat\xF6r dinlemede. Durumunuz nedir?"
+    fromOperator: 1
+  - text: "KAZAZEDE: Evlad\u0131m yeti\u015Fin! Ben kom\u015Fusu Ay\u015Fe... Bursa Nil\xFCfer'deyiz. Kar\u015F\u0131 daireden kara dumanlar \xE7\u0131k\u0131yor! \u0130\xE7eride 6 ya\u015F\u0131ndaki Can yaln\u0131z kald\u0131, annesi markete inmi\u015Fti!"
+    fromOperator: 0
+  - text: "Operat\xF6r: Ay\u015Fe Han\u0131m, itfaiye yolda. \xC7ocu\u011Fa ula\u015Fabiliyor musunuz?"
+    fromOperator: 1
+  - text: "Ay\u015Fe: Kap\u0131y\u0131 zorlad\u0131k a\xE7t\u0131k ama duman \xE7ok yo\u011Fun! \u0130\xE7eriden Can'\u0131n sesi geliyor, ' dolab\u0131n i\xE7ine sakland\u0131m' diye sesleniyor!!"
+    fromOperator: 0
+  - text: "Ay\u015Fe: \xC7ocu\u011Fa sesleneyim mi 'Dolaptan \xE7\u0131kma orada bekle' diye? Dumandan saklanm\u0131\u015F olur mu orada?!"
+    fromOperator: 0
+  choiceA: "Evet, dolab\u0131n kapa\u011F\u0131n\u0131 kapats\u0131n, i\xE7eride saklan\u0131p itfaiyeyi beklesin!"
+  choiceB: "HAYIR! \xC7ocu\u011Fa hemen dolaptan \xE7\u0131k\u0131p yere yatmas\u0131n\u0131, s\xFCr\xFCnerek kap\u0131ya do\u011Fru gelmesini s\xF6yleyin!"
+  correctChoiceIsB: 1
+  resourceA: 0
+  resourceB: 0
+  dispatchA: 1
+  dispatchB: 1
+  outcomeA:
+  - text: "Ay\u015Fe: Can! Yavrum \xE7\u0131kma sak\u0131n dolaptan, orda bekle! ... Evlad\u0131m duman koyula\u015Ft\u0131, \xE7ocuktan ses kesildi! Can ses ver teyzeye! CAN!!"
+    fromOperator: 0
+  - text: "\u0130tfaiye Raporu: \xC7ocuk odadaki gard\u0131ropta bayg\u0131n bulundu. A\u011F\u0131r karbonmonoksit zehirlenmesi mevcut."
+    fromOperator: 0
+  outcomeB:
+  - text: "Operat\xF6r: Ay\u015Fe Han\u0131m derhal ba\u011F\u0131r\u0131n: 'Can saklanma! Yere yat, k\xF6pek gibi emekleyerek sesime do\u011Fru gel' deyin! \xC7ocuklar yang\u0131nda asla saklanmamal\u0131!"
+    fromOperator: 1
+  - text: "Ay\u015Fe: Can! \xC7\u0131k dolaptan teyzem, saklanmak yok! Yere yat yere, sesime do\u011Fru emekle! ... G\xF6r\xFCyorum, duman\u0131n alt\u0131ndan emekliyor yavrum! Tuttum kolundan, \xE7ektim \xE7\u0131kard\u0131m! \u015E\xFCk\xFCrler olsun!"
+    fromOperator: 0

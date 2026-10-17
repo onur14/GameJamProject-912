@@ -48,6 +48,17 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
     private Vector2 initialPosition;
     private Vector3 initialScale;
     private Vector2 conversationSize;
+    public bool InteractionLocked { get; private set; }
+    public void SetInteractionLocked(bool locked)
+    {
+        InteractionLocked = locked;
+        if (hitImage) hitImage.raycastTarget = !locked && State == CallState.IncomingCall;
+        if (conversationGroup)
+        {
+            conversationGroup.interactable = !locked && State == CallState.Conversation;
+            conversationGroup.blocksRaycasts = !locked && State == CallState.Conversation;
+        }
+    }
 
     private void Awake()
     {
@@ -118,7 +129,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
 
     public void AnswerPhone()
     {
-        if (!isActiveAndEnabled || State != CallState.IncomingCall || SceneFadeTransition.IsTransitioning) return;
+        if (InteractionLocked || !isActiveAndEnabled || State != CallState.IncomingCall || SceneFadeTransition.IsTransitioning) return;
         State = CallState.Focusing; // Lock before audio, visuals or coroutines are touched.
         hitImage.raycastTarget = false;
         hovered = false;
@@ -184,7 +195,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
 
     public bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
     {
-        if (State != CallState.IncomingCall || !isActiveAndEnabled) return false;
+        if (InteractionLocked || State != CallState.IncomingCall || !isActiveAndEnabled) return false;
         var rect = (RectTransform)transform;
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, screenPoint, eventCamera, out Vector2 local)) return false;
         Rect bounds = rect.rect;

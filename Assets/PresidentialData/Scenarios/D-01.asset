@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c59921a22062079419e0bffed4cfa04b, type: 3}
+  m_Name: D-01
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
+  scenarioId: D-01
+  readyForPlay: 1
+  sourceNotes: "Kaynak: afet_senaryolari_kaynak_12.md. Vatanda\u015F s\xF6zleri kaynaktan aynen al\u0131nm\u0131\u015Ft\u0131r."
+  opening:
+  - text: "KAZAZEDE: Alo! ALO, ALO!!!! Kurban olay\u0131m sesimi duyun, yard\u0131m edin!"
+    fromOperator: 0
+  - text: "Operat\xF6r: 912 Acil \xC7a\u011Fr\u0131 Merkezi, ben Operat\xF6r Melek. Sakin olun, isminizi, nerede oldu\u011Funuzu ve durumunuzu s\xF6yleyin."
+    fromOperator: 1
+  - text: "KAZAZEDE: Ben Z-Zeynep... \u0130zmir Bayrakl\u0131'day\u0131z, buralarda y\xFCksek katl\u0131 bir sitedeyiz, 7. kattay\u0131z! Bina be\u015Fik gibi sallan\u0131yor \u015Fu an, durmuyor! Duvarlar \xE7atlad\u0131, vitrin tuzla buz oldu!"
+    fromOperator: 0
+  - text: "Operat\xF6r: Zeynep Han\u0131m, sakin kalmaya \xE7al\u0131\u015F\u0131n. Ekipleri b\xF6lgeye g\xF6nderiyorum. Yan\u0131n\u0131zda kimse var m\u0131?"
+    fromOperator: 1
+  - text: "Zeynep: K\u0131z\u0131m Elif var kuca\u011F\u0131mda, iki ya\u015F\u0131nda daha! Koridorday\u0131m \u015Fu an, daire kap\u0131s\u0131n\u0131 zorla aralad\u0131m. Kar\u015F\u0131 kom\u015Fu f\u0131rlad\u0131 merdivenlere ko\u015Fuyor! 'Apartman y\u0131k\u0131lacak, merdivenlerden a\u015Fa\u011F\u0131 ko\u015Fun!' diye ba\u011F\u0131r\u0131yor!"
+    fromOperator: 0
+  - text: "Zeynep: Operat\xF6r Han\u0131m, ben de hemen Elif'i kuca\u011F\u0131ma sar\u0131p merdivenlerden a\u015Fa\u011F\u0131 ko\u015Fay\u0131m m\u0131?! 7 kattan hemen f\u0131rlar\u0131z de\u011Fil mi?!"
+    fromOperator: 0
+  choiceA: "Evet, bina y\u0131k\u0131lmadan hemen merdivenlerden a\u015Fa\u011F\u0131 ko\u015Farak binay\u0131 terk edin!"
+  choiceB: "HAYIR! Sak\u0131n merdivenlere ko\u015Fmay\u0131n! \u0130\xE7eri d\xF6n\xFCn, sa\u011Flam bir e\u015Fyan\u0131n yan\u0131nda \xC7\xD6K-KAPAN-TUTUN yap\u0131n!"
+  correctChoiceIsB: 1
+  resourceA: 2
+  resourceB: 1
+  dispatchA: 1
+  dispatchB: 1
+  outcomeA:
+  - text: "Zeynep: Tamam ko\u015Fuyorum! Allah'\u0131m sen bizi koru! Merdiven bo\u015Flu\u011Funday\u0131z... Elif s\u0131k\u0131 tutun annecim... Aaaah! Basamaklar sallan\u0131yor, tutunam\u0131yorum!"
+    fromOperator: 0
+  outcomeB:
+  - text: "Operat\xF6r: Zeynep Han\u0131m beni dinleyin! Daireye geri d\xF6n\xFCn. Salondaki o a\u011F\u0131r bazan\u0131n veya \xE7ama\u015F\u0131r makinesinin yan\u0131na ge\xE7in. Yere \xE7\xF6k\xFCn, Elif'i g\xF6\u011Fs\xFCn\xFCze sar\u0131p ba\u015F\u0131n\u0131z\u0131 koruyun, sallant\u0131 bitene kadar k\u0131p\u0131rdamay\u0131n!"
+    fromOperator: 1
+  - text: "Zeynep: Tamam... Tamam d\xF6nd\xFCm i\xE7eri! Yatak odas\u0131ndaki bazan\u0131n yan\u0131na \xE7\xF6kt\xFCk... Elif yan\u0131mda... Sallant\u0131 yava\u015Fl\u0131yor gibi..."
+    fromOperator: 0
+  - text: "Zeynep (10 sn sonra): Sars\u0131nt\u0131 durdu operat\xF6r! Merdiven bo\u015Flu\u011Fundan b\xFCy\xFCk bir g\xFCr\xFClt\xFC geldi, galiba basamaklar \xE7\xF6km\xFC\u015F... \u0130yi ki \xE7\u0131kmam\u0131\u015F\u0131z! Biz iyiyiz, nefes al\u0131yoruz, \u015Fimdi ne yapal\u0131m?"
+    fromOperator: 0
+  - text: "Operat\xF6r: Sars\u0131nt\u0131 bitti\u011Fine g\xF6re vanalar\u0131 kapat\u0131n, montunuzu al\u0131n ve binay\u0131 kontroll\xFC tahliye i\xE7in ekiplerimizi bekleyin."
+    fromOperator: 1

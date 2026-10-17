@@ -346,7 +346,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: HAZIRLA • BİLİNÇLENDİR • YÖNET
+  m_text: "HAZIRLA \u2022 B\u0130L\u0130N\xC7LEND\u0130R \u2022 Y\xD6NET"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
   m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
@@ -1468,6 +1468,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df94fe7ebe0337c4485ff1ab2b9e04da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: "Assembly-CSharp::AnaMen\xFC"
+  gameplayScene: SampleScene
+  menuFadeDuration: 0.3
+  gameplayFadeInDuration: 0.3
 --- !u!1 &633202843
 GameObject:
   m_ObjectHideFlags: 0

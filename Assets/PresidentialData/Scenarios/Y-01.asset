@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c59921a22062079419e0bffed4cfa04b, type: 3}
+  m_Name: Y-01
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
+  scenarioId: Y-01
+  readyForPlay: 0
+  sourceNotes: "Kaynak b\xF6l\xFCm\xFCnde mutfak yang\u0131n\u0131 ve orman yang\u0131n\u0131 birle\u015Ftirilmi\u015F. \xD6zg\xFCn kaynak korunmu\u015Ftur; ana s\u0131raya al\u0131nmad\u0131. Oynat\u0131lmadan \xF6nce yazar taraf\u0131ndan ayr\u0131\u015Ft\u0131r\u0131lmal\u0131."
+  opening:
+  - text: "KAZAZEDE: Alo! Yang\u0131n \xE7\u0131kt\u0131, \xE7abuk itfaiye g\xF6nderin! Yan\u0131yoruz alo!"
+    fromOperator: 0
+  - text: "Operat\xF6r: 912 Acil \xC7a\u011Fr\u0131 Merkezi. Sakin olun, ad\u0131n\u0131z\u0131 ve nerede oldu\u011Funuzu s\xF6yleyin."
+    fromOperator: 1
+  - text: "KAZAZEDE: Ad\u0131m Batuhan! Ankara \xC7ankaya'day\u0131z, \xF6\u011Frenci evindeyiz! Patates k\u0131zart\u0131yorduk, ocaktaki tencere aniden alev ald\u0131! Alevler davlumbaza ula\u015F\u0131yor, mutfak duman oldu!"
+    fromOperator: 0
+  - text: "Operat\xF6r: Batuhan Bey, itfaiye ekibini bilgilendiriyorum. Yang\u0131na herhangi bir m\xFCdahale yapt\u0131n\u0131z m\u0131?"
+    fromOperator: 1
+  - text: "Batuhan: Arkada\u015F\u0131m Berk s\xFCrahiyi doldurdu musluktan, '\xC7ekil kenara suyu boca edece\u011Fim \xFCst\xFCne' diyor! Mutfak dolaplar\u0131 tutu\u015Facak yoksa!"
+    fromOperator: 0
+  - text: "Batuhan: Operat\xF6r abla, d\xF6kelim mi suyu tencereye?! Ba\u015Fka t\xFCrl\xFC s\xF6nmeyecek bu alev!"
+    fromOperator: 0
+  - text: "Operat\xF6r: 912 Acil, operat\xF6r dinlemede. Durumunuz nedir?"
+    fromOperator: 1
+  - text: "KAZAZEDE: Alo! 112 mi?! Yang\u0131n var, orman yan\u0131yor etraf\u0131m\u0131z duman oldu yeti\u015Fin!"
+    fromOperator: 0
+  - text: "Operat\xF6r: Sakin olun beyefendi. \u0130sminizi ve tam olarak nerede oldu\u011Funuzu s\xF6yleyin."
+    fromOperator: 1
+  - text: "KAZAZEDE: Ben Kemal... Mu\u011Fla Marmaris taraflar\u0131nda \xE7am orman\u0131n\u0131n i\xE7indeki kamp alan\u0131nday\u0131z. 7 ya\u015F\u0131ndaki o\u011Flum Mert yan\u0131mda! A\u015Fa\u011F\u0131 vadiden alevler y\xFCkseliyor, r\xFCzgar yang\u0131n\u0131 bize do\u011Fru itiyor!"
+    fromOperator: 0
+  - text: "Operat\xF6r: Kemal Bey, yang\u0131n s\xF6nd\xFCrme helikopterleri ve araz\xF6zler b\xF6lgeye sevk edildi. Hangi y\xF6ne hareket ediyorsunuz?"
+    fromOperator: 1
+  - text: "Kemal: Vadi alev dolu, a\u015Fa\u011F\u0131 inemeyiz! Yan\u0131m\u0131zdaki birka\xE7 ki\u015Fi 'Da\u011F\u0131n zirvesine, en tepeye do\u011Fru ko\u015Fal\u0131m, yukar\u0131da yang\u0131n olmaz tepeye s\u0131\u011F\u0131nal\u0131m' diyor! Zirveye do\u011Fru t\u0131rmanmaya ba\u015Flad\u0131k o\u011Flumla!"
+    fromOperator: 0
+  - text: "Kemal: Operat\xF6r Han\u0131m, da\u011F\u0131n zirvesine, yukar\u0131 tepeye do\u011Fru ko\u015Farak ka\xE7al\u0131m de\u011Fil mi yang\u0131ndan?!"
+    fromOperator: 0
+  choiceA: "Evet, yang\u0131n a\u015Fa\u011F\u0131daysa da\u011F\u0131n tepesine do\u011Fru h\u0131zla t\u0131rman\u0131n!"
+  choiceB: "ASLA YUKARI KO\u015EMAYIN! Yang\u0131n yama\xE7 yukar\u0131 baca etkisiyle 3 kat h\u0131zl\u0131 t\u0131rman\u0131r! Yang\u0131n\u0131n yan kanatlar\u0131na, a\xE7\u0131k alana do\u011Fru ka\xE7\u0131n!"
+  correctChoiceIsB: 1
+  resourceA: 0
+  resourceB: 0
+  dispatchA: 1
+  dispatchB: 1
+  outcomeA:
+  - text: "Kemal: Tamam tepeye t\u0131rman\u0131yoruz! Ko\u015F Mert ko\u015F... Lan?! Alevler arkam\u0131zdan u\xE7arak geliyor resmen! Tepeye ula\u015Ft\u0131k ama her yer duman, nefes alam\u0131yoruz! Tepe alev \xE7emberi oldu, s\u0131k\u0131\u015Ft\u0131k burad---"
+    fromOperator: 0
+  outcomeB:
+  - text: "Operat\xF6r: Kemal Bey sak\u0131n tepeye t\u0131rmanmay\u0131n! Orman yang\u0131nlar\u0131 yukar\u0131ya baca gibi h\u0131zla t\u0131rman\u0131r, tepe alev kapan\u0131d\u0131r! Hemen yama\xE7tan yan tarafa, yang\u0131n\u0131n dikine do\u011Fru ko\u015Fun! A\u015Fa\u011F\u0131daki ta\u015Fl\u0131k orman yoluna veya emniyet \u015Feridine inin!"
+    fromOperator: 1
+  - text: "Kemal: D\xF6nd\xFCk hemen! Tepeyi b\u0131rakt\u0131k, yan taraftaki patikaya vurduk o\u011Flumla... ALLAHIM! Az \xF6nce t\u0131rmand\u0131\u011F\u0131m\u0131z tepe an\u0131nda alev topuna d\xF6nd\xFC! Tepeye \xE7\u0131ksayd\u0131k yanm\u0131\u015Ft\u0131k... A\u015Fa\u011F\u0131daki yang\u0131n emniyet yoluna indik, ormanc\u0131lar bizi araca ald\u0131!"
+    fromOperator: 0

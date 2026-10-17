@@ -193,8 +193,8 @@ RectTransform:
   - {fileID: 419692063}
   m_Father: {fileID: 1497108762}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.43, y: 0.323}
-  m_AnchorMax: {x: 0.675, y: 0.582}
+  m_AnchorMin: {x: 0.435, y: 0.327}
+  m_AnchorMax: {x: 0.671, y: 0.573}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -510,11 +510,6 @@ PrefabInstance:
 --- !u!224 &419692063 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7100860922591305855, guid: 57e97a4591af4d4ca70a4d63c221c3ef, type: 3}
-  m_PrefabInstance: {fileID: 419692062}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3000000011 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7445754986739040688, guid: 57e97a4591af4d4ca70a4d63c221c3ef, type: 3}
   m_PrefabInstance: {fileID: 419692062}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &501138472
@@ -1616,6 +1611,92 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 897557626}
   m_CullTransparentMesh: 1
+--- !u!1 &1094786582
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1094786583}
+  - component: {fileID: 1094786585}
+  - component: {fileID: 1094786584}
+  m_Layer: 0
+  m_Name: "Ba\u015Fkan Bilgilendirme"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1094786583
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094786582}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1414193902}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.84, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1094786584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094786582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760220cac1653164780d33e2c6373608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PresidentialBriefingManager
+  resources: {fileID: 3000000012}
+  conversation: {fileID: 3000000010}
+  phone: {fileID: 1139218828}
+  view: {fileID: 1094786585}
+  scenarioOrder:
+  - {fileID: 11400000, guid: 04d2fc80345d38140894fdd61f9feb65, type: 2}
+  - {fileID: 11400000, guid: bad312ca35491ae4c837bb7426f94725, type: 2}
+  - {fileID: 11400000, guid: efc6af8b1eddc4540992e3f3c4dd77dd, type: 2}
+  - {fileID: 11400000, guid: b8de8c8270707c84c9e2cb1c4b507c2b, type: 2}
+  - {fileID: 11400000, guid: d4534f6c60758bc4e8b451d63bba4cd5, type: 2}
+  - {fileID: 11400000, guid: 165a5f3b0cf2ce241abbb06e4c4f58ba, type: 2}
+  - {fileID: 11400000, guid: fd08a42fb2b962447b4292be97bbb155, type: 2}
+  - {fileID: 11400000, guid: 8c3cd32b4f04042439a7378f14b735f5, type: 2}
+  briefings:
+  - {fileID: 11400000, guid: 28be2fa8427ca564488655c69e4f7930, type: 2}
+  - {fileID: 11400000, guid: 00d4b2a77095ecc4c87679bdabd0802b, type: 2}
+  - {fileID: 11400000, guid: 022dbfb5bda63974dbd66f9cefaa7289, type: 2}
+  - {fileID: 11400000, guid: 8b35470c4f2de6844bccae6f7c7a8025, type: 2}
+  ScenarioRequested:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1094786585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094786582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 583bfa5c5d8ea94469b12c00e3794f8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PresidentialBroadcastView
+  presidentPortrait: {fileID: 21300000, guid: 000a63ed165edf9468f1f04e30cd7437, type: 3}
+  broadcastFont: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
+  charactersPerSecond: 120
+  thirdResourceLabel: Kurtarma
 --- !u!1 &1118292836
 GameObject:
   m_ObjectHideFlags: 0
@@ -1696,32 +1777,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3000000010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118292836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db8c9a3371f7cea40b7f0aabb39ac639, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::OyunAkisiOnur
-  GelenSoru: {fileID: 0}
-  GelenCevap: {fileID: 0}
-  Kabuletti: {fileID: 0}
-  RedYedi: {fileID: 0}
-  animasyonSuresi: 0.4
-  mesajAraligi: 12
-  altKonum: -55
-  conversationView: {fileID: 3000000011}
-  dispatchCallFlow: {fileID: 1139218828}
-  sahneGeriSayimi: {fileID: 3000000002}
-  sahneUyarisi: {fileID: 3000000006}
-  resources: {fileID: 3000000012}
-  wrongChoiceResource: 2
-  correctChoiceResource: 1
 --- !u!1 &1139218826
 GameObject:
   m_ObjectHideFlags: 0
@@ -1781,9 +1836,9 @@ MonoBehaviour:
   conversationPanel: {fileID: 419692063}
   conversationGroup: {fileID: 183698794}
   ringIndicator: {fileID: 1592510843}
-  firstRingDelay: 1.5
-  computerFocusDuration: 0.75
-  conversationFadeDuration: 0.25
+  firstRingDelay: 0.55
+  computerFocusDuration: 0.42
+  conversationFadeDuration: 0.18
   focusedScale: 2
   monitorCentre: {x: 0.5, y: 0.455}
   focusedPosition: {x: 0, y: 0}
@@ -1933,6 +1988,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1139218826}
   m_CullTransparentMesh: 1
+--- !u!1 &1371563888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1371563889}
+  - component: {fileID: 1371563891}
+  - component: {fileID: 1371563890}
+  m_Layer: 0
+  m_Name: "Canl\u0131 Kaynak Paneli"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1371563889
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371563888}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1414193902}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.855, y: 0.36}
+  m_AnchorMax: {x: 0.99, y: 0.94}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1371563890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371563888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64f5ceac528e4ce4ca74142cdb48749b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchResourceHud
+  resources: {fileID: 3000000012}
+  font: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  feedbackDuration: 0.35
+--- !u!223 &1371563891
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371563888}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 500
+  m_TargetDisplay: 0
 --- !u!114 &1398112532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1967,24 +2098,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3000000012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1414193898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e7d7be511f64d7ba9caf6a334a3bec8, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::DispatchResources
-  initialFirefighters: 10
-  initialAmbulances: 10
-  initialPolice: 10
-  firefightersText: {fileID: 3000000022}
-  ambulancesText: {fileID: 3000000026}
-  policeText: {fileID: 3000000030}
 --- !u!114 &1414193899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2065,6 +2178,8 @@ RectTransform:
   - {fileID: 287842865}
   - {fileID: 3000000001}
   - {fileID: 3000000005}
+  - {fileID: 1094786583}
+  - {fileID: 1371563889}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2696,7 +2811,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Kalan süre: 10
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2833,7 +2948,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Çok yavaşsın!
+  m_text: "\xC7ok yava\u015Fs\u0131n!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2913,6 +3028,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3000000004}
   m_CullTransparentMesh: 1
+--- !u!114 &3000000010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118292836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8c9a3371f7cea40b7f0aabb39ac639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OyunAkisiOnur
+  GelenSoru: {fileID: 0}
+  GelenCevap: {fileID: 0}
+  Kabuletti: {fileID: 0}
+  RedYedi: {fileID: 0}
+  animasyonSuresi: 0.15
+  mesajAraligi: 12
+  altKonum: -55
+  conversationView: {fileID: 3000000011}
+  dispatchCallFlow: {fileID: 1139218828}
+  sahneGeriSayimi: {fileID: 3000000002}
+  sahneUyarisi: {fileID: 3000000006}
+  resources: {fileID: 3000000012}
+  wrongChoiceResource: 2
+  correctChoiceResource: 1
+--- !u!114 &3000000011 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7445754986739040688, guid: 57e97a4591af4d4ca70a4d63c221c3ef, type: 3}
+  m_PrefabInstance: {fileID: 419692062}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72a1fb3edfbf4c609a632cfdf643168a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnurConversationView
+--- !u!114 &3000000012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414193898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e7d7be511f64d7ba9caf6a334a3bec8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchResources
+  initialFirefighters: 10
+  initialAmbulances: 10
+  initialPolice: 10
+  firefightersText: {fileID: 3000000022}
+  ambulancesText: {fileID: 3000000026}
+  policeText: {fileID: 3000000030}
 --- !u!1 &3000000020
 GameObject:
   m_ObjectHideFlags: 0
@@ -2930,7 +3100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3000000021
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2960,7 +3130,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2980,7 +3150,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4283737855
-  m_fontColor: {r: 1.000, g: 0.651, b: 0.329, a: 1}
+  m_fontColor: {r: 1, g: 0.651, b: 0.329, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3067,7 +3237,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3000000025
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3097,7 +3267,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3117,7 +3287,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4290641820
-  m_fontColor: {r: 0.612, g: 1.000, b: 0.741, a: 1}
+  m_fontColor: {r: 0.612, g: 1, b: 0.741, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3204,7 +3374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3000000029
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3234,7 +3404,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3254,7 +3424,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294950528
-  m_fontColor: {r: 0.502, g: 0.745, b: 1.000, a: 1}
+  m_fontColor: {r: 0.502, g: 0.745, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3332,4 +3502,3 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 1414193902}
   - {fileID: 1118292839}
-

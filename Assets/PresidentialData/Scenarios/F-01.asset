@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c59921a22062079419e0bffed4cfa04b, type: 3}
+  m_Name: F-01
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
+  scenarioId: F-01
+  readyForPlay: 1
+  sourceNotes: "Kaynak: afet_senaryolari_kaynak_12.md. Vatanda\u015F s\xF6zleri kaynaktan aynen al\u0131nm\u0131\u015Ft\u0131r."
+  opening:
+  - text: "KAZAZEDE: Alo! 112 mi, yard\u0131m edin! Sahil park\u0131nday\u0131z k\u0131z\u0131mla, aniden f\u0131rt\u0131na koptu!"
+    fromOperator: 0
+  - text: "Operat\xF6r: 912 Acil \xC7a\u011Fr\u0131 Merkezi. Sakin olun, ad\u0131n\u0131z nedir, s\u0131\u011F\u0131nacak bir yer bulabildiniz mi?"
+    fromOperator: 1
+  - text: "KAZAZEDE: Ad\u0131m Selim. 9 ya\u015F\u0131ndaki k\u0131z\u0131m Defne yan\u0131mda. Kafeler \xE7ok uzakta kald\u0131, s\u0131r\u0131ls\u0131klam olduk. Park\u0131n ortas\u0131nda devasa, as\u0131rl\u0131k ulu bir \xE7\u0131nar a\u011Fac\u0131 var. G\xF6vdesi kocaman, \u015Femsiye gibi hi\xE7 ya\u011Fmur ge\xE7irmiyor. A\u011Fac\u0131n alt\u0131na s\u0131\u011F\u0131nd\u0131k bekliyoruz!"
+    fromOperator: 0
+  - text: "Operat\xF6r: Selim Bey, a\u011Fa\xE7 tek ba\u015F\u0131na m\u0131 duruyor a\xE7\u0131k alanda?"
+    fromOperator: 1
+  - text: "Selim: Evet park\u0131n tam ortas\u0131nda tek ba\u015F\u0131na dev gibi bir a\u011Fa\xE7. Ya\u011Fmurdan koruyor bizi \u015Fu an."
+    fromOperator: 0
+  - text: "Selim: Operat\xF6r Han\u0131m, f\u0131rt\u0131na dinene kadar a\u011Fac\u0131n dibinde sar\u0131l\u0131p bekleyelim de\u011Fil mi k\u0131z\u0131mla?"
+    fromOperator: 0
+  choiceA: "Evet, a\u011Fa\xE7 alt\u0131 ya\u011Fmurdan korur, f\u0131rt\u0131na hafifleyene kadar orada kal\u0131n."
+  choiceB: "DERHAL A\u011EACIN ALTINDAN UZAKLA\u015EIN! Tek ba\u015F\u0131na duran a\u011Fa\xE7lar y\u0131ld\u0131r\u0131m\u0131 m\u0131knat\u0131s gibi \xE7eker!"
+  correctChoiceIsB: 1
+  resourceA: 1
+  resourceB: 1
+  dispatchA: 1
+  dispatchB: 1
+  outcomeA:
+  - text: "Sistem: Y\u0131ld\u0131r\u0131m daima a\xE7\u0131k alandaki en sivri ve y\xFCksek noktay\u0131 se\xE7er. Tekil a\u011Fa\xE7lar \xE7ok risklidir ve paratoner gibi davran\u0131r!"
+    fromOperator: 0
+  outcomeB:
+  - text: "Operat\xF6r: Selim Bey beni iyi dinleyin! O a\u011Fa\xE7 parktaki en y\xFCksek nokta! Y\u0131ld\u0131r\u0131m ilk o a\u011Faca d\xFC\u015Fer! Hemen a\u011Fa\xE7tan en az 20 metre uzakla\u015F\u0131n. A\xE7\u0131kta \xE7ukur bir alana ge\xE7ip ayaklar\u0131n\u0131z\u0131 birle\u015Ftirerek yere \xE7\xF6melin!"
+    fromOperator: 1
+  - text: "Selim: Hemen \xE7\u0131k\u0131yoruz! Ko\u015F Defne ko\u015F! \xC7imlerin ortas\u0131ndaki \xE7ukura \xE7\xF6kt\xFCk, ayaklar\u0131m\u0131z\u0131 birle\u015Ftirdik... ALLAHIM! A\u011Faca y\u0131ld\u0131r\u0131m d\xFC\u015Ft\xFC! A\u011Fa\xE7 alev ald\u0131, ortadan yar\u0131ld\u0131! Az \xF6nce tam alt\u0131ndayd\u0131k..."
+    fromOperator: 0
+  - text: "Operat\xF6r: Sakin olun Selim Bey. Ya\u011Fmur biraz azal\u0131nca en yak\u0131ndaki kapal\u0131 kafeteryaya ge\xE7in."
+    fromOperator: 1

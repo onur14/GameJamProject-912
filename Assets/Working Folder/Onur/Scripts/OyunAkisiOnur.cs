@@ -31,6 +31,80 @@ public class OyunAkisiOnur : MonoBehaviour
     private TextMeshProUGUI geriSayimYazisi;
     private TextMeshProUGUI uyariYazisi;
     private Coroutine geriSayimRutini;
+    public event System.Action<int> ScenarioCompleted;
+    public int ScenarioRevision { get; private set; }
+    public bool LastDecisionCorrect { get; private set; }
+    public bool ManagedShift { get; set; }
+    public bool WaitingForChoice => secimBekleniyor;
+    public DispatchResources Resources => resources;
+    private DispatchScenarioData currentScenario;
+    private bool completionSent;
+    public void ConfigureInitialScenario(DispatchScenarioData data) { currentScenario = data; }
+
+    public void BeginScenario(DispatchScenarioData data)
+    {
+        StopAllCoroutines();
+        animasyonCalisiyor = false;
+        secimBekleniyor = false;
+        geriSayimRutini = null;
+        bekleyenMesajlar.Clear();
+        completionSent = false;
+        ScenarioRevision++;
+        LastDecisionCorrect = false;
+        currentScenario = data;
+        senaryoBasladi = false;
+        if (conversationView != null) conversationView.Clear();
+        if (uyariYazisi != null) uyariYazisi.gameObject.SetActive(false);
+        SenaryoyuBaslat();
+    }
+
+    private void CompleteScenario()
+    {
+        if (completionSent) return;
+        completionSent = true;
+        ButonlariGizle();
+        ScenarioCompleted?.Invoke(ScenarioRevision);
+    }
+
+    private IEnumerator DataConversation()
+    {
+        foreach (var line in currentScenario.opening)
+            yield return MesajVeBekle(line.text, line.fromOperator);
+        secimBekleniyor = true;
+        conversationView.SetChoices(currentScenario.choiceA, currentScenario.choiceB);
+        geriSayimRutini = StartCoroutine(SecimGeriSayimi());
+    }
+
+    private IEnumerator DataOutcome(bool choiceB)
+    {
+        yield return MesajVeBekle("Operatör: " + (choiceB ? currentScenario.choiceB : currentScenario.choiceA), true);
+        foreach (var line in choiceB ? currentScenario.outcomeB : currentScenario.outcomeA)
+            yield return MesajVeBekle(line.text, line.fromOperator);
+        CompleteScenario();
+    }
+
+    public DispatchResourceEffect GetChoiceEffect(bool choiceB)
+    {
+        if (currentScenario != null && !(choiceB ? currentScenario.dispatchB : currentScenario.dispatchA)) return default;
+        var type = currentScenario != null ? (choiceB ? currentScenario.resourceB : currentScenario.resourceA)
+            : (choiceB ? correctChoiceResource : wrongChoiceResource);
+        return DispatchResourceEffect.ForTeam(type);
+    }
+
+    public void ResolveWithoutDispatch()
+    {
+        if (!secimBekleniyor || resources == null || GetChoiceEffect(false).CanApply(resources) || GetChoiceEffect(true).CanApply(resources)) return;
+        secimBekleniyor = false; LastDecisionCorrect = false;
+        GeriSayimiDurdur(); CompleteScenario();
+    }
+
+    private bool SpendForChoice(bool choiceB)
+    {
+        if (resources == null || GetChoiceEffect(choiceB).Apply(resources)) return true;
+        uyariYazisi.text = "Bu ekip şu anda müsait değil. Diğer yönlendirmeyi değerlendirin.";
+        uyariYazisi.gameObject.SetActive(true);
+        return false;
+    }
 
     private const string OnayMetni = "Evet, bina yıkılmadan hemen merdivenlerden aşağı koşarak binayı terk edin!";
     private const string RedMetni = "HAYIR! Sakın merdivenlere koşmayın! İçeri dönün, sağlam bir eşyanın yanında ÇÖK-KAPAN-TUTUN yapın!";
@@ -190,7 +264,7 @@ public class OyunAkisiOnur : MonoBehaviour
         senaryoBasladi = true;
         if (conversationView != null) conversationView.gameObject.SetActive(true);
         else sohbetKanvas.gameObject.SetActive(true);
-        StartCoroutine(GirisDiyalogu());
+        StartCoroutine(currentScenario != null ? DataConversation() : GirisDiyalogu());
     }
 
     public void SagdanMesajGoster(string metin)
@@ -206,21 +280,23 @@ public class OyunAkisiOnur : MonoBehaviour
     public void KabulEdildi()
     {
         if (!secimBekleniyor) return;
+        if (!SpendForChoice(false)) return;
+        LastDecisionCorrect = currentScenario != null && !currentScenario.correctChoiceIsB;
         secimBekleniyor = false;
-        if (resources != null) resources.Spend(wrongChoiceResource);
         GeriSayimiDurdur();
         ButonlariGizle();
-        StartCoroutine(YanlisSecim());
+        StartCoroutine(currentScenario != null ? DataOutcome(false) : YanlisSecim());
     }
 
     public void Reddedildi()
     {
         if (!secimBekleniyor) return;
+        if (!SpendForChoice(true)) return;
+        LastDecisionCorrect = currentScenario == null || currentScenario.correctChoiceIsB;
         secimBekleniyor = false;
-        if (resources != null) resources.Spend(correctChoiceResource);
         GeriSayimiDurdur();
         ButonlariGizle();
-        StartCoroutine(DogruSecim());
+        StartCoroutine(currentScenario != null ? DataOutcome(true) : DogruSecim());
     }
 
     private IEnumerator GirisDiyalogu()
@@ -245,6 +321,8 @@ public class OyunAkisiOnur : MonoBehaviour
 
     private IEnumerator SecimGeriSayimi()
     {
+        // Integrated dialogue choices wait for an explicit decision, never a timeout.
+        if (conversationView != null) { geriSayimYazisi.gameObject.SetActive(false); yield break; }
         float kalanSure = 10f;
         geriSayimYazisi.gameObject.SetActive(true);
 
@@ -261,6 +339,7 @@ public class OyunAkisiOnur : MonoBehaviour
 
         secimBekleniyor = false;
         ButonlariGizle();
+        if (ManagedShift) { CompleteScenario(); yield break; }
         if (conversationView != null) conversationView.gameObject.SetActive(false);
         else sohbetKanvas.gameObject.SetActive(false);
         uyariYazisi.gameObject.SetActive(true);
@@ -286,6 +365,7 @@ public class OyunAkisiOnur : MonoBehaviour
     {
         yield return MesajVeBekle("Operatör: " + OnayMetni, true);
         yield return MesajVeBekle("Zeynep: Tamam koşuyorum! Allah'ım sen bizi koru! Merdiven boşluğundayız... Elif sıkı tutun annecim... Aaaah! Basamaklar sallanıyor, tutunamıyorum!", false);
+        if (ManagedShift) { CompleteScenario(); yield break; }
         KonusmayiYenidenBaslat();
     }
 
@@ -314,10 +394,17 @@ public class OyunAkisiOnur : MonoBehaviour
         yield return new WaitForSeconds(10f);
         yield return MesajVeBekle("Zeynep (10 sn sonra): Sarsıntı durdu operatör! Merdiven boşluğundan büyük bir gürültü geldi, galiba basamaklar çökmüş... İyi ki çıkmamışız! Biz iyiyiz, nefes alıyoruz, şimdi ne yapalım?", false);
         yield return MesajVeBekle("Operatör: Sarsıntı bittiğine göre vanaları kapatın, montunuzu alın ve binayı kontrollü tahliye için ekiplerimizi bekleyin.", true);
+        CompleteScenario();
     }
 
     private IEnumerator MesajVeBekle(string metin, bool sagdan)
     {
+        if (conversationView != null)
+        {
+            yield return conversationView.ShowMessage(metin, sagdan, animasyonSuresi);
+            yield return conversationView.WaitForAdvance();
+            yield break;
+        }
         MesajEkle(metin, sagdan);
         yield return new WaitUntil(() => !animasyonCalisiyor && bekleyenMesajlar.Count == 0);
         yield return new WaitForSeconds(Mathf.Max(2f, metin.Length * 0.035f));

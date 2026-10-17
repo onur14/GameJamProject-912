@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c59921a22062079419e0bffed4cfa04b, type: 3}
+  m_Name: T-01
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
+  scenarioId: T-01
+  readyForPlay: 1
+  sourceNotes: "Kaynak: afet_senaryolari_kaynak_12.md. Vatanda\u015F s\xF6zleri kaynaktan aynen al\u0131nm\u0131\u015Ft\u0131r."
+  opening:
+  - text: "Operat\xF6r: 912 Acil \xC7a\u011Fr\u0131, dinliyorum."
+    fromOperator: 1
+  - text: "KAZAZEDE: \u0130yi g\xFCnler operat\xF6r han\u0131m! Az \xF6nce a\xE7\u0131k denizde acayip bir deprem oldu, salland\u0131k otelde. Ama \u015Fimdi sahilde \xE7ok garip bir olay var!"
+    fromOperator: 0
+  - text: "Operat\xF6r: Beyefendi sakin olun, isminiz nedir? Sahilde ne oluyor?"
+    fromOperator: 1
+  - text: "KAZAZEDE: Murat ben. Deniz k\u0131y\u0131dan en az 100 metre geri \xE7ekildi! Kumsalda \xE7\u0131r\u0131l\xE7\u0131plak kayalar ve \xE7\u0131rp\u0131nan y\xFCzlerce bal\u0131k kald\u0131! B\xFCt\xFCn millet kumsala ko\u015Ftu, \xE7ocuklar ellerinde kovalarla bal\u0131k topluyor, herkes video \xE7ekiyor!"
+    fromOperator: 0
+  - text: "Murat: Biz de kumsala iniyoruz \u015Fimdi foto\u011Fraf \xE7ekip bal\u0131k yakalamaya. \u0130nelim de\u011Fil mi, deniz \xE7ekildi bir \u015Fey olmaz?"
+    fromOperator: 0
+  choiceA: "Foto\u011Fraf \xE7ekebilirsiniz ama fazla a\xE7\u0131lmay\u0131n, deniz seviyesine dikkat edin."
+  choiceB: "TSUNAM\u0130 GEL\u0130YOR! DERHAL HERKESE BA\u011EIRIN, SAH\u0130L\u0130 BO\u015EALTIP EN AZ 30 METRE Y\xDCKSEK TEPELERE KO\u015EUN!"
+  correctChoiceIsB: 1
+  resourceA: 2
+  resourceB: 2
+  dispatchA: 1
+  dispatchB: 1
+  outcomeA:
+  - text: "Murat: \u0130ndik kumsala... O da ne ya? Ufukta dev bir beyaz duvar gibi bir \u015Fey y\xFCkseliyor! Dalga m\u0131 o? OHA DALGA GEL\u0130YOR! DUVAR G\u0130B\u0130 GEL\u0130YOR! KA\xC7IN! \xC7OCUKLARI ALIN KA\xC7I---"
+    fromOperator: 0
+  outcomeB:
+  - text: "Operat\xF6r: Murat Bey o bir TSUNAM\u0130! \xC7ekilen su devasa bir dalga olarak geri d\xF6necek! Avaz\u0131n\u0131z \xE7\u0131kt\u0131\u011F\u0131 kadar ba\u011F\u0131r\u0131n, herkesi arkadaki y\xFCksek tepelere ko\u015Fturun!"
+    fromOperator: 1
+  - text: "Murat: NE?! KA\xC7IN! TSUNAM\u0130 GEL\u0130YOR, TEPELERE KO\u015EUN D\u0130YOR 112!!"
+    fromOperator: 0
+  - text: "Murat (3 dakika sonra, tepeden nefes nefese): Tepeye \xE7\u0131kt\u0131k... Operat\xF6r... Aman Allah\u0131m... Kumsal komple yok oldu! Deniz otellerin giri\u015F kat\u0131na kadar girdi! Sayenizde herkes tepeye ka\xE7t\u0131, kumsalda kimse kalmad\u0131..."
+    fromOperator: 0

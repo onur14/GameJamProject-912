@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -18,123 +18,208 @@ public sealed class OnurConversationView : MonoBehaviour
     [SerializeField] private float bottomPadding = 14f;
     [SerializeField] private float choiceSpace = 165f;
     [SerializeField] private Color callerColor = Color.white;
-    [SerializeField] private Color operatorColor = new Color(0.82f, 0.91f, 1f);
-
-    private readonly List<RectTransform> messages = new List<RectTransform>();
+    [SerializeField] private Color operatorColor = new Color(.82f,.91f,1);
+    [Header("Automatic conversation pace")]
+    [SerializeField, Min(0)] private float charactersPerSecond = 0;
+    [SerializeField, Range(.15f,.4f)] private float clickDebounce = .22f;
     private OyunAkisiOnur hikaye;
-    private RectTransform panel;
-    private bool choicesVisible;
+    private RectTransform panel, textViewport, textContent;
+    private ScrollRect scroll;
+    private Button next;
+    private TMP_Text nextLabel, effectA, effectB, latestBody;
+    private readonly List<RectTransform> messages = new List<RectTransform>();
+    private bool choicesVisible, awaitingAdvance, typing, bothUnavailable;
+    private float lastClick = -10;
+    public bool WaitingForAdvance => awaitingAdvance;
+    public bool IsTyping => typing;
+    public Button AdvanceButton => next;
+    public Button ChoiceAButton => approveButton;
+    public Button ChoiceBButton => rejectButton;
+    public TMP_Text MessageText => latestBody ? latestBody : dialogueText;
+    public TMP_Text EffectA => effectA;
+    public TMP_Text EffectB => effectB;
+    public bool HasScrollableText => textViewport && textContent.rect.height > textViewport.rect.height + 1;
 
     public void Bind(OyunAkisiOnur akis)
     {
-        hikaye = akis;
-        panel = (RectTransform)transform;
-        messageTemplate.gameObject.SetActive(false);
+        if(hikaye != null && hikaye.Resources != null) hikaye.Resources.Changed -= UpdateEffects;
+        hikaye = akis; panel = (RectTransform)transform;
+        if(next == null) BuildChat();
+        if(hikaye.Resources != null) hikaye.Resources.Changed += UpdateEffects;
         Clear();
     }
-
-    public IEnumerator ShowMessage(string message, bool fromRight, float duration)
+    private void OnDestroy()
     {
-        int separator = message.IndexOf(':');
-        RectTransform bubble = Instantiate(messageTemplate, panel);
-        bubble.gameObject.name = fromRight ? "Operatör Mesajı" : "Kazazede Mesajı";
-        bubble.gameObject.SetActive(true);
-        bubble.SetAsLastSibling();
-        TMP_Text nameText = bubble.Find(callerName.transform.name).GetComponent<TMP_Text>();
-        TMP_Text bodyText = nameText.transform.Find(dialogueText.transform.name).GetComponent<TMP_Text>();
-        nameText.text = separator < 0 ? string.Empty : message.Substring(0, separator).ToUpperInvariant();
-        bodyText.text = separator < 0 ? message : message.Substring(separator + 1).TrimStart();
-        bubble.GetComponent<Image>().color = fromRight ? operatorColor : callerColor;
-
-        float width = Mathf.Min(panel.rect.width * 0.82f, 620f);
-        float bodyHeight = bodyText.GetPreferredValues(bodyText.text, width - 40f, 0f).y;
-        bodyText.rectTransform.sizeDelta = new Vector2(0f, Mathf.Max(42f, bodyHeight));
-        float height = Mathf.Max(94f, bodyText.rectTransform.sizeDelta.y + 64f);
-        bubble.anchorMin = bubble.anchorMax = new Vector2(0.5f, 0.5f);
-        bubble.pivot = new Vector2(0.5f, 0.5f);
-        bubble.sizeDelta = new Vector2(width, height);
-
-        float endX = (fromRight ? 1f : -1f) * (panel.rect.width / 2f - width / 2f - sidePadding);
-        float startX = (fromRight ? 1f : -1f) * (panel.rect.width / 2f + width / 2f);
-        float endY = panel.rect.yMin + (choicesVisible ? choiceSpace : bottomPadding) + height / 2f;
-        Vector2[] previousPositions = new Vector2[messages.Count];
-        for (int index = 0; index < messages.Count; index++)
-            previousPositions[index] = messages[index].anchoredPosition;
-
-        float elapsed = 0f;
-        float slideDuration = Mathf.Max(0.01f, duration);
-        while (elapsed < slideDuration)
+        if(hikaye != null && hikaye.Resources != null) hikaye.Resources.Changed -= UpdateEffects;
+    }
+    private static void Anchor(RectTransform r, Vector2 min, Vector2 max)
+    {
+        r.anchorMin=min;r.anchorMax=max;r.pivot=new Vector2(.5f,.5f);r.offsetMin=r.offsetMax=Vector2.zero;
+        r.localScale=Vector3.one;
+    }
+    private TMP_Text Text(string name, Transform parent, float size)
+    {
+        var go=new GameObject(name,typeof(RectTransform),typeof(TextMeshProUGUI));go.transform.SetParent(parent,false);
+        var t=go.GetComponent<TMP_Text>();t.font=dialogueText.font;t.fontSize=size;t.raycastTarget=false;
+        t.color=new Color(.80f,.87f,.84f);t.textWrappingMode=TextWrappingModes.Normal;
+        return t;
+    }
+    private void BuildChat()
+    {
+        var background=GetComponent<Image>();if(background)background.color=new Color(.24f,.32f,.37f,.92f);
+        messageTemplate.gameObject.SetActive(false);
+        var viewport=new GameObject("Sohbet Alanı",typeof(RectTransform),typeof(Image),typeof(RectMask2D),typeof(ScrollRect));
+        textViewport=(RectTransform)viewport.transform;textViewport.SetParent(panel,false);
+        viewport.GetComponent<Image>().color=new Color(0,0,0,.01f);
+        scroll=viewport.GetComponent<ScrollRect>();scroll.horizontal=false;scroll.vertical=true;
+        scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=26;
+        var content=new GameObject("Mesaj Geçmişi",typeof(RectTransform),typeof(VerticalLayoutGroup),typeof(ContentSizeFitter));
+        textContent=(RectTransform)content.transform;textContent.SetParent(textViewport,false);
+        textContent.anchorMin=new Vector2(0,1);textContent.anchorMax=Vector2.one;textContent.pivot=new Vector2(.5f,1);
+        textContent.sizeDelta=Vector2.zero;
+        var layout=content.GetComponent<VerticalLayoutGroup>();layout.spacing=messageGap;
+        layout.padding=new RectOffset(0,0,6,Mathf.RoundToInt(bottomPadding));
+        layout.childControlWidth=true;layout.childControlHeight=true;layout.childForceExpandWidth=true;layout.childForceExpandHeight=false;
+        content.GetComponent<ContentSizeFitter>().verticalFit=ContentSizeFitter.FitMode.PreferredSize;
+        scroll.viewport=textViewport;scroll.content=textContent;
+        // Preserve the existing no-team resolution action; ordinary messages have no advance button.
+        var go=new GameObject("Sevk Yapılamadı",typeof(RectTransform),typeof(Image),typeof(Button));go.transform.SetParent(panel,false);
+        Anchor((RectTransform)go.transform,new Vector2(.035f,.015f),new Vector2(.965f,.095f));
+        go.GetComponent<Image>().color=new Color(.10f,.17f,.20f);next=go.GetComponent<Button>();next.targetGraphic=go.GetComponent<Image>();
+        nextLabel=Text("Sevk Durumu",go.transform,19);Anchor(nextLabel.rectTransform,Vector2.zero,Vector2.one);nextLabel.alignment=TextAlignmentOptions.Center;
+        next.onClick.AddListener(Advance);next.gameObject.SetActive(false);
+        effectA=Text("Gerçek Kaynak Etkisi A",approveButton.transform,21);
+        effectB=Text("Gerçek Kaynak Etkisi B",rejectButton.transform,21);
+        ConfigureChoice(approveButton,approveLabel,effectA,false);ConfigureChoice(rejectButton,rejectLabel,effectB,true);
+        Layout();
+    }
+    private void ConfigureChoice(Button button,TMP_Text label,TMP_Text effect,bool right)
+    {
+        button.transform.SetParent(panel,false);
+        Anchor((RectTransform)button.transform,new Vector2(right ? .51f : .035f,.115f),new Vector2(right ? .965f : .49f,.60f));
+        Anchor(label.rectTransform,new Vector2(.055f,.27f),new Vector2(.945f,.95f));
+        label.enableAutoSizing=true;label.fontSizeMin=23;label.fontSizeMax=26;label.fontSize=26;
+        label.alignment=TextAlignmentOptions.TopLeft;label.margin=Vector4.zero;label.raycastTarget=false;
+        label.textWrappingMode=TextWrappingModes.Normal;label.overflowMode=TextOverflowModes.Overflow;
+        label.color=new Color(.88f,.92f,.87f);
+        Anchor(effect.rectTransform,new Vector2(.055f,.025f),new Vector2(.945f,.25f));
+        effect.enableAutoSizing=true;effect.fontSizeMin=18;effect.fontSizeMax=21;effect.color=new Color(.96f,.73f,.37f);
+        if(button.targetGraphic)button.targetGraphic.color=new Color(.11f,.18f,.21f);
+        var colors=button.colors;colors.normalColor=Color.white;colors.highlightedColor=new Color(1.3f,1.3f,1.2f);
+        colors.pressedColor=new Color(.7f,.85f,.75f);colors.disabledColor=new Color(.45f,.45f,.45f);button.colors=colors;
+        var nav=button.navigation;nav.mode=Navigation.Mode.None;button.navigation=nav;
+    }
+    private bool AcceptClick()
+    {
+        if(Time.unscaledTime-lastClick<clickDebounce)return false;
+        lastClick=Time.unscaledTime;return true;
+    }
+    private void Advance()
+    {
+        if(!AcceptClick())return;
+        if(choicesVisible)
         {
-            elapsed += Time.deltaTime;
-            float progress = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / slideDuration));
-            bubble.anchoredPosition = new Vector2(Mathf.Lerp(startX, endX, progress), endY);
-            for (int index = 0; index < messages.Count; index++)
-                messages[index].anchoredPosition = previousPositions[index] + Vector2.up * ((height + messageGap) * progress);
+            if(bothUnavailable)hikaye.ResolveWithoutDispatch();
+            return;
+        }
+    }
+    public IEnumerator ShowMessage(string message,bool fromRight,float duration)
+    {
+        SetChoicesVisible(false);awaitingAdvance=true;
+        var row=new GameObject(fromRight?"Operatör Mesajı":"Kazazede Mesajı",typeof(RectTransform),typeof(LayoutElement));
+        var rowRect=(RectTransform)row.transform;rowRect.SetParent(textContent,false);messages.Add(rowRect);
+        var bubble=Instantiate(messageTemplate,rowRect,false);bubble.gameObject.SetActive(true);
+        var nameText=bubble.Find(callerName.transform.name).GetComponent<TMP_Text>();
+        var body=nameText.transform.Find(dialogueText.transform.name).GetComponent<TMP_Text>();
+        latestBody=body;
+        int separator=message.IndexOf(':');
+        nameText.text=separator<0?string.Empty:message.Substring(0,separator).ToUpperInvariant();
+        body.text=separator<0?message:message.Substring(separator+1).TrimStart();
+        var image=bubble.GetComponent<Image>();if(image)image.color=fromRight?operatorColor:callerColor;
+        nameText.enableAutoSizing=false;nameText.fontSize=18;nameText.color=new Color(.12f,.20f,.26f);
+        body.enableAutoSizing=false;body.fontSize=26;body.color=new Color(.09f,.15f,.20f);
+        body.textWrappingMode=TextWrappingModes.Normal;body.overflowMode=TextOverflowModes.Overflow;
+        nameText.raycastTarget=false;body.raycastTarget=false;
+        float width=Mathf.Min(textViewport.rect.width*.86f,620f);
+        body.margin=Vector4.zero;
+        float bodyHeight=Mathf.Max(32,body.GetPreferredValues(body.text,width-32,0).y+4);
+        float height=bodyHeight+42;
+        bubble.anchorMin=bubble.anchorMax=new Vector2(fromRight?1:0,1);bubble.pivot=new Vector2(fromRight?1:0,1);
+        bubble.sizeDelta=new Vector2(width,height);bubble.anchoredPosition=new Vector2(fromRight?-sidePadding:sidePadding,0);
+        nameText.rectTransform.anchorMin=new Vector2(0,1);nameText.rectTransform.anchorMax=Vector2.one;
+        nameText.rectTransform.pivot=new Vector2(.5f,1);nameText.rectTransform.sizeDelta=new Vector2(-32,24);
+        nameText.rectTransform.anchoredPosition=new Vector2(0,-8);
+        // The authored prefab nests the message under its speaker label.
+        body.rectTransform.anchorMin=new Vector2(0,1);body.rectTransform.anchorMax=Vector2.one;
+        body.rectTransform.pivot=new Vector2(.5f,1);body.rectTransform.sizeDelta=new Vector2(0,bodyHeight);
+        body.rectTransform.anchoredPosition=new Vector2(0,-27);
+        row.GetComponent<LayoutElement>().preferredHeight=height;
+        body.maxVisibleCharacters=int.MaxValue;
+        FitText();
+        Vector2 destination=bubble.anchoredPosition;
+        Vector2 start=destination+Vector2.right*(fromRight?1:-1)*(width+sidePadding*2);
+        float slideTime=Mathf.Clamp(duration,.12f,.25f);
+        bubble.anchoredPosition=start;
+        for(float elapsed=0;elapsed<slideTime;elapsed+=Time.unscaledDeltaTime)
+        {
+            float progress=Mathf.Clamp01(elapsed/slideTime);
+            bubble.anchoredPosition=Vector2.LerpUnclamped(start,destination,1-Mathf.Pow(1-progress,3));
             yield return null;
         }
-
-        bubble.anchoredPosition = new Vector2(endX, endY);
-        for (int index = 0; index < messages.Count; index++)
-            messages[index].anchoredPosition = previousPositions[index] + Vector2.up * (height + messageGap);
-        messages.Add(bubble);
-        RemovePastTop();
+        bubble.anchoredPosition=destination;
+        if(charactersPerSecond>0)
+        {
+            typing=true;body.ForceMeshUpdate();int count=body.textInfo.characterCount;float visible=0;
+            while(typing && visible<count){visible+=Time.unscaledDeltaTime*charactersPerSecond;body.maxVisibleCharacters=(int)visible;yield return null;}
+        }
+        typing=false;body.maxVisibleCharacters=int.MaxValue;
     }
-
-    public void SetChoices(string approve, string reject)
+    public IEnumerator WaitForAdvance()
     {
-        approveLabel.text = approve;
-        rejectLabel.text = reject;
-        SetChoicesVisible(true);
+        float displayTime = Mathf.Clamp(MessageText.text.Length * .012f, .8f, 1.8f);
+        yield return new WaitForSecondsRealtime(displayTime);
+        awaitingAdvance = false;
     }
-
+    private void FitText()
+    {
+        if(textViewport==null)return;
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(textContent);
+        scroll.StopMovement();scroll.verticalNormalizedPosition=0;
+    }
+    private void Layout()
+    {
+        if(textViewport==null)return;
+        Anchor(textViewport,new Vector2(.015f,choicesVisible ? .625f : .02f),new Vector2(.985f,.98f));
+        FitText();
+    }
+    public void SetChoices(string approve,string reject)
+    {
+        approveLabel.text=approve;rejectLabel.text=reject;awaitingAdvance=false;
+        SetChoicesVisible(true);UpdateEffects();
+    }
+    private void UpdateEffects()
+    {
+        if(!choicesVisible || hikaye==null || hikaye.Resources==null)return;
+        var r=hikaye.Resources;var a=hikaye.GetChoiceEffect(false);var b=hikaye.GetChoiceEffect(true);
+        effectA.text=a.Describe(r);effectB.text=b.Describe(r);
+        approveButton.interactable=a.CanApply(r);rejectButton.interactable=b.CanApply(r);
+        bothUnavailable=!approveButton.interactable&&!rejectButton.interactable;
+        next.gameObject.SetActive(bothUnavailable);
+        nextLabel.text="EKİP YOK · Sevk yapılamadı — vakayı kaydet ve ilerle";
+    }
     public void SetChoicesVisible(bool visible)
     {
-        if (visible && !choicesVisible && messages.Count > 0)
-        {
-            RectTransform latest = messages[messages.Count - 1];
-            float lowestMessageEdge = latest.anchoredPosition.y - latest.rect.height / 2f;
-            float choiceTop = panel.rect.yMin + choiceSpace;
-            float shift = Mathf.Max(0f, choiceTop + messageGap - lowestMessageEdge);
-            foreach (RectTransform bubble in messages)
-                bubble.anchoredPosition += Vector2.up * shift;
-            RemovePastTop();
-        }
-
-        choicesVisible = visible;
-        approveButton.gameObject.SetActive(visible);
-        rejectButton.gameObject.SetActive(visible);
+        choicesVisible=visible;approveButton.gameObject.SetActive(visible);rejectButton.gameObject.SetActive(visible);
+        if(next!=null)next.gameObject.SetActive(false);
+        Layout();
     }
-
     public void Clear()
     {
-        foreach (RectTransform bubble in messages)
-        {
-            bubble.gameObject.SetActive(false);
-            Destroy(bubble.gameObject);
-        }
-
-        messages.Clear();
-        callerName.text = string.Empty;
-        dialogueText.text = string.Empty;
-        SetChoicesVisible(false);
+        awaitingAdvance=false;typing=false;bothUnavailable=false;
+        foreach(var row in messages)if(row){row.gameObject.SetActive(false);Destroy(row.gameObject);}
+        messages.Clear();latestBody=null;SetChoicesVisible(false);
     }
-
-    private void RemovePastTop()
-    {
-        while (messages.Count > 0 && messages[0].anchoredPosition.y - messages[0].rect.height / 2f >= panel.rect.yMax)
-        {
-            Destroy(messages[0].gameObject);
-            messages.RemoveAt(0);
-        }
-    }
-
-    public void KabulEdildi()
-    {
-        if (hikaye != null) hikaye.KabulEdildi();
-    }
-
-    public void Reddedildi()
-    {
-        if (hikaye != null) hikaye.Reddedildi();
-    }
+    public void KabulEdildi(){if(hikaye!=null && approveButton.interactable && AcceptClick())hikaye.KabulEdildi();}
+    public void Reddedildi(){if(hikaye!=null && rejectButton.interactable && AcceptClick())hikaye.Reddedildi();}
 }
