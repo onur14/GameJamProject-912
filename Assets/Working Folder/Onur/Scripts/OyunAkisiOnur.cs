@@ -11,14 +11,19 @@ public class OyunAkisiOnur : MonoBehaviour
     [SerializeField] private GameObject Kabuletti;
     [SerializeField] private GameObject RedYedi;
     [SerializeField] private float animasyonSuresi = 0.4f;
-    [SerializeField] private float mesajAraligi = 8f;
+    [SerializeField] private float mesajAraligi = 12f;
     [SerializeField] private float altKonum = -55f;
 
     private readonly Queue<MesajIstegi> bekleyenMesajlar = new Queue<MesajIstegi>();
     private readonly List<RectTransform> mesajlar = new List<RectTransform>();
     private bool animasyonCalisiyor;
     private bool secimBekleniyor;
+    private bool senaryoBasladi;
     private RectTransform mesajAlani;
+    private Canvas sohbetKanvas;
+    private TextMeshProUGUI geriSayimYazisi;
+    private TextMeshProUGUI uyariYazisi;
+    private Coroutine geriSayimRutini;
 
     private const string OnayMetni = "Evet, bina yıkılmadan hemen merdivenlerden aşağı koşarak binayı terk edin!";
     private const string RedMetni = "HAYIR! Sakın merdivenlere koşmayın! İçeri dönün, sağlam bir eşyanın yanında ÇÖK-KAPAN-TUTUN yapın!";
@@ -38,6 +43,14 @@ public class OyunAkisiOnur : MonoBehaviour
             return;
         }
 
+        sohbetKanvas = GelenSoru.GetComponentInParent<Canvas>(true);
+        if (sohbetKanvas == null)
+        {
+            Debug.LogError("Konuşma kanvası bulunamadı.", this);
+            enabled = false;
+            return;
+        }
+
         GelenSoru.gameObject.SetActive(false);
         GelenCevap.gameObject.SetActive(false);
         ButonlariGizle();
@@ -50,6 +63,93 @@ public class OyunAkisiOnur : MonoBehaviour
         mesajAlani.offsetMin = Vector2.zero;
         mesajAlani.offsetMax = Vector2.zero;
 
+        KanvasiSolUsteYerlestir();
+        sohbetKanvas.gameObject.SetActive(false);
+        BaslaButonunuOlustur();
+    }
+
+    private void KanvasiSolUsteYerlestir()
+    {
+        RectTransform rect = sohbetKanvas.GetComponent<RectTransform>();
+        rect.localScale *= 0.5f;
+
+        Camera kamera = sohbetKanvas.worldCamera != null ? sohbetKanvas.worldCamera : Camera.main;
+        if (kamera == null) return;
+
+        float uzaklik = Vector3.Dot(rect.position - kamera.transform.position, kamera.transform.forward);
+        Vector3 ustSol = kamera.ViewportToWorldPoint(new Vector3(0f, 1f, uzaklik));
+        float kenarBosluk = kamera.orthographicSize * 0.04f;
+        rect.position = ustSol
+            + kamera.transform.right * (rect.rect.width * rect.lossyScale.x / 2f + kenarBosluk)
+            - kamera.transform.up * (rect.rect.height * rect.lossyScale.y / 2f + kenarBosluk);
+    }
+
+    private void BaslaButonunuOlustur()
+    {
+        GameObject arayuz = new GameObject("Başlat Arayüzü", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+        Canvas arayuzKanvas = arayuz.GetComponent<Canvas>();
+        arayuzKanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        arayuzKanvas.sortingOrder = 100;
+
+        GameObject butonNesnesi = new GameObject("Başla", typeof(RectTransform), typeof(Image), typeof(Button));
+        RectTransform butonRect = butonNesnesi.GetComponent<RectTransform>();
+        butonRect.SetParent(arayuz.transform, false);
+        butonRect.anchorMin = butonRect.anchorMax = Vector2.zero;
+        butonRect.pivot = Vector2.zero;
+        butonRect.anchoredPosition = new Vector2(16f, 16f);
+        butonRect.sizeDelta = new Vector2(140f, 48f);
+        butonNesnesi.GetComponent<Image>().color = new Color(0.13f, 0.36f, 0.64f);
+        butonNesnesi.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            butonNesnesi.SetActive(false);
+            SenaryoyuBaslat();
+        });
+
+        GameObject yaziNesnesi = new GameObject("Başla Yazısı", typeof(RectTransform), typeof(TextMeshProUGUI));
+        RectTransform yaziRect = yaziNesnesi.GetComponent<RectTransform>();
+        yaziRect.SetParent(butonRect, false);
+        yaziRect.anchorMin = Vector2.zero;
+        yaziRect.anchorMax = Vector2.one;
+        yaziRect.offsetMin = Vector2.zero;
+        yaziRect.offsetMax = Vector2.zero;
+        TextMeshProUGUI yazi = yaziNesnesi.GetComponent<TextMeshProUGUI>();
+        yazi.font = GelenSoru.font;
+        yazi.text = "Başla";
+        yazi.fontSize = 22f;
+        yazi.color = Color.white;
+        yazi.alignment = TextAlignmentOptions.Center;
+        yazi.raycastTarget = false;
+
+        geriSayimYazisi = EkranYazisiOlustur("Geri Sayım", arayuz.transform, new Vector2(0.5f, 0f), new Vector2(0f, 18f), new Vector2(300f, 48f), 26f, Color.yellow);
+        uyariYazisi = EkranYazisiOlustur("Uyarı", arayuz.transform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(600f, 100f), 48f, Color.red);
+        uyariYazisi.text = "Çok yavaşsın!";
+    }
+
+    private TextMeshProUGUI EkranYazisiOlustur(string ad, Transform ebeveyn, Vector2 cipa, Vector2 konum, Vector2 boyut, float fontBoyutu, Color renk)
+    {
+        GameObject nesne = new GameObject(ad, typeof(RectTransform), typeof(TextMeshProUGUI));
+        RectTransform rect = nesne.GetComponent<RectTransform>();
+        rect.SetParent(ebeveyn, false);
+        rect.anchorMin = rect.anchorMax = cipa;
+        rect.pivot = new Vector2(0.5f, 0.5f);
+        rect.anchoredPosition = konum;
+        rect.sizeDelta = boyut;
+
+        TextMeshProUGUI yazi = nesne.GetComponent<TextMeshProUGUI>();
+        yazi.font = GelenSoru.font;
+        yazi.fontSize = fontBoyutu;
+        yazi.color = renk;
+        yazi.alignment = TextAlignmentOptions.Center;
+        yazi.raycastTarget = false;
+        nesne.SetActive(false);
+        return yazi;
+    }
+
+    private void SenaryoyuBaslat()
+    {
+        if (senaryoBasladi) return;
+        senaryoBasladi = true;
+        sohbetKanvas.gameObject.SetActive(true);
         StartCoroutine(GirisDiyalogu());
     }
 
@@ -67,6 +167,7 @@ public class OyunAkisiOnur : MonoBehaviour
     {
         if (!secimBekleniyor) return;
         secimBekleniyor = false;
+        GeriSayimiDurdur();
         ButonlariGizle();
         StartCoroutine(YanlisSecim());
     }
@@ -75,6 +176,7 @@ public class OyunAkisiOnur : MonoBehaviour
     {
         if (!secimBekleniyor) return;
         secimBekleniyor = false;
+        GeriSayimiDurdur();
         ButonlariGizle();
         StartCoroutine(DogruSecim());
     }
@@ -92,12 +194,67 @@ public class OyunAkisiOnur : MonoBehaviour
         secimBekleniyor = true;
         Kabuletti.SetActive(true);
         RedYedi.SetActive(true);
+        geriSayimRutini = StartCoroutine(SecimGeriSayimi());
+    }
+
+    private IEnumerator SecimGeriSayimi()
+    {
+        float kalanSure = 10f;
+        geriSayimYazisi.gameObject.SetActive(true);
+
+        while (kalanSure > 0f && secimBekleniyor)
+        {
+            geriSayimYazisi.text = "Kalan süre: " + Mathf.CeilToInt(kalanSure);
+            yield return null;
+            kalanSure -= Time.deltaTime;
+        }
+
+        geriSayimYazisi.gameObject.SetActive(false);
+        geriSayimRutini = null;
+        if (!secimBekleniyor) yield break;
+
+        secimBekleniyor = false;
+        ButonlariGizle();
+        sohbetKanvas.gameObject.SetActive(false);
+        uyariYazisi.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        uyariYazisi.gameObject.SetActive(false);
+        sohbetKanvas.gameObject.SetActive(true);
+        KonusmayiYenidenBaslat();
+    }
+
+    private void GeriSayimiDurdur()
+    {
+        if (geriSayimRutini != null)
+        {
+            StopCoroutine(geriSayimRutini);
+            geriSayimRutini = null;
+        }
+
+        geriSayimYazisi.gameObject.SetActive(false);
     }
 
     private IEnumerator YanlisSecim()
     {
         yield return MesajVeBekle("Operatör: " + OnayMetni, true);
         yield return MesajVeBekle("Zeynep: Tamam koşuyorum! Allah'ım sen bizi koru! Merdiven boşluğundayız... Elif sıkı tutun annecim... Aaaah! Basamaklar sallanıyor, tutunamıyorum!", false);
+        KonusmayiYenidenBaslat();
+    }
+
+    private void KonusmayiYenidenBaslat()
+    {
+        ButonlariGizle();
+        secimBekleniyor = false;
+        bekleyenMesajlar.Clear();
+
+        foreach (RectTransform mesaj in mesajlar)
+        {
+            mesaj.gameObject.SetActive(false);
+            Destroy(mesaj.gameObject);
+        }
+
+        mesajlar.Clear();
+        StartCoroutine(GirisDiyalogu());
     }
 
     private IEnumerator DogruSecim()
@@ -162,7 +319,7 @@ public class OyunAkisiOnur : MonoBehaviour
             rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
             rect.pivot = new Vector2(0.5f, 0.5f);
             rect.sizeDelta = new Vector2(300f, rect.sizeDelta.y);
-            yeniMesaj.fontSize = 12f;
+            yeniMesaj.fontSize = 11f;
             yeniMesaj.margin = Vector4.zero;
             rect.sizeDelta = new Vector2(rect.sizeDelta.x, Mathf.Max(35f, yeniMesaj.GetPreferredValues(istek.Metin, rect.rect.width, 0).y));
 
