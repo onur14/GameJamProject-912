@@ -50,6 +50,7 @@ public class OyunAkisiOnur : MonoBehaviour
     public bool WaitingForChoice => secimBekleniyor;
     public DispatchResources Resources => resources;
     private DispatchScenarioData currentScenario;
+    public DispatchScenarioData CurrentScenario => currentScenario;
     private bool completionSent;
     private bool waitingForQuickQuestions;
     public void ConfigureInitialScenario(DispatchScenarioData data) { currentScenario = data; }

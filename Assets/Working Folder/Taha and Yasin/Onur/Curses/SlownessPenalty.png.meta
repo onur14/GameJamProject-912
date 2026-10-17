@@ -1,0 +1,808 @@
+fileFormatVersion: 2
+guid: ff358c46081d85f4b8c5134f42b14c73
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6098377015856721823
+    second: SlownessPenalty_0
+  - first:
+      213: -5739011196312309233
+    second: SlownessPenalty_1
+  - first:
+      213: 135143551584422239
+    second: SlownessPenalty_2
+  - first:
+      213: 140033593564948261
+    second: SlownessPenalty_3
+  - first:
+      213: -2006975295914416590
+    second: SlownessPenalty_4
+  - first:
+      213: -2457479002945981997
+    second: SlownessPenalty_5
+  - first:
+      213: 817456292111476110
+    second: SlownessPenalty_6
+  - first:
+      213: 3487147233429448362
+    second: SlownessPenalty_7
+  - first:
+      213: 6062225824866780596
+    second: SlownessPenalty_8
+  - first:
+      213: 1690055130082526702
+    second: SlownessPenalty_9
+  - first:
+      213: -3864057232208111725
+    second: SlownessPenalty_10
+  - first:
+      213: 3571951051586976847
+    second: SlownessPenalty_11
+  - first:
+      213: -6233764952505539022
+    second: SlownessPenalty_12
+  - first:
+      213: 7906199984594897134
+    second: SlownessPenalty_13
+  - first:
+      213: -1585344356195529288
+    second: SlownessPenalty_14
+  - first:
+      213: -1512656106939229235
+    second: SlownessPenalty_15
+  - first:
+      213: -6039259927441085440
+    second: SlownessPenalty_16
+  - first:
+      213: -5032529047341426337
+    second: SlownessPenalty_17
+  - first:
+      213: -2184240366268270558
+    second: SlownessPenalty_18
+  - first:
+      213: -1522042980878383321
+    second: SlownessPenalty_19
+  - first:
+      213: -3063249748438537963
+    second: SlownessPenalty_20
+  - first:
+      213: -9143312747821963665
+    second: SlownessPenalty_21
+  - first:
+      213: 228894555630718187
+    second: SlownessPenalty_22
+  - first:
+      213: -2319522799537136859
+    second: SlownessPenalty_23
+  - first:
+      213: 5335467496435399384
+    second: SlownessPenalty_24
+  - first:
+      213: 7317649336025166089
+    second: SlownessPenalty_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 256
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SlownessPenalty_0
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 1199
+        height: 1245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9feb88d599c1a450800000000000000
+      internalID: 6098377015856721823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 972
+        width: 150
+        height: 260
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f02b0d939bfea50b0800000000000000
+      internalID: -5739011196312309233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_2
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 980
+        width: 17
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f59cfd9185020e100800000000000000
+      internalID: 135143551584422239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_3
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 1221
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5276f09bfcf71f100800000000000000
+      internalID: 140033593564948261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 857
+        width: 43
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 236690e0a9ac524e0800000000000000
+      internalID: -2006975295914416590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_5
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 891
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d17c6afdd745edd0800000000000000
+      internalID: -2457479002945981997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_6
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 888
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8566b6aa20385b00800000000000000
+      internalID: 817456292111476110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_7
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 815
+        width: 17
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa66c00eee5d46030800000000000000
+      internalID: 3487147233429448362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_8
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 809
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b54267c44a512450800000000000000
+      internalID: 6062225824866780596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_9
+      rect:
+        serializedVersion: 2
+        x: 1031
+        y: 815
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee5456fbf28447710800000000000000
+      internalID: 1690055130082526702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_10
+      rect:
+        serializedVersion: 2
+        x: 1037
+        y: 795
+        width: 7
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 397d4728b6c106ac0800000000000000
+      internalID: -3864057232208111725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_11
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 769
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4cbce07e8e129130800000000000000
+      internalID: 3571951051586976847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 596
+        width: 94
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 236a0a8bdc73d79a0800000000000000
+      internalID: -6233764952505539022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_13
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 706
+        width: 10
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee84af44ff678bd60800000000000000
+      internalID: 7906199984594897134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_14
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 416
+        width: 17
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bd8b4225b9bff9e0800000000000000
+      internalID: -1585344356195529288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_15
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 406
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dcbdf8ef847f10be0800000000000000
+      internalID: -1512656106939229235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_16
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 409
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00c6f96e71d303ca0800000000000000
+      internalID: -6039259927441085440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_17
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 395
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f591163be7dd82ab0800000000000000
+      internalID: -5032529047341426337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_18
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 361
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 228b280a5f400b1e0800000000000000
+      internalID: -2184240366268270558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_19
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 337
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7270ed719fd90eae0800000000000000
+      internalID: -1522042980878383321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_20
+      rect:
+        serializedVersion: 2
+        x: 1003
+        y: 315
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 519240665962d75d0800000000000000
+      internalID: -3063249748438537963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_21
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 152
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6665cbcf7d6c1180800000000000000
+      internalID: -9143312747821963665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_22
+      rect:
+        serializedVersion: 2
+        x: 729
+        y: 21
+        width: 44
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: becc367b2623d2300800000000000000
+      internalID: 228894555630718187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_23
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 41
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52b5b2d9d466fcfd0800000000000000
+      internalID: -2319522799537136859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_24
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 45
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8dabca36b636b0a40800000000000000
+      internalID: 5335467496435399384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlownessPenalty_25
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 17
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90137a0fc438d8560800000000000000
+      internalID: 7317649336025166089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SlownessPenalty_0: 6098377015856721823
+      SlownessPenalty_1: -5739011196312309233
+      SlownessPenalty_10: -3864057232208111725
+      SlownessPenalty_11: 3571951051586976847
+      SlownessPenalty_12: -6233764952505539022
+      SlownessPenalty_13: 7906199984594897134
+      SlownessPenalty_14: -1585344356195529288
+      SlownessPenalty_15: -1512656106939229235
+      SlownessPenalty_16: -6039259927441085440
+      SlownessPenalty_17: -5032529047341426337
+      SlownessPenalty_18: -2184240366268270558
+      SlownessPenalty_19: -1522042980878383321
+      SlownessPenalty_2: 135143551584422239
+      SlownessPenalty_20: -3063249748438537963
+      SlownessPenalty_21: -9143312747821963665
+      SlownessPenalty_22: 228894555630718187
+      SlownessPenalty_23: -2319522799537136859
+      SlownessPenalty_24: 5335467496435399384
+      SlownessPenalty_25: 7317649336025166089
+      SlownessPenalty_3: 140033593564948261
+      SlownessPenalty_4: -2006975295914416590
+      SlownessPenalty_5: -2457479002945981997
+      SlownessPenalty_6: 817456292111476110
+      SlownessPenalty_7: 3487147233429448362
+      SlownessPenalty_8: 6062225824866780596
+      SlownessPenalty_9: 1690055130082526702
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

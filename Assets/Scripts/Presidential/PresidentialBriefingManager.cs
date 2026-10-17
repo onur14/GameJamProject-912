@@ -64,6 +64,19 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         Phase = ShiftPhase.Scenario; acceptingCompletion = true;
         conversation.BeginScenario(scenarioOrder.Length > 0 ? scenarioOrder[0] : null);
     }
+    public void RestoreScenarioCheckpoint(int completed, int correct, int allocationCount, int outcomeCount, DispatchScenarioData scenario)
+    {
+        StopAllCoroutines(); view.Hide();
+        CompletedScenarios = completed; CorrectDecisions = correct;
+        if (decisions.Count > allocationCount) decisions.RemoveRange(allocationCount, decisions.Count - allocationCount);
+        if (scenarioOutcomes.Count > outcomeCount) scenarioOutcomes.RemoveRange(outcomeCount, scenarioOutcomes.Count - outcomeCount);
+        shown.RemoveWhere(n => n > completed);
+        current = null; line = 0; applied = false;
+        Phase = ShiftPhase.Scenario; acceptingCompletion = true;
+        conversation.ResetGameOver(); phone.SetPaused(false); phone.SetInteractionLocked(false);
+        conversation.BeginScenario(scenario);
+    }
+
     public void OnScenarioCompleted(int revision)
     {
         if (!acceptingCompletion || Phase != ShiftPhase.Scenario || CompletedScenarios >= 8

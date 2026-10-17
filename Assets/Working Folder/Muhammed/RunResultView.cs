@@ -52,13 +52,18 @@ public sealed class RunResultView : MonoBehaviour
 
     public void ShowFailure()
     {
+<<<<<<< Updated upstream
         Show("GÖREV BAŞARISIZ", "Halk bilinci %0'a düştü.");
+=======
+        Show("HALK BİLİNCİ TÜKENDİ", "Son vakanın başlangıç kaydı korunuyor.");
+        var label = replayButton.GetComponentInChildren<TMP_Text>();
+        if (label) label.text = "SON VAKADAN DEVAM ET";
+>>>>>>> Stashed changes
     }
 
     private void Show(string title, string reason)
     {
-        cizirti.TelefonKapat();
-        Debug.Log("Cizirti.TelefonKapat() CAĞRILDI!");
+        if (cizirti) cizirti.TelefonKapat();
         if (shown) return;
         shown = true;
         if (minigames != null) minigames.Close();
@@ -83,6 +88,13 @@ public sealed class RunResultView : MonoBehaviour
     private void Replay()
     {
         Time.timeScale = 1f;
+        var checkpoint = FindFirstObjectByType<DispatchCurseDirector>();
+        if (health && health.IsGameOver && checkpoint && checkpoint.CanRetry)
+        {
+            panel.SetActive(false); shown = false;
+            checkpoint.RetryCurrentScenario();
+            return;
+        }
         PreparationRun.StartNewGame(SceneManager.GetActiveScene().path);
     }
 

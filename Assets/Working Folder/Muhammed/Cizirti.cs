@@ -1,29 +1,24 @@
 using UnityEngine;
-using System.Collections;
 public class Cizirti : MonoBehaviour
 {
     public AudioSource CizirtiSesi;
     public AudioSource TiklamaSesi;
     public AudioClip TelsizAcilisSesi;
     public AudioClip TelsizKapanisSesi;
-       public void TelefonAc()
+    private float lastClose=-10;
+    public void TelefonAc()
     {
-       TiklamaSesi.PlayOneShot(TelsizAcilisSesi);
-       
-       Invoke("CizirtiSesiCal", 1.0f); 
+        CancelInvoke(nameof(CizirtiSesiCal));
+        if(TiklamaSesi && TelsizAcilisSesi)TiklamaSesi.PlayOneShot(TelsizAcilisSesi);
+        Invoke(nameof(CizirtiSesiCal),.18f);
     }
-
-    void CizirtiSesiCal()
-    {
-        CizirtiSesi.Play();
-        
-    }
+    private void CizirtiSesiCal() { if(CizirtiSesi && !CizirtiSesi.isPlaying)CizirtiSesi.Play(); }
     public void TelefonKapat()
     {
-        CancelInvoke("CizirtiSesiCal");
-
-
-        CizirtiSesi.Stop();
-        TiklamaSesi.PlayOneShot(TelsizKapanisSesi);
+        CancelInvoke(nameof(CizirtiSesiCal));
+        if(CizirtiSesi)CizirtiSesi.Stop();
+        if(Time.unscaledTime-lastClose<.2f)return;
+        lastClose=Time.unscaledTime;
+        if(TiklamaSesi && TelsizKapanisSesi)TiklamaSesi.PlayOneShot(TelsizKapanisSesi);
     }
 }

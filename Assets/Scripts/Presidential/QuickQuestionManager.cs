@@ -449,6 +449,14 @@ public sealed class QuickQuestionManager : MonoBehaviour
         }
         if(view)view.HideImmediate();
     }
+    public void RestoreScenarioCheckpoint(int resultCount)
+    {
+        CancelActiveQuestion();
+        if (results.Count > resultCount) results.RemoveRange(resultCount, results.Count - resultCount);
+        currentScenarioRevision = -1; activeScenarioIndex = -1; activeScenarioId = null;
+        scenarioFinished = false; resolvedInScenario = 0;
+    }
+
     public void ResetForNewShift()
     {
         CancelActiveQuestion();results.Clear();scheduledRevisions.Clear();

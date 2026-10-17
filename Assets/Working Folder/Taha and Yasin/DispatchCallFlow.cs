@@ -50,6 +50,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
     }
     public void SetPaused(bool paused) { IsPaused = paused; }
     public event System.Action FocusCompleted;
+    public event System.Action Answered;
     [Header("Phone visual feedback")]
     [SerializeField, Range(0, 1f)] private float hoverOpacity = .72f;
     [SerializeField, Range(.1f, .2f)] private float hoverDuration = .14f;
@@ -194,7 +195,11 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
         ringIndicator.alpha = 0;
         ringIndicator.transform.localRotation = ringRestRotation;
         if (ringAudioSource) ringAudioSource.Stop();
+<<<<<<< Updated upstream
         var sounds=FindAnyObjectByType<DispatchAudioCues>();if(sounds)sounds.PlayOpen();
+=======
+        Answered?.Invoke();
+>>>>>>> Stashed changes
         StartCoroutine(FocusComputer());
     }
 
