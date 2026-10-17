@@ -23,13 +23,14 @@ public static class DispatchOpeningNotice
         var bar = (RectTransform)barObject.transform; bar.SetParent(root.transform, false);
         bar.anchorMin = new Vector2(.13f,.22f); bar.anchorMax = new Vector2(.87f,.225f); bar.offsetMin = bar.offsetMax = Vector2.zero;
         barObject.GetComponent<Image>().color = new Color(.95f,.65f,.22f); barObject.GetComponent<Image>().raycastTarget = false;
-        for (float t=0; t<6.5f; t+=Time.unscaledDeltaTime)
+        const float duration=2.2f;
+        for (float t=0; t<duration; t+=Time.unscaledDeltaTime)
         {
-            float enter=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.9f));
-            group.alpha=Mathf.Min(enter,Mathf.Clamp01((6.5f-t)/.7f));
+            float enter=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.5f));
+            group.alpha=Mathf.Min(enter,Mathf.Clamp01((duration-t)/.5f));
             tr.anchoredPosition=Vector2.up*(1-enter)*45;
-            tr.localScale=Vector3.one*Mathf.Lerp(1.06f,1,Mathf.Clamp01(t/5.8f));
-            bar.localScale=new Vector3(Mathf.Clamp01(t/5.8f),1,1);
+            tr.localScale=Vector3.one*Mathf.Lerp(1.06f,1,Mathf.Clamp01(t/(duration-.5f)));
+            bar.localScale=new Vector3(Mathf.Clamp01(t/(duration-.5f)),1,1);
             yield return null;
         }
         Object.Destroy(root);

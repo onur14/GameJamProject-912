@@ -558,7 +558,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GECE VARDIYASI // HAZIR
+  m_text: GECE VARDIYASI HAZIR
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
   m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
@@ -1119,7 +1119,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 912 // ACIL CAGRI MERKEZI
+  m_text: 912 ACIL CAGRI MERKEZI
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
   m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}

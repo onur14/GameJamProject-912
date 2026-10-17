@@ -3,6 +3,8 @@
 Oyun: `Onur Test Place Integrated.unity`
 Menü: `../AnaMenu.unity` (Taha and Yasin/AnaMenu)
 
+`OnurAnaMenu.unity`, `Assets/Working Folder/Onur/OnurAnaMenu.unity` sahnesinin güncel bağımsız kopyasıdır. OYNA bağlantısı bu klasördeki `Onur Test Place Integrated.unity` sahnesine yönelir. Operatör sahnesindeki Taha ve Yasin'e özgü yeni işlevler korunur; C# ve diğer ortak bağımlılıklar proje genelinden paylaşılır.
+
 Bu sahneler ve kopyalanmış prefablar/PNG'ler bu klasörde düzenlenir. Build Settings başlangıcı buradaki menü ve oyundur. Menü, tekrar oyna ve ana menü dönüşü bu kopyayı kullanır.
 
 C# sınıfları Unity projesi genelinde ortaktır. Çift sınıf/GUID hatası oluşturmamak için Onur/Scripts ve Assets/Scripts/Presidential altındaki derlenen kaynaklar paylaşılır; kaynak klasör taşınmamıştır. Asıl Onur sahne ve prefabları kopyalama sırasında korunmuştur.

@@ -107,7 +107,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         yield return view.ShowShiftSummary(CompletedScenarios, CorrectDecisions,
             CorrectDecisions * estimatedPeoplePerCorrectDecision, cityHealth ? cityHealth.HealthPercent : 100);
         if (cityHealth && cityHealth.IsGameOver) yield break;
-        view.Show($"RESMÎ BİLGİLENDİRME {index + 1}/4  /  {current.heading}");
+        view.Show($"RESMÎ BİLGİLENDİRME {index + 1} · {current.heading}");
         Phase = ShiftPhase.Dialogue; ShowLine();
     }
     public bool RetryCurrentScenario()
@@ -212,7 +212,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         string readiness = weakest >= 3 ? "Dengeli hazırlık: tüm hizmetlerde en az üç ekip hazır."
             : weakest > 0 ? "Sınırlı hazırlık: tüm hizmetler açık; yedek kapasite düşük."
             : "Kritik hazırlık: en az bir hizmette ekip kalmadı. İlk destek bu alana ayrılmalı.";
-        view.Final($"8 vaka tamamlandı. {CorrectDecisions}/8 doğru yönlendirme; {decisions.Count} stratejik tahsis.\n\n{readiness}\n\nSon tahsis: {(decisions.Count > 0 ? decisions[decisions.Count - 1] : "Yok")}\n\nBu ekipler gelecek vardiyaya devredilir. Hazırlık, doğru bilgi ve dayanışma birlikte hayat kurtarır.", view.Stock(resources));
+        view.Final($"8 vaka tamamlandı. 8 vakada {CorrectDecisions} doğru yönlendirme; {decisions.Count} stratejik tahsis.\n\n{readiness}\n\nSon tahsis: {(decisions.Count > 0 ? decisions[decisions.Count - 1] : "Yok")}\n\nBu ekipler gelecek vardiyaya devredilir. Hazırlık, doğru bilgi ve dayanışma birlikte hayat kurtarır.", view.Stock(resources));
         RunCompleted?.Invoke();
     }
 }

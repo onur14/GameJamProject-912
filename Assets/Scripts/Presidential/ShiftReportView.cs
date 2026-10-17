@@ -37,12 +37,12 @@ public sealed class ShiftReportView : MonoBehaviour
         if (data == null) return;
         Data = data;navigating = false;
         string seconds = Data.HasResponseTimes ? Data.AverageSeconds.ToString("F1", CultureInfo.GetCultureInfo("tr-TR")) + " sn" : "—";
-        performance.text = $"Doğru Müdahale: {Data.Correct} / {Data.Completed}\nKaçırılan Talep: {Data.Missed}\nOrtalama Tepki Süresi: {seconds}";
+        performance.text = $"Doğru Müdahale: {Data.Correct} (Toplam {Data.Completed})\nKaçırılan Talep: {Data.Missed}\nOrtalama Tepki Süresi: {seconds}";
         resources.text = $"Ambulans: {Data.Ambulances}\nİtfaiye: {Data.Firefighters}\nKurtarma Ekibi: {Data.RescueTeams}";
         grade.text = "VARDİYA NOTU: " + Data.Grade;
         operation.text = "OPERASYON DURUMU\n" + Data.OperationStatus;
         events.text = string.Join("\n", Data.ExplainOutcome(true));
-        score.text = "Puan: " + Data.Score + " / 100";
+        score.text = "Puan: " + Data.Score + " (100 üzerinden)";
         normalMenu.SetActive(false);
         reportPanel.SetActive(true);
     }

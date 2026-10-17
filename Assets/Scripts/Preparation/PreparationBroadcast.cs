@@ -18,17 +18,20 @@ public sealed class PreparationBroadcast : MonoBehaviour
     };
     private PreparationDirector director;
     private TMP_FontAsset font;
-    private RectTransform overlay, briefing, review, broadcast, story, storyCard;
-    private CanvasGroup overlayGroup;
-    private Button startButton,retakeButton,publishButton;
+    private RectTransform overlay, briefing, review, broadcast, story, storyCard, purposeOverlay, purposeCard;
+    private CanvasGroup overlayGroup, purposeGroup;
+    private Button startButton,retakeButton,publishButton,purposeButton;
     private TMP_Text reviewTimes,reviewReward,reviewHint,countdown,signal,playbackLabel,storyHeading,storyBody;
     private Image transmissionBar,storyFlash;
     private readonly List<Sprite> sprites=new List<Sprite>();
+    private PreparationSpriteCutout earthquakeCutouts;
     private readonly Image[] clipFrames=new Image[4];
     private readonly TMP_Text[] clipMessages=new TMP_Text[4];
     private bool inputLocked=true;
+    private bool purposeAcknowledged;
     public BroadcastPhase Phase { get; private set; } = BroadcastPhase.Briefing;
     public Button StartButton => startButton;
+    public Button PurposeButton => purposeButton;
     public Button RetakeButton => retakeButton;
     public Button PublishButton => publishButton;
     public bool DidShake { get; private set; }
@@ -55,7 +58,7 @@ public sealed class PreparationBroadcast : MonoBehaviour
         var menu=Button("Çekimden Ana Menü",briefing,new Vector2(.08f,.025f),new Vector2(.28f,.115f),"ANA MENÜ",font);
         menu.onClick.AddListener(()=>{if(inputLocked||Phase!=BroadcastPhase.Briefing||SceneFadeTransition.IsTransitioning)return;PreparationRun.Reset();SceneFadeTransition.LoadScene("Assets/Working Folder/Taha and Yasin/AnaMenu.unity",.3f,.4f);});
         countdown=Label("Çekim Geri Sayımı",overlay,new Vector2(.15f,.22f),new Vector2(.85f,.78f),"",font,100);countdown.gameObject.SetActive(false);
-        BuildReview();BuildPublication();BuildStory();
+        BuildReview();BuildPublication();BuildStory();BuildPurposeNotice();
         review.gameObject.SetActive(false);broadcast.gameObject.SetActive(false);story.gameObject.SetActive(false);
     }
     private void BuildReview()
@@ -77,7 +80,8 @@ public sealed class PreparationBroadcast : MonoBehaviour
         Label("Yayın Başlığı",broadcast,new Vector2(.04f,.85f),new Vector2(.96f,.98f),"BİR VİDEO. DÖRT GÜVENLİ DAVRANIŞ.",font,34);
         signal=Label("Yayın Bağlantı Durumu",broadcast,new Vector2(.10f,.75f),new Vector2(.90f,.85f),"YAYIN AĞINA BAĞLANILIYOR",font,24);signal.color=Amber;
         string[] titles={"HAZIR TUT","KENDİNİ KORU","YÜKSEĞE ÇIK","ERKEN UYARI"};
-        Sprite[] thumbs={Art("HouseMap",new Rect(.05f,.53f,.41f,.42f)),Art("EarthquakeSheet",new Rect(793/1097f,1-162/671f,180/1097f,119/671f)),Art("FloodMap",new Rect(.56f,.60f,.42f,.39f)),Art("DetectorSheet",new Rect(0,.12f,.24f,.78f))};
+        earthquakeCutouts=new PreparationSpriteCutout(Resources.Load<Texture2D>("Disaster/EarthquakeSheet"));
+        Sprite[] thumbs={Art("HouseMap",new Rect(.05f,.53f,.41f,.42f)),earthquakeCutouts.Cut(817,72,119,91,keepLargest:true),Art("FloodMap",new Rect(.56f,.60f,.42f,.39f)),Art("DetectorSheet",new Rect(0,.12f,.24f,.78f))};
         for(int i=0;i<4;i++)
         {
             float x=.02f+i*.245f;
@@ -100,6 +104,20 @@ public sealed class PreparationBroadcast : MonoBehaviour
         Panel("Haber Alt Çizgisi",storyCard,new Vector2(.18f,.04f),new Vector2(.82f,.047f),Amber);
         storyFlash=Panel("Sarsıntı Işık Etkisi",story,Vector2.zero,Vector2.one,new Color(.72f,.19f,.13f,0));
     }
+    private void BuildPurposeNotice()
+    {
+        purposeOverlay=Panel("Çekim Öncesi Uyarı",overlay,Vector2.zero,Vector2.one,new Color(.01f,.025f,.04f,.96f)).rectTransform;
+        purposeOverlay.GetComponent<Image>().raycastTarget=true;
+        purposeGroup=purposeOverlay.gameObject.AddComponent<CanvasGroup>();
+        purposeCard=Panel("Afete Hazırlık Bilgi Kutusu",purposeOverlay,new Vector2(.14f,.20f),new Vector2(.86f,.80f),PanelColor).rectTransform;
+        Panel("Uyarı Üst Çizgisi",purposeCard,new Vector2(.02f,.96f),new Vector2(.98f,.97f),Amber);
+        Label("Uyarı Başlığı",purposeCard,new Vector2(.06f,.72f),new Vector2(.94f,.94f),"ÖNCE HAZIRLAN, SONRA ANLAT",font,42).color=Amber;
+        Label("Uyarı Açıklaması",purposeCard,new Vector2(.08f,.28f),new Vector2(.92f,.72f),
+            "Afetlere hazırlık yaparak insanların güvenli davranışları öğrenmesini sağlıyoruz. Evdeki dört uygulamayı deneyip bir kamu spotu çekiyoruz; öğrendiklerimizi kamuoyuna anlatarak afet bilincini artırıyoruz.",font,29);
+        purposeButton=Button("Uyarıyı Onayla",purposeCard,new Vector2(.36f,.07f),new Vector2(.64f,.22f),"ANLADIM",font);
+        purposeButton.onClick.AddListener(()=>purposeAcknowledged=true);
+        purposeOverlay.gameObject.SetActive(false);
+    }
     public IEnumerator ShowBriefing()
     {
         Phase=BroadcastPhase.Briefing;inputLocked=true;
@@ -111,12 +129,37 @@ public sealed class PreparationBroadcast : MonoBehaviour
     public void StartRecording()
     {
         if(inputLocked||Phase!=BroadcastPhase.Briefing)return;
-        inputLocked=true;startButton.interactable=false;StartCoroutine(Countdown());
+        inputLocked=true;startButton.interactable=false;StartCoroutine(PurposeThenCountdown());
     }
     public void Retake()
     {
         if(inputLocked||Phase!=BroadcastPhase.Review||PreparationRun.Published)return;
         inputLocked=true;retakeButton.interactable=publishButton.interactable=false;StartCoroutine(Countdown());
+    }
+    private IEnumerator PurposeThenCountdown()
+    {
+        Phase=BroadcastPhase.Countdown;briefing.gameObject.SetActive(false);
+        purposeAcknowledged=false;purposeOverlay.gameObject.SetActive(true);purposeButton.interactable=false;
+        float width=Mathf.Max(overlay.rect.width,1920);
+        for(float elapsed=0;elapsed<.45f;elapsed+=Time.unscaledDeltaTime)
+        {
+            float progress=Mathf.SmoothStep(0,1,Mathf.Clamp01(elapsed/.45f));
+            purposeCard.anchoredPosition=Vector2.left*width*(1-progress);
+            purposeGroup.alpha=progress;
+            yield return null;
+        }
+        purposeCard.anchoredPosition=Vector2.zero;purposeGroup.alpha=1;purposeButton.interactable=true;
+        while(!purposeAcknowledged)yield return null;
+        purposeButton.interactable=false;
+        for(float elapsed=0;elapsed<.3f;elapsed+=Time.unscaledDeltaTime)
+        {
+            float progress=Mathf.SmoothStep(0,1,Mathf.Clamp01(elapsed/.3f));
+            purposeCard.anchoredPosition=Vector2.right*width*progress;
+            purposeGroup.alpha=1-progress;
+            yield return null;
+        }
+        purposeOverlay.gameObject.SetActive(false);purposeCard.anchoredPosition=Vector2.zero;purposeGroup.alpha=1;
+        yield return Countdown();
     }
     private IEnumerator Countdown()
     {
@@ -160,7 +203,7 @@ public sealed class PreparationBroadcast : MonoBehaviour
         for(int clip=0;clip<4;clip++)
         {
             clipFrames[clip].color=Amber;ClipsShown=clip+1;
-            playbackLabel.text="KLİP "+(clip+1)+" / 4  ·  "+SafetyMessages[clip];
+            playbackLabel.text="KLİP "+(clip+1)+" · TOPLAM 4 · "+SafetyMessages[clip];
             for(float t=0;t<1.6f;t+=Time.unscaledDeltaTime)
             {
                 float p=t/1.6f;transmissionBar.rectTransform.anchorMax=new Vector2(.14f+.86f*(clip+p)/4,1);
@@ -189,5 +232,5 @@ public sealed class PreparationBroadcast : MonoBehaviour
         Phase=BroadcastPhase.LoadingOperator;
         SceneFadeTransition.LoadScene(PreparationRun.Destination,.5f,.6f);
     }
-    private void OnDestroy(){foreach(var sprite in sprites)if(sprite)Destroy(sprite);}
+    private void OnDestroy(){earthquakeCutouts?.Dispose();foreach(var sprite in sprites)if(sprite)Destroy(sprite);}
 }

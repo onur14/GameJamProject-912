@@ -84,7 +84,7 @@ public sealed class DispatchCurseController : MonoBehaviour
         phone.SetPaused(true);if(chat)chat.SetPaused(true);if(questions)questions.SetPaused(true);
         notice.gameObject.SetActive(true);largeIcon.sprite=badgeIcon.sprite;
         title.text=ActiveCurse==CurseKind.Slowness?"YAVAŞLIK CEZASI":"BİLGİ SİSİ";
-        description.text=ActiveCurse==CurseKind.Slowness?"Hızından bağımsız!\nHer ekipten −2 kaynak.\nAmblem iki senaryo sonra kaybolur.":"Başkanın kaynak bonusları %50 azalır.\nKaynaklarını dikkatli yönet.\nEtki iki senaryo sürer.";
+        description.text=ActiveCurse==CurseKind.Slowness?"Her ekipten −2 kaynak.\nAmblem iki senaryo sonra kaybolur.":"Başkanın kaynak bonusları %50 azalır.\nKaynaklarını dikkatli yönet.\nEtki iki senaryo sürer.";
         var sound=FindAnyObjectByType<DispatchAudioCues>();if(sound)sound.PlayCurse();
         for(float t=0;t<2.35f;t+=Time.unscaledDeltaTime)
         {

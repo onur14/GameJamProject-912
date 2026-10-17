@@ -4194,7 +4194,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 932d2c5e6c1414a4ea4cd4d9947602ae, type: 3}
+  m_Texture: {fileID: 2800000, guid: 29ac1f21841089e49a5813c1578a878f, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -5348,7 +5348,7 @@ MonoBehaviour:
   secondQuestions:
   - id: QQ-09
     targetScenarioId: D-01
-    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 VE TEY\u0130T"
     questionText: "Bir hesap 'Gece 03.15\u2019te kesin deprem var' diyor. Payla\u015Fal\u0131m m\u0131?"
     choiceALabel: EVET
     choiceAEffect:
@@ -5372,7 +5372,7 @@ MonoBehaviour:
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-10
     targetScenarioId: D-02
-    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 VE TEY\u0130T"
     questionText: "Kayna\u011F\u0131 belirsiz ses kayd\u0131 tahliye emri veriyor. Yay\u0131ls\u0131n m\u0131?"
     choiceALabel: EVET
     choiceAEffect:
@@ -5396,7 +5396,7 @@ MonoBehaviour:
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-11
     targetScenarioId: Y-02
-    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 VE TEY\u0130T"
     questionText: "Eski yang\u0131n videosu '\u015Fimdi burada' diye yay\u0131l\u0131yor. D\xFCzeltelim mi?"
     choiceALabel: EVET
     choiceAEffect:
@@ -5420,7 +5420,7 @@ MonoBehaviour:
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-12
     targetScenarioId: S-01
-    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 VE TEY\u0130T"
     questionText: "Teyitsiz mesaj 'T\xFCm yollar a\xE7\u0131k' diyor. Resm\xEE bilgi diye yayal\u0131m m\u0131?"
     choiceALabel: EVET
     choiceAEffect:
@@ -5444,7 +5444,7 @@ MonoBehaviour:
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-13
     targetScenarioId: T-01
-    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 VE TEY\u0130T"
     questionText: "Sahte hesap 'Tsunami uyar\u0131s\u0131 kalkt\u0131' diyor. Resm\xEE teyit isteyelim mi?"
     choiceALabel: EVET
     choiceAEffect:
@@ -5468,7 +5468,7 @@ MonoBehaviour:
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-14
     targetScenarioId: F-01
-    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 VE TEY\u0130T"
     questionText: "Tarihsiz f\u0131rt\u0131na haritas\u0131 yeniden yay\u0131l\u0131yor. G\xFCncel diye sunal\u0131m m\u0131?"
     choiceALabel: EVET
     choiceAEffect:
@@ -5492,7 +5492,7 @@ MonoBehaviour:
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-15
     targetScenarioId: K-01
-    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 VE TEY\u0130T"
     questionText: "Uzman ad\u0131 olmayan deprem tahmini g\xFCndemde. Kayna\u011F\u0131 do\u011Frulayal\u0131m m\u0131?"
     choiceALabel: EVET
     choiceAEffect:
@@ -5516,7 +5516,7 @@ MonoBehaviour:
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-16
     targetScenarioId: K-02
-    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 / TEY\u0130T"
+    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 VE TEY\u0130T"
     questionText: "Ki\u015Fisel IBAN isteyen yard\u0131m mesaj\u0131n\u0131 resm\xEE duyuru diye payla\u015Fal\u0131m m\u0131?"
     choiceALabel: EVET
     choiceAEffect:
@@ -6939,6 +6939,17 @@ MonoBehaviour:
   radio: {fileID: 3000000033}
   notices: {fileID: 264906466}
   blink: {fileID: 8300000, guid: ca8a360c027308c49b525c4d3d046af3, type: 3}
+  aftermathMusic: {fileID: 8300000, guid: 75cd6257cd479794f8bfa4b3dda061af, type: 3}
+  decisionStress: {fileID: 8300000, guid: 4d52ec76452ec44428b08a0a01d9c21e, type: 3}
+  choiceClick: {fileID: 8300000, guid: 4a5c147174326eb42ab64d3bbfd0fb64, type: 3}
+  lostSound: {fileID: 8300000, guid: 415e082ae92b46e4aac655142830c78f, type: 3}
+  wonSound: {fileID: 8300000, guid: cb4bb798f46196948bbeb9decf2eff4a, type: 3}
+  ambulanceSiren: {fileID: 8300000, guid: f877302db654d4041a5af082944ca0e8, type: 3}
+  fireSiren: {fileID: 8300000, guid: 2a964e1e236cb4e4d95e4b7a5306f776, type: 3}
+  policeSiren: {fileID: 8300000, guid: c4792fdf2c8452f4bb21b72f98413fd8, type: 3}
+  presidentMusic: {fileID: 8300000, guid: 9d453fa665ab0794fa3b40f64f2b888d, type: 3}
+  conversationView: {fileID: 3000000011}
+  briefing: {fileID: 1094786584}
 --- !u!114 &3000000035
 MonoBehaviour:
   m_ObjectHideFlags: 0

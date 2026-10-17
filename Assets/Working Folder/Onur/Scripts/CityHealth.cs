@@ -22,6 +22,8 @@ public sealed class CityHealth : MonoBehaviour
 
     private RectTransform healthIndicator;
     private TMP_Text healthText;
+    private RectTransform healthFill;
+    private Coroutine barAnimation;
     private CanvasGroup gameOverOverlay;
     private Coroutine damageAnimation;
     private ScenarioCheckpoint checkpoint;
@@ -53,7 +55,7 @@ public sealed class CityHealth : MonoBehaviour
     {
         if (IsGameOver || percentagePoints <= 0 || HealthPercent >= StartingHealth) return false;
         HealthPercent = Mathf.Min(StartingHealth, HealthPercent + percentagePoints);
-        Refresh();
+        Refresh(true);
         return true;
     }
 
@@ -99,7 +101,7 @@ public sealed class CityHealth : MonoBehaviour
     {
         if (IsGameOver || percentagePoints <= 0) return false;
         HealthPercent = Mathf.Max(0, HealthPercent - percentagePoints);
-        Refresh();
+        Refresh(true);
         if (damageAnimation != null) StopCoroutine(damageAnimation);
         damageAnimation = StartCoroutine(AnimateDamage());
         if (HealthPercent == 0) EndGame();
@@ -148,9 +150,27 @@ public sealed class CityHealth : MonoBehaviour
         GameEnded?.Invoke();
     }
 
-    private void Refresh()
+    private void Refresh(bool animate = false)
     {
         if (healthText != null) healthText.text = $"HALK BİLİNCİ\n%{HealthPercent}";
+        if(healthFill)
+        {
+            if(barAnimation!=null)StopCoroutine(barAnimation);
+            if(animate&&isActiveAndEnabled)barAnimation=StartCoroutine(AnimateBar());
+            else SetBar(HealthPercent/100f);
+        }
+    }
+    private void SetBar(float fraction)
+    {
+        healthFill.anchorMax=new Vector2(Mathf.Clamp01(fraction),1);
+        healthFill.GetComponent<Image>().color=Color.Lerp(new Color(.86f,.29f,.27f),new Color(.35f,.84f,.70f),Mathf.Clamp01(fraction*1.45f));
+    }
+    private IEnumerator AnimateBar()
+    {
+        float from=healthFill.anchorMax.x,to=HealthPercent/100f;
+        for(float elapsed=0;elapsed<.4f;elapsed+=Time.unscaledDeltaTime)
+        {SetBar(Mathf.Lerp(from,to,Mathf.SmoothStep(0,1,elapsed/.4f)));yield return null;}
+        SetBar(to);barAnimation=null;
     }
 
     private void BuildInterface()
@@ -158,7 +178,7 @@ public sealed class CityHealth : MonoBehaviour
         var indicatorObject = new GameObject("Halk Bilinci", typeof(RectTransform), typeof(TextMeshProUGUI));
         healthIndicator = (RectTransform)indicatorObject.transform;
         healthIndicator.SetParent(transform, false);
-        healthIndicator.anchorMin = new Vector2(.02f, .88f);
+        healthIndicator.anchorMin = new Vector2(.02f, .80f);
         healthIndicator.anchorMax = new Vector2(.24f, .99f);
         healthIndicator.offsetMin = healthIndicator.offsetMax = Vector2.zero;
         healthText = indicatorObject.GetComponent<TextMeshProUGUI>();
@@ -170,10 +190,20 @@ public sealed class CityHealth : MonoBehaviour
         healthText.raycastTarget = false;
 
         var subtitle = NoteText("Şehir Hedefi", healthIndicator, "Şehri afete hazırla", 15);
-        subtitle.rectTransform.anchorMin = new Vector2(0, 0);
-        subtitle.rectTransform.anchorMax = new Vector2(1, .3f);
+        subtitle.rectTransform.anchorMin = new Vector2(0, .29f);
+        subtitle.rectTransform.anchorMax = new Vector2(1, .43f);
         subtitle.rectTransform.offsetMin = subtitle.rectTransform.offsetMax = Vector2.zero;
         subtitle.color = new Color(.65f, .82f, .82f);
+        var trackObject=new GameObject("Halk Bilinci Çubuğu",typeof(RectTransform),typeof(Image));
+        var track=(RectTransform)trackObject.transform;track.SetParent(healthIndicator,false);
+        track.anchorMin=new Vector2(0,.11f);track.anchorMax=new Vector2(1,.20f);
+        track.offsetMin=track.offsetMax=Vector2.zero;
+        var trackImage=trackObject.GetComponent<Image>();trackImage.color=new Color(.10f,.20f,.24f,.9f);trackImage.raycastTarget=false;
+        var fillObject=new GameObject("Halk Bilinci Dolumu",typeof(RectTransform),typeof(Image));
+        healthFill=(RectTransform)fillObject.transform;healthFill.SetParent(track,false);
+        healthFill.anchorMin=Vector2.zero;healthFill.anchorMax=Vector2.one;
+        healthFill.offsetMin=healthFill.offsetMax=Vector2.zero;
+        fillObject.GetComponent<Image>().raycastTarget=false;
         BuildMissionNote();
 
         var overlayObject = new GameObject("Oyun Bitti Ekranı", typeof(RectTransform), typeof(Image), typeof(CanvasGroup));

@@ -69,7 +69,7 @@ public static class ShiftReportInstaller
             var background=Panel("Rapor Ekranı",root.transform,Vector2.zero,Vector2.one,new Color(.025f,.045f,.065f,1));background.raycastTarget=true;
             var frame=Panel("Rapor Çerçevesi",background.transform,new Vector2(.12f,.065f),new Vector2(.88f,.935f),new Color(.18f,.26f,.31f));
             var card=Panel("Rapor İçeriği",frame.transform,new Vector2(.003f,.004f),new Vector2(.997f,.996f),new Color(.045f,.075f,.10f)).transform;
-            var brand=Label("Kurum",card,new Vector2(.05f,.934f),new Vector2(.95f,.973f),"912 // ACİL ÇAĞRI MERKEZİ",20);brand.color=Secondary;
+            var brand=Label("Kurum",card,new Vector2(.05f,.934f),new Vector2(.95f,.973f),"912 ACİL ÇAĞRI MERKEZİ",20);brand.color=Secondary;
             Label("Rapor Başlığı",card,new Vector2(.05f,.854f),new Vector2(.95f,.918f),"VARDİYA TAMAMLANDI",38,true).color=Paper;
             Label("Vardiya",card,new Vector2(.05f,.802f),new Vector2(.95f,.845f),"Gece Vardiyası Sonuçları",22).color=Secondary;
             Rule(card,.775f);

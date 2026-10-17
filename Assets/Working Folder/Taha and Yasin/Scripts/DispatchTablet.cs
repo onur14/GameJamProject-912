@@ -72,7 +72,7 @@ public sealed class DispatchTablet : MonoBehaviour
         content=Rect("Yayın İçeriği",body,new Vector2(.027f,.16f),new Vector2(.973f,.875f));
         Panel("Yayın Zemini",content,Vector2.zero,Vector2.one,new Color(.065f,.125f,.15f)).raycastTarget=false;
         menuHint=Text("Menü İpucu",content,new Vector2(.10f,.40f),new Vector2(.90f,.60f),"Kamu yayınını hazırlamak için aşağıdan bir görev seç.",24);
-        recording=Text("Kayıt Göstergesi",body,new Vector2(.04f,.878f),new Vector2(.32f,.915f),"REC  /  KAMU YAYINI",13);
+        recording=Text("Kayıt Göstergesi",body,new Vector2(.04f,.878f),new Vector2(.32f,.915f),"REC · KAMU YAYINI",13);
         recording.color=new Color(1,.38f,.32f);recording.gameObject.SetActive(false);
         Mount(window.BagPanel); Mount(window.SafetyPanel);
         MountEntry(window.BagEntryButton,new Vector2(.05f,.035f),new Vector2(.485f,.13f));

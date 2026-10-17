@@ -20,7 +20,7 @@ public class QuickQuestionResult
 
     public override string ToString()
     {
-        if (timedOut) return $"[{questionId}] ({targetScenarioId}) ZAMAN AŞIMI ({responseTime:F1}s / {totalDuration:F1}s)";
+        if (timedOut) return $"[{questionId}] ({targetScenarioId}) ZAMAN AŞIMI (yanıt {responseTime:F1}s, süre {totalDuration:F1}s)";
         return $"[{questionId}] ({targetScenarioId}) {selectedChoiceLabel} ({responseTime:F1}s)";
     }
 }

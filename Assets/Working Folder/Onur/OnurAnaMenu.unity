@@ -558,7 +558,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GECE VARDIYASI // HAZIR
+  m_text: GECE VARDIYASI HAZIR
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
   m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
@@ -784,7 +784,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9120026
 RectTransform:
   m_ObjectHideFlags: 0
@@ -859,7 +859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9120030
 RectTransform:
   m_ObjectHideFlags: 0
@@ -996,7 +996,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9120034
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1119,7 +1119,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 912 // ACIL CAGRI MERKEZI
+  m_text: 912 ACIL CAGRI MERKEZI
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
   m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
@@ -2352,6 +2352,9 @@ MonoBehaviour:
   gameplayScene: Onur Test Place Integrated
   menuFadeDuration: 0.3
   gameplayFadeInDuration: 0.3
+  openingNoticeFont: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
+  menuAudio: {fileID: 2012347022}
+  buttonSound: {fileID: 8300000, guid: 4a5c147174326eb42ab64d3bbfd0fb64, type: 3}
 --- !u!1 &631017349
 GameObject:
   m_ObjectHideFlags: 0
@@ -3218,7 +3221,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "912 // AC\u0130L \xC7A\u011ERI MERKEZ\u0130"
+  m_text: "912 AC\u0130L \xC7A\u011ERI MERKEZ\u0130"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
   m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}

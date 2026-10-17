@@ -76,7 +76,7 @@ public sealed class RunResultView : MonoBehaviour
             var data=ShiftReportData.Capture(briefing,FindAnyObjectByType<QuickQuestionManager>(),minigames,health,SceneManager.GetActiveScene().path);
             summaryLabel.text=string.Join("\n",data.ExplainOutcome(healthValue>0&&calls>=8));
         }
-        else summaryLabel.text=$"Tamamlanan çağrı  {calls}/8\nDoğru karar  {correct}\nMinigame  {tasks}/2\nHalk bilinci  %{healthValue}";
+        else summaryLabel.text=$"Tamamlanan çağrı  {calls} (Toplam 8)\nDoğru karar  {correct}\nMinigame  {tasks} (Toplam 2)\nHalk bilinci  %{healthValue}";
         panel.SetActive(true);
         panel.transform.SetAsLastSibling();
     }

@@ -69,7 +69,7 @@ public sealed class SmokeDetectorPreparationGame : MonoBehaviour
         newBattery.image.raycastTarget=newBattery.interactable;
         indicator.color=Step==5?Green:Amber;
         string[] hints={"Kapağı açmak için dedektöre tıkla.","Eski pili çıkar.","Yeni pili seç.","Pili boş yuvaya yerleştir.","Kapağı kapat.","DEDEKTÖR HAZIR"};
-        hint.text=hints[Step];stepLabel.text=Step==5?"PİL DEĞİŞTİRİLDİ":"ADIM "+(Step+1)+" / 5";
+        hint.text=hints[Step];stepLabel.text=Step==5?"PİL DEĞİŞTİRİLDİ":"ADIM "+(Step+1)+" · TOPLAM 5";
     }
     private IEnumerator Finish()
     {

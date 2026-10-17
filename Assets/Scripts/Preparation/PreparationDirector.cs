@@ -10,9 +10,15 @@ public sealed class PreparationDirector : MonoBehaviour
 {
     [SerializeField] private TMP_FontAsset font;
     [SerializeField] private MiniGameWindow bagWindow;
+    [SerializeField] private AudioClip activitySuccess;
+    [SerializeField] private AudioClip activityFailure;
+    private AudioSource activityAudio;
     private RectTransform house, activityHost;
     private CanvasGroup mapGroup, modal;
     private TMP_Text status, activityTitle, feedback;
+    private CanvasGroup feedbackGroup;
+    private Coroutine feedbackAnimation;
+    private Image feedbackFlash;
     private TMP_Text recordingClock;
     private PreparationBroadcast broadcast;
     private Button back;
@@ -38,6 +44,7 @@ public sealed class PreparationDirector : MonoBehaviour
 
     private void Awake()
     {
+        activityAudio=gameObject.AddComponent<AudioSource>();activityAudio.playOnAwake=false;activityAudio.spatialBlend=0;activityAudio.volume=.28f;
         string destination=PreparationRun.Destination;
         PreparationRun.Begin(destination);
         Build(); RefreshStatus();
@@ -72,7 +79,7 @@ public sealed class PreparationDirector : MonoBehaviour
         var screen=(RectTransform)canvasObject.transform;
         Panel("Zemin",screen,Vector2.zero,Vector2.one,Navy);
         Label("Başlık",screen,new Vector2(.045f,.90f),new Vector2(.56f,.975f),"AFETE HAZIRLIK",font,38).alignment=TextAlignmentOptions.Left;
-        Label("Alt Başlık",screen,new Vector2(.045f,.865f),new Vector2(.58f,.91f),"BAKANLIK KAMU SPOTU  /  DÖRT GÖREV, TEK ÇEKİM",font,19).alignment=TextAlignmentOptions.Left;
+        Label("Alt Başlık",screen,new Vector2(.045f,.865f),new Vector2(.58f,.91f),"BAKANLIK KAMU SPOTU · DÖRT GÖREV, TEK ÇEKİM",font,19).alignment=TextAlignmentOptions.Left;
         var rec=Label("Kayıt Göstergesi",screen,new Vector2(.78f,.92f),new Vector2(.96f,.97f),"REC  ●  EĞİTİM KAYDI",font,18);rec.color=Red;
         recordingClock=Label("Çekim Sayacı",screen,new Vector2(.78f,.855f),new Vector2(.97f,.92f),"KAYIT BEKLİYOR",font,24);
         var map=Rect("Ev Haritası",screen,new Vector2(.035f,.11f),new Vector2(.775f,.855f));mapGroup=map.gameObject.AddComponent<CanvasGroup>();
@@ -112,7 +119,10 @@ public sealed class PreparationDirector : MonoBehaviour
         activityTitle=Label("Etkinlik Başlığı",card,new Vector2(.04f,.90f),new Vector2(.79f,.99f),"",font,28);activityTitle.alignment=TextAlignmentOptions.Left;
         back=Button("Eve Dön",card,new Vector2(.80f,.91f),new Vector2(.97f,.98f),"EVE DÖN",font);back.onClick.AddListener(ReturnToHouse);
         activityHost=Rect("Etkinlik İçeriği",card,new Vector2(.025f,.10f),new Vector2(.975f,.89f));
-        feedback=Label("Kısa Geri Bildirim",card,new Vector2(.04f,.012f),new Vector2(.96f,.095f),"",font,22);
+        feedbackFlash=Panel("Sonuç Işığı",card,new Vector2(.025f,.10f),new Vector2(.975f,.89f),Color.clear);
+        var feedbackBackground=Panel("Geri Bildirim Zemini",card,new Vector2(.04f,.012f),new Vector2(.96f,.095f),new Color(.1f,.2f,.23f,.9f));
+        feedbackGroup=feedbackBackground.gameObject.AddComponent<CanvasGroup>();feedbackGroup.alpha=0;
+        feedback=Label("Kısa Geri Bildirim",feedbackBackground.transform,new Vector2(.02f,0),new Vector2(.98f,1),"",font,22);
         PreparationUI.Fit((RectTransform)bagWindow.transform,screen);
         bagWindow.transform.SetAsFirstSibling();
         PreparationUI.Fit((RectTransform)bagWindow.BagPanel.transform,activityHost);
@@ -129,11 +139,12 @@ public sealed class PreparationDirector : MonoBehaviour
     public void OpenActivity(int index)
     {
         if(!PreparationRun.IsRecording||index<0||index>3||busy||ActiveActivity>=0||PreparationRun.IsComplete(index)||SceneFadeTransition.IsTransitioning)return;
+        activityAudio.Stop();
         busy=true;ActiveActivity=index;finishing=false;activity=StartCoroutine(EnterActivity(index));
     }
     private IEnumerator EnterActivity(int index)
     {
-        mapGroup.interactable=false;feedback.text="";activityTitle.text=names[index];
+        mapGroup.interactable=false;feedback.text="";feedbackGroup.alpha=0;activityTitle.text=names[index];
         for(float t=0;t<.3f;t+=Time.unscaledDeltaTime){float p=Mathf.SmoothStep(0,1,t/.3f);house.localScale=Vector3.one*(1+p*.035f);mapGroup.alpha=1-p*.35f;yield return null;}
         modal.gameObject.SetActive(true);modal.alpha=0;modal.interactable=false;
         bagWindow.BagPanel.SetActive(false);earthquake.Hide();flood.Hide();detector.Hide();
@@ -146,7 +157,7 @@ public sealed class PreparationDirector : MonoBehaviour
             while(ActiveActivity==0&&!bagWindow.BagGame.IsResolved)yield return null;
             if(ActiveActivity!=0)yield break;
             if(bagWindow.BagGame.Succeeded)CompleteActivity(0);
-            else{OnTrainingMistake();feedback.text="Haklar bitti. Eşyaları gözden geçirip yeniden deneyebilirsin.";yield return new WaitForSecondsRealtime(1.6f);ReturnToHouse();}
+            else{OnTrainingMistake();activityAudio.Stop();if(activityFailure)activityAudio.PlayOneShot(activityFailure);ShowFeedback(false,"Haklar bitti. Eşyaları gözden geçirip yeniden deneyebilirsin.");yield return new WaitForSecondsRealtime(1.6f);ReturnToHouse();}
         }
         else if(index==1){yield return earthquake.Play();if(ActiveActivity==1)CompleteActivity(1);}
     }
@@ -154,22 +165,50 @@ public sealed class PreparationDirector : MonoBehaviour
     {
         if(ActiveActivity!=0||busy||finishing)return;
         int before=PreparationRun.Health;PreparationRun.AdjustHealth(correct?points:-points);RefreshStatus();
-        feedback.color=correct?Green:Amber;
-        feedback.text=correct?"Uygun eşya yerleştirildi.":"Bu eşya çantaya uygun değil. Yerine geri koyabilirsin.";
+        ShowFeedback(correct,correct?"Uygun eşya yerleştirildi.":"Bu eşya çantaya uygun değil. Yerine geri koyabilirsin.");
     }
     private void OnTrainingMistake()
     {
         if(finishing)return;PreparationRun.AdjustHealth(-2);RefreshStatus();
+        ShowFeedback(false,ActiveActivity==1?"YANLIŞ TUŞ · TEKRAR DENE":"GÜVENLİ NOKTA DEĞİL · TEKRAR DENE");
     }
     public void CompleteActivity(int index)
     {
         if(ActiveActivity!=index||busy||finishing||!PreparationRun.Complete(index))return;
         finishing=true;busy=true;modal.interactable=false;RefreshStatus();
-        feedback.color=Green;feedback.text="KLİP KAYDEDİLDİ · "+PreparationBroadcast.SafetyMessages[index];
+        activityAudio.Stop();if(activitySuccess)activityAudio.PlayOneShot(activitySuccess);
+        ShowFeedback(true,"KLİP KAYDEDİLDİ · "+PreparationBroadcast.SafetyMessages[index]);
         if(PreparationRun.preparationComplete)PreparationRun.FinishTake();
         StartCoroutine(CompleteAndReturn());
     }
     private IEnumerator CompleteAndReturn(){yield return new WaitForSecondsRealtime(1.6f);yield return LeaveActivity();}
+    private void ShowFeedback(bool success,string message)
+    {
+        feedback.text=message;feedback.color=success?Green:Amber;
+        if(feedbackAnimation!=null)StopCoroutine(feedbackAnimation);
+        feedbackAnimation=StartCoroutine(AnimateFeedback(success));
+    }
+    private IEnumerator AnimateFeedback(bool success)
+    {
+        var panel=feedbackGroup.GetComponent<Image>();
+        panel.color=success?new Color(.13f,.28f,.25f,.91f):new Color(.30f,.16f,.13f,.91f);
+        feedbackFlash.color=Color.clear;
+        for(float elapsed=0;elapsed<.18f;elapsed+=Time.unscaledDeltaTime)
+        {
+            float progress=Mathf.Clamp01(elapsed/.18f);
+            feedbackGroup.alpha=progress;
+            feedbackGroup.transform.localScale=Vector3.one*(.97f+.03f*progress);
+            var tint=success?Green:Red;tint.a=.09f*Mathf.Sin(progress*Mathf.PI);
+            feedbackFlash.color=tint;
+            yield return null;
+        }
+        feedbackGroup.alpha=1;feedbackGroup.transform.localScale=Vector3.one;feedbackFlash.color=Color.clear;
+        yield return new WaitForSecondsRealtime(.8f);
+        if(success)yield break;
+        for(float elapsed=0;elapsed<.2f;elapsed+=Time.unscaledDeltaTime)
+        {feedbackGroup.alpha=1-Mathf.Clamp01(elapsed/.2f);yield return null;}
+        feedbackGroup.alpha=0;
+    }
     public void BagClosed(){if(ActiveActivity==0&&!busy&&!finishing)ReturnToHouse();}
     public void ReturnToHouse()
     {
@@ -193,7 +232,7 @@ public sealed class PreparationDirector : MonoBehaviour
     public void RefreshStatus()
     {
         if(!status)return;
-        status.text=$"HAZIRLIK {PreparationRun.CompletedCount}/4\nHALK BİLİNCİ %{PreparationRun.Health}";
+        status.text=$"HAZIRLIK {PreparationRun.CompletedCount} GÖREV TAMAMLANDI\nHALK BİLİNCİ %{PreparationRun.Health}";
         for(int i=0;i<4;i++)
         {
             bool done=PreparationRun.IsComplete(i);markers[i].interactable=!done;

@@ -50,6 +50,7 @@ public static class PreparationChecks
         {
             if(command=="install"){PreparationInstaller.Install();File.WriteAllText(Queue+"/status.txt","INSTALLED");}
             else if(command=="test")Start();
+            else if(command=="test-visual")StartVisual();
             else if(command=="status")File.WriteAllText(Queue+"/status.txt",SceneManager.GetActiveScene().path+" play="+EditorApplication.isPlaying+" dirty="+SceneManager.GetActiveScene().isDirty);
             else throw new Exception("Unknown preparation request");
         }
@@ -63,6 +64,12 @@ public static class PreparationChecks
         SessionState.SetBool("PreparationChecks",true);SessionState.SetString("PreparationResult","RUNNING");
         EditorSceneManager.playModeStartScene=AssetDatabase.LoadAssetAtPath<SceneAsset>(Menu);
         File.WriteAllText(Queue+"/status.txt","RUNNING");EditorApplication.EnterPlaymode();
+    }
+    [MenuItem("GameJam/Preparation/Test Visual Flow (Play Mode)")]
+    public static void StartVisual()
+    {
+        SessionState.SetBool("PreparationVisualOnly",true);
+        Start();
     }
     static void Check(bool ok,string description)
     {if(!ok)throw new Exception(description);File.AppendAllText(Logs+"/checks.txt","PASS: "+description+"\n");}
@@ -123,13 +130,19 @@ public static class PreparationChecks
         {
             await Wait(()=>!SceneFadeTransition.IsTransitioning&&Find<AnaMenü>());OneEventSystem();
             var play=UnityEngine.Object.FindObjectsByType<Button>().First(b=>Enumerable.Range(0,b.onClick.GetPersistentEventCount()).Any(i=>b.onClick.GetPersistentMethodName(i)=="OyunBaslat"));
-            Click(play);await Wait(()=>Find<PreparationDirector>()&&!SceneFadeTransition.IsTransitioning);
+            Click(play);
+            await Wait(()=>GameObject.Find("Açılış Bilgi Notu"));
+            Check(GameObject.Find("Açılış Bilgi Notu"),"Heinrich/BM notice appears after OYNA");
+            await Wait(()=>Find<PreparationDirector>()&&!SceneFadeTransition.IsTransitioning);
             var d=Find<PreparationDirector>();
             await Wait(()=>d.Broadcast.StartButton.IsInteractable());
             Check(d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Briefing&&!PreparationRun.IsRecording,"OYNA first shows ministry public-service briefing without starting timer");
             d.OpenActivity(0);Check(d.ActiveActivity<0,"Activities cannot start before recording briefing is accepted");
             Fits(d.gameObject);await Capture("00-ministry-briefing");
-            Click(d.Broadcast.StartButton);d.Broadcast.StartRecording();
+            Click(d.Broadcast.StartButton);
+            await Wait(()=>d.Broadcast.PurposeButton.IsInteractable());
+            Check(GameObject.Find("Çekim Öncesi Uyarı"),"Preparation purpose appears just before recording");
+            Click(d.Broadcast.PurposeButton);
             await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Recording&&!d.IsBusy&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf);
             Check(PreparationRun.TakeNumber==1&&PreparationRun.IsRecording,"Countdown starts exactly one timed recording");
             Check(PreparationRun.CompletedCount==0&&d.Markers.Count==4,"OYNA enters fresh house preparation with four markers");
@@ -164,7 +177,13 @@ public static class PreparationChecks
             int required=d.Earthquake.RequiredDirection;await KeyPress((required+1)%4);
             Check(d.Earthquake.Step==0&&d.Earthquake.Running,"Wrong arrow does not advance or fail training");
             await Capture("03-earthquake");
-            for(int step=0;step<3;step++){await KeyPress(d.Earthquake.RequiredDirection);Check(d.Earthquake.Step==step+1,"Arrow step changes character pose: "+step);}
+            for(int step=0;step<3;step++)
+            {
+                await KeyPress(d.Earthquake.RequiredDirection);
+                await Wait(()=>d.Earthquake.Step==step+1);
+                Check(!d.Earthquake.IsTransitioning&&d.Earthquake.CurrentPose==new[]{2,4,5}[step],"Arrow movement finishes before next input: "+step);
+                await Capture("03-earthquake-stage-"+step);
+            }
             await Home(d,2);
 
             await Open(d,2);Click(d.Flood.Points[0]);
@@ -199,7 +218,7 @@ public static class PreparationChecks
             await Wait(()=>PreparationRun.TakeNumber==3&&PreparationRun.IsRecording&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf);
             await Task.Delay((int)((best+1)*1000));await CompleteQuickTake(d);
             Check(!PreparationRun.LastTakeImproved&&PreparationRun.BestTakeSeconds==best&&PreparationRun.RewardEarned,"Slower retake preserves best video and one-time reward");
-            Fits(d.gameObject);Click(d.Broadcast.PublishButton);d.Broadcast.Publish();
+            Fits(d.gameObject);await Task.Delay(450);Click(d.Broadcast.PublishButton);d.Broadcast.Publish();
             Check(PreparationRun.Published&&PreparationRun.TeamBonus==1,"Publish is locked once and grants exactly one team of each type");
             await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Publishing);await Task.Delay(1800);Fits(d.gameObject);await Capture("11-public-service-montage");
             await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.MonthsLater,20);
@@ -220,6 +239,20 @@ public static class PreparationChecks
             var phone=Find<DispatchCallFlow>();await Wait(()=>phone.State==DispatchCallFlow.CallState.IncomingCall);
             phone.AnswerPhone();await Wait(()=>phone.State==DispatchCallFlow.CallState.Conversation);
             Check(Find<CallerInfoView>()&&Find<DispatchResources>()&&Find<OnurConversationView>(),"Operator caller, resource and dialogue systems intact");
+            if(SessionState.GetBool("PreparationVisualOnly",false))
+            {
+                var health=Find<CityHealth>();var fill=Field<RectTransform>(health,"healthFill");
+                int originalHealth=health.HealthPercent;
+                health.ApplyDamage(5);await Task.Delay(500);
+                Check(Mathf.Abs(fill.anchorMax.x-health.HealthPercent/100f)<.02f,"Public awareness bar tracks percentage damage");
+                health.RestoreScenarioHealth(originalHealth,health.WrongDecisionCount,health.TimedOutDecisionCount);
+                await Wait(()=>Find<QuickQuestionView>()&&Find<QuickQuestionView>().Ready,30);
+                await Capture("07-operator-quick-question");
+                Check(errors.Count==0,"No new Play Mode errors: "+string.Join("; ",errors));
+                File.AppendAllText(Logs+"/checks.txt","VISUAL COMPLETE\n");
+                SessionState.SetString("PreparationResult","PASS — visual preparation and operator entry");
+                return;
+            }
             await RunOperatorShift();
             await Wait(()=>Find<ShiftReportView>()&&Find<ShiftReportView>().IsVisible&&!SceneFadeTransition.IsTransitioning,40);
             var report=Find<ShiftReportView>();var snapshot=report.Data;
@@ -231,6 +264,7 @@ public static class PreparationChecks
             Check(!Find<QuickQuestionManager>()&&!Find<DispatchResources>(),"Retry disposes old operator resources and Quick Question data");OneEventSystem();
             Check(!PreparationRun.RewardEarned&&!PreparationRun.Published&&PreparationRun.TakeNumber==0,"Full-run retry clears recording history and bonus");
             d=Find<PreparationDirector>();await Wait(()=>d.Broadcast.StartButton.IsInteractable());Click(d.Broadcast.StartButton);
+            await Wait(()=>d.Broadcast.PurposeButton.IsInteractable());Click(d.Broadcast.PurposeButton);
             await Wait(()=>!d.IsBusy&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf);
             // Use the normal return-to-menu button, then OYNA again.
             var menu=UnityEngine.Object.FindObjectsByType<Button>().First(b=>b.name=="Ana Menü");Click(menu);
@@ -242,7 +276,7 @@ public static class PreparationChecks
             File.AppendAllText(Logs+"/checks.txt","COMPLETE\n");SessionState.SetString("PreparationResult","PASS — Logs/Preparation/checks.txt");
         }
         catch(Exception e){File.AppendAllText(Logs+"/checks.txt","FAIL: "+e+"\n");SessionState.SetString("PreparationResult",e.ToString());}
-        finally{if(Keyboard.current!=null)InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState());Application.logMessageReceived-=Log;EditorApplication.ExitPlaymode();}
+        finally{SessionState.SetBool("PreparationVisualOnly",false);if(Keyboard.current!=null)InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState());Application.logMessageReceived-=Log;EditorApplication.ExitPlaymode();}
     }
     static async Task CompleteQuickTake(PreparationDirector d)
     {
@@ -252,7 +286,7 @@ public static class PreparationChecks
             {var p=new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left};item.OnPointerDown(p);item.OnPointerClick(p);}
         bag.Check();await Home(d,1);
         await Open(d,1);await Wait(()=>d.Earthquake.Running);
-        for(int i=0;i<3;i++)await KeyPress(d.Earthquake.RequiredDirection);await Home(d,2);
+        for(int i=0;i<3;i++){await KeyPress(d.Earthquake.RequiredDirection);int next=i+1;await Wait(()=>d.Earthquake.Step==next);}await Home(d,2);
         await Open(d,2);Click(d.Flood.Points[FloodPreparationGame.HighGroundPoint]);await Home(d,3);
         await Open(d,3);var smoke=d.Detector;
         Click(smoke.Cover);await Wait(()=>smoke.Step==1);await Task.Delay(50);

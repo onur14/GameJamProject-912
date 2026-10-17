@@ -153,7 +153,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
             string bad = "YANLIŞ BİLGİ YAYILDI · SAĞLIK -10";
             result[i] = new QuickQuestionConfig {
                 id = "QQ-" + (i + 9).ToString("00"), targetScenarioId = ids[i],
-                categoryTitle = "BİLGİ KİRLİLİĞİ / TEYİT", questionText = questions[i],
+                categoryTitle = "BİLGİ KİRLİLİĞİ VE TEYİT", questionText = questions[i],
                 choiceALabel = "EVET", choiceBLabel = "HAYIR",
                 choiceAEffect = new DispatchResourceEffect(), choiceBEffect = new DispatchResourceEffect(),
                 choiceAFeedback = correct[i] == 0 ? good : bad, choiceBFeedback = correct[i] == 1 ? good : bad,

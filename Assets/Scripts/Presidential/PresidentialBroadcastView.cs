@@ -138,7 +138,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
             : health <= 65 ? "Halk bilinci düşüyor. Teyitsiz bilgiye müdahale et ve yönlendirmelerini dikkatle seç."
             : "Sen ve ekibin doğru yönlendirmelerinizle şehre yardımcı oldunuz. Hazırlığı ve kaynak dengesini koru!";
         Text("Özet Alt Bilgi", card, new Vector2(.02f,0), new Vector2(.98f,.12f), 18, accent).text =
-            $"HALK BİLİNCİ %{health}  /  {correct}/{completed} DOĞRU KARAR  /  BAŞKAN YAYINI BAĞLANIYOR";
+            $"HALK BİLİNCİ %{health} · {completed} VAKADA {correct} DOĞRU KARAR · BAŞKAN YAYINI BAĞLANIYOR";
         shiftSummary.blocksRaycasts = true;
         for (float t = 0; t < 5f; t += Time.unscaledDeltaTime)
         {
@@ -181,7 +181,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         showingOffers = false;
         foreach (var button in offers) button.gameObject.SetActive(false);
         advance.gameObject.SetActive(true); stock.text = resources;
-        footer.text = "RESMÎ BİLGİLENDİRME  /  Tıklayarak ilerleyin";
+        footer.text = "RESMÎ BİLGİLENDİRME · Tıklayarak ilerleyin";
         if (typing != null) StopCoroutine(typing);
         StopSpeaking();
         completeLine = line; body.text = line; body.maxVisibleCharacters = 0;
@@ -245,7 +245,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         {
             var p = plans[i]; bool valid = p.IsValid(r);
             offers[i].gameObject.SetActive(true); offers[i].interactable = valid;
-            offerTexts[i].text = $"{(i == 0 ? "A" : "B")} / {p.title}\n{p.rationale}\nAmb {Delta(p.ambulances)} · İtf {Delta(p.firefighters)} · {thirdResourceLabel} {Delta(p.thirdTeam)}\nSONUÇ: {r.Ambulances + p.ambulances} / {r.Firefighters + p.firefighters} / {r.Police + p.thirdTeam}";
+            offerTexts[i].text = $"{(i == 0 ? "A" : "B")} · {p.title}\n{p.rationale}\nAmb {Delta(p.ambulances)} · İtf {Delta(p.firefighters)} · {thirdResourceLabel} {Delta(p.thirdTeam)}\nSONUÇ: Amb {r.Ambulances + p.ambulances} · İtf {r.Firefighters + p.firefighters} · {thirdResourceLabel} {r.Police + p.thirdTeam}";
             if (!valid)
             {
                 string missing = r.Ambulances + (long)p.ambulances < 0 ? "Ambulans" : r.Firefighters + (long)p.firefighters < 0 ? "İtfaiye" : thirdResourceLabel;
@@ -262,7 +262,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
     }
     public void Final(string report, string resources)
     {
-        Show("VARDİYA SONU  /  GELECEK VARDİYAYA DEVİR");
+        Show("VARDİYA SONU · GELECEK VARDİYAYA DEVİR");
         Line(report, resources);
         if (typing != null) StopCoroutine(typing);
         typing = null; body.maxVisibleCharacters = int.MaxValue;

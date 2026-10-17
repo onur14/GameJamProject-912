@@ -13,5 +13,6 @@ public sealed class EarthquakeSheetImporter : AssetPostprocessor
         importer.textureCompression = TextureImporterCompression.Uncompressed;
         importer.filterMode = UnityEngine.FilterMode.Point;
         importer.mipmapEnabled = false;
+        if (assetPath.EndsWith("EarthquakeSheet.png")) importer.isReadable = true;
     }
 }

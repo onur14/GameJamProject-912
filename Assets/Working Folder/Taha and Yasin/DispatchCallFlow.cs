@@ -122,13 +122,6 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
     {
         // The scene's Start runs while the persistent scene curtain is still black.
         while (SceneFadeTransition.IsTransitioning) yield return null;
-        var curseDirector=FindAnyObjectByType<DispatchCurseDirector>();
-        if(curseDirector)
-        {
-            var canvas=curseDirector.GetComponentInParent<Canvas>();
-            var text=curseDirector.GetComponentInChildren<TMPro.TMP_Text>(true);
-            yield return DispatchOpeningNotice.Show(canvas,text?text.font:null);
-        }
         State = CallState.Idle;
         float remaining = Mathf.Max(0, firstRingDelay);
         while (remaining > 0)

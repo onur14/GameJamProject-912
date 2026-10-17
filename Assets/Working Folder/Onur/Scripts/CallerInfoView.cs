@@ -66,23 +66,17 @@ public sealed class CallerInfoView : MonoBehaviour
     private void PrepareText()
     {
         if(textPrepared)return;textPrepared=true;
-        if(emergencyLabel && summaryLabel && emergencyLabel.transform.parent==summaryLabel.transform.parent)
-        {
-            var eventRect=emergencyLabel.rectTransform;var summaryRect=summaryLabel.rectTransform;
-            // A short event label may use two lines, without resizing the caller panel.
-            eventRect.anchorMin=new Vector2(eventRect.anchorMin.x,Mathf.Min(eventRect.anchorMin.y,eventRect.anchorMax.y-.12f));
-            summaryRect.anchorMax=new Vector2(summaryRect.anchorMax.x,Mathf.Min(summaryRect.anchorMax.y,eventRect.anchorMin.y-.02f));
-        }
-        // Match the existing scene-specific readability scale once, then add a small caller-only increase.
-        float existingScale=gameObject.scene.path.Contains("Taha and Yasin")?1.25f:1;
+        Layout(nameLabel,.80f,.91f);
+        Layout(locationLabel,.66f,.78f);
+        Layout(emergencyLabel,.51f,.64f);
+        Layout(summaryLabel,.08f,.48f);
         foreach(var label in new[]{nameLabel,locationLabel,emergencyLabel,summaryLabel})
         {
             if(!label)continue;
             float size=label.enableAutoSizing?label.fontSizeMax:label.fontSize;
-            float minimum=label.enableAutoSizing?label.fontSizeMin:size*.9f;
-            label.fontSizeMax=size*existingScale*1.06f;label.fontSizeMin=minimum*1.05f;label.enableAutoSizing=true;
+            label.fontSizeMax=Mathf.Min(size,18);label.fontSizeMin=12;label.enableAutoSizing=true;
             label.fontStyle=label==nameLabel?FontStyles.Bold:FontStyles.Normal;label.fontWeight=FontWeight.Regular;
-            label.textWrappingMode=TextWrappingModes.Normal;label.lineSpacing=3;label.characterSpacing=.15f;
+            label.textWrappingMode=TextWrappingModes.Normal;label.lineSpacing=4;label.characterSpacing=.15f;
             label.color=new Color(.92f,.96f,.93f);label.extraPadding=true;
             if(label.font)
             {
@@ -95,6 +89,15 @@ public sealed class CallerInfoView : MonoBehaviour
                 label.fontSharedMaterial=material;
             }
         }
+    }
+    private static void Layout(TMP_Text label,float bottom,float top)
+    {
+        if(!label)return;
+        var rect=label.rectTransform;
+        rect.anchorMin=new Vector2(.07f,bottom);rect.anchorMax=new Vector2(.93f,top);
+        rect.offsetMin=rect.offsetMax=Vector2.zero;
+        label.alignment=TextAlignmentOptions.TopLeft;
+        label.overflowMode=TextOverflowModes.Truncate;
     }
     private void OnDestroy(){foreach(var material in textMaterials.Values)if(material)Destroy(material);}
 

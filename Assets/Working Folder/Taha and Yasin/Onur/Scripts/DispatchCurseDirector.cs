@@ -71,7 +71,7 @@ public sealed class DispatchCurseDirector : MonoBehaviour
         slownessApplied=true;slownessUntil=briefing.CompletedScenarios+2;
         int a=Mathf.Min(2,resources.Ambulances), f=Mathf.Min(2,resources.Firefighters), r=Mathf.Min(2,resources.Police);
         resources.TryApply(-a,-f,-r);
-        Announce("YAVAŞLIK CEZASI",$"Ambulans -{a}   /   İtfaiye -{f}   /   Kurtarma -{r}\nHızından bağımsız lanet · 2 vaka",slownessEmblem,new Color(1,.30f,.20f));
+        Announce("YAVAŞLIK CEZASI",$"Ambulans -{a} · İtfaiye -{f} · Kurtarma -{r}\n2 vaka boyunca etkili",slownessEmblem,new Color(1,.30f,.20f));
         RefreshBadges();
     }
     public void ApplyFog()

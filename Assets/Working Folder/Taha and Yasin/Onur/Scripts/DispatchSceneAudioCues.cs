@@ -9,16 +9,61 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
     [SerializeField] private Cizirti radio;
     [SerializeField] private AudioSource notices;
     [SerializeField] private AudioClip blink;
+    [SerializeField] private AudioClip aftermathMusic;
+    [SerializeField] private AudioClip decisionStress;
+    [SerializeField] private AudioClip choiceClick;
+    [SerializeField] private AudioClip lostSound;
+    [SerializeField] private AudioClip wonSound;
+    [SerializeField] private AudioClip ambulanceSiren;
+    [SerializeField] private AudioClip fireSiren;
+    [SerializeField] private AudioClip policeSiren;
+    [SerializeField] private AudioClip presidentMusic;
+    [SerializeField] private OnurConversationView conversationView;
+    [SerializeField] private PresidentialBriefingManager briefing;
+    private AudioSource music,stress,effects;
+    private bool ended;
     private float lastOpen = -10;
+    private void Awake()
+    {
+        music=gameObject.AddComponent<AudioSource>();music.playOnAwake=false;music.loop=true;music.spatialBlend=0;music.volume=.16f;
+        stress=gameObject.AddComponent<AudioSource>();stress.playOnAwake=false;stress.loop=true;stress.spatialBlend=0;stress.volume=.14f;
+        effects=gameObject.AddComponent<AudioSource>();effects.playOnAwake=false;effects.spatialBlend=0;effects.volume=.28f;
+    }
     private void OnEnable()
     {
+        ended=false;
         phone.Answered += Open;flow.ScenarioStarted += ScenarioStarted;flow.ScenarioClosing += Close;awareness.GameEnded += Failed;
+        flow.DecisionResolved+=DecisionResolved;flow.DecisionTimedOut+=DecisionTimedOut;flow.UnitDispatched+=UnitDispatched;
+        if(conversationView)conversationView.ChoicesShown+=ChoicesShown;
+        if(briefing)briefing.RunCompleted+=Won;
+        if(aftermathMusic){music.clip=aftermathMusic;music.Play();}
     }
     private void OnDisable()
     {
         phone.Answered -= Open;flow.ScenarioStarted -= ScenarioStarted;flow.ScenarioClosing -= Close;awareness.GameEnded -= Failed;
+        flow.DecisionResolved-=DecisionResolved;flow.DecisionTimedOut-=DecisionTimedOut;flow.UnitDispatched-=UnitDispatched;
+        if(conversationView)conversationView.ChoicesShown-=ChoicesShown;
+        if(briefing)briefing.RunCompleted-=Won;
+        music.Stop();stress.Stop();effects.Stop();
         if(radio)radio.TelefonKapat();
     }
+    private void Update()
+    {
+        if(ended || !briefing || !presidentMusic || !aftermathMusic || !music)return;
+        bool presidential=briefing.Phase==PresidentialBriefingManager.ShiftPhase.Dialogue || briefing.Phase==PresidentialBriefingManager.ShiftPhase.Allocation || briefing.Phase==PresidentialBriefingManager.ShiftPhase.Confirmation || briefing.Phase==PresidentialBriefingManager.ShiftPhase.Final;
+        var next=presidential?presidentMusic:aftermathMusic;
+        if(music.clip==next)return;
+        music.clip=next;music.Play();
+    }
+    private void ChoicesShown(){if(decisionStress){stress.clip=decisionStress;stress.Play();}}
+    private void DecisionResolved(bool correct){stress.Stop();if(choiceClick)effects.PlayOneShot(choiceClick,.45f);}
+    private void DecisionTimedOut(){stress.Stop();}
+    private void UnitDispatched(DispatchResourceEffect effect)
+    {
+        var clip=effect.ambulances<0?ambulanceSiren:effect.firefighters<0?fireSiren:effect.rescue<0?policeSiren:null;
+        if(clip)effects.PlayOneShot(clip,.45f);
+    }
+    private void Won(){ended=true;stress.Stop();music.Stop();if(wonSound)effects.PlayOneShot(wonSound,.75f);}
     private void ScenarioStarted(int revision,string id) { if(phone.State==DispatchCallFlow.CallState.Conversation)Open(); }
     private void Open()
     {
@@ -26,6 +71,6 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
         lastOpen=Time.unscaledTime;if(radio)radio.TelefonAc();
     }
     private void Close(int revision) { if(radio)radio.TelefonKapat(); }
-    private void Failed() { if(radio)radio.TelefonKapat(); }
+    private void Failed() { ended=true;stress.Stop();music.Stop();if(lostSound)effects.PlayOneShot(lostSound,.75f);if(radio)radio.TelefonKapat(); }
     public void PlayCurse() { if(notices && blink)notices.PlayOneShot(blink,.8f); }
 }
