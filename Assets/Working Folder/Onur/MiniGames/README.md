@@ -1,48 +1,64 @@
-# Onur minigame prototipi
+# Onur — 2D minigame pencereleri
 
-Oyun sahnesi: `Assets/Working Folder/Onur/Onur Test Place Integrated.unity`. Ana menüye veya diğer ekiplerin sahnelerine minigame eklenmedi. `DispatchRoomCanvas` altındaki `MiniGameWindow` prefab örneği iki giriş düğmesini ve tek bir karartmalı pencereyi içerir. Sahnedeki `EventSystem` kullanılır; yeni bir EventSystem ve süre sınırı yoktur.
+Mevcut sahne: `Assets/Working Folder/Onur/Onur Test Place Integrated.unity`.
+İki mevcut giriş düğmesi ve `MiniGameWindow` prefab örneği korunur. Başka sahneye giriş düğmesi veya otomatik görev eklenmedi. Scene örneğindeki root/component fileID'leri korunarak dört mevcut prefab düzenlendi; bağlantılar prefab üzerinden aktarılır.
 
-## Prefablar ve görseller
+## Görsel düzen
 
-- `Prefabs/MiniGameWindow.prefab`: giriş düğmeleri, raycast engelleyen üst Canvas, panel seçimi ve şehir sağlığı bağlantısı.
-- `Prefabs/BagMiniGame.prefab`: çanta, başlangıç alanı, eşya kartları, sonuç ve kontrol düğmeleri.
-- `Prefabs/BagDraggableItem.prefab`: yeniden kullanılabilir eşya kartı.
-- `Prefabs/SafetyMiniGame.prefab`: görsel üzerindeki üç **TEST** noktası, iki karar seçeneği, sonuç ve kontrol düğmeleri.
-- Çanta görseli ve eşya kırpımları: `Assets/MiniGame/MiniGame1(Surukleme)/Adsız.png`. Güvenlik görseli: `Assets/MiniGame/MiniGame2(ElektrikGüvenlik)/güvenlik.png`. PNG dosyaları ve importer ayarları değiştirilmedi.
+- `BagMiniGame.prefab`: büyük çanta ortada, altı PNG eşya iki yanında; beyaz kartlar ve eski grid yerleşimleri kaldırıldı/gizlendi. Çanta içinde her eşyanın ayrı `bagPosition` yuvası var. Dışarı bırakılan eşya kendi başlangıç yerine döner.
+- `BagDraggableItem.prefab`: gerçek sprite kök Image'da; eski RawImage ve uzun eşya adı görünümü kapalı. Sprite hit test için üretilen kırpımlar readable olarak ayarlı.
+- `SafetyMiniGame.prefab`: tek çalışma yüzeyinde pano, gaz ve su görselleri. Her noktaya tıklama A/B görsel durumunu değiştirir. Küçük beyaz ✓ yalnızca etkileşimin yapıldığını belirtir; doğru cevabı açıklamaz. Eski soru/iki metin seçeneği alanları görünmez.
+- `MiniGameWindow.prefab`: aynı karartma ve 501 sıralı modal Canvas; daha küçük kontrol/kapat düğmeleri ve iki panel için ortak pencere sınırları. Yeni EventSystem yok.
 
-Görseller gerçek doğru cevapları doğrulamıyor. `TEST:` adları, çantaya konacak eşya örnekleri ve güvenlik seçenekleri yalnızca Inspector'da değiştirilecek prototip verisidir; gerçek güvenlik talimatı sayılmamalıdır. `Tools > Onur > Install Minigames` kurulumu yeniden çalıştırılırsa örnek prefablar **yeniden üretilir ve düzenlenen test verileri üzerine yazılır**.
+Yazılar: küçük başlık, tek satır yönerge, ♥ ♥ ♥, ✓ kontrol, X kapatma ve kısa sonuç.
 
-## Inspector alanları
+## Kullanılan PNG'ler
 
-| Bileşen | Alan | Görev |
-| --- | --- | --- |
-| `MiniGameWindow` | `bagEntryButton`, `safetyEntryButton` | Prototip giriş düğmeleri. |
-| `MiniGameWindow` | `overlay`, `bagGame`, `safetyGame` | Karartma ve iki ayrı panel. |
-| `MiniGameWindow` | `cityHealth`, `phone`, `conversationView` | Mevcut sağlık ödülü ve panel açıkken duraklatılacak akışlar. Sahne örneğinde bağlıdır. |
-| `BagMiniGame`, `SafetyMiniGame` | `startingAttempts`, `rewardPoints` | Her oyun için ayrı hak ve yüzde puanı ödülü; varsayılan 3 ve 10. |
-| `BagMiniGame` | `window`, `dragLayer`, `items` | Ortak pencere, sürükleme katmanı ve kontrol edilen eşyalar. |
-| `BagMiniGame` | `attemptsLabel`, `resultLabel`, `checkButton`, `closeButton` | Durum yazıları ve düğmeler. |
-| `BagDraggableItem` | `itemName`, `sourceSprite`, `cropPixels`, `icon`, `nameLabel` | Eşya adı ve mevcut sprite sayfasından kart görseli. `cropPixels` piksel kırpımıdır. |
-| `BagDraggableItem` | `startingArea`, `correctArea`, `game` | Başlangıç yeri, doğru bırakma alanı ve oyun bağlantısı. `correctArea` boşsa eşya çanta dışında kalmalıdır. |
-| `BagDropZone` | `isBagArea`, `contentRoot` | Çanta/dış alan ayrımı ve eşyaların yerleştiği UI kökü. |
-| `SafetyMiniGame` | `points` | Her noktanın adı, açıklaması, A/B metinleri, doğru seçeneği (0=A, 1=B), görsel butonu ve seçim işareti. |
-| `SafetyMiniGame` | `pointNameLabel`, `descriptionLabel`, `optionALabel`, `optionBLabel`, `attemptsLabel`, `resultLabel`, `optionAButton`, `optionBButton`, `checkButton`, `closeButton`, `window` | Seçilen nokta bilgisi, hak/sonuç yazıları, düğmeler ve ortak pencere bağlantısı. |
+Özgün dosyalar değiştirilmedi:
 
-Çalışma anındaki alanlar Inspector verisi değildir:
+- `Assets/MiniGame/MiniGame1(Surukleme)/Adsız.png`
+- `Assets/MiniGame/MiniGame2(ElektrikGüvenlik)/güvenlik.png`
 
-| Bileşen | Alan | Görev |
-| --- | --- | --- |
-| `MiniGameWindow` | `wasPhonePaused`, `wasConversationPaused`, `isOpen` | Açılış öncesi duraklama durumlarını ve tek pencere kuralını korur. |
-| `BagMiniGame` | `attemptsLeft`, `resolved`, `lastCheckTime` | Kalan hak, kesinleşmiş sonuç ve hızlı çift kontrol engeli. |
-| `BagDraggableItem` | `rect`, `group`, `currentArea`, `previousArea`, `dragLayer`, `pointerOffset`, `previousSibling`, `dragging`, `dropped` | Kartın UI dönüşümü, raycast durumu, mevcut/önceki alanı ve sıra/konumunu sürükleme boyunca tutar. |
-| `SafetyMiniGame` | `ControlPoint.selectedOption`, `attemptsLeft`, `selectedPoint`, `resolved`, `lastCheckTime` | Her noktanın seçimi, kalan hak, açık nokta, sonuç ve çift kontrol engeli. |
-| `DispatchCallFlow`, `OnurConversationView` | `IsPaused` | Pencere açıkken sadece ilgili çağrı/konuşma akışını durdurur. |
+Mevcut installer'ın sprite kırpma koordinatları ve kenara bağlı arka plan ayıklama yaklaşımı kullanılarak `Cutouts/` altında 14 sprite çıkarıldı:
 
-## Davranış
+`bag`, `water`, `flashlight`, `first_aid`, `radio`, `ball`, `controller`, `breaker`, `breaker_a`, `breaker_b`, `gas_valve`, `gas_valve_b`, `water_valve`, `water_valve_b`.
 
-- Çantada kartlar `EventSystem` sürükleme olaylarıyla alanlar arasında taşınır. Geçersiz bırakma önceki yere döner; yerleştirme hak harcamaz. `Kontrol Et`, bütün gerekli eşyaların doğru alanlarda ve gereksizlerin dışarıda olup olmadığını karşılaştırır.
-- Güvenlik oyununda nokta seçimi ve A/B kararı ayrı saklanır; kontrol öncesi değiştirilebilir. `Kontrol Et`, bütün noktaların cevaplanmasını ve `correctOption` eşleşmesini ister. Boş liste başarı değildir.
-- Başarısız kontrol bir hak eksiltir; son hakta yalnız o panel kilitlenir. Başarıda mevcut `CityHealth.AddHealth` en fazla %100'e kadar tek sefer uygulanır. Kapat/aç hakları ve sonucu korur. `ResetForNewSession()` dışarıdan çağrılmadıkça oturum sıfırlanmaz.
-- Pencere açılırken telefon ve konuşmanın önceki duraklama değerleri saklanır, kapanınca aynen geri yüklenir. `Time.timeScale` değiştirilmez.
+Yeni sanat veya dosya adına dayalı doğruluk sınıflandırması yok. Altı eşyanın `correctArea` referansları ve üç noktanın mevcut `correctOption` değerleri aynen korundu.
 
-Unity Play Mode'da iki giriş, panel kapatma, eksik kontrolün tek hak azaltması, kapat/aç koruması, güvenlik seçimi ve başarılı güvenlik sonucu gözlendi. Otomasyon aracının fare sürüklemesi Unity `OnBeginDrag` olayını tetiklemediğinden çanta sürüklemesi gerçek fareyle ayrıca sınanmalıdır.
+## Inspector
+
+- Her oyunda `startingAttempts` (varsayılan 3), `rewardPoints` (10).
+- `BagDraggableItem`: `startingArea`, `correctArea`, `startingPosition`, `bagPosition`, `icon`, `game`. `correctArea` boşsa eşya dışarıda kalmalıdır.
+- `BagDropZone`: `contentRoot` ve `isBagArea`.
+- `SafetyMiniGame.points`: `correctOption` (0/1), `hotspotButton`, `stateImage`, `stateA`, `stateB`, `completionTick`. Eski açıklama/A-B alanları uyumluluk için durur fakat gösterilmez.
+- Güvenlik cevapları mevcut Inspector TEST verisidir; gerçek elektrik/gaz müdahale talimatı değildir. Doğrulanmış içeriği yalnızca yetkili içerik sahibi Inspector'da değiştirmelidir.
+
+## Korunan kurallar
+
+Hak yalnızca başarısız ✓ kontrolünde azalır. Sürükleme ve durum değişimi hak harcamaz. Başarı sonucu kilitlenmeden önce değil, kilitlendikten sonra mevcut `CityHealth.AddHealth` üzerinden ödül uygulanır; tekrar ✓ veya kapat/aç ödülü tekrarlamaz. Başarısızlık ana oyunu bitirmez. Kapat/aç hak, seçim ve sonucu korur. Şehir sağlığı hesabı ve %100 sınırı değiştirilmedi.
+
+Pencere, mevcut telefon/konuşma `SetPaused` alanlarını kullanır ve önceki değerlerini geri yükler. Pencere kapanırken devam eden eşya sürüklemesi önce son geçerli yerine döner. `Time.timeScale` değişmez. Aynı pencere açıkken diğer oyun açılamaz; modal Image arka UI raycast'lerini engeller.
+
+`Tools > Onur > Install Minigames` artık kurulmuş prefab varsa veriyi ve tasarımı yeniden üretmek yerine mevcut pencereyi sahneye bağlar; düzenlenen cevapları üzerine yazmaz.
+
+## Son onarım ve yapılan Play Mode kontrolleri
+
+Türkçe başlık ve yönergelerdeki bozuk UTF-8/Windows kodlaması düzeltildi. Canlar iki oyunda kırmızı. Her başarısız kontrolde yalnızca minigame penceresi 0,2 saniye, en fazla 2 ekran pikseli yatay titrer; kamera ve ana sahne hareket ettirilmez. Efekt kapanışta/bitimde konumunu geri yükler.
+
+Güvenlik noktaları gizli eski atlas görselinin altından görünür pencere köküne taşındı. Fontta bulunmayan ✓ için `MiniGameCheckGraphic` kullanılıyor; kontrol düğmeleri ve tamamlanan noktalardaki tikler fonttan bağımsız çiziliyor. Doğruluk yalnızca kontrolde değerlendirilir.
+
+Çantada rahat tutulabilen görünmez hit alanı, sürükleme sırasında büyüme ve çanta hedef vurgusu eklendi. Sürükle-bırak korunur; tek tıklama da eşyayı çantaya/dışarı taşır. Sürüklenen bir basışın sonundaki click olayı engellenir; eşya bırakılınca yanlışlıkla tekrar dışarı taşınmaz. Altı ayrı yuva çanta PNG'sinin açık iç bölümüne göre hizalandı. Eşya doğruluk verisi değiştirilmedi.
+
+Unity MCP üzerinden mevcut Onur sahnesinde Play Mode çalıştırıldı:
+
+- `OnurMiniGameChecks`: 36 doğrulama geçti. Çanta içine/dışına taşıma, sürükleme sonunda click gelmesi, hakların yalnızca yanlış kontrolde azalması, tek pencere, arka plan duraklaması, görünür üç güvenlik noktası, iki oyunda başarı/başarısızlık, +10 puanın tek sefer verilmesi, %100 sınırı ve kapat/aç koruması kontrol edildi.
+- Ayrıca Input System'e fare basma/taşıma/bırakma durumları verilerek gerçek UI giriş hattında 14 kontrol geçti. Bu test doğrudan OnBeginDrag çağırmakla sınırlı değildi: gerçek kontrol, kapatma ve giriş düğmeleri kullanıldı; çanta tamamlandı, gerçek sağlık değeri 70→80 oldu, tekrar ödül verilmedi. Bunlar geçici test değerleridir; sağlık hesabı veya kayıtlı başlangıç değeri değiştirilmedi.
+- Yanlış kontrolde tek hak kaybı, titremenin gerçekten hareket etmesi, iki pikseli aşmaması ve tam yerine dönmesi ölçüldü.
+- 1600×900 gerçek Game görüntülerinde Türkçe başlıklar/yönergeler, kırmızı canlar, fonttan bağımsız tikler, görünür güvenlik noktaları ve çantanın tamamlanmış hali incelendi.
+- Son Unity hata sorgusu: 0 kayıt.
+
+Kayıtlar: `Logs/MiniGameRepair/regression-result.json`, `Logs/MiniGameRepair/ui-pointer-result.txt`, `Logs/MiniGameRepair/bag-fixed.png`, `Logs/MiniGameRepair/safety-fixed.png`.
+
+Fare testleri Input System üzerinden otomatik giriş kullandı; fiziksel masaüstü faresiyle elle oynanmış gibi raporlanmıyor. Hedef 30–45 saniyelik süre kullanıcıyla zaman tutularak ölçülmedi.
+
+`Tools > Onur > Test Minigames (Play Mode)` regresyonu tekrar çalıştırabilir. Bu test Play Mode minigame ilerlemesini sıfırlar ve geçici sağlık değerleri kullanır; kaydedilmiş sahne/asset verisine yazmaz.

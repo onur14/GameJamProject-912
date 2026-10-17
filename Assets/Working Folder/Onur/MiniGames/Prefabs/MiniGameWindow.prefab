@@ -575,6 +575,8 @@ MonoBehaviour:
   cityHealth: {fileID: 0}
   phone: {fileID: 0}
   conversationView: {fileID: 0}
+  mistakeShakePixels: 2
+  mistakeShakeDuration: 0.2
 --- !u!1 &8250590999074425539
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,7 +640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.78}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.62}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -726,7 +728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 824646069006201006, guid: 860c310eed21d704cb27968ecdaf155f, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.89
+      value: 0.88
       objectReference: {fileID: 0}
     - target: {fileID: 824646069006201006, guid: 860c310eed21d704cb27968ecdaf155f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -734,7 +736,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 824646069006201006, guid: 860c310eed21d704cb27968ecdaf155f, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.11
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 824646069006201006, guid: 860c310eed21d704cb27968ecdaf155f, type: 3}
       propertyPath: m_AnchorMin.y
@@ -855,7 +857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7229678304315212774, guid: 2b676c60f1fe271428a02f6a3aa23d7d, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.89
+      value: 0.88
       objectReference: {fileID: 0}
     - target: {fileID: 7229678304315212774, guid: 2b676c60f1fe271428a02f6a3aa23d7d, type: 3}
       propertyPath: m_AnchorMax.y
@@ -863,7 +865,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7229678304315212774, guid: 2b676c60f1fe271428a02f6a3aa23d7d, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.11
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 7229678304315212774, guid: 2b676c60f1fe271428a02f6a3aa23d7d, type: 3}
       propertyPath: m_AnchorMin.y

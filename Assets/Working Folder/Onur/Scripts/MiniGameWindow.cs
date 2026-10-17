@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,11 @@ public sealed class MiniGameWindow : MonoBehaviour
     private bool wasPhonePaused;
     private bool wasConversationPaused;
     private bool isOpen;
+    [SerializeField, Range(0f, 3f)] private float mistakeShakePixels = 2f;
+    [SerializeField, Range(.1f, .3f)] private float mistakeShakeDuration = .2f;
+    private Coroutine mistake;
+    private RectTransform shakenPanel;
+    private Vector2 restingPosition;
 
     private void Awake()
     {
@@ -50,11 +56,43 @@ public sealed class MiniGameWindow : MonoBehaviour
     {
         if (!isOpen) return;
         isOpen = false;
+        StopMistake();
+        bagGame.CancelDrags();
         overlay.gameObject.SetActive(false);
         bagGame.gameObject.SetActive(false);
         safetyGame.gameObject.SetActive(false);
         if (phone != null) phone.SetPaused(wasPhonePaused);
         if (conversationView != null) conversationView.SetPaused(wasConversationPaused);
+    }
+    private void OnDisable() { Close(); }
+
+    public void ShowMistake(RectTransform panel)
+    {
+        StopMistake();
+        shakenPanel = panel;
+        restingPosition = panel.anchoredPosition;
+        mistake = StartCoroutine(Shake());
+    }
+
+    private IEnumerator Shake()
+    {
+        float scale = Mathf.Max(.001f, shakenPanel.lossyScale.x);
+        for (float t = 0; t < mistakeShakeDuration; t += Time.unscaledDeltaTime)
+        {
+            float p = t / mistakeShakeDuration;
+            float x = Mathf.Round(Mathf.Sin(p * Mathf.PI * 5f) * mistakeShakePixels * (1f - p));
+            shakenPanel.anchoredPosition = restingPosition + Vector2.right * (x / scale);
+            yield return null;
+        }
+        shakenPanel.anchoredPosition = restingPosition;
+        shakenPanel = null; mistake = null;
+    }
+
+    private void StopMistake()
+    {
+        if (mistake != null) StopCoroutine(mistake);
+        if (shakenPanel != null) shakenPanel.anchoredPosition = restingPosition;
+        shakenPanel = null; mistake = null;
     }
 
     public int Award(int percentagePoints)
