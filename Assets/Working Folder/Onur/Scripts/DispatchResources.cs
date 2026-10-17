@@ -55,6 +55,10 @@ public sealed class DispatchResources : MonoBehaviour
         Police = Mathf.Max(0, initialPolice) + PreparationRun.TeamBonus;
         Refresh();
     }
+    public void RestoreSnapshot(int ambulances,int firefighters,int rescue)
+    {
+        Ambulances=Mathf.Max(0,ambulances);Firefighters=Mathf.Max(0,firefighters);Police=Mathf.Max(0,rescue);Refresh();
+    }
 
     private void Awake()
     {

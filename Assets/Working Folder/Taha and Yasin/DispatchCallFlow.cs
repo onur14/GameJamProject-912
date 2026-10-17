@@ -42,6 +42,12 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
     public CallState State { get; private set; } = CallState.EnteringRoom;
     public float FirstRingDelay => firstRingDelay;
     public bool IsPaused { get; private set; }
+    public void ConfigureRing(AudioClip clip)
+    {
+        if(!clip)return;ringClip=clip;
+        if(!ringAudioSource){ringAudioSource=gameObject.AddComponent<AudioSource>();ringAudioSource.playOnAwake=false;}
+        ringAudioSource.spatialBlend=0;ringVolume=.3f;
+    }
     public void SetPaused(bool paused) { IsPaused = paused; }
     public event System.Action FocusCompleted;
     [Header("Phone visual feedback")]
@@ -188,6 +194,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
         ringIndicator.alpha = 0;
         ringIndicator.transform.localRotation = ringRestRotation;
         if (ringAudioSource) ringAudioSource.Stop();
+        var sounds=FindAnyObjectByType<DispatchAudioCues>();if(sounds)sounds.PlayOpen();
         StartCoroutine(FocusComputer());
     }
 

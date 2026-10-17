@@ -42,6 +42,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     public event System.Action ChoicesShown;
     public bool IsPaused { get; private set; }
     public void SetPaused(bool paused) { IsPaused = paused; }
+    public void ConfigureTypingSound(AudioClip clip){typingAudio.clip=clip;typingAudio.volume=.055f;typingAudio.characterInterval=3;}
     public bool WaitingForAdvance => awaitingAdvance;
     public bool IsTyping => typing;
     public bool IsCallEndedVisible => callEndedLabel && callEndedLabel.gameObject.activeSelf;
@@ -129,6 +130,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     }
     private bool AcceptClick()
     {
+        if(IsPaused)return false;
         if(Time.unscaledTime-lastClick<clickDebounce)return false;
         lastClick=Time.unscaledTime;return true;
     }
@@ -348,7 +350,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         }
         decisionTimer.gameObject.SetActive(true);
         decisionTimer.color = expired || remaining <= 5 ? new Color(1,.43f,.29f) : new Color(.95f,.75f,.38f);
-        decisionTimer.text = expired ? "YANIT GECİKTİ · ŞEHİR SAĞLIĞI -5" : "YANIT BEKLENİYOR · " + Mathf.CeilToInt(remaining) + " sn";
+        decisionTimer.text = expired ? "YANIT GECİKTİ · HALK BİLİNCİ -5" : "YANIT BEKLENİYOR · " + Mathf.CeilToInt(remaining) + " sn";
     }
 
     public void SetChoices(string approve,string reject)

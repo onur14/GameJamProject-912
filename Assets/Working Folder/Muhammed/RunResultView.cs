@@ -52,7 +52,7 @@ public sealed class RunResultView : MonoBehaviour
 
     public void ShowFailure()
     {
-        Show("GÖREV BAŞARISIZ", "Şehir sağlığı %0'a düştü.");
+        Show("GÖREV BAŞARISIZ", "Halk bilinci %0'a düştü.");
     }
 
     private void Show(string title, string reason)
@@ -75,7 +75,7 @@ public sealed class RunResultView : MonoBehaviour
             var data=ShiftReportData.Capture(briefing,FindAnyObjectByType<QuickQuestionManager>(),minigames,health,SceneManager.GetActiveScene().path);
             summaryLabel.text=string.Join("\n",data.ExplainOutcome(healthValue>0&&calls>=8));
         }
-        else summaryLabel.text=$"Tamamlanan çağrı  {calls}/8\nDoğru karar  {correct}\nMinigame  {tasks}/2\nŞehir sağlığı  %{healthValue}";
+        else summaryLabel.text=$"Tamamlanan çağrı  {calls}/8\nDoğru karar  {correct}\nMinigame  {tasks}/2\nHalk bilinci  %{healthValue}";
         panel.SetActive(true);
         panel.transform.SetAsLastSibling();
     }

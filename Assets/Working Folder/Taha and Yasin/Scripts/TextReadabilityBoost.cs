@@ -13,7 +13,7 @@ public sealed class TextReadabilityBoost : MonoBehaviour
     private const float RefreshInterval = 0.2f;
     private const string NoteTextName = "Görev Notu";
     private const float NoteFactor = 1.45f;
-    private const string HealthTextName = "Şehir Sağlığı";
+    private const string HealthTextName = "Halk Bilinci";
 
     private sealed class Entry { public float size, min, max, orig, boosted; public string text; public Vector2 rect; }
 

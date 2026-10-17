@@ -13,6 +13,10 @@ public sealed class QuickQuestionView : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip arrivalClip;
     [SerializeField] private AudioClip warningTickClip;
+    public int ArrivalSoundCount { get; private set; }
+    public int WarningSoundCount { get; private set; }
+    public void ConfigureAudio(AudioSource source,AudioClip arrival,AudioClip warning)
+    {audioSource=source;arrivalClip=arrival;warningTickClip=warning;}
 
     [Header("Visual Styling")]
     [SerializeField] private Color frameColor = new Color(.12f, .18f, .22f, .98f);
@@ -297,11 +301,6 @@ public sealed class QuickQuestionView : MonoBehaviour
         visible=true;
         activeRoutine = StartCoroutine(RunQuestionCycle());
 
-        // Optional arrival sound
-        if (audioSource && arrivalClip)
-        {
-            audioSource.PlayOneShot(arrivalClip);
-        }
     }
 
     private void UpdateButtonAvailability()
@@ -357,6 +356,7 @@ public sealed class QuickQuestionView : MonoBehaviour
         panelRect.anchoredPosition = restingPosition;
         canvasGroup.alpha = 1f;
         canvasGroup.interactable = true;
+        if(audioSource&&arrivalClip){audioSource.PlayOneShot(arrivalClip,.65f);ArrivalSoundCount++;}
         if (borderPulseImage) borderPulseImage.color = new Color(amberAccent.r, amberAccent.g, amberAccent.b, 0f);
 
         // 2. Active countdown loop
@@ -399,6 +399,7 @@ public sealed class QuickQuestionView : MonoBehaviour
                     {
                         tickPlayed = true;
                         audioSource.PlayOneShot(warningTickClip, 0.4f);
+                        WarningSoundCount++;
                     }
                 }
             }

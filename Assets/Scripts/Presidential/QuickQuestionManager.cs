@@ -356,6 +356,8 @@ public sealed class QuickQuestionManager : MonoBehaviour
         // A second trigger never replaces a live request, including its exit feedback.
         if(config==null || !view || !resources || IsQuestionActive || view.IsActive || !isActiveAndEnabled || (conversation && conversation.GameOver))return;
         CurrentQuestion=config.Clone();IsQuestionActive=true;
+        var curses=FindAnyObjectByType<DispatchCurseController>();
+        if(curses)CurrentQuestion.timerDuration=Mathf.Max(1,CurrentQuestion.timerDuration*curses.QuestionTimeMultiplier);
         view.Show(CurrentQuestion,resources,OnChoiceSelected,OnTimeout,CanChoose);
         if (visualFeedback) visualFeedback.SignalAlert(false);
         QuestionStarted?.Invoke(CurrentQuestion);
@@ -400,7 +402,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
             int before = cityHealth.HealthPercent;
             cityHealth.AddHealth(config.isDisinformation ? verifiedAnswerHealthReward : timelyResponseHealthReward);
             int gained = cityHealth.HealthPercent - before;
-            string bonus = gained > 0 ? "ŞEHİR SAĞLIĞI +" + gained : "ŞEHİR SAĞLIĞI TAM";
+            string bonus = gained > 0 ? "HALK BİLİNCİ +" + gained : "HALK BİLİNCİ TAM";
             if (effect.ambulances > 0) bonus += " · AMBULANS +" + effect.ambulances;
             if (effect.firefighters > 0) bonus += " · İTFAİYE +" + effect.firefighters;
             if (effect.rescue > 0) bonus += " · KURTARMA +" + effect.rescue;
@@ -451,5 +453,12 @@ public sealed class QuickQuestionManager : MonoBehaviour
     {
         CancelActiveQuestion();results.Clear();scheduledRevisions.Clear();
         currentScenarioRevision=-1;activeScenarioIndex=-1;activeScenarioId=null;scenarioFinished=false;resolvedInScenario=0;
+    }
+    public void RestoreScenarioResults(int previousCount)
+    {
+        CancelActiveQuestion();
+        previousCount=Mathf.Clamp(previousCount,0,results.Count);
+        if(results.Count>previousCount)results.RemoveRange(previousCount,results.Count-previousCount);
+        resolvedInScenario=0;scenarioFinished=false;
     }
 }

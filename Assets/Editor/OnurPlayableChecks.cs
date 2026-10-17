@@ -194,7 +194,7 @@ public static class OnurPlayableChecks
             await Wait(() => SceneManager.GetActiveScene().name == "Onur Test Place Integrated"
                 && UnityEngine.Object.FindAnyObjectByType<CityHealth>() != health);
             Require(UnityEngine.Object.FindAnyObjectByType<CityHealth>().HealthPercent == 100,
-                "Tekrar oyna şehir sağlığını sıfırlıyor");
+                "Tekrar oyna halk bilincinı sıfırlıyor");
             var freshResources = UnityEngine.Object.FindAnyObjectByType<DispatchResources>();
             Require(freshResources.Firefighters == 5 && freshResources.Ambulances == 5
                 && freshResources.Police == 6, "Tekrar oyna ekipleri sıfırlıyor");

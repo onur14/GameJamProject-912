@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2772139a4ad26d4592828532346f411, type: 3}
+  m_Name: DispatchSoundLibrary
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchSoundLibrary
+  phoneRing: {fileID: 8300000, guid: 8f14f25eb95f2014b8f9387236f7ed7c, type: 3}
+  phoneOpen: {fileID: 8300000, guid: f9b5e01be6c0f3a4594492e2a88ce0af, type: 3}
+  phoneClose: {fileID: 8300000, guid: 13f44f6b464585c48bbc36d7e26199cf, type: 3}
+  callerGrain: {fileID: 8300000, guid: 72409f469d9e7b7439e1c5004d25e256, type: 3}
+  presidentGrain: {fileID: 8300000, guid: ed674bd8f347bd4479e4a374e4cfe013, type: 3}
+  notification: {fileID: 8300000, guid: f2f2aea39b6b6504f9a7b479c0db24ea, type: 3}
+  warningTick: {fileID: 8300000, guid: c1683dba1cfee924d8ca1242ae396846, type: 3}
+  curseImpact: {fileID: 8300000, guid: 3d27cfa6ec2eaf84bbfff3146af21f07, type: 3}

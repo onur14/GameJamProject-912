@@ -73,6 +73,8 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         scenarioOutcomes.Add(new ShiftScenarioOutcome { scenarioId = scenario ? scenario.scenarioId : "D-01",
             callerName = scenario ? scenario.callerName : string.Empty, correct = conversation.LastDecisionCorrect });
         acceptingCompletion = false; CompletedScenarios++;
+        var curses=FindAnyObjectByType<DispatchCurseController>();
+        if(curses)curses.OnScenarioCompleted(CompletedScenarios);
         if (CompletedScenarios % 2 != 0) { RequestNextScenario(); return; }
         if (!shown.Add(CompletedScenarios)) return;
         int index = CompletedScenarios / 2 - 1;
@@ -94,6 +96,14 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         if (cityHealth && cityHealth.IsGameOver) yield break;
         view.Show($"RESMÎ BİLGİLENDİRME {index + 1}/4  /  {current.heading}");
         Phase = ShiftPhase.Dialogue; ShowLine();
+    }
+    public bool RetryCurrentScenario()
+    {
+        if(Phase!=ShiftPhase.Scenario||CompletedScenarios>=8)return false;
+        StopAllCoroutines();view.Hide();acceptingCompletion=true;applied=false;
+        conversation.ResetGameOver();phone.SetPaused(false);phone.SetInteractionLocked(false);
+        conversation.BeginScenario(CompletedScenarios<scenarioOrder.Length?scenarioOrder[CompletedScenarios]:null);
+        return true;
     }
 
     private void ShowLine()

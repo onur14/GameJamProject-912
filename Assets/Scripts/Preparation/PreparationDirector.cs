@@ -193,7 +193,7 @@ public sealed class PreparationDirector : MonoBehaviour
     public void RefreshStatus()
     {
         if(!status)return;
-        status.text=$"HAZIRLIK {PreparationRun.CompletedCount}/4\nŞEHİR SAĞLIĞI %{PreparationRun.Health}";
+        status.text=$"HAZIRLIK {PreparationRun.CompletedCount}/4\nHALK BİLİNCİ %{PreparationRun.Health}";
         for(int i=0;i<4;i++)
         {
             bool done=PreparationRun.IsComplete(i);markers[i].interactable=!done;

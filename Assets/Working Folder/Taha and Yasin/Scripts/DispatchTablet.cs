@@ -141,7 +141,7 @@ public sealed class DispatchTablet : MonoBehaviour
     {
         if(!layer)return;
         var text=Text("Anlık Sağlık Etkisi",layer.transform,Vector2.one*.5f,Vector2.one*.5f,
-            actualDelta==0 && correct ? "ŞEHİR SAĞLIĞI TAM" : (actualDelta>0?"+":"")+actualDelta+" ŞEHİR SAĞLIĞI",21);
+            actualDelta==0 && correct ? "HALK BİLİNCİ TAM" : (actualDelta>0?"+":"")+actualDelta+" HALK BİLİNCİ",21);
         text.enableAutoSizing=false;text.rectTransform.sizeDelta=new Vector2(340,45);
         text.color=correct?new Color(.4f,1,.68f):new Color(1,.4f,.32f);
         var screen=Mouse.current!=null?Mouse.current.position.ReadValue():new Vector2(Screen.width/2f,Screen.height/2f);

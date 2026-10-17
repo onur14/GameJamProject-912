@@ -13,6 +13,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
     [SerializeField] private DialogueTypingAudio typingAudio = new DialogueTypingAudio();
     private BroadcastMouthGraphic mouth;
     public bool IsSpeaking { get; private set; }
+    public void ConfigureTypingSound(AudioClip clip){typingAudio.clip=clip;typingAudio.volume=.045f;typingAudio.characterInterval=3;}
     private static readonly int[] MouthFrames = {0,1,2,1,0};
     public string thirdResourceLabel = "Kurtarma";
     public Action AdvanceRequested;
@@ -133,11 +134,11 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         var message = Text("Vardiya Değerlendirmesi", card, new Vector2(.02f,.15f), new Vector2(.98f,.46f), 25, Paper);
         message.alignment = count.alignment = heading.alignment = TextAlignmentOptions.Center;
         message.overflowMode = TextOverflowModes.Ellipsis;
-        message.text = critical ? "Şehir sağlığı kritik! Son yönlendirmelerin yeterli değil. Bilgi kirliliğini durdur, kaynaklarını dikkatli yönet."
-            : health <= 65 ? "Şehir sağlığı düşüyor. Teyitsiz bilgiye müdahale et ve yönlendirmelerini dikkatle seç."
+        message.text = critical ? "Halk bilinci kritik! Son yönlendirmelerin yeterli değil. Bilgi kirliliğini durdur, kaynaklarını dikkatli yönet."
+            : health <= 65 ? "Halk bilinci düşüyor. Teyitsiz bilgiye müdahale et ve yönlendirmelerini dikkatle seç."
             : "Sen ve ekibin doğru yönlendirmelerinizle şehre yardımcı oldunuz. Hazırlığı ve kaynak dengesini koru!";
         Text("Özet Alt Bilgi", card, new Vector2(.02f,0), new Vector2(.98f,.12f), 18, accent).text =
-            $"ŞEHİR SAĞLIĞI %{health}  /  {correct}/{completed} DOĞRU KARAR  /  BAŞKAN YAYINI BAĞLANIYOR";
+            $"HALK BİLİNCİ %{health}  /  {correct}/{completed} DOĞRU KARAR  /  BAŞKAN YAYINI BAĞLANIYOR";
         shiftSummary.blocksRaycasts = true;
         for (float t = 0; t < 5f; t += Time.unscaledDeltaTime)
         {

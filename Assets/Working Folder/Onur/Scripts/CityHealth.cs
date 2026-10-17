@@ -24,6 +24,23 @@ public sealed class CityHealth : MonoBehaviour
     private TMP_Text healthText;
     private CanvasGroup gameOverOverlay;
     private Coroutine damageAnimation;
+    private ScenarioCheckpoint checkpoint;
+    public ScenarioCheckpoint Checkpoint => checkpoint;
+    private void Start()
+    {
+        if(!enabled)return;
+        var sounds=gameObject.AddComponent<DispatchAudioCues>();sounds.Initialize(conversation,phone);
+        var curses=gameObject.AddComponent<DispatchCurseController>();curses.Initialize(conversation,briefing,choiceView,phone,interfaceFont);
+        checkpoint=gameObject.AddComponent<ScenarioCheckpoint>();checkpoint.Initialize(this,conversation,briefing,phone,choiceView,curses,interfaceFont);
+    }
+    public void RestoreScenarioHealth(int percent,int wrong,int timedOut)
+    {
+        StopAllCoroutines();damageAnimation=null;HealthPercent=Mathf.Clamp(percent,1,100);
+        WrongDecisionCount=wrong;TimedOutDecisionCount=timedOut;IsGameOver=false;
+        if(missionNote)missionNote.gameObject.SetActive(false);
+        if(healthIndicator){healthIndicator.localScale=Vector3.one;healthIndicator.localRotation=Quaternion.identity;}
+        if(gameOverOverlay)gameOverOverlay.gameObject.SetActive(false);Refresh();
+    }
 
     public int HealthPercent { get; private set; } = StartingHealth;
     public bool IsGameOver { get; private set; }
@@ -43,7 +60,7 @@ public sealed class CityHealth : MonoBehaviour
     {
         if (conversation == null || briefing == null || phone == null)
         {
-            Debug.LogError("Şehir sağlığı: sahne referansları eksik.", this);
+            Debug.LogError("Halk bilinci: sahne referansları eksik.", this);
             enabled = false;
             return;
         }
@@ -112,6 +129,7 @@ public sealed class CityHealth : MonoBehaviour
         if (missionNote != null) missionNote.gameObject.SetActive(false);
         conversation.EndGame();
         phone.SetInteractionLocked(true);
+        if(checkpoint && checkpoint.Restart())return;
         gameOverOverlay.gameObject.SetActive(true);
         gameOverOverlay.transform.SetAsLastSibling();
         StartCoroutine(FadeToBlack());
@@ -120,12 +138,12 @@ public sealed class CityHealth : MonoBehaviour
 
     private void Refresh()
     {
-        if (healthText != null) healthText.text = $"ŞEHİR SAĞLIĞI\n%{HealthPercent}";
+        if (healthText != null) healthText.text = $"HALK BİLİNCİ\n%{HealthPercent}";
     }
 
     private void BuildInterface()
     {
-        var indicatorObject = new GameObject("Şehir Sağlığı", typeof(RectTransform), typeof(TextMeshProUGUI));
+        var indicatorObject = new GameObject("Halk Bilinci", typeof(RectTransform), typeof(TextMeshProUGUI));
         healthIndicator = (RectTransform)indicatorObject.transform;
         healthIndicator.SetParent(transform, false);
         healthIndicator.anchorMin = new Vector2(.02f, .88f);
@@ -208,7 +226,7 @@ public sealed class CityHealth : MonoBehaviour
         inner.GetComponent<Image>().color = new Color(.055f, .095f, .14f, .98f);
         inner.GetComponent<Image>().raycastTarget = false;
         var body = NoteText("Görev Notu", innerRect,
-            "<color=#F2B54D>! GÖREV NOTU</color>\nDoğru ve yanlış cevapların kaynaklarını etkiler.\nŞehir sağlığı %0'a düşerse kaybedersin.\nAna görevin: şehri doğru bilinçlendirmek ve kaynakları yönetmek.", 14);
+            "<color=#F2B54D>! GÖREV NOTU</color>\nDoğru ve yanlış cevapların kaynaklarını etkiler.\nHalk bilinci %0 olursa bu senaryonun başına dönersin.\nAna görevin: toplumu bilinçlendirmek ve kaynakları yönetmek.", 14);
         body.rectTransform.anchorMin = Vector2.zero; body.rectTransform.anchorMax = Vector2.one;
         body.rectTransform.offsetMin = new Vector2(14, 12); body.rectTransform.offsetMax = new Vector2(-14, -14);
         root.SetActive(false);
