@@ -20,7 +20,7 @@ public class OyunAkisiOnur : MonoBehaviour
     [SerializeField] private DispatchResources resources;
     [SerializeField] private DispatchResources.ResourceType wrongChoiceResource = DispatchResources.ResourceType.Police;
     [SerializeField] private DispatchResources.ResourceType correctChoiceResource = DispatchResources.ResourceType.Ambulances;
-    private const float ConnectionEventChance = 1f;
+    private const float ConnectionEventChance = 0.3f;
 
     private readonly Queue<MesajIstegi> bekleyenMesajlar = new Queue<MesajIstegi>();
     private readonly List<RectTransform> mesajlar = new List<RectTransform>();

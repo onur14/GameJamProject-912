@@ -1468,7 +1468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df94fe7ebe0337c4485ff1ab2b9e04da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: "Assembly-CSharp::AnaMen\xFC"
-  gameplayScene: SampleScene
+  gameplayScene: Onur Test Place Integrated
   menuFadeDuration: 0.3
   gameplayFadeInDuration: 0.3
 --- !u!1 &633202843

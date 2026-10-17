@@ -2091,6 +2091,7 @@ GameObject:
   - component: {fileID: 1414193900}
   - component: {fileID: 1414193899}
   - component: {fileID: 3000000012}
+  - component: {fileID: 2099120001}
   m_Layer: 5
   m_Name: DispatchRoomCanvas
   m_TagString: Untagged
@@ -3502,3 +3503,24 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 1414193902}
   - {fileID: 1118292839}
+--- !u!114 &2099120001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414193898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a276cda150f842c180a7a27743901c83, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchVisualFeedback
+  conversation: {fileID: 3000000010}
+  phone: {fileID: 1139218828}
+  conversationPanel: {fileID: 419692063}
+  shakePixels: 2
+  wrongDuration: 0.32
+  wrongOpacity: 0.1
+  correctDuration: 0.26
+  coolOpacity: 0.065
+  activationDuration: 0.28
