@@ -13,6 +13,10 @@ public class OyunAkisiOnur : MonoBehaviour
     [SerializeField] private float animasyonSuresi = 0.4f;
     [SerializeField] private float mesajAraligi = 12f;
     [SerializeField] private float altKonum = -55f;
+    [SerializeField] private OnurConversationView conversationView;
+    [SerializeField] private DispatchCallFlow dispatchCallFlow;
+    [SerializeField] private TextMeshProUGUI sahneGeriSayimi;
+    [SerializeField] private TextMeshProUGUI sahneUyarisi;
 
     private readonly Queue<MesajIstegi> bekleyenMesajlar = new Queue<MesajIstegi>();
     private readonly List<RectTransform> mesajlar = new List<RectTransform>();
@@ -36,6 +40,32 @@ public class OyunAkisiOnur : MonoBehaviour
 
     private void Start()
     {
+        if (conversationView != null)
+        {
+            if (dispatchCallFlow == null || sahneGeriSayimi == null || sahneUyarisi == null)
+            {
+                Debug.LogError("Entegre sahnenin telefon akışı, sayaç ve uyarı arayüzü atanmalı.", this);
+                enabled = false;
+                return;
+            }
+
+            sohbetKanvas = conversationView.GetComponentInParent<Canvas>(true);
+            if (sohbetKanvas == null)
+            {
+                Debug.LogError("Konuşma kanvası bulunamadı.", this);
+                enabled = false;
+                return;
+            }
+
+            conversationView.Bind(this);
+            geriSayimYazisi = sahneGeriSayimi;
+            uyariYazisi = sahneUyarisi;
+            geriSayimYazisi.gameObject.SetActive(false);
+            uyariYazisi.gameObject.SetActive(false);
+            StartCoroutine(DispatchBaslangici());
+            return;
+        }
+
         if (GelenSoru == null || GelenCevap == null || Kabuletti == null || RedYedi == null)
         {
             Debug.LogError("Mesaj şablonları ve seçim butonları atanmalı.", this);
@@ -82,6 +112,12 @@ public class OyunAkisiOnur : MonoBehaviour
         rect.position = ustSol
             + kamera.transform.right * (rect.rect.width * rect.lossyScale.x / 2f + kenarBosluk)
             - kamera.transform.up * (rect.rect.height * rect.lossyScale.y / 2f + kenarBosluk);
+    }
+
+    private IEnumerator DispatchBaslangici()
+    {
+        yield return new WaitUntil(() => dispatchCallFlow.State == DispatchCallFlow.CallState.Conversation);
+        SenaryoyuBaslat();
     }
 
     private void BaslaButonunuOlustur()
@@ -145,11 +181,12 @@ public class OyunAkisiOnur : MonoBehaviour
         return yazi;
     }
 
-    private void SenaryoyuBaslat()
+    public void SenaryoyuBaslat()
     {
         if (senaryoBasladi) return;
         senaryoBasladi = true;
-        sohbetKanvas.gameObject.SetActive(true);
+        if (conversationView != null) conversationView.gameObject.SetActive(true);
+        else sohbetKanvas.gameObject.SetActive(true);
         StartCoroutine(GirisDiyalogu());
     }
 
@@ -190,10 +227,14 @@ public class OyunAkisiOnur : MonoBehaviour
         yield return MesajVeBekle("Zeynep: Kızım Elif var kucağımda, iki yaşında daha! Koridordayım şu an, daire kapısını zorla araladım. Karşı komşu fırladı merdivenlere koşuyor! 'Apartman yıkılacak, merdivenlerden aşağı koşun!' diye bağırıyor!", false);
 
         yield return MesajVeBekle("Zeynep: Operatör Hanım, ben de hemen Elif'i kucağıma sarıp merdivenlerden aşağı koşayım mı?! 7 kattan hemen fırlarız değil mi?!", false);
-        yield return MesajlariYukariTasi(105f);
+        if (conversationView == null) yield return MesajlariYukariTasi(105f);
         secimBekleniyor = true;
-        Kabuletti.SetActive(true);
-        RedYedi.SetActive(true);
+        if (conversationView != null) conversationView.SetChoices(OnayMetni, RedMetni);
+        else
+        {
+            Kabuletti.SetActive(true);
+            RedYedi.SetActive(true);
+        }
         geriSayimRutini = StartCoroutine(SecimGeriSayimi());
     }
 
@@ -215,11 +256,13 @@ public class OyunAkisiOnur : MonoBehaviour
 
         secimBekleniyor = false;
         ButonlariGizle();
-        sohbetKanvas.gameObject.SetActive(false);
+        if (conversationView != null) conversationView.gameObject.SetActive(false);
+        else sohbetKanvas.gameObject.SetActive(false);
         uyariYazisi.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
         uyariYazisi.gameObject.SetActive(false);
-        sohbetKanvas.gameObject.SetActive(true);
+        if (conversationView != null) conversationView.gameObject.SetActive(true);
+        else sohbetKanvas.gameObject.SetActive(true);
         KonusmayiYenidenBaslat();
     }
 
@@ -254,6 +297,7 @@ public class OyunAkisiOnur : MonoBehaviour
         }
 
         mesajlar.Clear();
+        if (conversationView != null) conversationView.Clear();
         StartCoroutine(GirisDiyalogu());
     }
 
@@ -308,6 +352,12 @@ public class OyunAkisiOnur : MonoBehaviour
         while (bekleyenMesajlar.Count > 0)
         {
             MesajIstegi istek = bekleyenMesajlar.Dequeue();
+            if (conversationView != null)
+            {
+                yield return conversationView.ShowMessage(istek.Metin, istek.Sagdan, animasyonSuresi);
+                continue;
+            }
+
             TextMeshProUGUI sablon = istek.Sagdan ? GelenCevap : GelenSoru;
             TextMeshProUGUI yeniMesaj = Instantiate(sablon, mesajAlani);
             yeniMesaj.gameObject.name = istek.Sagdan ? "Sağ Mesaj" : "Sol Mesaj";
@@ -361,6 +411,12 @@ public class OyunAkisiOnur : MonoBehaviour
 
     private void ButonlariGizle()
     {
+        if (conversationView != null)
+        {
+            conversationView.SetChoicesVisible(false);
+            return;
+        }
+
         if (Kabuletti != null) Kabuletti.SetActive(false);
         if (RedYedi != null) RedYedi.SetActive(false);
     }
