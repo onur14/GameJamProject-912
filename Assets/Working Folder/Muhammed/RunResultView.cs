@@ -15,7 +15,7 @@ public sealed class RunResultView : MonoBehaviour
     [SerializeField] private Button replayButton;
     [SerializeField] private Button menuButton;
     [SerializeField] private string menuSceneName = "OnurAnaMenu";
-
+    [SerializeField] private Cizirti cizirti;
     private bool shown;
 
     private void Awake()
@@ -51,9 +51,13 @@ public sealed class RunResultView : MonoBehaviour
 
     private void Show(string title, string reason)
     {
+        cizirti.TelefonKapat();
+        Debug.Log("Cizirti.TelefonKapat() CAĞRILDI!");
         if (shown) return;
         shown = true;
         if (minigames != null) minigames.Close();
+       
+
         titleLabel.text = title;
         reasonLabel.text = reason;
         int calls = briefing != null ? briefing.CompletedScenarios : 0;
