@@ -34,6 +34,7 @@ public class OyunAkisiOnur : MonoBehaviour
     private Coroutine geriSayimRutini;
     public event System.Action<int> ScenarioCompleted;
     public event System.Action<bool> DecisionResolved;
+    public event System.Action<DispatchResourceEffect> UnitDispatched;
     public int ScenarioRevision { get; private set; }
     public bool LastDecisionCorrect { get; private set; }
     public bool ManagedShift { get; set; }
@@ -73,6 +74,7 @@ public class OyunAkisiOnur : MonoBehaviour
 
     private IEnumerator CompleteAfterConnectionRecovery()
     {
+        yield return conversationView.ShowCallEnded();
         yield return conversationView.RecoverConnection();
         ScenarioCompleted?.Invoke(ScenarioRevision);
     }
@@ -111,7 +113,13 @@ public class OyunAkisiOnur : MonoBehaviour
 
     private bool SpendForChoice(bool choiceB)
     {
-        if (resources == null || GetChoiceEffect(choiceB).Apply(resources)) return true;
+        if (resources == null) return true;
+        var effect = GetChoiceEffect(choiceB);
+        if (effect.Apply(resources))
+        {
+            if (!effect.IsZero) UnitDispatched?.Invoke(effect);
+            return true;
+        }
         uyariYazisi.text = "Bu ekip şu anda müsait değil. Diğer yönlendirmeyi değerlendirin.";
         uyariYazisi.gameObject.SetActive(true);
         return false;

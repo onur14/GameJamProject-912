@@ -2270,7 +2270,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PresidentialBroadcastView
   presidentPortrait: {fileID: 21300000, guid: 000a63ed165edf9468f1f04e30cd7437, type: 3}
   broadcastFont: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
-  charactersPerSecond: 120
+  charactersPerSecond: 38
+  speakingFramesPerSecond: 8
+  typingAudio:
+    clip: {fileID: 0}
+    characterInterval: 3
+    volume: 0.045
   thirdResourceLabel: Kurtarma
 --- !u!1 &1058868941
 GameObject:
@@ -2324,6 +2329,11 @@ MonoBehaviour:
   resources: {fileID: 1414193903}
   font: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
   feedbackDuration: 0.22
+  lowResourceThreshold: 3
+  warningCycle: 0.9
+  numberPulseScale: 1.09
+  dispatchNoticeDuration: 1.15
+  iconPulseScale: 1.08
 --- !u!223 &1058868944
 Canvas:
   m_ObjectHideFlags: 0
@@ -2698,6 +2708,10 @@ MonoBehaviour:
   - {x: 0.83, y: 0.98}
   - {x: 0.98, y: 0.23}
   - {x: 0.67, y: 0.03}
+  hoverOpacity: 0.72
+  hoverDuration: 0.14
+  ringRotation: 2.5
+  ringCycle: 1.25
 --- !u!82 &1139218829
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4556,7 +4570,12 @@ MonoBehaviour:
   choiceSpace: 165
   callerColor: {r: 1, g: 1, b: 1, a: 1}
   operatorColor: {r: 0.82, g: 0.91, b: 1, a: 1}
-  charactersPerSecond: 0
+  charactersPerSecond: 38
+  typingAudio:
+    clip: {fileID: 0}
+    characterInterval: 3
+    volume: 0.045
+  callEndedDuration: 1.05
   clickDebounce: 0.22
 --- !u!1 &1887891241
 GameObject:
@@ -4997,6 +5016,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: 568874914}
   m_ActionId: dad70c86-b58c-4b17-88ad-f5e53adf419e
+--- !u!114 &2099120001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414193898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a276cda150f842c180a7a27743901c83, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchVisualFeedback
+  conversation: {fileID: 1130956320}
+  phone: {fileID: 1139218828}
+  conversationPanel: {fileID: 1848930338}
+  shakePixels: 2
+  wrongDuration: 0.32
+  wrongOpacity: 0.1
+  correctDuration: 0.26
+  coolOpacity: 0.065
+  activationDuration: 0.28
+  monitorLuminance: 0.012
+  monitorCycle: 7.5
 --- !u!1 &2132215628
 GameObject:
   m_ObjectHideFlags: 0
@@ -5143,24 +5185,3 @@ SceneRoots:
   - {fileID: 1414193902}
   - {fileID: 1118292839}
   - {fileID: 1130956321}
---- !u!114 &2099120001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1414193898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a276cda150f842c180a7a27743901c83, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::DispatchVisualFeedback
-  conversation: {fileID: 1130956320}
-  phone: {fileID: 1139218828}
-  conversationPanel: {fileID: 1848930338}
-  shakePixels: 2
-  wrongDuration: 0.32
-  wrongOpacity: 0.1
-  correctDuration: 0.26
-  coolOpacity: 0.065
-  activationDuration: 0.28

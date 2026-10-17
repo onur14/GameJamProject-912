@@ -4,8 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public sealed class OnurConversationView : MonoBehaviour
+public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private TMP_Text callerName;
     [SerializeField] private TMP_Text dialogueText;
@@ -21,7 +22,9 @@ public sealed class OnurConversationView : MonoBehaviour
     [SerializeField] private Color callerColor = Color.white;
     [SerializeField] private Color operatorColor = new Color(.82f,.91f,1);
     [Header("Automatic conversation pace")]
-    [SerializeField, Min(0)] private float charactersPerSecond = 0;
+    [SerializeField, Min(0)] private float charactersPerSecond = 38;
+    [SerializeField] private DialogueTypingAudio typingAudio = new DialogueTypingAudio();
+    [SerializeField, Range(.8f,1.5f)] private float callEndedDuration = 1.05f;
     [SerializeField, Range(.15f,.4f)] private float clickDebounce = .22f;
     private const float ConnectionGainPerPress = .12f;
     private const float ConnectionDecayPerSecond = .07f;
@@ -30,6 +33,7 @@ public sealed class OnurConversationView : MonoBehaviour
     private ScrollRect scroll;
     private Button next;
     private TMP_Text nextLabel, effectA, effectB, latestBody;
+    private TMP_Text callEndedLabel;
     private GameObject connectionOverlay;
     private RectTransform connectionFill;
     private readonly List<RectTransform> messages = new List<RectTransform>();
@@ -37,6 +41,7 @@ public sealed class OnurConversationView : MonoBehaviour
     private float lastClick = -10;
     public bool WaitingForAdvance => awaitingAdvance;
     public bool IsTyping => typing;
+    public bool IsCallEndedVisible => callEndedLabel && callEndedLabel.gameObject.activeSelf;
     public Button AdvanceButton => next;
     public Button ChoiceAButton => approveButton;
     public Button ChoiceBButton => rejectButton;
@@ -57,6 +62,7 @@ public sealed class OnurConversationView : MonoBehaviour
     {
         if(hikaye != null && hikaye.Resources != null) hikaye.Resources.Changed -= UpdateEffects;
     }
+    private void OnDisable(){typing=false;typingAudio.Stop();}
     private static void Anchor(RectTransform r, Vector2 min, Vector2 max)
     {
         r.anchorMin=min;r.anchorMax=max;r.pivot=new Vector2(.5f,.5f);r.offsetMin=r.offsetMax=Vector2.zero;
@@ -129,6 +135,15 @@ public sealed class OnurConversationView : MonoBehaviour
             return;
         }
     }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button==PointerEventData.InputButton.Left && typing && AcceptClick())RevealCurrentLine();
+    }
+    public void RevealCurrentLine()
+    {
+        if(!typing)return;
+        typing=false;MessageText.maxVisibleCharacters=int.MaxValue;typingAudio.Stop();
+    }
     public IEnumerator ShowMessage(string message,bool fromRight,float duration)
     {
         SetChoicesVisible(false);awaitingAdvance=true;
@@ -160,7 +175,9 @@ public sealed class OnurConversationView : MonoBehaviour
         body.rectTransform.pivot=new Vector2(.5f,1);body.rectTransform.sizeDelta=new Vector2(0,bodyHeight);
         body.rectTransform.anchoredPosition=new Vector2(0,-27);
         row.GetComponent<LayoutElement>().preferredHeight=height;
-        body.maxVisibleCharacters=int.MaxValue;
+        typing=charactersPerSecond>0;
+        body.maxVisibleCharacters=typing?0:int.MaxValue;
+        typingAudio.BeginLine();
         FitText();
         Vector2 destination=bubble.anchoredPosition;
         Vector2 start=destination+Vector2.right*(fromRight?1:-1)*(width+sidePadding*2);
@@ -173,18 +190,47 @@ public sealed class OnurConversationView : MonoBehaviour
             yield return null;
         }
         bubble.anchoredPosition=destination;
-        if(charactersPerSecond>0)
+        if(typing)
         {
-            typing=true;body.ForceMeshUpdate();int count=body.textInfo.characterCount;float visible=0;
-            while(typing && visible<count){visible+=Time.unscaledDeltaTime*charactersPerSecond;body.maxVisibleCharacters=(int)visible;yield return null;}
+            body.ForceMeshUpdate();int count=body.textInfo.characterCount;float visible=0;
+            while(typing && visible<count)
+            {
+                var keyboard=Keyboard.current;
+                if(keyboard!=null && (keyboard.spaceKey.wasPressedThisFrame || keyboard.enterKey.wasPressedThisFrame))
+                {RevealCurrentLine();break;}
+                visible+=Time.unscaledDeltaTime*charactersPerSecond;body.maxVisibleCharacters=(int)visible;
+                typingAudio.Reveal(body,body.maxVisibleCharacters,gameObject);
+                yield return null;
+            }
         }
-        typing=false;body.maxVisibleCharacters=int.MaxValue;
+        typing=false;body.maxVisibleCharacters=int.MaxValue;typingAudio.Stop();
     }
     public IEnumerator WaitForAdvance()
     {
         float displayTime = Mathf.Clamp(MessageText.text.Length * .012f, .8f, 1.8f);
         yield return new WaitForSecondsRealtime(displayTime);
         awaitingAdvance = false;
+    }
+    public IEnumerator ShowCallEnded()
+    {
+        SetChoicesVisible(false);awaitingAdvance=false;RevealCurrentLine();
+        if(!callEndedLabel)
+        {
+            callEndedLabel=Text("Çağrı Durumu",panel,22);
+            Anchor(callEndedLabel.rectTransform,new Vector2(.10f,.02f),new Vector2(.90f,.10f));
+            callEndedLabel.alignment=TextAlignmentOptions.Center;
+            callEndedLabel.color=new Color(.72f,.90f,.89f);
+        }
+        Anchor(textViewport,new Vector2(.015f,.125f),new Vector2(.985f,.98f));FitText();
+        callEndedLabel.text="— ÇAĞRI SONLANDIRILDI —";
+        callEndedLabel.gameObject.SetActive(true);callEndedLabel.transform.SetAsLastSibling();
+        for(float t=0;t<callEndedDuration;t+=Time.unscaledDeltaTime)
+        {
+            float p=t/callEndedDuration;
+            callEndedLabel.alpha=Mathf.Min(Mathf.Clamp01(p/.12f),Mathf.Clamp01((1-p)/.25f));
+            yield return null;
+        }
+        callEndedLabel.gameObject.SetActive(false);
     }
     public IEnumerator RecoverConnection()
     {
@@ -270,6 +316,7 @@ public sealed class OnurConversationView : MonoBehaviour
     public void Clear()
     {
         awaitingAdvance=false;typing=false;bothUnavailable=false;
+        typingAudio.Stop();if(callEndedLabel)callEndedLabel.gameObject.SetActive(false);
         if(connectionOverlay!=null)connectionOverlay.SetActive(false);
         foreach(var row in messages)if(row){row.gameObject.SetActive(false);Destroy(row.gameObject);}
         messages.Clear();latestBody=null;SetChoicesVisible(false);

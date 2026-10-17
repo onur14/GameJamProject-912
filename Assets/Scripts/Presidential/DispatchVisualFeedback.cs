@@ -14,8 +14,12 @@ public sealed class DispatchVisualFeedback : MonoBehaviour
     [SerializeField, Range(.2f, .35f)] private float correctDuration = .26f;
     [SerializeField, Range(.02f, .12f)] private float coolOpacity = .065f;
     [SerializeField, Range(.2f, .35f)] private float activationDuration = .28f;
+    [SerializeField, Range(0,.025f)] private float monitorLuminance = .012f;
+    [SerializeField, Range(4,12)] private float monitorCycle = 7.5f;
     private Image warning, confirmation;
+    private Image monitorGlow;
     private Coroutine pulse;
+    private Coroutine ambience;
     private Vector2 restPosition;
     private bool hasRestPosition;
     public int DecisionPulseCount { get; private set; }
@@ -24,6 +28,8 @@ public sealed class DispatchVisualFeedback : MonoBehaviour
     {
         warning = Overlay("DecisionWarning", transform, new Color(.46f, .13f, .10f, 0));
         confirmation = Overlay("MonitorActivation", conversationPanel, new Color(.65f, .83f, .91f, 0));
+        monitorGlow=Overlay("MonitorLuminance",conversationPanel.parent,new Color(.55f,.74f,.83f,0));
+        monitorGlow.transform.SetAsFirstSibling();
     }
     private static Image Overlay(string name, Transform parent, Color color)
     {
@@ -38,13 +44,24 @@ public sealed class DispatchVisualFeedback : MonoBehaviour
     {
         if (conversation) conversation.DecisionResolved += Decision;
         if (phone) phone.FocusCompleted += Activate;
+        ambience=StartCoroutine(MonitorIdle());
     }
     private void OnDisable()
     {
         if (conversation) conversation.DecisionResolved -= Decision;
         if (phone) phone.FocusCompleted -= Activate;
         if (pulse != null) StopCoroutine(pulse);
+        if (ambience != null) StopCoroutine(ambience);ambience=null;Alpha(monitorGlow,0);
         Restore();
+    }
+    private IEnumerator MonitorIdle()
+    {
+        var interval=new WaitForSecondsRealtime(.1f);
+        while(true)
+        {
+            Alpha(monitorGlow,monitorLuminance*(.65f+.35f*Mathf.Sin(Time.unscaledTime/monitorCycle*Mathf.PI*2)));
+            yield return interval;
+        }
     }
     private void Activate() => Begin(false, activationDuration);
     private void Decision(bool correct) { DecisionPulseCount++; Begin(!correct, correct ? correctDuration : wrongDuration); }

@@ -9,10 +9,11 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
     public Sprite presidentPortrait;
     public TMP_FontAsset broadcastFont;
     [Min(0)] public float charactersPerSecond = 38;
-    [SerializeField, Range(6,10)] private float speakingFramesPerSecond = 8;
+    [SerializeField, Range(5,8)] private float speakingFramesPerSecond = 7;
+    [SerializeField] private DialogueTypingAudio typingAudio = new DialogueTypingAudio();
     private BroadcastMouthGraphic mouth;
     public bool IsSpeaking { get; private set; }
-    private static readonly int[] MouthFrames = {0,1,2,1,0,1,1,2};
+    private static readonly int[] MouthFrames = {0,1,2,1,0};
     public string thirdResourceLabel = "Kurtarma";
     public Action AdvanceRequested;
     public Action<int> OfferSelected;
@@ -81,7 +82,9 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         header = Text("Başlık", board, new Vector2(.035f,.84f), new Vector2(.965f,.9f), 25, Amber);
         var portrait = Panel("Başkan Yayını", board, new Vector2(.035f,.465f), new Vector2(.49f,.825f), Color.white);
         portrait.sprite = presidentPortrait; portrait.preserveAspect = true; portrait.raycastTarget = false;
-        mouth=Rect("Başkan Konuşma",portrait.transform,Vector2.zero,Vector2.one).gameObject.AddComponent<BroadcastMouthGraphic>();
+        var mouthObject=Rect("Başkan Konuşma",portrait.transform,Vector2.zero,Vector2.one).gameObject;
+        mouthObject.AddComponent<CanvasRenderer>();
+        mouth=mouthObject.AddComponent<BroadcastMouthGraphic>();
         mouth.Portrait=portrait;mouth.raycastTarget=false;
         if (!presidentPortrait)
         {
@@ -135,6 +138,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         if (typing != null) StopCoroutine(typing);
         StopSpeaking();
         completeLine = line; body.text = line; body.maxVisibleCharacters = 0;
+        typingAudio.BeginLine();
         typing = StartCoroutine(Type());
     }
     private IEnumerator Type()
@@ -148,12 +152,14 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
             if(mouth)mouth.Frame=MouthFrames[(int)(speakingTime*speakingFramesPerSecond)%MouthFrames.Length];
             speakingTime+=Time.unscaledDeltaTime;
             visible += Time.unscaledDeltaTime * charactersPerSecond;
-            body.maxVisibleCharacters = (int)visible; yield return null;
+            body.maxVisibleCharacters = (int)visible;
+            typingAudio.Reveal(body, body.maxVisibleCharacters, gameObject);
+            yield return null;
         }
         body.maxVisibleCharacters = int.MaxValue; typing = null;
         StopSpeaking();
     }
-    private void StopSpeaking(){IsSpeaking=false;if(mouth)mouth.Frame=0;}
+    private void StopSpeaking(){IsSpeaking=false;if(mouth)mouth.Frame=0;typingAudio.Stop();}
     private void OnDisable(){if(typing!=null)StopCoroutine(typing);typing=null;StopSpeaking();}
     private bool AcceptClick()
     {
