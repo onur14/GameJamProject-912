@@ -37,6 +37,7 @@ public class OyunAkisiOnur : MonoBehaviour
     public event System.Action<DispatchResourceEffect> UnitDispatched;
     public int ScenarioRevision { get; private set; }
     public bool LastDecisionCorrect { get; private set; }
+    public bool GameOver { get; private set; }
     public bool ManagedShift { get; set; }
     public bool WaitingForChoice => secimBekleniyor;
     public DispatchResources Resources => resources;
@@ -44,8 +45,22 @@ public class OyunAkisiOnur : MonoBehaviour
     private bool completionSent;
     public void ConfigureInitialScenario(DispatchScenarioData data) { currentScenario = data; }
 
+    public void EndGame()
+    {
+        if (GameOver) return;
+        GameOver = true;
+        StopAllCoroutines();
+        secimBekleniyor = false;
+        geriSayimRutini = null;
+        if (geriSayimYazisi != null) geriSayimYazisi.gameObject.SetActive(false);
+        ButonlariGizle();
+    }
+
+    public void ResetGameOver() { GameOver = false; }
+
     public void BeginScenario(DispatchScenarioData data)
     {
+        if (GameOver) return;
         StopAllCoroutines();
         animasyonCalisiyor = false;
         secimBekleniyor = false;
@@ -63,7 +78,7 @@ public class OyunAkisiOnur : MonoBehaviour
 
     private void CompleteScenario()
     {
-        if (completionSent) return;
+        if (completionSent || GameOver) return;
         completionSent = true;
         ButonlariGizle();
         if (conversationView != null && (ConnectionEventChance >= 1f || Random.value < ConnectionEventChance))
@@ -106,7 +121,7 @@ public class OyunAkisiOnur : MonoBehaviour
 
     public void ResolveWithoutDispatch()
     {
-        if (!secimBekleniyor || resources == null || GetChoiceEffect(false).CanApply(resources) || GetChoiceEffect(true).CanApply(resources)) return;
+        if (GameOver || !secimBekleniyor || resources == null || GetChoiceEffect(false).CanApply(resources) || GetChoiceEffect(true).CanApply(resources)) return;
         secimBekleniyor = false; LastDecisionCorrect = false;
         GeriSayimiDurdur(); CompleteScenario();
     }
@@ -279,7 +294,7 @@ public class OyunAkisiOnur : MonoBehaviour
 
     public void SenaryoyuBaslat()
     {
-        if (senaryoBasladi) return;
+        if (senaryoBasladi || GameOver) return;
         senaryoBasladi = true;
         if (conversationView != null) conversationView.gameObject.SetActive(true);
         else sohbetKanvas.gameObject.SetActive(true);
@@ -298,11 +313,12 @@ public class OyunAkisiOnur : MonoBehaviour
 
     public void KabulEdildi()
     {
-        if (!secimBekleniyor) return;
+        if (GameOver || !secimBekleniyor) return;
         if (!SpendForChoice(false)) return;
         LastDecisionCorrect = currentScenario != null && !currentScenario.correctChoiceIsB;
         secimBekleniyor = false;
         DecisionResolved?.Invoke(LastDecisionCorrect);
+        if (GameOver) return;
         GeriSayimiDurdur();
         ButonlariGizle();
         StartCoroutine(currentScenario != null ? DataOutcome(false) : YanlisSecim());
@@ -310,11 +326,12 @@ public class OyunAkisiOnur : MonoBehaviour
 
     public void Reddedildi()
     {
-        if (!secimBekleniyor) return;
+        if (GameOver || !secimBekleniyor) return;
         if (!SpendForChoice(true)) return;
         LastDecisionCorrect = currentScenario == null || currentScenario.correctChoiceIsB;
         secimBekleniyor = false;
         DecisionResolved?.Invoke(LastDecisionCorrect);
+        if (GameOver) return;
         GeriSayimiDurdur();
         ButonlariGizle();
         StartCoroutine(currentScenario != null ? DataOutcome(true) : DogruSecim());

@@ -11,6 +11,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     [SerializeField] private OyunAkisiOnur conversation;
     [SerializeField] private DispatchCallFlow phone;
     [SerializeField] private PresidentialBroadcastView view;
+    [SerializeField] private CityHealth cityHealth;
     [Tooltip("Exactly eight slots. Empty first slot uses the existing Onur earthquake conversation. Other empty slots wait for authored content.")]
     [SerializeField] private DispatchScenarioData[] scenarioOrder = new DispatchScenarioData[8];
     [SerializeField] private PresidentialBriefingData[] briefings = new PresidentialBriefingData[4];
@@ -49,6 +50,8 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     public void ResetNewShift()
     {
         StopAllCoroutines(); CompletedScenarios = 0; CorrectDecisions = 0; completedRevisions.Clear(); shown.Clear(); decisions.Clear(); current = null;
+        conversation.ResetGameOver();
+        if (cityHealth) cityHealth.ResetForNewShift();
         resources.ResetForNewShift(); view.Hide(); phone.SetInteractionLocked(false);
         Phase = ShiftPhase.Scenario; acceptingCompletion = true;
         conversation.BeginScenario(scenarioOrder.Length > 0 ? scenarioOrder[0] : null);
