@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-// Presentation wrapper for the existing two minigames; it does not pause the dispatch flow.
+// Legacy tablet presentation retained for existing authored assets.
+// Preparation activities now live exclusively in the Preparation scene.
 public sealed class DispatchTablet : MonoBehaviour
 {
     [SerializeField] private MiniGameWindow window;
@@ -21,8 +22,9 @@ public sealed class DispatchTablet : MonoBehaviour
 
     private void Start()
     {
-        Build();
-        window.Health.GameEnded += HideInstant;
+        if (window.BagEntryButton) window.BagEntryButton.gameObject.SetActive(false);
+        if (window.SafetyEntryButton) window.SafetyEntryButton.gameObject.SetActive(false);
+        enabled = false;
     }
     private void OnDestroy()
     {

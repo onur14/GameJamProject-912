@@ -50,18 +50,15 @@ public sealed class DispatchResources : MonoBehaviour
 
     public void ResetForNewShift()
     {
-        Firefighters = Mathf.Max(0, initialFirefighters);
-        Ambulances = Mathf.Max(0, initialAmbulances);
-        Police = Mathf.Max(0, initialPolice);
+        Firefighters = Mathf.Max(0, initialFirefighters) + PreparationRun.TeamBonus;
+        Ambulances = Mathf.Max(0, initialAmbulances) + PreparationRun.TeamBonus;
+        Police = Mathf.Max(0, initialPolice) + PreparationRun.TeamBonus;
         Refresh();
     }
 
     private void Awake()
     {
-        Firefighters = initialFirefighters;
-        Ambulances = initialAmbulances;
-        Police = initialPolice;
-        Refresh();
+        ResetForNewShift();
     }
 
     public void Spend(ResourceType resource)

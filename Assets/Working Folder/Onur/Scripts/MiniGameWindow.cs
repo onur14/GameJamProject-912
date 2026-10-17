@@ -15,8 +15,12 @@ public sealed class MiniGameWindow : MonoBehaviour
     [SerializeField] private QuickQuestionView quickQuestionView;
 
     [SerializeField] private DispatchTablet tablet;
+    [SerializeField] private PreparationDirector preparation;
     [SerializeField, Min(1)] private int actionHealthPoints = 2;
-    public bool UsesImmediateFeedback => tablet != null;
+    public bool UsesImmediateFeedback => preparation != null || tablet != null;
+    public BagMiniGame BagGame => bagGame;
+    public bool IsPreparationWindow => preparation != null;
+    public int IncorrectActions { get; private set; }
     public CityHealth Health => cityHealth;
     public GameObject BagPanel => bagGame.gameObject;
     public GameObject SafetyPanel => safetyGame.gameObject;
@@ -24,18 +28,18 @@ public sealed class MiniGameWindow : MonoBehaviour
     public Button SafetyEntryButton => safetyEntryButton;
     public void EvaluateAction(bool correct)
     {
+        if (preparation != null) { preparation.EvaluateBagAction(correct, actionHealthPoints); return; }
         if (tablet == null || cityHealth == null || cityHealth.IsGameOver) return;
+        if (!correct) IncorrectActions++;
         int before = cityHealth.HealthPercent;
         if (correct) cityHealth.AddHealth(actionHealthPoints); else cityHealth.ApplyDamage(actionHealthPoints);
         tablet.Feedback(cityHealth.HealthPercent - before, correct);
     }
 
-    private bool wasPhonePaused;
-    private bool wasConversationPaused;
-    private bool wasQuickQuestionPaused;
     private bool isOpen;
-    public int SuccessfulTasks => (bagGame != null && bagGame.Succeeded ? 1 : 0)
-        + (safetyGame != null && safetyGame.Succeeded ? 1 : 0);
+    public int SuccessfulTasks => PreparationRun.CompletedCount;
+    public int FailedTasks => 0;
+    public int AvailableTasks => PreparationRun.Visited ? 4 : 0;
     [SerializeField, Range(0f, 3f)] private float mistakeShakePixels = 2f;
     [SerializeField, Range(.1f, .3f)] private float mistakeShakeDuration = .2f;
     private Coroutine mistake;
@@ -47,6 +51,8 @@ public sealed class MiniGameWindow : MonoBehaviour
         bagEntryButton.onClick.AddListener(OpenBag);
         safetyEntryButton.onClick.AddListener(OpenSafety);
         overlay.gameObject.SetActive(false);
+        bagEntryButton.gameObject.SetActive(false);
+        safetyEntryButton.gameObject.SetActive(false);
     }
 
     private void OnDestroy()
@@ -60,29 +66,15 @@ public sealed class MiniGameWindow : MonoBehaviour
 
     private void Open(GameObject panel)
     {
-        if (cityHealth == null || cityHealth.IsGameOver) return;
-        if (tablet != null)
-        {
-            isOpen = true;
-            bagGame.CancelDrags();
-            bagGame.gameObject.SetActive(panel == bagGame.gameObject);
-            safetyGame.gameObject.SetActive(panel == safetyGame.gameObject);
-            tablet.ShowGame(panel);
-            return;
-        }
-        if (isOpen) return;
+        // Legacy references may still invoke these methods; operator scenes never open them.
+        if (!preparation) return;
+        if (panel != bagGame.gameObject || isOpen) return;
         isOpen = true;
-        wasPhonePaused = phone != null && phone.IsPaused;
-        wasConversationPaused = conversationView != null && conversationView.IsPaused;
-        wasQuickQuestionPaused = quickQuestionView != null && quickQuestionView.IsPaused;
-        if (phone != null) phone.SetPaused(true);
-        if (conversationView != null) conversationView.SetPaused(true);
-        if (quickQuestionView != null) quickQuestionView.SetPaused(true);
-        bagGame.gameObject.SetActive(panel == bagGame.gameObject);
-        safetyGame.gameObject.SetActive(panel == safetyGame.gameObject);
-        overlay.gameObject.SetActive(true);
-        overlay.transform.SetAsLastSibling();
+        bagGame.CancelDrags();
+        bagGame.gameObject.SetActive(true);
+        safetyGame.gameObject.SetActive(false);
     }
+
 
     public void Close()
     {
@@ -93,10 +85,7 @@ public sealed class MiniGameWindow : MonoBehaviour
         overlay.gameObject.SetActive(false);
         bagGame.gameObject.SetActive(false);
         safetyGame.gameObject.SetActive(false);
-        if (tablet != null) { tablet.ShowMenu(); return; }
-        if (phone != null) phone.SetPaused(wasPhonePaused);
-        if (conversationView != null) conversationView.SetPaused(wasConversationPaused);
-        if (quickQuestionView != null) quickQuestionView.SetPaused(wasQuickQuestionPaused);
+        if (preparation != null && preparation.isActiveAndEnabled) preparation.BagClosed();
     }
     private void OnDisable() { Close(); }
 
@@ -131,6 +120,7 @@ public sealed class MiniGameWindow : MonoBehaviour
 
     public int Award(int percentagePoints)
     {
+        if (preparation) { int before=PreparationRun.Health; PreparationRun.AdjustHealth(percentagePoints); preparation.RefreshStatus(); return PreparationRun.Health-before; }
         if (cityHealth == null) return 0;
         int previousHealth = cityHealth.HealthPercent;
         cityHealth.AddHealth(percentagePoints);
@@ -139,6 +129,7 @@ public sealed class MiniGameWindow : MonoBehaviour
 
     public void ResetForNewSession()
     {
+        IncorrectActions = 0;
         Close();
         bagGame.ResetForNewSession();
         safetyGame.ResetForNewSession();

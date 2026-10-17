@@ -20,6 +20,10 @@ public sealed class RunResultView : MonoBehaviour
 
     private void Awake()
     {
+        ShiftReportFlow.Clear();
+        var card=titleLabel.transform.parent;
+        DispatchInsetFrame.Ensure(card);
+        foreach(var label in card.GetComponentsInChildren<TMP_Text>(true))label.alignment=TextAlignmentOptions.Center;
         panel.SetActive(false);
     }
 
@@ -41,6 +45,8 @@ public sealed class RunResultView : MonoBehaviour
 
     public void ShowSuccess()
     {
+        if (shown) return;
+        if (ShiftReportFlow.Complete(briefing, health, minigames)) { shown = true; return; }
         Show("GÖREV TAMAMLANDI", "Vardiyadaki tüm vakalar tamamlandı.");
     }
 
@@ -64,7 +70,12 @@ public sealed class RunResultView : MonoBehaviour
         int correct = briefing != null ? briefing.CorrectDecisions : 0;
         int tasks = minigames != null ? minigames.SuccessfulTasks : 0;
         int healthValue = health != null ? health.HealthPercent : 0;
-        summaryLabel.text = $"Tamamlanan çağrı  {calls}/8\nDoğru karar  {correct}\nMinigame  {tasks}/2\nŞehir sağlığı  %{healthValue}";
+        if(briefing!=null && briefing.Resources!=null)
+        {
+            var data=ShiftReportData.Capture(briefing,FindAnyObjectByType<QuickQuestionManager>(),minigames,health,SceneManager.GetActiveScene().path);
+            summaryLabel.text=string.Join("\n",data.ExplainOutcome(healthValue>0&&calls>=8));
+        }
+        else summaryLabel.text=$"Tamamlanan çağrı  {calls}/8\nDoğru karar  {correct}\nMinigame  {tasks}/2\nŞehir sağlığı  %{healthValue}";
         panel.SetActive(true);
         panel.transform.SetAsLastSibling();
     }
@@ -72,12 +83,13 @@ public sealed class RunResultView : MonoBehaviour
     private void Replay()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().path);
+        PreparationRun.StartNewGame(SceneManager.GetActiveScene().path);
     }
 
     private void MainMenu()
     {
         Time.timeScale = 1f;
+        PreparationRun.Reset();
         SceneManager.LoadScene(menuSceneName);
     }
 }

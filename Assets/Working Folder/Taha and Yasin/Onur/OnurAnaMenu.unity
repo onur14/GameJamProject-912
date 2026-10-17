@@ -348,8 +348,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "HAZIRLA \u2022 B\u0130L\u0130N\xC7LEND\u0130R \u2022 Y\xD6NET"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -560,8 +560,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: GECE VARDIYASI // HAZIR
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -697,8 +697,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: OPERATOR TERMINALI
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -909,8 +909,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: SISTEM HAZIR
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1121,8 +1121,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 912 // ACIL CAGRI MERKEZI
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1250,8 +1250,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "GER\u0130"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1387,8 +1387,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\xC7IKI\u015E"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2081,8 +2081,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: AYARLAR
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2368,8 +2368,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 912
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2626,8 +2626,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Genel Ses
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2763,8 +2763,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: OYNA
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 32ddf36cac421e6c621fd1a7e139b7a8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2881,8 +2881,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '%100'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3512,8 +3512,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: AYARLAR
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

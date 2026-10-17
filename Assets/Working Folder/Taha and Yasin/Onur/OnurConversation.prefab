@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "HAYIR! Sak\u0131n merdivenlere ko\u015Fmay\u0131n!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -204,8 +204,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -419,8 +419,8 @@ MonoBehaviour:
 
     Please send help.'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -556,8 +556,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Evet, binay\u0131 terk edin!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -694,8 +694,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: CALLER - UNKNOWN
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  m_sharedMaterial: {fileID: 753919813556006115, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
+  m_sharedMaterial: {fileID: 753919813556006115, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

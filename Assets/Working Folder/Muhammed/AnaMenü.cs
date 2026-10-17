@@ -9,7 +9,7 @@ public class AnaMenü : MonoBehaviour
 
     public void OyunBaslat()
     {
-        SceneFadeTransition.LoadScene(gameplayScene, menuFadeDuration, gameplayFadeInDuration);
+        PreparationRun.StartNewGame(gameplayScene, menuFadeDuration, gameplayFadeInDuration);
     }
     public void CikisYap()
     {

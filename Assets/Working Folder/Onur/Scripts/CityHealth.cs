@@ -27,6 +27,8 @@ public sealed class CityHealth : MonoBehaviour
 
     public int HealthPercent { get; private set; } = StartingHealth;
     public bool IsGameOver { get; private set; }
+    public int WrongDecisionCount { get; private set; }
+    public int TimedOutDecisionCount { get; private set; }
     public event System.Action GameEnded;
 
     public bool AddHealth(int percentagePoints)
@@ -47,6 +49,7 @@ public sealed class CityHealth : MonoBehaviour
         }
 
         BuildInterface();
+        if (PreparationRun.preparationComplete) HealthPercent = Mathf.Max(1, PreparationRun.Health);
         Refresh();
     }
 
@@ -64,13 +67,13 @@ public sealed class CityHealth : MonoBehaviour
 
     private void OnDecisionTimedOut()
     {
-        if (!IsGameOver && briefing.Phase == PresidentialBriefingManager.ShiftPhase.Scenario) ApplyDamage(5);
+        if (!IsGameOver && briefing.Phase == PresidentialBriefingManager.ShiftPhase.Scenario) { TimedOutDecisionCount++; ApplyDamage(5); }
     }
 
     private void OnDecisionResolved(bool correct)
     {
         if (correct || IsGameOver || briefing.Phase != PresidentialBriefingManager.ShiftPhase.Scenario) return;
-
+        WrongDecisionCount++;
         ApplyDamage(WrongAnswerDamage);
     }
 
@@ -92,6 +95,7 @@ public sealed class CityHealth : MonoBehaviour
         noteShown = false;
         if (missionNote != null) missionNote.gameObject.SetActive(false);
         HealthPercent = StartingHealth;
+        WrongDecisionCount = 0;TimedOutDecisionCount = 0;
         IsGameOver = false;
         if (healthIndicator != null)
         {

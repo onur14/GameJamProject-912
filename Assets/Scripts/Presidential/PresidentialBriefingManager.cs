@@ -25,6 +25,9 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     private readonly HashSet<int> shown = new HashSet<int>();
     private readonly HashSet<int> completedRevisions = new HashSet<int>();
     public int CorrectDecisions { get; private set; }
+    public DispatchResources Resources => resources;
+    private readonly List<ShiftScenarioOutcome> scenarioOutcomes = new List<ShiftScenarioOutcome>();
+    public IReadOnlyList<ShiftScenarioOutcome> ScenarioOutcomes => scenarioOutcomes;
     private PresidentialBriefingData current;
     private ResourceOffer offerA, offerB;
     private int line;
@@ -41,7 +44,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         view.AdvanceRequested += Advance;
         view.OfferSelected += SelectOffer;
         resources.Changed += OnResourcesChanged;
-        CompletedScenarios = 0; shown.Clear(); decisions.Clear();
+        CompletedScenarios = 0; shown.Clear(); decisions.Clear(); scenarioOutcomes.Clear();
         Phase = ShiftPhase.Scenario; acceptingCompletion = true;
     }
     private void OnDestroy()
@@ -53,6 +56,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     public void ResetNewShift()
     {
         ShiftReset?.Invoke();
+        scenarioOutcomes.Clear();
         StopAllCoroutines(); CompletedScenarios = 0; CorrectDecisions = 0; completedRevisions.Clear(); shown.Clear(); decisions.Clear(); current = null;
         conversation.ResetGameOver();
         if (cityHealth) cityHealth.ResetForNewShift();
@@ -65,6 +69,9 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         if (!acceptingCompletion || Phase != ShiftPhase.Scenario || CompletedScenarios >= 8
             || revision != conversation.ScenarioRevision || !completedRevisions.Add(revision)) return;
         if (conversation.LastDecisionCorrect) CorrectDecisions++;
+        var scenario = CompletedScenarios < scenarioOrder.Length ? scenarioOrder[CompletedScenarios] : null;
+        scenarioOutcomes.Add(new ShiftScenarioOutcome { scenarioId = scenario ? scenario.scenarioId : "D-01",
+            callerName = scenario ? scenario.callerName : string.Empty, correct = conversation.LastDecisionCorrect });
         acceptingCompletion = false; CompletedScenarios++;
         if (CompletedScenarios % 2 != 0) { RequestNextScenario(); return; }
         if (!shown.Add(CompletedScenarios)) return;

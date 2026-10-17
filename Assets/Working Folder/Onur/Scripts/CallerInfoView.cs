@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -12,15 +13,18 @@ public sealed class CallerInfoView : MonoBehaviour
     [SerializeField] private bool sentenceMode;
 
     private Coroutine arrival;
+    private bool textPrepared;
+    private readonly Dictionary<TMP_FontAsset,Material> textMaterials=new Dictionary<TMP_FontAsset,Material>();
 
     public void Show(DispatchScenarioData scenario)
     {
         if (scenario == null) { Clear(); return; }
+        PrepareText();
         if (sentenceMode)
         {
             Set(nameLabel, scenario.callerName, "");
             Set(locationLabel, scenario.callerLocation, "", " bölgesinden arıyor.");
-            Set(emergencyLabel, scenario.emergencyType, "Bildirilen olay: ", ".");
+            Set(emergencyLabel, scenario.emergencyType, "Olay: ", ".");
             Set(summaryLabel, scenario.situationSummary, "", EndsSentence(scenario.situationSummary) ? "" : ".");
         }
         else
@@ -58,6 +62,41 @@ public sealed class CallerInfoView : MonoBehaviour
     }
 
     private static bool EndsSentence(string s) { s = s == null ? "" : s.TrimEnd(); return s.EndsWith(".") || s.EndsWith("!") || s.EndsWith("?"); }
+
+    private void PrepareText()
+    {
+        if(textPrepared)return;textPrepared=true;
+        if(emergencyLabel && summaryLabel && emergencyLabel.transform.parent==summaryLabel.transform.parent)
+        {
+            var eventRect=emergencyLabel.rectTransform;var summaryRect=summaryLabel.rectTransform;
+            // A short event label may use two lines, without resizing the caller panel.
+            eventRect.anchorMin=new Vector2(eventRect.anchorMin.x,Mathf.Min(eventRect.anchorMin.y,eventRect.anchorMax.y-.12f));
+            summaryRect.anchorMax=new Vector2(summaryRect.anchorMax.x,Mathf.Min(summaryRect.anchorMax.y,eventRect.anchorMin.y-.02f));
+        }
+        // Match the existing scene-specific readability scale once, then add a small caller-only increase.
+        float existingScale=gameObject.scene.path.Contains("Taha and Yasin")?1.25f:1;
+        foreach(var label in new[]{nameLabel,locationLabel,emergencyLabel,summaryLabel})
+        {
+            if(!label)continue;
+            float size=label.enableAutoSizing?label.fontSizeMax:label.fontSize;
+            float minimum=label.enableAutoSizing?label.fontSizeMin:size*.9f;
+            label.fontSizeMax=size*existingScale*1.06f;label.fontSizeMin=minimum*1.05f;label.enableAutoSizing=true;
+            label.fontStyle=label==nameLabel?FontStyles.Bold:FontStyles.Normal;label.fontWeight=FontWeight.Regular;
+            label.textWrappingMode=TextWrappingModes.Normal;label.lineSpacing=3;label.characterSpacing=.15f;
+            label.color=new Color(.92f,.96f,.93f);label.extraPadding=true;
+            if(label.font)
+            {
+                if(!textMaterials.TryGetValue(label.font,out var material))
+                {
+                    material=new Material(label.font.material){name="Caller text / restrained weight"};
+                    material.SetFloat("_WeightNormal",.20f);material.SetFloat("_WeightBold",.24f);
+                    material.SetFloat("_FaceDilate",.025f);material.SetFloat("_Sharpness",.15f);textMaterials.Add(label.font,material);
+                }
+                label.fontSharedMaterial=material;
+            }
+        }
+    }
+    private void OnDestroy(){foreach(var material in textMaterials.Values)if(material)Destroy(material);}
 
     private static void Set(TMP_Text label, string value, string prefix, string suffix = "")
     {
