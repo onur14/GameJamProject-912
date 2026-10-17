@@ -1,0 +1,74 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public sealed class MiniGameWindow : MonoBehaviour
+{
+    [SerializeField] private Button bagEntryButton;
+    [SerializeField] private Button safetyEntryButton;
+    [SerializeField] private CanvasGroup overlay;
+    [SerializeField] private BagMiniGame bagGame;
+    [SerializeField] private SafetyMiniGame safetyGame;
+    [SerializeField] private CityHealth cityHealth;
+    [SerializeField] private DispatchCallFlow phone;
+    [SerializeField] private OnurConversationView conversationView;
+
+    private bool wasPhonePaused;
+    private bool wasConversationPaused;
+    private bool isOpen;
+
+    private void Awake()
+    {
+        bagEntryButton.onClick.AddListener(OpenBag);
+        safetyEntryButton.onClick.AddListener(OpenSafety);
+        overlay.gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        bagEntryButton.onClick.RemoveListener(OpenBag);
+        safetyEntryButton.onClick.RemoveListener(OpenSafety);
+    }
+
+    public void OpenBag() { Open(bagGame.gameObject); }
+    public void OpenSafety() { Open(safetyGame.gameObject); }
+
+    private void Open(GameObject panel)
+    {
+        if (isOpen || cityHealth == null || cityHealth.IsGameOver) return;
+        isOpen = true;
+        wasPhonePaused = phone != null && phone.IsPaused;
+        wasConversationPaused = conversationView != null && conversationView.IsPaused;
+        if (phone != null) phone.SetPaused(true);
+        if (conversationView != null) conversationView.SetPaused(true);
+        bagGame.gameObject.SetActive(panel == bagGame.gameObject);
+        safetyGame.gameObject.SetActive(panel == safetyGame.gameObject);
+        overlay.gameObject.SetActive(true);
+        overlay.transform.SetAsLastSibling();
+    }
+
+    public void Close()
+    {
+        if (!isOpen) return;
+        isOpen = false;
+        overlay.gameObject.SetActive(false);
+        bagGame.gameObject.SetActive(false);
+        safetyGame.gameObject.SetActive(false);
+        if (phone != null) phone.SetPaused(wasPhonePaused);
+        if (conversationView != null) conversationView.SetPaused(wasConversationPaused);
+    }
+
+    public int Award(int percentagePoints)
+    {
+        if (cityHealth == null) return 0;
+        int previousHealth = cityHealth.HealthPercent;
+        cityHealth.AddHealth(percentagePoints);
+        return cityHealth.HealthPercent - previousHealth;
+    }
+
+    public void ResetForNewSession()
+    {
+        Close();
+        bagGame.ResetForNewSession();
+        safetyGame.ResetForNewSession();
+    }
+}

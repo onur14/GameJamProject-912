@@ -39,6 +39,8 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     private readonly List<RectTransform> messages = new List<RectTransform>();
     private bool choicesVisible, awaitingAdvance, typing, bothUnavailable;
     private float lastClick = -10;
+    public bool IsPaused { get; private set; }
+    public void SetPaused(bool paused) { IsPaused = paused; }
     public bool WaitingForAdvance => awaitingAdvance;
     public bool IsTyping => typing;
     public bool IsCallEndedVisible => callEndedLabel && callEndedLabel.gameObject.activeSelf;
@@ -183,10 +185,12 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         Vector2 start=destination+Vector2.right*(fromRight?1:-1)*(width+sidePadding*2);
         float slideTime=Mathf.Clamp(duration,.12f,.25f);
         bubble.anchoredPosition=start;
-        for(float elapsed=0;elapsed<slideTime;elapsed+=Time.unscaledDeltaTime)
+        for(float elapsed=0;elapsed<slideTime;)
         {
+            if(IsPaused){yield return null;continue;}
             float progress=Mathf.Clamp01(elapsed/slideTime);
             bubble.anchoredPosition=Vector2.LerpUnclamped(start,destination,1-Mathf.Pow(1-progress,3));
+            elapsed+=Time.unscaledDeltaTime;
             yield return null;
         }
         bubble.anchoredPosition=destination;
@@ -195,6 +199,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
             body.ForceMeshUpdate();int count=body.textInfo.characterCount;float visible=0;
             while(typing && visible<count)
             {
+                if(IsPaused){yield return null;continue;}
                 var keyboard=Keyboard.current;
                 if(keyboard!=null && (keyboard.spaceKey.wasPressedThisFrame || keyboard.enterKey.wasPressedThisFrame))
                 {RevealCurrentLine();break;}
@@ -208,7 +213,11 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     public IEnumerator WaitForAdvance()
     {
         float displayTime = Mathf.Clamp(MessageText.text.Length * .012f, .8f, 1.8f);
-        yield return new WaitForSecondsRealtime(displayTime);
+        while(displayTime>0f || IsPaused)
+        {
+            if(!IsPaused)displayTime-=Time.unscaledDeltaTime;
+            yield return null;
+        }
         awaitingAdvance = false;
     }
     public IEnumerator ShowCallEnded()
@@ -224,10 +233,12 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         Anchor(textViewport,new Vector2(.015f,.125f),new Vector2(.985f,.98f));FitText();
         callEndedLabel.text="— ÇAĞRI SONLANDIRILDI —";
         callEndedLabel.gameObject.SetActive(true);callEndedLabel.transform.SetAsLastSibling();
-        for(float t=0;t<callEndedDuration;t+=Time.unscaledDeltaTime)
+        for(float t=0;t<callEndedDuration;)
         {
+            if(IsPaused){yield return null;continue;}
             float p=t/callEndedDuration;
             callEndedLabel.alpha=Mathf.Min(Mathf.Clamp01(p/.12f),Mathf.Clamp01((1-p)/.25f));
+            t+=Time.unscaledDeltaTime;
             yield return null;
         }
         callEndedLabel.gameObject.SetActive(false);
@@ -242,6 +253,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         float progress=0;
         while(progress<1f)
         {
+            if(IsPaused){yield return null;continue;}
             if(Keyboard.current!=null && Keyboard.current.spaceKey.wasPressedThisFrame)
                 progress=Mathf.Min(1f,progress+ConnectionGainPerPress);
             else

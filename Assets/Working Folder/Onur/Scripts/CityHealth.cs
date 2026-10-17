@@ -21,6 +21,14 @@ public sealed class CityHealth : MonoBehaviour
     public int HealthPercent { get; private set; } = StartingHealth;
     public bool IsGameOver { get; private set; }
 
+    public bool AddHealth(int percentagePoints)
+    {
+        if (IsGameOver || percentagePoints <= 0 || HealthPercent >= StartingHealth) return false;
+        HealthPercent = Mathf.Min(StartingHealth, HealthPercent + percentagePoints);
+        Refresh();
+        return true;
+    }
+
     private void Awake()
     {
         if (conversation == null || briefing == null || phone == null)

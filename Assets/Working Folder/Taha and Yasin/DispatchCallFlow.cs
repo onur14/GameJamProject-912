@@ -41,6 +41,8 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
 
     public CallState State { get; private set; } = CallState.EnteringRoom;
     public float FirstRingDelay => firstRingDelay;
+    public bool IsPaused { get; private set; }
+    public void SetPaused(bool paused) { IsPaused = paused; }
     public event System.Action FocusCompleted;
     [Header("Phone visual feedback")]
     [SerializeField, Range(0, 1f)] private float hoverOpacity = .72f;
@@ -114,7 +116,13 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
         // The scene's Start runs while the persistent scene curtain is still black.
         while (SceneFadeTransition.IsTransitioning) yield return null;
         State = CallState.Idle;
-        yield return new WaitForSecondsRealtime(Mathf.Max(0, firstRingDelay));
+        float remaining = Mathf.Max(0, firstRingDelay);
+        while (remaining > 0)
+        {
+            if (!IsPaused) remaining -= Time.unscaledDeltaTime;
+            yield return null;
+        }
+        while (IsPaused) yield return null;
         if (!enabled || State != CallState.Idle) yield break;
         State = CallState.IncomingCall;
         hitImage.raycastTarget = !InteractionLocked;
@@ -133,6 +141,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
         float elapsed = 0;
         while (State == CallState.IncomingCall)
         {
+            if (IsPaused) { yield return null; continue; }
             // A quiet two-pulse cadence; only the small ring marks move in opacity.
             float phase = (elapsed % ringCycle) / ringCycle * 1.25f;
             bool pulse = phase < 0.19f || (phase > 0.32f && phase < 0.51f);
@@ -171,7 +180,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
 
     public void AnswerPhone()
     {
-        if (InteractionLocked || !isActiveAndEnabled || State != CallState.IncomingCall || SceneFadeTransition.IsTransitioning) return;
+        if (IsPaused || InteractionLocked || !isActiveAndEnabled || State != CallState.IncomingCall || SceneFadeTransition.IsTransitioning) return;
         State = CallState.Focusing; // Lock before audio, visuals or coroutines are touched.
         hitImage.raycastTarget = false;
         SetHover(false);
@@ -189,6 +198,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
         float elapsed = 0;
         while (elapsed < duration)
         {
+            if (IsPaused) { yield return null; continue; }
             elapsed += Time.unscaledDeltaTime;
             focusProgress = Mathf.SmoothStep(0, 1, Mathf.Clamp01(elapsed / duration));
             ApplyFocus();
