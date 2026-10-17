@@ -1626,15 +1626,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3588768600692073138, guid: b20bb34e87cc4f843bdf291912ae675c, type: 3}
       propertyPath: phone
-      value:
+      value: 
       objectReference: {fileID: 1139218828}
     - target: {fileID: 3588768600692073138, guid: b20bb34e87cc4f843bdf291912ae675c, type: 3}
       propertyPath: cityHealth
-      value:
+      value: 
       objectReference: {fileID: 3000000032}
     - target: {fileID: 3588768600692073138, guid: b20bb34e87cc4f843bdf291912ae675c, type: 3}
       propertyPath: conversationView
-      value:
+      value: 
       objectReference: {fileID: 3000000011}
     - target: {fileID: 8192962389830134880, guid: b20bb34e87cc4f843bdf291912ae675c, type: 3}
       propertyPath: m_Name
@@ -1964,8 +1964,8 @@ MonoBehaviour:
   focusedPosition: {x: 0, y: 0}
   backgroundDimAmount: 0.16
   ringAudioSource: {fileID: 1139218829}
-  ringClip: {fileID: 0}
-  ringVolume: 0.55
+  ringClip: {fileID: 8300000, guid: 8f14f25eb95f2014b8f9387236f7ed7c, type: 3}
+  ringVolume: 0.68
   phoneHitPolygon:
   - {x: 0.04, y: 0.12}
   - {x: 0.04, y: 0.78}
@@ -2896,7 +2896,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a276cda150f842c180a7a27743901c83, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DispatchVisualFeedback
   conversation: {fileID: 3000000010}
   phone: {fileID: 1139218828}
@@ -3659,7 +3659,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c1e792ca33f4ce78e5120dd0479921a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CityHealth
   conversation: {fileID: 3000000010}
   briefing: {fileID: 1094786584}
