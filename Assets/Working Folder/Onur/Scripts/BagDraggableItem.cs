@@ -24,6 +24,7 @@ public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHa
     private bool dropped;
     private bool draggedThisPress;
 
+    public Vector2 StartingPosition { get => startingPosition; set => startingPosition=value; }
     public BagDropZone CurrentArea => currentArea;
     public bool IsCorrectlyPlaced => correctArea == null
         ? currentArea != null && !currentArea.IsBagArea

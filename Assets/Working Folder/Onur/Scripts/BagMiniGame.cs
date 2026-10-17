@@ -53,9 +53,18 @@ public sealed class BagMiniGame : MonoBehaviour
         resolved = false;
         Succeeded = false;
         lastCheckTime = -10f;
+        CancelDrags();
         if (items != null)
-            foreach (BagDraggableItem item in items)
-                if (item != null) item.ResetPlacement();
+        {
+            // Shuffle existing non-overlapping slots only in preparation.
+            if(window.IsPreparationWindow)
+                for(int i=items.Length-1;i>0;i--)
+                {
+                    int j=Random.Range(0,i+1);if(!items[i]||!items[j])continue;
+                    Vector2 position=items[i].StartingPosition;items[i].StartingPosition=items[j].StartingPosition;items[j].StartingPosition=position;
+                }
+            foreach(BagDraggableItem item in items)if(item)item.ResetPlacement();
+        }
         resultLabel.text = string.Empty;
         Refresh();
     }

@@ -13,8 +13,9 @@ public static class OperatorCurseInstaller
         library.phoneRing=Clip("Telefon.wav");library.phoneOpen=Clip("TelefonAcma.wav");library.phoneClose=Clip("TelefonuKapama.wav");
         library.callerGrain=Clip("Generated/CallerGrain.wav");library.presidentGrain=Clip("Generated/PresidentGrain.wav");
         library.notification=Clip("Generated/NotificationBlink.wav");library.warningTick=Clip("Generated/WarningTick.wav");library.curseImpact=Clip("Generated/CurseImpact.wav");
+        library.buttonClick=Clip("Buton.mp3");library.correct=library.notification;library.incorrect=library.warningTick;library.resourceChange=library.notification;library.transition=library.notification;
         if(!library.phoneRing||!library.phoneOpen||!library.phoneClose||!library.callerGrain||!library.presidentGrain||!library.notification||!library.warningTick||!library.curseImpact)
-            throw new System.InvalidOperationException("Lanet ses kitaplığındaki kaynaklardan biri eksik.");
+            throw new System.InvalidOperationException("Ceza ses kitaplığındaki kaynaklardan biri eksik.");
         EditorUtility.SetDirty(library);AssetDatabase.SaveAssets();
     }
 }

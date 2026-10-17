@@ -30,6 +30,7 @@ public sealed class SceneFadeTransition : MonoBehaviour
             DontDestroyOnLoad(host);
             instance.CreateCurtain();
         }
+        GameAudioFeedback.Transition();
         instance.curtain.gameObject.SetActive(true);
         instance.StartCoroutine(instance.LoadRoutine(sceneName, fadeOutDuration, fadeInDuration));
     }

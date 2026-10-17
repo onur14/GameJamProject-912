@@ -20,3 +20,8 @@ MonoBehaviour:
   notification: {fileID: 8300000, guid: f2f2aea39b6b6504f9a7b479c0db24ea, type: 3}
   warningTick: {fileID: 8300000, guid: c1683dba1cfee924d8ca1242ae396846, type: 3}
   curseImpact: {fileID: 8300000, guid: 3d27cfa6ec2eaf84bbfff3146af21f07, type: 3}
+  buttonClick: {fileID: 8300000, guid: 4a5c147174326eb42ab64d3bbfd0fb64, type: 3}
+  correct: {fileID: 8300000, guid: f2f2aea39b6b6504f9a7b479c0db24ea, type: 3}
+  incorrect: {fileID: 8300000, guid: c1683dba1cfee924d8ca1242ae396846, type: 3}
+  resourceChange: {fileID: 8300000, guid: f2f2aea39b6b6504f9a7b479c0db24ea, type: 3}
+  transition: {fileID: 8300000, guid: f2f2aea39b6b6504f9a7b479c0db24ea, type: 3}

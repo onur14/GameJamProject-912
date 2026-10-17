@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using static PreparationUI;
 
 // Storytelling, recording review and the educational public-service montage.
-// The four existing activities remain owned by PreparationDirector.
+// The preparation activities remain owned by PreparationDirector.
 public sealed class PreparationBroadcast : MonoBehaviour
 {
     public enum BroadcastPhase { Briefing, Countdown, Recording, Review, Publishing, MonthsLater, Disaster, LoadingOperator }
@@ -14,7 +14,8 @@ public sealed class PreparationBroadcast : MonoBehaviour
         "Su, fener ve ilk yardım malzemelerini hazır tut.",
         "Çök, başını koruyarak kapan, sağlam masaya tutun.",
         "Su basan alanlardan uzak, yüksek bir bölgeye geç.",
-        "Dedektörün pilini kontrol et; çalıştığını test et."
+        "Dedektörün pilini kontrol et; çalıştığını test et.",
+        "Tsunamide kıyıdan uzaklaş; iç kesime ve yüksek araziye kaç."
     };
     private PreparationDirector director;
     private TMP_FontAsset font;
@@ -24,9 +25,9 @@ public sealed class PreparationBroadcast : MonoBehaviour
     private TMP_Text reviewTimes,reviewReward,reviewHint,countdown,signal,playbackLabel,storyHeading,storyBody;
     private Image transmissionBar,storyFlash;
     private readonly List<Sprite> sprites=new List<Sprite>();
-    private PreparationSpriteCutout earthquakeCutouts;
-    private readonly Image[] clipFrames=new Image[4];
-    private readonly TMP_Text[] clipMessages=new TMP_Text[4];
+    private PreparationSpriteCutout earthquakeCutouts,tsunamiCutouts;
+    private readonly Image[] clipFrames=new Image[PreparationRun.ActivityCount];
+    private readonly TMP_Text[] clipMessages=new TMP_Text[PreparationRun.ActivityCount];
     private bool inputLocked=true;
     private bool purposeAcknowledged;
     public BroadcastPhase Phase { get; private set; } = BroadcastPhase.Briefing;
@@ -51,7 +52,7 @@ public sealed class PreparationBroadcast : MonoBehaviour
         var stamp=Label("Bakanlık Görev Başlığı",briefing,new Vector2(.08f,.68f),new Vector2(.92f,.79f),"BAKANLIKTAN KAMU SPOTU ÇEKİM GÖREVİ",font,25);stamp.color=Amber;
         Panel("Başlık Çizgisi",briefing,new Vector2(.08f,.66f),new Vector2(.92f,.665f),Amber);
         Label("Çekim Görev Metni",briefing,new Vector2(.09f,.31f),new Vector2(.91f,.63f),
-            "Bakanlık, afet bilincini artırmak için bir kamu spotu çekmeni istiyor.\n\nEvdeki dört hazırlık görevini doğru ve olabildiğince hızlı tamamla. Çektiğin video kamuoyuna yayınlanacak.",font,28);
+            "Bakanlık, afet bilincini artırmak için bir kamu spotu çekmeni istiyor.\n\nBeş hazırlık görevini toplam 45 saniye içinde doğru tamamla. Çektiğin video kamuoyuna yayınlanacak.",font,28);
         var reward=Label("Yeniden Çekim Ödülü",briefing,new Vector2(.10f,.17f),new Vector2(.90f,.31f),
             "Daha kısa bir yeniden çekim yap:\n+1 AMBULANS   +1 İTFAİYE   +1 KURTARMA EKİBİ\nBu ödül her koşuda bir kez verilir.",font,23);reward.color=Amber;
         startButton=Button("Çekime Başla",briefing,new Vector2(.31f,.025f),new Vector2(.82f,.115f),"ÇEKİME BAŞLA",font);startButton.onClick.AddListener(StartRecording);startButton.interactable=false;
@@ -77,15 +78,16 @@ public sealed class PreparationBroadcast : MonoBehaviour
     private void BuildPublication()
     {
         broadcast=Rect("Kamu Yayını Montajı",overlay,new Vector2(.07f,.08f),new Vector2(.93f,.93f));
-        Label("Yayın Başlığı",broadcast,new Vector2(.04f,.85f),new Vector2(.96f,.98f),"BİR VİDEO. DÖRT GÜVENLİ DAVRANIŞ.",font,34);
+        Label("Yayın Başlığı",broadcast,new Vector2(.04f,.85f),new Vector2(.96f,.98f),"BİR VİDEO. 5 ÖNEMLİ AFET HAZIRLIĞI.",font,34);
         signal=Label("Yayın Bağlantı Durumu",broadcast,new Vector2(.10f,.75f),new Vector2(.90f,.85f),"YAYIN AĞINA BAĞLANILIYOR",font,24);signal.color=Amber;
-        string[] titles={"HAZIR TUT","KENDİNİ KORU","YÜKSEĞE ÇIK","ERKEN UYARI"};
+        string[] titles={"HAZIR TUT","KENDİNİ KORU","YÜKSEĞE ÇIK","ERKEN UYARI","KIYIDAN UZAKLAŞ"};
         earthquakeCutouts=new PreparationSpriteCutout(Resources.Load<Texture2D>("Disaster/EarthquakeSheet"));
-        Sprite[] thumbs={Art("HouseMap",new Rect(.05f,.53f,.41f,.42f)),earthquakeCutouts.Cut(817,72,119,91,keepLargest:true),Art("FloodMap",new Rect(.56f,.60f,.42f,.39f)),Art("DetectorSheet",new Rect(0,.12f,.24f,.78f))};
-        for(int i=0;i<4;i++)
+        tsunamiCutouts=new PreparationSpriteCutout(Resources.Load<Texture2D>("Disaster/TsunamiSheet"));
+        Sprite[] thumbs={Art("HouseMap",new Rect(.05f,.53f,.41f,.42f)),earthquakeCutouts.Cut(817,72,119,91,keepLargest:true),Art("FloodMap",new Rect(.56f,.60f,.42f,.39f)),Art("DetectorSheet",new Rect(0,.12f,.24f,.78f)),tsunamiCutouts.Cut(421,4,202,151,keepLargest:true)};
+        for(int i=0;i<PreparationRun.ActivityCount;i++)
         {
-            float x=.02f+i*.245f;
-            clipFrames[i]=Panel("Güvenli Davranış Klibi "+(i+1),broadcast,new Vector2(x,.23f),new Vector2(x+.225f,.73f),new Color(.18f,.26f,.30f));
+            float x=.015f+i*.196f;
+            clipFrames[i]=Panel("Güvenli Davranış Klibi "+(i+1),broadcast,new Vector2(x,.23f),new Vector2(x+.185f,.73f),new Color(.18f,.26f,.30f));
             var card=Panel("Klip Kartı",clipFrames[i].transform,new Vector2(.014f,.012f),new Vector2(.986f,.988f),PanelColor);
             Label("Klip Adı",card.transform,new Vector2(.03f,.81f),new Vector2(.97f,.98f),titles[i],font,22);
             var art=Panel("Klip Önizlemesi",card.transform,new Vector2(.05f,.37f),new Vector2(.95f,.80f),Color.white);art.sprite=thumbs[i];art.preserveAspect=true;
@@ -113,7 +115,7 @@ public sealed class PreparationBroadcast : MonoBehaviour
         Panel("Uyarı Üst Çizgisi",purposeCard,new Vector2(.02f,.96f),new Vector2(.98f,.97f),Amber);
         Label("Uyarı Başlığı",purposeCard,new Vector2(.06f,.72f),new Vector2(.94f,.94f),"ÖNCE HAZIRLAN, SONRA ANLAT",font,42).color=Amber;
         Label("Uyarı Açıklaması",purposeCard,new Vector2(.08f,.28f),new Vector2(.92f,.72f),
-            "Afetlere hazırlık yaparak insanların güvenli davranışları öğrenmesini sağlıyoruz. Evdeki dört uygulamayı deneyip bir kamu spotu çekiyoruz; öğrendiklerimizi kamuoyuna anlatarak afet bilincini artırıyoruz.",font,29);
+            "Afetlere hazırlık yaparak insanların güvenli davranışları öğrenmesini sağlıyoruz. Beş hazırlık uygulamasını deneyip bir kamu spotu çekiyoruz; öğrendiklerimizi kamuoyuna anlatarak afet bilincini artırıyoruz.",font,29);
         purposeButton=Button("Uyarıyı Onayla",purposeCard,new Vector2(.36f,.07f),new Vector2(.64f,.22f),"ANLADIM",font);
         purposeButton.onClick.AddListener(()=>purposeAcknowledged=true);
         purposeOverlay.gameObject.SetActive(false);
@@ -171,9 +173,9 @@ public sealed class PreparationBroadcast : MonoBehaviour
             {float p=t/.65f;countdown.rectTransform.localScale=Vector3.one*(1+.10f*(1-p));countdown.color=Color.Lerp(Amber,White,p);yield return null;}
         }
         countdown.gameObject.SetActive(false);countdown.rectTransform.localScale=Vector3.one;
-        director.BeginRecording();Phase=BroadcastPhase.Recording;
+        Phase=BroadcastPhase.Recording;
         for(float t=0;t<.25f;t+=Time.unscaledDeltaTime){overlayGroup.alpha=1-t/.25f;yield return null;}
-        overlayGroup.alpha=1;overlay.gameObject.SetActive(false);inputLocked=false;
+        overlayGroup.alpha=1;overlay.gameObject.SetActive(false);inputLocked=false;director.BeginRecording();
     }
     public void ShowReview()
     {
@@ -200,13 +202,13 @@ public sealed class PreparationBroadcast : MonoBehaviour
         for(float t=0;t<1.1f;t+=Time.unscaledDeltaTime)
         {signal.text="YAYIN AĞINA BAĞLANILIYOR"+new string('.',1+Mathf.FloorToInt(t*4)%3);transmissionBar.rectTransform.anchorMax=new Vector2(t/1.1f*.14f,1);yield return null;}
         signal.text="KAMU SPOTU YAYINDA";signal.color=Green;
-        for(int clip=0;clip<4;clip++)
+        for(int clip=0;clip<PreparationRun.ActivityCount;clip++)
         {
             clipFrames[clip].color=Amber;ClipsShown=clip+1;
-            playbackLabel.text="KLİP "+(clip+1)+" · TOPLAM 4 · "+SafetyMessages[clip];
+            playbackLabel.text="KLİP "+(clip+1)+" · TOPLAM 5 · "+SafetyMessages[clip];
             for(float t=0;t<1.6f;t+=Time.unscaledDeltaTime)
             {
-                float p=t/1.6f;transmissionBar.rectTransform.anchorMax=new Vector2(.14f+.86f*(clip+p)/4,1);
+                float p=t/1.6f;transmissionBar.rectTransform.anchorMax=new Vector2(.14f+.86f*(clip+p)/PreparationRun.ActivityCount,1);
                 clipFrames[clip].rectTransform.localScale=Vector3.one*(1+.018f*Mathf.Sin(p*Mathf.PI));yield return null;
             }
             clipFrames[clip].rectTransform.localScale=Vector3.one;clipFrames[clip].color=Green;
@@ -232,5 +234,5 @@ public sealed class PreparationBroadcast : MonoBehaviour
         Phase=BroadcastPhase.LoadingOperator;
         SceneFadeTransition.LoadScene(PreparationRun.Destination,.5f,.6f);
     }
-    private void OnDestroy(){earthquakeCutouts?.Dispose();foreach(var sprite in sprites)if(sprite)Destroy(sprite);}
+    private void OnDestroy(){earthquakeCutouts?.Dispose();tsunamiCutouts?.Dispose();foreach(var sprite in sprites)if(sprite)Destroy(sprite);}
 }

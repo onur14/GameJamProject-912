@@ -4030,7 +4030,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 8feac6f807b602f4cb109405396ab014, type: 3}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.08
   m_Pitch: 1
@@ -5173,7 +5173,7 @@ MonoBehaviour:
     correctChoiceIndex: 1
     wrongAnswerHealthDamage: 0
     timeoutHealthDamage: 0
-    timerDuration: 10
+    timerDuration: 7
     appearanceDelayMin: 2.5
     appearanceDelayMax: 4
     timeoutFeedback: YANITLANMADI
@@ -5197,7 +5197,7 @@ MonoBehaviour:
     correctChoiceIndex: 1
     wrongAnswerHealthDamage: 0
     timeoutHealthDamage: 0
-    timerDuration: 9
+    timerDuration: 7
     appearanceDelayMin: 2.5
     appearanceDelayMax: 3.5
     timeoutFeedback: YANITLANMADI
@@ -5221,7 +5221,7 @@ MonoBehaviour:
     correctChoiceIndex: 1
     wrongAnswerHealthDamage: 0
     timeoutHealthDamage: 0
-    timerDuration: 8
+    timerDuration: 7
     appearanceDelayMin: 2
     appearanceDelayMax: 3
     timeoutFeedback: YANITLANMADI
@@ -5245,7 +5245,7 @@ MonoBehaviour:
     correctChoiceIndex: 1
     wrongAnswerHealthDamage: 0
     timeoutHealthDamage: 0
-    timerDuration: 8
+    timerDuration: 7
     appearanceDelayMin: 2
     appearanceDelayMax: 3
     timeoutFeedback: YANITLANMADI
@@ -5317,7 +5317,7 @@ MonoBehaviour:
     correctChoiceIndex: 1
     wrongAnswerHealthDamage: 0
     timeoutHealthDamage: 0
-    timerDuration: 6
+    timerDuration: 7
     appearanceDelayMin: 1.5
     appearanceDelayMax: 2.2
     timeoutFeedback: YANITLANMADI
@@ -5341,7 +5341,7 @@ MonoBehaviour:
     correctChoiceIndex: 1
     wrongAnswerHealthDamage: 0
     timeoutHealthDamage: 0
-    timerDuration: 5
+    timerDuration: 7
     appearanceDelayMin: 1.2
     appearanceDelayMax: 2
     timeoutFeedback: YANITLANMADI
@@ -5366,7 +5366,7 @@ MonoBehaviour:
     correctChoiceIndex: 1
     wrongAnswerHealthDamage: 10
     timeoutHealthDamage: 10
-    timerDuration: 8
+    timerDuration: 7
     appearanceDelayMin: 1.4
     appearanceDelayMax: 2.2
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
@@ -5390,7 +5390,7 @@ MonoBehaviour:
     correctChoiceIndex: 1
     wrongAnswerHealthDamage: 10
     timeoutHealthDamage: 10
-    timerDuration: 8
+    timerDuration: 7
     appearanceDelayMin: 1.4
     appearanceDelayMax: 2.2
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
@@ -5414,7 +5414,7 @@ MonoBehaviour:
     correctChoiceIndex: 0
     wrongAnswerHealthDamage: 10
     timeoutHealthDamage: 10
-    timerDuration: 8
+    timerDuration: 7
     appearanceDelayMin: 1.4
     appearanceDelayMax: 2.2
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
@@ -5438,7 +5438,7 @@ MonoBehaviour:
     correctChoiceIndex: 1
     wrongAnswerHealthDamage: 10
     timeoutHealthDamage: 10
-    timerDuration: 8
+    timerDuration: 7
     appearanceDelayMin: 1.4
     appearanceDelayMax: 2.2
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
@@ -6446,7 +6446,7 @@ MonoBehaviour:
   callerInfo: {fileID: 1452182748}
   wrongChoiceResource: 2
   correctChoiceResource: 1
-  unansweredDecisionSeconds: 12
+  unansweredDecisionSeconds: 7
 --- !u!114 &3000000011 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7445754986739040688, guid: 98a6ef31f01dcd747b30909096eb7534, type: 3}
@@ -6939,6 +6939,7 @@ MonoBehaviour:
   radio: {fileID: 3000000033}
   notices: {fileID: 264906466}
   blink: {fileID: 8300000, guid: ca8a360c027308c49b525c4d3d046af3, type: 3}
+  phoneConversation: {fileID: 0}
   aftermathMusic: {fileID: 8300000, guid: 75cd6257cd479794f8bfa4b3dda061af, type: 3}
   decisionStress: {fileID: 8300000, guid: 4d52ec76452ec44428b08a0a01d9c21e, type: 3}
   choiceClick: {fileID: 8300000, guid: 4a5c147174326eb42ab64d3bbfd0fb64, type: 3}

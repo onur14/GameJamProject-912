@@ -7,7 +7,7 @@ using UnityEngine;
 public static class DispatchCurseInstaller
 {
     private const string Root="Assets/Working Folder/Taha and Yasin/Onur";
-    [MenuItem("GameJam/Taha Yasin/Lanet ve Senaryo Kaydını Bağla")]
+    [MenuItem("GameJam/Taha Yasin/Ceza ve Senaryo Kaydını Bağla")]
     public static void Install()
     {
         if(EditorApplication.isPlaying)throw new InvalidOperationException("Önce Play Mode'dan çıkın.");
@@ -31,7 +31,7 @@ public static class DispatchCurseInstaller
         var radio=UnityEngine.Object.FindFirstObjectByType<Cizirti>(FindObjectsInactive.Include);if(!radio)radio=health.gameObject.AddComponent<Cizirti>();
         if(!radio.CizirtiSesi)radio.CizirtiSesi=Source(health.transform,"Telsiz Ortamı");
         if(!radio.TiklamaSesi || radio.TiklamaSesi==radio.CizirtiSesi)radio.TiklamaSesi=Source(health.transform,"Telefon Aç Kapat");
-        radio.CizirtiSesi.clip=Clip("Assets/SoundEffect/Konuşurken.wav");radio.CizirtiSesi.loop=true;radio.CizirtiSesi.volume=.08f;radio.CizirtiSesi.playOnAwake=false;radio.CizirtiSesi.spatialBlend=0;
+        radio.CizirtiSesi.clip=Clip("Assets/SoundEffect/telefondayken.wav");radio.CizirtiSesi.loop=true;radio.CizirtiSesi.volume=.08f;radio.CizirtiSesi.playOnAwake=false;radio.CizirtiSesi.spatialBlend=0;
         radio.TiklamaSesi.playOnAwake=false;radio.TiklamaSesi.loop=false;radio.TiklamaSesi.volume=.85f;radio.TiklamaSesi.spatialBlend=0;
         radio.TelsizAcilisSesi=Clip("Assets/SoundEffect/TelefonAcma.wav");radio.TelsizKapanisSesi=Clip("Assets/SoundEffect/TelefonuKapama.wav");EditorUtility.SetDirty(radio);
         var ps=new SerializedObject(phone);var ring=ps.FindProperty("ringAudioSource").objectReferenceValue as AudioSource;
@@ -39,7 +39,7 @@ public static class DispatchCurseInstaller
         Set(ps,"ringAudioSource",ring);Set(ps,"ringClip",Clip("Assets/SoundEffect/Telefon.wav"));ps.FindProperty("ringVolume").floatValue=.23f;ps.ApplyModifiedProperties();
         var source=Source(health.transform,"Bildirim Tıkları");source.playOnAwake=false;source.loop=false;source.volume=.45f;source.spatialBlend=0;
         var cues=health.GetComponent<DispatchSceneAudioCues>();if(!cues)cues=health.gameObject.AddComponent<DispatchSceneAudioCues>();var cs=new SerializedObject(cues);
-        Set(cs,"phone",phone);Set(cs,"flow",flow);Set(cs,"awareness",health);Set(cs,"radio",radio);Set(cs,"notices",source);Set(cs,"blink",Clip(Root+"/Audio/NotificationBlink.wav"));cs.ApplyModifiedProperties();
+        Set(cs,"phoneConversation",Clip("Assets/SoundEffect/telefondayken.wav"));Set(cs,"phone",phone);Set(cs,"flow",flow);Set(cs,"awareness",health);Set(cs,"radio",radio);Set(cs,"notices",source);Set(cs,"blink",Clip(Root+"/Audio/NotificationBlink.wav"));cs.ApplyModifiedProperties();
         var questionView=UnityEngine.Object.FindFirstObjectByType<QuickQuestionView>(FindObjectsInactive.Include);var qs=new SerializedObject(questionView);
         Set(qs,"audioSource",source);Set(qs,"arrivalClip",Clip(Root+"/Audio/NotificationBlink.wav"));Set(qs,"warningTickClip",Clip(Root+"/Audio/NotificationBlink.wav"));qs.ApplyModifiedProperties();
         var main=UnityEngine.Object.FindFirstObjectByType<OnurConversationView>(FindObjectsInactive.Include);Typing(main,Root+"/Audio/OperatorTick.wav",.065f);

@@ -36,6 +36,7 @@ public sealed class DispatchCurseDirector : MonoBehaviour
         public DispatchScenarioData scenario;
     }
     public bool CanRetry => captured;
+    public int WrongAnswerCount => awareness.WrongDecisionCount + (questions ? questions.IncorrectAnswerCount : 0);
     public bool IsFogActive => fogApplied && briefing.CompletedScenarios < fogUntil;
     public int SlownessRemaining => Mathf.Max(0, slownessUntil - briefing.CompletedScenarios);
     public int FogRemaining => Mathf.Max(0, fogUntil - briefing.CompletedScenarios);
@@ -76,7 +77,7 @@ public sealed class DispatchCurseDirector : MonoBehaviour
     }
     public void ApplyFog()
     {
-        if(fogApplied)return;
+        if(fogApplied || WrongAnswerCount<2)return;
         fogApplied=true;PresidentPenaltyPending=true;fogUntil=briefing.CompletedScenarios+2;
         Announce("BİLGİ SİSİ","Sonraki başkan tahsisinin bonusları %50 azaldı\nAmblem 2 vaka görünür",fogEmblem,new Color(.78f,.48f,1));
         RefreshBadges();
@@ -131,23 +132,23 @@ public sealed class DispatchCurseDirector : MonoBehaviour
     }
     private void Build()
     {
-        var root=Rect("Lanet Göstergeleri",GetComponentInParent<Canvas>().rootCanvas.transform,Vector2.zero,Vector2.one);
+        var root=Rect("Ceza Göstergeleri",GetComponentInParent<Canvas>().rootCanvas.transform,Vector2.zero,Vector2.one);
         var c=root.gameObject.AddComponent<Canvas>();c.overrideSorting=true;c.sortingOrder=650;
         slowBadge=Badge("Yavaşlık Cezası",root,.02f,slownessEmblem,out slowCount);
         fogBadge=Badge("Bilgi Sisi",root,.135f,fogEmblem,out fogCount);
-        flash=Rect("Lanet Işığı",root,Vector2.zero,Vector2.one).gameObject.AddComponent<Image>();flash.color=Color.clear;flash.raycastTarget=false;
-        banner=Rect("Lanet Duyurusu",root,new Vector2(.28f,.52f),new Vector2(.82f,.86f));
+        flash=Rect("Ceza Işığı",root,Vector2.zero,Vector2.one).gameObject.AddComponent<Image>();flash.color=Color.clear;flash.raycastTarget=false;
+        banner=Rect("Ceza Duyurusu",root,new Vector2(.28f,.52f),new Vector2(.82f,.86f));
         var bg=banner.gameObject.AddComponent<Image>();bg.color=new Color(.035f,.02f,.06f,.97f);bg.raycastTarget=false;
         notice=banner.gameObject.AddComponent<CanvasGroup>();notice.blocksRaycasts=false;notice.interactable=false;
         emblem=Rect("Büyük Amblem",banner,new Vector2(.01f,.10f),new Vector2(.23f,.90f)).gameObject.AddComponent<Image>();emblem.preserveAspect=true;emblem.raycastTarget=false;
-        heading=Text("Lanet Adı",banner,new Vector2(.24f,.56f),new Vector2(.98f,.94f),34);
-        detail=Text("Lanet Etkisi",banner,new Vector2(.25f,.08f),new Vector2(.97f,.55f),20);
+        heading=Text("Ceza Adı",banner,new Vector2(.24f,.56f),new Vector2(.98f,.94f),34);
+        detail=Text("Ceza Etkisi",banner,new Vector2(.25f,.08f),new Vector2(.97f,.55f),20);
         notice.gameObject.SetActive(false);
     }
     private void Announce(string title,string explanation,Sprite sprite,Color color)
     {
         if(intro!=null)StopCoroutine(intro);
-        heading.text="LANET: "+title;heading.color=color;detail.text=explanation;emblem.sprite=sprite;
+        heading.text="CEZA: "+title;heading.color=color;detail.text=explanation;emblem.sprite=sprite;
         notice.gameObject.SetActive(true);intro=StartCoroutine(AnimateNotice(color));
         var sounds=GetComponent<DispatchSceneAudioCues>();if(sounds)sounds.PlayCurse();
     }

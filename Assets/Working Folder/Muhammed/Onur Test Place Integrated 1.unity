@@ -6242,7 +6242,7 @@ MonoBehaviour:
   callerInfo: {fileID: 1452182748}
   wrongChoiceResource: 2
   correctChoiceResource: 1
-  unansweredDecisionSeconds: 15
+  unansweredDecisionSeconds: 7
 --- !u!114 &3000000011 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7445754986739040688, guid: 57e97a4591af4d4ca70a4d63c221c3ef, type: 3}

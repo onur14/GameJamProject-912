@@ -25,7 +25,10 @@ public static class PreparationUI
     public static Button Button(string name,Transform parent,Vector2 min,Vector2 max,string caption,TMP_FontAsset font)
     {
         var image=Panel(name,parent,min,max,PanelColor);image.raycastTarget=true;
-        var b=image.gameObject.AddComponent<Button>();b.targetGraphic=image;
+        var b=image.gameObject.AddComponent<Button>();b.targetGraphic=image;GameAudioFeedback.Bind(b);
+        var colors=b.colors;colors.normalColor=Color.white;colors.highlightedColor=new Color(.72f,.91f,1);
+        colors.pressedColor=new Color(.48f,.68f,.76f);colors.selectedColor=colors.highlightedColor;
+        colors.disabledColor=new Color(.52f,.57f,.61f);colors.fadeDuration=.09f;b.colors=colors;
         var n=b.navigation;n.mode=Navigation.Mode.None;b.navigation=n;
         if(!string.IsNullOrEmpty(caption))Label("Yazı",image.transform,new Vector2(.06f,.07f),new Vector2(.94f,.93f),caption,font,22);
         return b;

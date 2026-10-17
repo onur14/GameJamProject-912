@@ -33,22 +33,22 @@ public sealed class DispatchCurseController : MonoBehaviour
     public void Initialize(OyunAkisiOnur flow,PresidentialBriefingManager manager,OnurConversationView view,DispatchCallFlow telephone,TMP_FontAsset font)
     {
         conversation=flow;briefing=manager;chat=view?view:FindAnyObjectByType<OnurConversationView>();phone=telephone;questions=FindAnyObjectByType<QuickQuestionView>();
-        var root=Rect("Lanet Etkileri",GetComponentInParent<Canvas>().rootCanvas.transform,Vector2.zero,Vector2.one);
+        var root=Rect("Ceza Etkileri",GetComponentInParent<Canvas>().rootCanvas.transform,Vector2.zero,Vector2.one);
         var canvas=root.gameObject.AddComponent<Canvas>();canvas.overrideSorting=true;canvas.sortingOrder=850;root.gameObject.AddComponent<GraphicRaycaster>();
         var sheet=Resources.Load<Texture2D>("Disaster/CurseEmblems");
         if(sheet){slowIcon=PreparationUI.Sprite(sheet,new Rect(0,0,.5f,1));fogIcon=PreparationUI.Sprite(sheet,new Rect(.5f,0,.5f,1));}
-        badge=Panel("Aktif Lanet Amblemi",root,new Vector2(.017f,.012f),new Vector2(.37f,.135f),new Color(.12f,.055f,.065f,.98f)).rectTransform;
-        badgeIcon=Panel("Lanet Amblemi",badge,new Vector2(.01f,.05f),new Vector2(.25f,.95f),Color.white);badgeIcon.preserveAspect=true;
-        badgeText=Label("Lanet Kalan Senaryo",badge,new Vector2(.27f,.04f),new Vector2(.98f,.96f),"",font,19);badgeText.alignment=TextAlignmentOptions.Left;badgeText.color=Amber;
-        notice=Panel("Lanet Geliş Örtüsü",root,Vector2.zero,Vector2.one,new Color(.05f,.005f,.015f,.65f)).rectTransform;notice.GetComponent<Image>().raycastTarget=true;
+        badge=Panel("Aktif Ceza Amblemi",root,new Vector2(.017f,.012f),new Vector2(.37f,.135f),new Color(.12f,.055f,.065f,.98f)).rectTransform;
+        badgeIcon=Panel("Ceza Amblemi",badge,new Vector2(.01f,.05f),new Vector2(.25f,.95f),Color.white);badgeIcon.preserveAspect=true;
+        badgeText=Label("Ceza Kalan Senaryo",badge,new Vector2(.27f,.04f),new Vector2(.98f,.96f),"",font,19);badgeText.alignment=TextAlignmentOptions.Left;badgeText.color=Amber;
+        notice=Panel("Ceza Geliş Örtüsü",root,Vector2.zero,Vector2.one,new Color(.05f,.005f,.015f,.65f)).rectTransform;notice.GetComponent<Image>().raycastTarget=true;
         noticeGroup=notice.gameObject.AddComponent<CanvasGroup>();
-        flash=Panel("Lanet Kenar Parlaması",notice,Vector2.zero,Vector2.one,new Color(.7f,.14f,.07f,.08f));
-        for(int i=0;i<2;i++)Panel("Lanet Alarm Şeridi",notice,new Vector2(0,i==0?.02f:.965f),new Vector2(1,i==0?.035f:.98f),Red);
-        card=Panel("Lanet Uyarı Kartı",notice,new Vector2(.18f,.30f),new Vector2(.82f,.73f),new Color(.07f,.035f,.055f)).rectTransform;
-        Label("Lanet Başlığı",card,new Vector2(.06f,.76f),new Vector2(.94f,.98f),"LANET DEVREDE!",font,40).color=Red;
-        largeIcon=Panel("Büyük Lanet Amblemi",card,new Vector2(.035f,.12f),new Vector2(.255f,.75f),Color.white);largeIcon.preserveAspect=true;
-        title=Label("Lanet Adı",card,new Vector2(.27f,.48f),new Vector2(.97f,.75f),"",font,32);title.color=Amber;
-        description=Label("Lanet Açıklaması",card,new Vector2(.27f,.08f),new Vector2(.97f,.48f),"",font,23);
+        flash=Panel("Ceza Kenar Parlaması",notice,Vector2.zero,Vector2.one,new Color(.7f,.14f,.07f,.08f));
+        for(int i=0;i<2;i++)Panel("Ceza Alarm Şeridi",notice,new Vector2(0,i==0?.02f:.965f),new Vector2(1,i==0?.035f:.98f),Red);
+        card=Panel("Ceza Uyarı Kartı",notice,new Vector2(.18f,.30f),new Vector2(.82f,.73f),new Color(.07f,.035f,.055f)).rectTransform;
+        Label("Ceza Başlığı",card,new Vector2(.06f,.76f),new Vector2(.94f,.98f),"CEZA DEVREDE!",font,40).color=Red;
+        largeIcon=Panel("Büyük Ceza Amblemi",card,new Vector2(.035f,.12f),new Vector2(.255f,.75f),Color.white);largeIcon.preserveAspect=true;
+        title=Label("Ceza Adı",card,new Vector2(.27f,.48f),new Vector2(.97f,.75f),"",font,32);title.color=Amber;
+        description=Label("Ceza Açıklaması",card,new Vector2(.27f,.08f),new Vector2(.97f,.48f),"",font,23);
         badge.gameObject.SetActive(false);notice.gameObject.SetActive(false);
         conversation.ScenarioStarted+=OnScenarioStarted;briefing.ShiftReset+=ResetCurses;
     }
@@ -56,7 +56,10 @@ public sealed class DispatchCurseController : MonoBehaviour
     {
         OnScenarioCompleted(briefing.CompletedScenarios);
         int number=briefing.CompletedScenarios+1;
-        if((number==2||number==5)&&triggered.Add(number))
+        var health=FindAnyObjectByType<CityHealth>();
+        var quick=FindAnyObjectByType<QuickQuestionManager>();
+        int wrong=(health?health.WrongDecisionCount:0)+(quick?quick.IncorrectAnswerCount:0);
+        if((number==2||number==5&&wrong>=2)&&triggered.Add(number))
         {
             ActiveCurse=number==2?CurseKind.Slowness:CurseKind.InformationFog;if(number==5)PresidentPenaltyPending=true;expiresAfter=briefing.CompletedScenarios+2;
             if(ActiveCurse==CurseKind.Slowness)
@@ -81,7 +84,7 @@ public sealed class DispatchCurseController : MonoBehaviour
     private IEnumerator Announce()
     {
         previousPhonePause=phone.IsPaused;previousChatPause=chat&&chat.IsPaused;previousQuestionPause=questions&&questions.IsPaused;
-        phone.SetPaused(true);if(chat)chat.SetPaused(true);if(questions)questions.SetPaused(true);
+        phone.SetPaused(true);if(chat)chat.SetPaused(true);if(questions)FindAnyObjectByType<QuickQuestionManager>()?.SetPaused(true);
         notice.gameObject.SetActive(true);largeIcon.sprite=badgeIcon.sprite;
         title.text=ActiveCurse==CurseKind.Slowness?"YAVAŞLIK CEZASI":"BİLGİ SİSİ";
         description.text=ActiveCurse==CurseKind.Slowness?"Her ekipten −2 kaynak.\nAmblem iki senaryo sonra kaybolur.":"Başkanın kaynak bonusları %50 azalır.\nKaynaklarını dikkatli yönet.\nEtki iki senaryo sürer.";
@@ -98,7 +101,7 @@ public sealed class DispatchCurseController : MonoBehaviour
     private void FinishAnnouncement()
     {
         if(notice)notice.gameObject.SetActive(false);if(card){card.localScale=Vector3.one;card.anchoredPosition=Vector2.zero;}
-        if(phone)phone.SetPaused(previousPhonePause);if(chat)chat.SetPaused(previousChatPause);if(questions)questions.SetPaused(previousQuestionPause);
+        if(phone)phone.SetPaused(previousPhonePause);if(chat)chat.SetPaused(previousChatPause);if(questions)FindAnyObjectByType<QuickQuestionManager>()?.SetPaused(previousQuestionPause);
     }
     public void CancelAnnouncement()
     {

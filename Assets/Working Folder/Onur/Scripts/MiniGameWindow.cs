@@ -39,7 +39,7 @@ public sealed class MiniGameWindow : MonoBehaviour
     private bool isOpen;
     public int SuccessfulTasks => PreparationRun.CompletedCount;
     public int FailedTasks => 0;
-    public int AvailableTasks => PreparationRun.Visited ? 4 : 0;
+    public int AvailableTasks => PreparationRun.Visited ? PreparationRun.ActivityCount : 0;
     [SerializeField, Range(0f, 3f)] private float mistakeShakePixels = 2f;
     [SerializeField, Range(.1f, .3f)] private float mistakeShakeDuration = .2f;
     private Coroutine mistake;

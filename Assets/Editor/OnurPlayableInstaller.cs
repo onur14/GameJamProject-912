@@ -248,7 +248,7 @@ public static class OnurPlayableInstaller
         if (scene.GetRootGameObjects().All(root => root.name != "AnaMenuSesi"))
         {
             var music = new GameObject("AnaMenuSesi", typeof(AudioSource)).GetComponent<AudioSource>();
-            music.clip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/SoundEffect/AnaMenu1(TELİFLİ).wav");
+            music.clip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/SoundEffect/AnaMenu2.wav");
             music.loop = true;
             music.playOnAwake = true;
             music.volume = .853f;

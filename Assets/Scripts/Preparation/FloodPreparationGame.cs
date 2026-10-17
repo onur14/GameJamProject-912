@@ -10,7 +10,7 @@ public sealed class FloodPreparationGame : MonoBehaviour
     private RectTransform root;
     private Sprite mapSprite;
     private TMP_Text hint;
-    private readonly Button[] points=new Button[4];
+    private readonly Button[] points=new Button[6];
     private Action mistake,complete;
     private bool resolved;
     private float lastClick=-10;
@@ -27,8 +27,8 @@ public sealed class FloodPreparationGame : MonoBehaviour
         var fit=map.gameObject.AddComponent<AspectRatioFitter>();fit.aspectMode=AspectRatioFitter.AspectMode.FitInParent;fit.aspectRatio=1.5f;
         var image=map.gameObject.AddComponent<Image>();image.raycastTarget=false;
         mapSprite=PreparationUI.Sprite(Resources.Load<Texture2D>("Disaster/FloodMap"),new Rect(0,0,1,1));image.sprite=mapSprite;
-        Vector2[] sites={new Vector2(.13f,.53f),new Vector2(.46f,.30f),new Vector2(.79f,.25f),new Vector2(.78f,.87f)};
-        for(int i=0;i<4;i++)
+        Vector2[] sites={new Vector2(.13f,.53f),new Vector2(.46f,.30f),new Vector2(.79f,.25f),new Vector2(.78f,.87f),new Vector2(.38f,.58f),new Vector2(.65f,.44f)};
+        for(int i=0;i<points.Length;i++)
         {
             int id=i;points[i]=Button("Sel Konumu "+(i+1),map,sites[i],sites[i],"",font);
             var r=(RectTransform)points[i].transform;r.sizeDelta=new Vector2(42,42);
@@ -36,13 +36,13 @@ public sealed class FloodPreparationGame : MonoBehaviour
             Label("Nokta",points[i].transform,Vector2.zero,Vector2.one,"●",font,29).color=White;
             points[i].onClick.AddListener(()=>Choose(id));
         }
-        hint=Label("Harita İpucu",root,new Vector2(.04f,.01f),new Vector2(.96f,.11f),"Araziyi incele. Kırmızı noktalardan birini seç.",font,22);
+        hint=Label("Harita İpucu",root,new Vector2(.04f,.01f),new Vector2(.96f,.11f),"Sudan uzak, yüksek araziyi bul. Kırmızı noktalardan birini seç.",font,22);
         Hide();
     }
     public void Show()
     {
         StopAllCoroutines();resolved=false;lastClick=-10;root.gameObject.SetActive(true);
-        hint.text="Araziyi incele. Kırmızı noktalardan birini seç.";hint.color=White;
+        hint.text="Sudan uzak, yüksek araziyi bul. Kırmızı noktalardan birini seç.";hint.color=White;
         foreach(var point in points){point.interactable=true;point.image.color=Red;}
     }
     public void Choose(int index)

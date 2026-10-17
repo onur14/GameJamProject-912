@@ -49,8 +49,18 @@ public static class PreparationChecks
         try
         {
             if(command=="install"){PreparationInstaller.Install();File.WriteAllText(Queue+"/status.txt","INSTALLED");}
-            else if(command=="test")Start();
+            else if(command=="reimport-bag")
+            {
+                foreach(var imagePath in Directory.GetFiles("Assets/Working Folder","*.png",SearchOption.AllDirectories))
+                    if(imagePath.Replace('\\','/').Contains("/MiniGames/Cutouts/"))AssetDatabase.ImportAsset(imagePath,ImportAssetOptions.ForceUpdate);
+                File.WriteAllText(Queue+"/status.txt","BAG REIMPORTED");
+            }
+            else if(command=="test-tsunami-visual"){SessionState.SetBool("TsunamiVisual",true);Start();}
+            else if(command=="test-sequential"){SessionState.SetBool("SkipVerifiedSharedClock",true);Start();}
+            else if(command=="test"||command=="test-focused")Start();
             else if(command=="test-visual")StartVisual();
+            else if(command=="test-polish-flow"){SessionState.SetBool("PreparationFastTimeouts",true);Start();}
+            else if(command=="test-polish-edges"){SessionState.SetBool("PreparationEdges",true);Start();}
             else if(command=="status")File.WriteAllText(Queue+"/status.txt",SceneManager.GetActiveScene().path+" play="+EditorApplication.isPlaying+" dirty="+SceneManager.GetActiveScene().isDirty);
             else throw new Exception("Unknown preparation request");
         }
@@ -107,184 +117,316 @@ public static class PreparationChecks
     {
         if(Keyboard.current==null)InputSystem.AddDevice<Keyboard>();
         Key[] keys={Key.UpArrow,Key.DownArrow,Key.LeftArrow,Key.RightArrow};
-        InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState(keys[direction]));await Task.Delay(70);
-        InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState());await Task.Delay(70);
+        var gameView=EditorWindow.GetWindow(typeof(EditorWindow).Assembly.GetType("UnityEditor.GameView"));gameView.Focus();
+        await Task.Delay(100);
+        int frame=Time.frameCount;
+        InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState(keys[direction]));
+        await Wait(()=>Time.frameCount>=frame+3,5);
+        frame=Time.frameCount;InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState());
+        await Wait(()=>Time.frameCount>=frame+2,5);
     }
     static void Log(string message,string trace,LogType type){if(type==LogType.Error||type==LogType.Exception||type==LogType.Assert)errors.Add(message);}
     static async Task Open(PreparationDirector d,int index)
     {
-        Click(d.Markers[index]);await Wait(()=>d.ActiveActivity==index&&!d.IsBusy);
+        float before=d.RemainingSeconds;Click(d.Markers[index]);Check(d.TimerRunning&&d.RemainingSeconds<=before&&d.RemainingSeconds>0,"Shared timer continues on entry: "+index);await Wait(()=>d.ActiveActivity==index&&!d.IsBusy);
         Check(d.ActiveActivity==index,"One active activity: "+index);OneEventSystem();
     }
     static async Task Home(PreparationDirector d,int expected)
     {
         await Wait(()=>d.ActiveActivity<0&&!d.IsBusy);
         Check(PreparationRun.CompletedCount==expected,"Completion count retained: "+expected);
-        Check(!Find<DispatchCallFlow>()&&SceneManager.GetActiveScene().path==PreparationRun.ScenePath,"Operator not started with fewer than four tasks");
+        Check(!Find<DispatchCallFlow>()&&SceneManager.GetActiveScene().path==PreparationRun.ScenePath,"Operator not started with fewer than five tasks");
         Fits(d.gameObject);
     }
     static async void Run()
     {
         Directory.CreateDirectory(Logs);File.WriteAllText(Logs+"/checks.txt","");errors.Clear();Application.logMessageReceived+=Log;Application.runInBackground=true;
+        var inputSettings=InputSystem.settings;var previousInputBehavior=inputSettings.editorInputBehaviorInPlayMode;var previousBackgroundBehavior=inputSettings.backgroundBehavior;
+        inputSettings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;
+        inputSettings.editorInputBehaviorInPlayMode=InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+        EditorWindow testGameView=null;PropertyInfo sizeProperty=null;bool previousMax=false;int previousSize=0;
         try
         {
-            await Wait(()=>!SceneFadeTransition.IsTransitioning&&Find<AnaMenü>());OneEventSystem();
+            testGameView=EditorWindow.GetWindow(typeof(EditorWindow).Assembly.GetType("UnityEditor.GameView"));
+            previousMax=testGameView.maximized;sizeProperty=testGameView.GetType().GetProperty("selectedSizeIndex",BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic);
+            previousSize=(int)sizeProperty.GetValue(testGameView);testGameView.maximized=true;
+            var sizesType=typeof(EditorWindow).Assembly.GetType("UnityEditor.GameViewSizes");
+            var singletonType=typeof(ScriptableSingleton<>).MakeGenericType(sizesType);
+            var sizes=singletonType.GetProperty("instance",BindingFlags.Public|BindingFlags.Static).GetValue(null);
+            var groupMethod=sizesType.GetMethod("GetGroup");
+            var group=groupMethod.Invoke(sizes,new[]{Enum.Parse(groupMethod.GetParameters()[0].ParameterType,"Standalone")});
+            var names=(string[])group.GetType().GetMethod("GetDisplayTexts").Invoke(group,null);
+            int widescreen=Array.FindIndex(names,n=>n.Replace(" ","").Contains("16:9")||n.Replace(" ","").Contains("1920x1080"));
+            Check(widescreen>=0,"Editor has a standard widescreen test size");sizeProperty.SetValue(testGameView,widescreen);testGameView.Focus();
+            int frame=Time.frameCount;await Wait(()=>Time.frameCount>=frame+3);
+            Check(Mathf.Abs(Screen.width/(float)Screen.height-16f/9)<.02f,"UI testing uses a 16:9 viewport");
+            await Wait(()=>!SceneFadeTransition.IsTransitioning&&Find<AnaMenü>());OneEventSystem();await TestSettings();
+            Check(!Directory.GetFiles("Assets","*.unity",SearchOption.AllDirectories).Any(path=>File.ReadAllText(path).Contains("331573029c7e0cd48b178c2731e7abfd")),"AnaMenu1 has no scene references");
+            var sounds=Resources.Load<DispatchSoundLibrary>("DispatchSoundLibrary");
+            Check(sounds&&sounds.buttonClick&&sounds.correct&&sounds.incorrect&&sounds.resourceChange&&sounds.transition&&sounds.phoneRing&&sounds.phoneOpen&&sounds.phoneClose,"Existing project clips are connected");
             var play=UnityEngine.Object.FindObjectsByType<Button>().First(b=>Enumerable.Range(0,b.onClick.GetPersistentEventCount()).Any(i=>b.onClick.GetPersistentMethodName(i)=="OyunBaslat"));
-            Click(play);
-            await Wait(()=>GameObject.Find("Açılış Bilgi Notu"));
-            Check(GameObject.Find("Açılış Bilgi Notu"),"Heinrich/BM notice appears after OYNA");
+            int clicks=GameAudioFeedback.Instance.ClickCount;Click(play);
+            Check(GameAudioFeedback.Instance.ClickCount==clicks+1&&GameAudioFeedback.Instance.GetComponent<AudioSource>().isPlaying,"Button click plays once through active audio source");
             await Wait(()=>Find<PreparationDirector>()&&!SceneFadeTransition.IsTransitioning);
-            var d=Find<PreparationDirector>();
-            await Wait(()=>d.Broadcast.StartButton.IsInteractable());
-            Check(d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Briefing&&!PreparationRun.IsRecording,"OYNA first shows ministry public-service briefing without starting timer");
-            d.OpenActivity(0);Check(d.ActiveActivity<0,"Activities cannot start before recording briefing is accepted");
-            Fits(d.gameObject);await Capture("00-ministry-briefing");
-            Click(d.Broadcast.StartButton);
-            await Wait(()=>d.Broadcast.PurposeButton.IsInteractable());
-            Check(GameObject.Find("Çekim Öncesi Uyarı"),"Preparation purpose appears just before recording");
-            Click(d.Broadcast.PurposeButton);
-            await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Recording&&!d.IsBusy&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf);
-            Check(PreparationRun.TakeNumber==1&&PreparationRun.IsRecording,"Countdown starts exactly one timed recording");
-            Check(PreparationRun.CompletedCount==0&&d.Markers.Count==4,"OYNA enters fresh house preparation with four markers");
-            Check(!Find<DispatchCallFlow>()&&!Find<QuickQuestionManager>(),"No operator systems exist in preparation scene");
-            Check(d.GetComponentsInChildren<TMP_Text>().Any(t=>t.name=="Kayıt Göstergesi"&&t.text.Contains("REC")),"Subtle REC overlay exists");
-            Fits(d.gameObject);OneEventSystem();await Capture("01-house");
-
-            await Open(d,0);Check(d.BagWindow.BagGame.AttemptsLeft==3,"Existing bag starts with three attempts");
-            d.OpenActivity(1);Check(d.ActiveActivity==0,"Second activity cannot start while bag is active");
-            var bag=d.BagWindow.BagGame;var items=Field<BagDraggableItem[]>(bag,"items");
-            int distractors=items.Count(i=>Field<BagDropZone>(i,"correctArea")==null);
-            Check(distractors>0&&items.Length>distractors,"Existing bag preserves useful items and distractors");
-            bag.Check();bag.Check();Check(bag.AttemptsLeft==2,"Double check consumes only one attempt");
-            var draggable=items.First(i=>Field<BagDropZone>(i,"correctArea")!=null);
-            var dragPointer=new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left,position=RectTransformUtility.WorldToScreenPoint(null,draggable.transform.position)};
-            draggable.OnPointerDown(dragPointer);draggable.OnBeginDrag(dragPointer);draggable.OnDrag(dragPointer);draggable.DropInto(bag.BagArea);draggable.OnEndDrag(dragPointer);
-            Check(draggable.IsCorrectlyPlaced,"Existing drag and drop works inside the preparation modal");
-            foreach(var item in items)
-                if(Field<BagDropZone>(item,"correctArea")!=null&&!item.IsCorrectlyPlaced)
-                {
-                    var pointer=new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left};
-                    item.OnPointerDown(pointer);item.OnPointerClick(pointer);
-                }
-            Check(items.All(i=>i.IsCorrectlyPlaced),"Real bag item placement recognizes correct contents");
-            await Task.Delay(350);await Capture("02-bag");bag.Check();
-            await Home(d,1);Check(!d.Markers[0].interactable,"Completed bag marker is disabled");
-            d.OpenActivity(0);Check(d.ActiveActivity<0&&PreparationRun.CompletedCount==1,"Completed bag cannot be counted twice");
-
-            await Open(d,1);await Wait(()=>d.Earthquake.Running);
-            int beforeTimeout=PreparationRun.Health;await Task.Delay(4150);
-            Check(d.Earthquake.Step==0&&d.Earthquake.Running&&PreparationRun.Health<beforeTimeout,"Expired arrow step resets its timer and allows retry");
-            int required=d.Earthquake.RequiredDirection;await KeyPress((required+1)%4);
-            Check(d.Earthquake.Step==0&&d.Earthquake.Running,"Wrong arrow does not advance or fail training");
-            await Capture("03-earthquake");
-            for(int step=0;step<3;step++)
+            var d=Find<PreparationDirector>();await Wait(()=>d.Broadcast.StartButton.IsInteractable());
+            Check(!d.TimerRunning&&!PreparationRun.IsRecording,"Preparation clock does not run during briefing");
+            Click(d.Broadcast.StartButton);await Wait(()=>d.Broadcast.PurposeButton.IsInteractable());Click(d.Broadcast.PurposeButton);
+            await Wait(()=>PreparationRun.IsRecording&&!d.IsBusy&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf);
+            Check(d.TimerRunning&&d.RemainingSeconds>44,"One 45-second clock starts when preparation becomes playable");
+            Check(d.GetComponentsInChildren<TMP_Text>().Any(t=>t.text.Contains("5 ÖNEMLİ AFET HAZIRLIĞI")),"Requested preparation text is visible");
+            if(SessionState.GetBool("TsunamiVisual",false))
             {
-                await KeyPress(d.Earthquake.RequiredDirection);
-                await Wait(()=>d.Earthquake.Step==step+1);
-                Check(!d.Earthquake.IsTransitioning&&d.Earthquake.CurrentPose==new[]{2,4,5}[step],"Arrow movement finishes before next input: "+step);
-                await Capture("03-earthquake-stage-"+step);
+                SessionState.SetBool("TsunamiVisual",false);await TestTsunamiEdges(d);await Open(d,4);
+                typeof(PreparationDirector).GetField("remainingSeconds",Flags).SetValue(d,.25f);
+                InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState(Key.D));await Wait(()=>d.TimedOut);
+                var stoppedPosition=d.Tsunami.Position;await Task.Delay(250);
+                Check(!d.Tsunami.Running&&d.Tsunami.Position==stoppedPosition,"Shared timeout stops tsunami movement even with a held key");
+                InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState());await Capture("five-tsunami-total-timeout");
+                Click(d.RetryButton);Check(d.RemainingSeconds>44&&PreparationRun.CompletedCount==0,"Whole-phase retry resets all five tasks and one 45-second budget");
+                await Open(d,4);await NavigateTsunami(d.Tsunami);await Home(d,1);
+                Check(d.TimerRunning&&!PreparationRun.preparationComplete,"Finishing tsunami alone cannot finish a five-task preparation");
+                await Capture("five-preparation-map");Check(errors.Count==0,"No new tsunami Play Mode errors");
+                SessionState.SetString("PreparationResult","PASS — tsunami visuals, collision, wave retry, shared timeout and actual movement");return;
             }
-            await Home(d,2);
-
-            await Open(d,2);Click(d.Flood.Points[0]);
-            Check(!d.Flood.Succeeded&&PreparationRun.CompletedCount==2,"Wrong flood point allows retry");
-            await Capture("04-flood");await Task.Delay(400);Click(d.Flood.Points[FloodPreparationGame.HighGroundPoint]);await Home(d,3);
-            Check(!PreparationRun.preparationComplete,"Three completions do not release operator");
-
-            await Open(d,3);var smoke=d.Detector;await Capture("05-detector-closed");
-            Click(smoke.Cover);smoke.ClickCover();await Wait(()=>smoke.Step==1);await Task.Delay(80);
-            Check(smoke.Step==1,"Double cover click only opens once");
-            Click(smoke.OldBattery);await Wait(()=>smoke.Step==2);await Task.Delay(50);
-            Click(smoke.NewBattery);await Wait(()=>smoke.Step==3);await Task.Delay(50);
-            await Capture("06-detector-open");Click(smoke.Slot);await Wait(()=>smoke.Step==4);await Task.Delay(50);
-            Click(smoke.Cover);await Wait(()=>PreparationRun.preparationComplete);
-            Check(PreparationRun.CompletedCount==4,"All four completion states tracked");
-            await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Review);
-            Check(!PreparationRun.IsRecording&&PreparationRun.LastTakeSeconds>0&&!PreparationRun.RewardEarned,"First complete take stops clock and establishes baseline without reward");
-            Check(!Find<DispatchCallFlow>(),"Recording review waits for explicit publish action");
-            double stoppedTime=PreparationRun.LastTakeSeconds;await Task.Delay(250);
-            Check(PreparationRun.RecordingSeconds==stoppedTime,"Review time is excluded from recording duration");
-            Fits(d.gameObject);await Capture("09-first-take-review");
-            Click(d.Broadcast.RetakeButton);d.Broadcast.Retake();
-            await Wait(()=>PreparationRun.TakeNumber==2&&PreparationRun.IsRecording&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf);
-            Check(PreparationRun.CompletedCount==0&&d.Markers.All(b=>b.interactable),"Retake resets all tasks and markers exactly once");
-            Check(!PreparationRun.Publish(),"Incomplete retake cannot be published");
-            await CompleteQuickTake(d);
-            Check(PreparationRun.LastTakeImproved&&PreparationRun.RewardEarned&&PreparationRun.BestTakeSeconds<stoppedTime,"Faster second take earns team reward");
-            double best=PreparationRun.BestTakeSeconds;
-            Check(PreparationRun.TeamBonus==0,"Team award waits until the video is published");
-            Fits(d.gameObject);await Capture("10-faster-take-reward");
-            Click(d.Broadcast.RetakeButton);
-            await Wait(()=>PreparationRun.TakeNumber==3&&PreparationRun.IsRecording&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf);
-            await Task.Delay((int)((best+1)*1000));await CompleteQuickTake(d);
-            Check(!PreparationRun.LastTakeImproved&&PreparationRun.BestTakeSeconds==best&&PreparationRun.RewardEarned,"Slower retake preserves best video and one-time reward");
-            Fits(d.gameObject);await Task.Delay(450);Click(d.Broadcast.PublishButton);d.Broadcast.Publish();
-            Check(PreparationRun.Published&&PreparationRun.TeamBonus==1,"Publish is locked once and grants exactly one team of each type");
-            await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Publishing);await Task.Delay(1800);Fits(d.gameObject);await Capture("11-public-service-montage");
-            await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.MonthsLater,20);
-            Check(d.Broadcast.ClipsShown==4,"Publication montage presents all four safety messages");await Capture("12-months-later");
-            await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Disaster);
-            Check(d.Broadcast.DidShake,"Multiple-disaster announcement triggers screen tremor");Fits(d.gameObject);await Capture("13-disaster-announcement");
+            TestBagTransparency();bool skipClock=SessionState.GetBool("SkipVerifiedSharedClock",false);SessionState.SetBool("SkipVerifiedSharedClock",false);
+            if(!skipClock)await TestSharedPreparationClock(d);
+            // The first completed recording deliberately includes a little map time.
+            await Task.Delay(6000);await CompleteQuickTake(d);
+            Check(!d.TimerRunning&&PreparationRun.CompletedCount==5,"Completing all five tasks stops the shared timer");
+            float stopped=d.RemainingSeconds;await Task.Delay(250);Check(d.RemainingSeconds==stopped,"Review does not consume preparation time");
+            Check(PreparationRun.LastTakeSeconds<=45,"All five games completed within one total 45-second take");
+            await Capture("focused-review");Click(d.Broadcast.RetakeButton);
+            await Wait(()=>PreparationRun.IsRecording&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf&&!d.IsBusy);
+            Check(d.RemainingSeconds>44&&PreparationRun.CompletedCount==0,"Retake starts a fresh total budget and resets five tasks");
+            await CompleteQuickTake(d);Check(PreparationRun.RewardEarned,"Existing faster-retake reward remains functional");
+            Click(d.Broadcast.PublishButton);await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Publishing);
+            await Task.Delay(1500);Fits(d.gameObject);await Capture("focused-publication");
+            Check(d.GetComponentsInChildren<TMP_Text>().Any(t=>t.text.Contains("5 ÖNEMLİ AFET HAZIRLIĞI")),"Publication uses requested heading");
             await Wait(()=>SceneManager.GetActiveScene().path==PreparationRun.OperatorScene&&!SceneFadeTransition.IsTransitioning,40);
-            Check(!Find<PreparationDirector>(),"Published video and months-later story transition to existing operator scene");OneEventSystem();
-            var awardedResources=Find<DispatchResources>();
-            Check(awardedResources.Ambulances==Field<int>(awardedResources,"initialAmbulances")+1&&awardedResources.Firefighters==Field<int>(awardedResources,"initialFirefighters")+1&&awardedResources.RescueTeams==Field<int>(awardedResources,"initialPolice")+1,"Operator starts with one real bonus ambulance, fire and rescue team");
-            int awardedAmbulances=awardedResources.Ambulances;awardedResources.ResetForNewShift();
-            Check(awardedResources.Ambulances==awardedAmbulances,"Resource initialization cannot stack the recording reward");
-            var minigames=Find<MiniGameWindow>();
-            Check(!minigames.BagEntryButton.gameObject.activeInHierarchy&&!minigames.SafetyEntryButton.gameObject.activeInHierarchy,"Operator has no mini-game entry buttons");
-            minigames.OpenBag();minigames.OpenSafety();
-            Check(!minigames.BagPanel.activeInHierarchy&&!minigames.SafetyPanel.activeInHierarchy,"Legacy operator callbacks cannot open mini-games");
-            Check(!Find<DispatchTablet>()||!Find<DispatchTablet>().enabled,"Operator tablet trigger disabled");
-            var phone=Find<DispatchCallFlow>();await Wait(()=>phone.State==DispatchCallFlow.CallState.IncomingCall);
-            phone.AnswerPhone();await Wait(()=>phone.State==DispatchCallFlow.CallState.Conversation);
-            Check(Find<CallerInfoView>()&&Find<DispatchResources>()&&Find<OnurConversationView>(),"Operator caller, resource and dialogue systems intact");
-            if(SessionState.GetBool("PreparationVisualOnly",false))
+            Check(!Find<PreparationDirector>(),"Shared preparation timer does not exist in operator phase");
+            var manager=Find<QuickQuestionManager>();var flow=Find<OyunAkisiOnur>();var chat=Find<OnurConversationView>();var phone=Find<DispatchCallFlow>();
+            var starts=new List<string>();var sides=new List<int>();
+            int dualStarts=0;
+            manager.QuestionStarted+=q=>{
+                int visible=manager.Views.Count(v=>v.IsActive);Check(visible<=2,"Never more than two active question cards: "+q.id);
+                if(visible==2)dualStarts++;
+            };
+            manager.QuestionStarted+=q=>{starts.Add(q.targetScenarioId);sides.Add(manager.Views[0].Config==q?0:1);};
+            double decisionStart=0,decisionElapsed=0;int decisionTimeouts=0,phoneCloses=0;
+            chat.ChoicesShown+=()=>decisionStart=Time.realtimeSinceStartupAsDouble;
+            flow.DecisionTimedOut+=()=>{decisionTimeouts++;decisionElapsed=Time.realtimeSinceStartupAsDouble-decisionStart;};
+            var radio=Find<Cizirti>();
+            if(!radio.CizirtiSesi.clip)
             {
-                var health=Find<CityHealth>();var fill=Field<RectTransform>(health,"healthFill");
-                int originalHealth=health.HealthPercent;
-                health.ApplyDamage(5);await Task.Delay(500);
-                Check(Mathf.Abs(fill.anchorMax.x-health.HealthPercent/100f)<.02f,"Public awareness bar tracks percentage damage");
-                health.RestoreScenarioHealth(originalHealth,health.WrongDecisionCount,health.TimedOutDecisionCount);
-                await Wait(()=>Find<QuickQuestionView>()&&Find<QuickQuestionView>().Ready,30);
-                await Capture("07-operator-quick-question");
-                Check(errors.Count==0,"No new Play Mode errors: "+string.Join("; ",errors));
-                File.AppendAllText(Logs+"/checks.txt","VISUAL COMPLETE\n");
-                SessionState.SetString("PreparationResult","PASS — visual preparation and operator entry");
-                return;
+                // Temporary silent fixture: validates lifecycle only, never saved to the scene.
+                radio.CizirtiSesi.clip=AudioClip.Create("TEST ONLY - missing telefondayken",44100*2,1,44100,false);
+                File.AppendAllText(Logs+"/checks.txt","NOTE: telefondayken is absent; phone loop lifecycle uses a temporary silent fixture.\n");
             }
+            flow.ScenarioClosing+=(revision)=>{if(radio.TiklamaSesi.isPlaying)phoneCloses++;Check(!radio.CizirtiSesi.isPlaying,"Conversation loop stops at call closing");};
+            await Wait(()=>phone.State==DispatchCallFlow.CallState.IncomingCall);
+            var ring=Field<AudioSource>(phone,"ringAudioSource");Check(ring.isPlaying&&ring.clip==sounds.phoneRing,"Existing phone ring is playing");
+            bool openPlayed=false;phone.Answered+=()=>openPlayed=radio.TiklamaSesi.isPlaying;
+            phone.AnswerPhone();Check(openPlayed&&!ring.isPlaying,"Phone opening plays and ringing stops");
+            Check(!radio.CizirtiSesi.isPlaying,"Conversation loop stays off during phone focus transition");
+            await Wait(()=>phone.State==DispatchCallFlow.CallState.Conversation);
+            Check(radio.CizirtiSesi.isPlaying&&radio.CizirtiSesi.loop,"Conversation loop begins when the conversation is playable");
+            await Task.Delay(130);int samples=radio.CizirtiSesi.timeSamples;radio.StartConversation();radio.StartConversation();
+            Check(radio.CizirtiSesi.timeSamples>=samples&&UnityEngine.Object.FindObjectsByType<AudioSource>().Count(a=>a.isPlaying&&a.clip==radio.CizirtiSesi.clip)==1,"Repeated conversation start neither restarts nor stacks the loop");
+            await TestDualQuestions(manager,chat);
+            while(!flow.WaitingForChoice){chat.RevealCurrentLine();await Task.Delay(80);}
+            Check(Mathf.Approximately(Field<float>(flow,"unansweredDecisionSeconds"),7),"Main two-option decision limit is seven seconds");
+            await Wait(()=>decisionTimeouts>0,12);
+            Check(decisionElapsed>=6.8&&decisionElapsed<7.5,"Actual decision timeout occurs at seven seconds: "+decisionElapsed.ToString("F2"));
+            int timeoutCount=decisionTimeouts;await Task.Delay(500);Check(decisionTimeouts==timeoutCount&&flow.WaitingForChoice,"Decision timeout notifies once without duplicate action");
             await RunOperatorShift();
             await Wait(()=>Find<ShiftReportView>()&&Find<ShiftReportView>().IsVisible&&!SceneFadeTransition.IsTransitioning,40);
-            var report=Find<ShiftReportView>();var snapshot=report.Data;
-            Check(snapshot.Completed==8&&snapshot.SuccessfulTasks==4,"Ending retains eight calls and four preparation completions");
-            Check(snapshot.Answered+snapshot.Missed==16,"All sixteen Quick Questions remain in operator flow");
-            OneEventSystem();await Capture("08-ending");Click(report.ReplayButton);
+            var report=Find<ShiftReportView>();Check(report.Data.Completed==8&&report.Data.SuccessfulTasks==5,"Ending retains eight scenarios and five preparation tasks");
+            Check(report.Data.Answered+report.Data.Missed==24,"Ending records exactly 24 Quick Questions");
+            Check(report.Data.VerificationMistakes==2,"Report includes both actual incorrect verification answers");
+            Check(starts.Count==24&&starts.GroupBy(id=>id).Count()==8&&starts.GroupBy(id=>id).All(g=>g.Count()==3),"Every scenario starts exactly three questions");
+            for(int i=0;i<8;i++)
+            {
+                int left=sides.Skip(i*3).Take(3).Count(side=>side==0);
+                Check(left==(i%2==0?2:1),"Scenario side pattern is 2+1 or 1+2: "+i);
+            }
+            Check(dualStarts>=8,"Every scenario supports a simultaneous left/right pair");
+            Check(phoneCloses==8,"Phone close sound plays at every call ending");
+            Check(GameAudioFeedback.Instance.ResourceCount>0&&GameAudioFeedback.Instance.TransitionCount>0&&GameAudioFeedback.Instance.CorrectCount>0&&GameAudioFeedback.Instance.IncorrectCount>0,"Resource, transition, correct and incorrect sound routes actually fired");
+            await Capture("focused-ending");Click(report.ReplayButton);
             await Wait(()=>Find<PreparationDirector>()&&!SceneFadeTransition.IsTransitioning);
-            Check(PreparationRun.CompletedCount==0&&PreparationRun.Health==100&&ShiftReportFlow.Pending==null,"Retry restarts full preparation with cleared state");
-            Check(!Find<QuickQuestionManager>()&&!Find<DispatchResources>(),"Retry disposes old operator resources and Quick Question data");OneEventSystem();
-            Check(!PreparationRun.RewardEarned&&!PreparationRun.Published&&PreparationRun.TakeNumber==0,"Full-run retry clears recording history and bonus");
+            Check(!Find<QuickQuestionManager>()&&PreparationRun.CompletedCount==0&&!PreparationRun.IsRecording,"Replay removes both question cards and resets preparation");
             d=Find<PreparationDirector>();await Wait(()=>d.Broadcast.StartButton.IsInteractable());Click(d.Broadcast.StartButton);
             await Wait(()=>d.Broadcast.PurposeButton.IsInteractable());Click(d.Broadcast.PurposeButton);
-            await Wait(()=>!d.IsBusy&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf);
-            // Use the normal return-to-menu button, then OYNA again.
-            var menu=UnityEngine.Object.FindObjectsByType<Button>().First(b=>b.name=="Ana Menü");Click(menu);
+            await Wait(()=>d.TimerRunning&&!d.IsBusy&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf);
+            await Open(d,3);Click(d.Detector.Cover);typeof(PreparationDirector).GetField("remainingSeconds",Flags).SetValue(d,.01f);
+            await Wait(()=>d.TimedOut);await Task.Delay(150);Click(d.TimeoutReturnButton);
             await Wait(()=>SceneManager.GetActiveScene().path==Menu&&!SceneFadeTransition.IsTransitioning);
-            play=UnityEngine.Object.FindObjectsByType<Button>().First(b=>Enumerable.Range(0,b.onClick.GetPersistentEventCount()).Any(i=>b.onClick.GetPersistentMethodName(i)=="OyunBaslat"));Click(play);
-            await Wait(()=>Find<PreparationDirector>()&&!SceneFadeTransition.IsTransitioning);
-            Check(PreparationRun.CompletedCount==0&&!Find<DispatchCallFlow>(),"Main menu new game begins in fresh preparation again");OneEventSystem();
+            await Task.Delay(350);Check(!Find<PreparationDirector>(),"Timeout during an animation can return safely to the main menu");
+            Check(!UnityEngine.Object.FindObjectsByType<TMP_Text>().Any(t=>t.text.ToUpperInvariant().Contains("LANET")),"Visible text contains no LANET wording");
             Check(errors.Count==0,"No new Play Mode errors: "+string.Join("; ",errors));
-            File.AppendAllText(Logs+"/checks.txt","COMPLETE\n");SessionState.SetString("PreparationResult","PASS — Logs/Preparation/checks.txt");
+            File.AppendAllText(Logs+"/checks.txt","COMPLETE FOCUSED FLOW\n");SessionState.SetString("PreparationResult","PASS — five preparation games, shared 45 seconds, dual questions and full shift");
         }
         catch(Exception e){File.AppendAllText(Logs+"/checks.txt","FAIL: "+e+"\n");SessionState.SetString("PreparationResult",e.ToString());}
-        finally{SessionState.SetBool("PreparationVisualOnly",false);if(Keyboard.current!=null)InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState());Application.logMessageReceived-=Log;EditorApplication.ExitPlaymode();}
+        finally
+        {
+            inputSettings.editorInputBehaviorInPlayMode=previousInputBehavior;inputSettings.backgroundBehavior=previousBackgroundBehavior;
+            if(Keyboard.current!=null)InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState());
+            Application.logMessageReceived-=Log;
+            try{if(testGameView){if(sizeProperty!=null)sizeProperty.SetValue(testGameView,previousSize);testGameView.maximized=previousMax;}}
+            finally{EditorApplication.ExitPlaymode();}
+        }
+    }
+    static async Task TestSharedPreparationClock(PreparationDirector d)
+    {
+        double started=Time.realtimeSinceStartupAsDouble;
+        float last=d.RemainingSeconds;
+        for(int i=0;i<PreparationRun.ActivityCount;i++)
+        {
+            await Open(d,i);Check(d.RemainingSeconds<last,"Same preparation budget enters game: "+i);
+            if(i==3){Click(d.Detector.Cover);await Wait(()=>d.Detector.Step==1);}
+            await Task.Delay(200);last=d.RemainingSeconds;Click(d.BackButton);await Home(d,0);
+            Check(d.TimerRunning&&d.RemainingSeconds<last,"Shared clock continues on the house map: "+i);last=d.RemainingSeconds;
+        }
+        await TestTsunamiEdges(d);
+        await Open(d,0);await Capture("focused-shared-blue");
+        await Wait(()=>d.RemainingSeconds<14,45);Check(Field<Image>(d,"timerFill").color.r>.8f,"Shared low-time bar becomes amber");await Capture("focused-shared-amber");
+        await Wait(()=>d.RemainingSeconds<4,15);await Capture("focused-shared-red");
+        var item=Field<BagDraggableItem[]>(d.BagWindow.BagGame,"items")[0];
+        var pointer=new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left,position=RectTransformUtility.WorldToScreenPoint(null,item.transform.position)};
+        item.OnPointerDown(pointer);item.OnBeginDrag(pointer);
+        await Wait(()=>d.TimedOut,8);await Task.Delay(120);
+        double elapsed=Time.realtimeSinceStartupAsDouble-started;
+        Check(elapsed>=44&&elapsed<46,"Actual whole-phase timeout is 45 seconds: "+elapsed.ToString("F2"));
+        Check(!d.TimerRunning&&!PreparationRun.IsRecording&&item.GetComponent<CanvasGroup>().blocksRaycasts,"Timeout cancels drag and stops preparation safely");
+        Check(Field<AudioSource>(d,"activityAudio").isPlaying,"Existing mini-game failure clip plays on shared timeout");
+        d.OpenActivity(1);Check(d.TimedOut,"No activity can reopen after the total budget expires");
+        await Capture("focused-shared-timeout");int take=PreparationRun.TakeNumber;Click(d.RetryButton);d.RetryButton.onClick.Invoke();
+        Check(PreparationRun.TakeNumber==take+1&&d.TimerRunning&&d.RemainingSeconds>44&&d.ActiveActivity<0&&PreparationRun.CompletedCount==0,"Timeout retry starts one fresh whole-phase take");
+        await Open(d,3);await Task.Delay(400);Check(d.Detector.Step==0,"Previous detector interaction cannot affect retry");Click(d.BackButton);await Home(d,0);
+    }
+    static Rect WorldRect(RectTransform r)
+    {
+        var corners=new Vector3[4];r.GetWorldCorners(corners);return new Rect(corners[0],corners[2]-corners[0]);
+    }
+    static void TestBagTransparency()
+    {
+        string[] names={"bag","ball","controller","first_aid","flashlight","radio","water"};
+        foreach(string root in new[]{"Assets/Working Folder/Onur","Assets/Working Folder/Taha and Yasin/Onur"})
+            foreach(string name in names)
+            {
+                string path=root+"/MiniGames/Cutouts/"+name+".png";
+                var importer=(TextureImporter)AssetImporter.GetAtPath(path);
+                Check(importer.alphaIsTransparency&&importer.filterMode==FilterMode.Point&&!importer.mipmapEnabled&&importer.textureCompression==TextureImporterCompression.Uncompressed,"Pixel transparency import: "+path);
+                var source=new Texture2D(2,2);source.LoadImage(File.ReadAllBytes(path));
+                var original=source.GetPixels32();var imported=AssetDatabase.LoadAssetAtPath<Texture2D>(path).GetPixels32();
+                int removed=0,whiteKept=0;
+                for(int i=0;i<original.Length;i++)
+                {
+                    var c=original[i];int min=Mathf.Min(c.r,Mathf.Min(c.g,c.b)),max=Mathf.Max(c.r,Mathf.Max(c.g,c.b));
+                    if(c.a>0&&imported[i].a==0){removed++;if(min<185||max-min>40)throw new Exception("Colored item pixel removed: "+path);}
+                    if(min>150&&max-min<50&&imported[i].a>0)whiteKept++;
+                }
+                Check(removed>20,"White exterior matte removed without changing colored pixels: "+name+" ("+removed+")");
+                if(name=="first_aid")Check(whiteKept>0,"Interior white first-aid detail is preserved");
+                UnityEngine.Object.Destroy(source);
+            }
+    }
+    static async Task TestDualQuestions(QuickQuestionManager manager,OnurConversationView chat)
+    {
+        var fog=Find<DispatchCurseDirector>();fog.ApplyFog();Check(!fog.IsFogActive,"Zero wrong answers do not trigger fog");
+        var until=DateTime.UtcNow.AddSeconds(35);
+        while(!manager.Views.All(v=>v.Ready)){if(DateTime.UtcNow>until)throw new TimeoutException("Dual question arrival");chat.RevealCurrentLine();await Task.Delay(70);}
+        var left=manager.Views[0];var right=manager.Views[1];
+        Check(left.Ready&&right.Ready,"Two questions appear together on opposite sides");
+        Check(!WorldRect((RectTransform)left.transform).Overlaps(WorldRect((RectTransform)right.transform)),"Left and right question panels never overlap");
+        foreach(var card in manager.Views){Fits(card.gameObject);Check(!WorldRect((RectTransform)card.transform).Overlaps(WorldRect((RectTransform)chat.transform)),"Dual questions preserve the main dialogue");}
+        await Capture("five-dual-questions");float otherTime=right.ElapsedResponseTime;string first=left.Config.id;int before=manager.Results.Count;
+        int resourceSounds=GameAudioFeedback.Instance.ResourceCount;Click(left.ButtonA);left.ButtonA.onClick.Invoke();
+        Check(manager.Results.Count==before+1&&GameAudioFeedback.Instance.ResourceCount==resourceSounds+1,"Double click applies one result and one resource effect");
+        await Wait(()=>left.Ready&&left.Config.id!=first);
+        Check(right.Ready&&right.ElapsedResponseTime>otherTime,"Other card remains clickable with its independently advancing timer");
+        Click(left.Config.correctChoiceIndex==0?left.ButtonB:left.ButtonA);Check(fog.WrongAnswerCount==1,"First actual wrong answer counted");fog.ApplyFog();Check(!fog.IsFogActive,"One wrong answer does not trigger fog");
+        Click(right.Config.correctChoiceIndex==0?right.ButtonB:right.ButtonA);
+        Check(fog.WrongAnswerCount==2,"Two actual wrong answers reach the fog threshold");
+        await Wait(()=>manager.Results.Count==3&&!manager.Views.Any(v=>v.IsActive));
+        Check(manager.Results.Select(r=>r.questionId).Distinct().Count()==3,"Three distinct question results with no duplicate timers/actions");
+    }
+    static async Task TestSettings()
+    {
+        await Wait(()=>Find<MasterVolumeSettings>());
+        var settings=Find<MasterVolumeSettings>();
+        string[] keys={"912.MasterVolume","912.Display.Width","912.Display.Height","912.Display.Fullscreen"};
+        bool[] existed=keys.Select(PlayerPrefs.HasKey).ToArray();
+        float volume=PlayerPrefs.GetFloat(keys[0],1);int[] values=keys.Skip(1).Select(k=>PlayerPrefs.GetInt(k)).ToArray();
+        int width=Screen.width,height=Screen.height;var mode=Screen.fullScreenMode;
+        try
+        {
+            Click(settings.OpenButton);await Task.Delay(80);Check(settings.IsOpen,"Settings opens in canonical main menu");
+            var slider=Field<Slider>(settings,"volumeSlider");
+            var rect=(RectTransform)slider.transform;
+            var pointer=new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left,position=RectTransformUtility.WorldToScreenPoint(null,rect.TransformPoint(new Vector2(rect.rect.xMin+rect.rect.width*.75f,rect.rect.center.y)))};
+            slider.OnPointerDown(pointer);
+            Check(Mathf.Abs(slider.value-.75f)<.04f&&slider.handleRect.rect.width>=18,"Volume track clicks work and handle stays visible");
+            pointer.position=RectTransformUtility.WorldToScreenPoint(null,rect.TransformPoint(new Vector2(rect.rect.xMin+rect.rect.width*.25f,rect.rect.center.y)));
+            slider.OnDrag(pointer);slider.OnPointerUp(pointer);
+            Check(Mathf.Abs(slider.value-.25f)<.04f,"Volume slider drag follows pointer");
+            slider.value=.37f;
+            Check(Mathf.Abs(AudioListener.volume-.37f)<.001f&&Mathf.Abs(PlayerPrefs.GetFloat(keys[0])-.37f)<.001f,"Volume preview and persistence work");
+            Fits(Field<GameObject>(settings,"panel"));await Capture("polish-settings");
+            bool fullscreen=settings.PendingFullscreen;var resolution=settings.PendingResolution;
+            Click(settings.FullscreenButton);Click(settings.ResolutionButton);
+            Check(settings.PendingFullscreen!=fullscreen&&settings.PendingResolution!=resolution,"Fullscreen and resolution selectors change pending settings");
+            Click(settings.BackButton);Check(!settings.IsOpen,"Back closes settings safely");
+            Click(settings.OpenButton);await Task.Delay(80);Check(settings.PendingFullscreen==fullscreen&&settings.PendingResolution==resolution,"Back discards unapplied display choices");
+            Click(settings.FullscreenButton);Click(settings.ResolutionButton);
+            var applied=settings.PendingResolution;bool appliedFullscreen=settings.PendingFullscreen;
+            Click(settings.ApplyButton);await Task.Delay(200);
+            Check(PlayerPrefs.GetInt(keys[1])==applied.x&&PlayerPrefs.GetInt(keys[2])==applied.y&&PlayerPrefs.GetInt(keys[3])==(appliedFullscreen?1:0),"Apply saves selected display settings and calls Screen.SetResolution");
+            Click(settings.BackButton);Click(settings.OpenButton);await Task.Delay(80);
+            Check(settings.PendingResolution==applied&&settings.PendingFullscreen==appliedFullscreen,"Applied settings survive reopening");
+            Click(settings.BackButton);
+        }
+        finally
+        {
+            for(int i=0;i<keys.Length;i++)
+                if(!existed[i])PlayerPrefs.DeleteKey(keys[i]);else if(i==0)PlayerPrefs.SetFloat(keys[i],volume);else PlayerPrefs.SetInt(keys[i],values[i-1]);
+            PlayerPrefs.Save();AudioListener.volume=volume;Screen.SetResolution(width,height,mode);
+        }
+    }
+    static async Task MoveUntil(Key key,Func<bool> reached)
+    {
+        var view=EditorWindow.GetWindow(typeof(EditorWindow).Assembly.GetType("UnityEditor.GameView"));view.Focus();
+        InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState(key));
+        try{await Wait(reached,8);}finally{int frame=Time.frameCount;InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState());await Wait(()=>Time.frameCount>=frame+2,5);}
+    }
+    static async Task NavigateTsunami(TsunamiPreparationGame game)
+    {
+        await MoveUntil(Key.RightArrow,()=>game.Position.x>=420);
+        await MoveUntil(Key.S,()=>game.Position.y<=115);
+        await MoveUntil(Key.D,()=>game.Position.x>=625);
+        await Capture("five-tsunami-route");
+        await MoveUntil(Key.UpArrow,()=>game.Position.y>=315);
+        await MoveUntil(Key.D,()=>game.Succeeded);
+        Check(game.Succeeded&&!game.Running,"Actual arrow/WASD input navigates barriers and reaches high ground");
+    }
+    static async Task TestTsunamiEdges(PreparationDirector d)
+    {
+        await Open(d,4);var game=d.Tsunami;Fits(d.gameObject);await Capture("five-tsunami-start");
+        await MoveUntil(Key.D,()=>game.CollisionCount>0);
+        Check(game.Position.x<490&&!game.Succeeded,"Barrier blocks the direct route and produces slowdown feedback");
+        Click(d.BackButton);await Home(d,0);await Open(d,4);
+        await Wait(()=>game.Failed,10);Check(Field<AudioSource>(d,"activityAudio").isPlaying,"Existing failure sound plays when tsunami catches the player");Check(!game.Running&&game.RetryButton.IsInteractable(),"Wave catches an idle player and allows retry");await Capture("five-tsunami-caught");
+        float before=d.RemainingSeconds;Click(game.RetryButton);game.RetryButton.onClick.Invoke();
+        Check(game.Running&&!game.Failed&&d.RemainingSeconds<=before&&d.RemainingSeconds>before-.2f,"Tsunami retry retains the same shared timer");
+        Click(d.BackButton);await Home(d,0);
     }
     static async Task CompleteQuickTake(PreparationDirector d)
     {
-        await Open(d,0);var bag=d.BagWindow.BagGame;
+        await Open(d,0);await Capture("bag-cleaned");var bag=d.BagWindow.BagGame;
         foreach(var item in Field<BagDraggableItem[]>(bag,"items"))
             if(Field<BagDropZone>(item,"correctArea")!=null)
             {var p=new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left};item.OnPointerDown(p);item.OnPointerClick(p);}
-        bag.Check();await Home(d,1);
+        bag.Check();await Wait(()=>d.IsBusy);Check(Field<AudioSource>(d,"activityAudio").isPlaying,"Existing preparation success clip is playing");await Home(d,1);
         await Open(d,1);await Wait(()=>d.Earthquake.Running);
         for(int i=0;i<3;i++){await KeyPress(d.Earthquake.RequiredDirection);int next=i+1;await Wait(()=>d.Earthquake.Step==next);}await Home(d,2);
         await Open(d,2);Click(d.Flood.Points[FloodPreparationGame.HighGroundPoint]);await Home(d,3);
@@ -292,7 +434,8 @@ public static class PreparationChecks
         Click(smoke.Cover);await Wait(()=>smoke.Step==1);await Task.Delay(50);
         Click(smoke.OldBattery);await Wait(()=>smoke.Step==2);await Task.Delay(50);
         Click(smoke.NewBattery);await Wait(()=>smoke.Step==3);await Task.Delay(50);
-        Click(smoke.Slot);await Wait(()=>smoke.Step==4);await Task.Delay(50);Click(smoke.Cover);
+        Click(smoke.Slot);await Wait(()=>smoke.Step==4);await Task.Delay(50);Click(smoke.Cover);await Home(d,4);
+        await Open(d,4);await NavigateTsunami(d.Tsunami);
         await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Review);
     }
     static async Task RunOperatorShift()
@@ -302,20 +445,40 @@ public static class PreparationChecks
         var health=Find<CityHealth>();var minigames=Find<MiniGameWindow>();
         broadcast.charactersPerSecond=0;
         var scenarios=Field<DispatchScenarioData[]>(briefing,"scenarioOrder");var answered=new HashSet<int>();
-        var deadline=DateTime.UtcNow.AddMinutes(6);bool keyDown=false;int last=-1;bool firstRequest=false;
+        var deadline=DateTime.UtcNow.AddMinutes(6);bool keyDown=false;int last=-1;bool firstRequest=false;var capturedPenalties=new HashSet<int>();
         while(SceneManager.GetActiveScene().path==PreparationRun.OperatorScene)
         {
             if(DateTime.UtcNow>deadline)throw new TimeoutException("Full operator shift");
             if(health.IsGameOver)throw new Exception("Operator died during full-flow test");
             if(briefing.CompletedScenarios!=last){last=briefing.CompletedScenarios;File.AppendAllText(Logs+"/checks.txt","PROGRESS: calls "+last+"/8\n");}
             CheckNoMinigame(minigames);
+            var radio=Find<Cizirti>();var cues=Find<DispatchSceneAudioCues>();
+            if(UnityEngine.Object.FindObjectsByType<AudioSource>().Any(a=>a.isPlaying&&a.clip&&a.clip.name=="Konuşurken"))throw new Exception("Scream audio is active");
+            if(cues.ConversationActive)
+                Check(radio.CizirtiSesi.isPlaying,"Single conversation loop is playing during active call");
+            else Check(!radio.CizirtiSesi.isPlaying,"Conversation loop is off between calls");
+            Check(Field<AudioSource>(cues,"music").volume<=.07f&&Field<AudioSource>(cues,"stress").volume<=.055f,"Remaining operator ambience is quiet");
+            var curse=Find<DispatchCurseDirector>();
+            if(briefing.Phase==PresidentialBriefingManager.ShiftPhase.Scenario&&briefing.CompletedScenarios==1)
+                Check(curse.SlownessRemaining==2&&curse.SlownessVisible,"Original second-scenario slowness penalty remains active");
+            if(briefing.Phase==PresidentialBriefingManager.ShiftPhase.Scenario&&briefing.CompletedScenarios==4)
+                Check(curse.IsFogActive&&curse.FogVisible,"Two wrong answers trigger Bilgi Sisi at its existing scenario event");
+            if(briefing.CompletedScenarios>=6)Check(!curse.FogVisible,"Fog badge expires after two scenarios");
+            var penaltyTitle=UnityEngine.Object.FindObjectsByType<TMP_Text>().FirstOrDefault(t=>t&&t.text!=null&&t.text.StartsWith("CEZA:"));
+            if(penaltyTitle&&capturedPenalties.Add(briefing.CompletedScenarios))
+            {Check(!penaltyTitle.text.Contains("LANET"),"Penalty announcement says CEZA");await Capture("focused-penalty-"+briefing.CompletedScenarios);}
             chat.RevealCurrentLine();
-            if(view.Ready)
+            if(questions.Views.Count(v=>v.IsActive)>2)throw new Exception("More than two question cards");
+            foreach(var card in questions.Views)
             {
+                if(!card.Ready)continue;
+                if(briefing.CompletedScenarios==1&&!card.Config.isDisinformation)continue; // exercise one genuine seven-second QQ timeout
+                Fits(card.gameObject);
+                Check(!WorldRect((RectTransform)card.transform).Overlaps(WorldRect((RectTransform)chat.transform))&&!WorldRect((RectTransform)card.transform).Overlaps(WorldRect((RectTransform)Find<DispatchResourceHud>().transform)),"Question preserves dialogue and resources: "+card.Config.id);
                 if(!firstRequest){firstRequest=true;await Capture("07-operator-quick-question");}
-                int choice=questions.CurrentQuestion.isDisinformation?questions.CurrentQuestion.correctChoiceIndex:1;
-                var button=choice==0?view.ButtonA:view.ButtonB;
-                if(button.interactable)button.onClick.Invoke();
+                int choice=card.Config.isDisinformation?card.Config.correctChoiceIndex:1;
+                var button=choice==0?card.ButtonA:card.ButtonB;
+                if(button.interactable)Click(button);
             }
             if(conversation.WaitingForChoice&&!answered.Contains(conversation.ScenarioRevision))
             {
@@ -337,13 +500,19 @@ public static class PreparationChecks
             else if(briefing.Phase==PresidentialBriefingManager.ShiftPhase.Dialogue||briefing.Phase==PresidentialBriefingManager.ShiftPhase.Confirmation)
             {var button=Field<Button>(broadcast,"advance");if(button.gameObject.activeInHierarchy&&button.interactable)button.onClick.Invoke();}
             var connection=Field<GameObject>(chat,"connectionOverlay");
-            if(connection&&connection.activeSelf&&Keyboard.current!=null){keyDown=!keyDown;InputSystem.QueueStateEvent(Keyboard.current,keyDown?new KeyboardState(Key.Space):new KeyboardState());}
+            if(connection&&connection.activeSelf&&Keyboard.current!=null)
+            {
+                EditorWindow.GetWindow(typeof(EditorWindow).Assembly.GetType("UnityEditor.GameView")).Focus();
+                int frame=Time.frameCount;keyDown=!keyDown;
+                InputSystem.QueueStateEvent(Keyboard.current,keyDown?new KeyboardState(Key.Space):new KeyboardState());
+                await Wait(()=>Time.frameCount>=frame+2,5);
+            }
             await Task.Delay(100);
         }
     }
     static void CheckNoMinigame(MiniGameWindow window)
     {
-        if(window.BagPanel.activeInHierarchy||window.SafetyPanel.activeInHierarchy||Find<PreparationDirector>()||Find<PreparationBroadcast>()||Find<EarthquakePreparationGame>()||Find<FloodPreparationGame>()||Find<SmokeDetectorPreparationGame>())
+        if(window.BagPanel.activeInHierarchy||window.SafetyPanel.activeInHierarchy||Find<PreparationDirector>()||Find<PreparationBroadcast>()||Find<EarthquakePreparationGame>()||Find<FloodPreparationGame>()||Find<SmokeDetectorPreparationGame>()||Find<TsunamiPreparationGame>())
             throw new Exception("Preparation mini-game appeared in operator phase");
     }
 }

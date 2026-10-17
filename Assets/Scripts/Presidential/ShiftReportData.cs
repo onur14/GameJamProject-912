@@ -66,9 +66,9 @@ public sealed class ShiftReportData
         };
         if (questions != null)
             foreach (var response in responses)
-                for (int index=0;index<8;index++) foreach (bool second in new[]{false,true})
+                for (int index=0;index<8;index++) for(int question=0;question<3;question++)
                 {
-                    var config=questions.GetQuestionForScenario(index,second);
+                    var config=questions.GetQuestionForScenario(index,question==1,question==2);
                     if(config!=null && config.id==response.questionId && config.isDisinformation && response.selectedChoice!=config.correctChoiceIndex)
                         data.VerificationMistakes++;
                 }

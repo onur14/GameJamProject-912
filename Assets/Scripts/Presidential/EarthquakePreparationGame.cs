@@ -13,7 +13,7 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
     [SerializeField, Range(.4f, .7f)] private float coverDuration = .58f;
     [SerializeField, Range(.35f, .6f)] private float holdDuration = .45f;
     [SerializeField, Range(1.8f, 2.5f)] private float pixelScale = 2.2f;
-    private RectTransform root, bar, lamp, characterRect;
+    private RectTransform root, lamp, characterRect;
     private Image character;
     private TMP_Text prompt;
     private readonly Image[] arrows=new Image[3];
@@ -44,7 +44,7 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
         for(int i=0;i<4;i++)keys[i]=cutouts.Cut(40+i*99,471,83,72);
         root=Rect("Çök Kapan Tutun Eğitimi",parent,Vector2.zero,Vector2.one);
         Panel("Eğitim Zemini",root,Vector2.zero,Vector2.one,PanelColor);
-        Label("Kısa Yönerge",root,new Vector2(.1f,.88f),new Vector2(.9f,.98f),"OKLARA SOLDAN SAĞA SIRAYLA BAS · HER ADIM 4 SANİYE",font,23);
+        Label("Kısa Yönerge",root,new Vector2(.1f,.88f),new Vector2(.9f,.98f),"ÜÇ OKU SOLDAN SAĞA TAMAMLA · YANLIŞ TUŞTA SIRA BAŞA DÖNER",font,23);
         var room=Rect("Korunaklı Oda",root,new Vector2(.06f,.32f),new Vector2(.94f,.85f));
         Panel("Duvar",room,Vector2.zero,Vector2.one,new Color(.13f,.20f,.25f));
         Panel("Zemin",room,Vector2.zero,new Vector2(1,.23f),new Color(.075f,.12f,.16f));
@@ -66,8 +66,6 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
             arrows[i]=Panel("Sıralı Ok "+i,root,new Vector2(.35f+i*.105f,.055f),new Vector2(.44f+i*.105f,.22f),Color.white);
             arrows[i].preserveAspect=true;
         }
-        var track=Panel("Süre Zemini",root,new Vector2(.08f,.015f),new Vector2(.92f,.04f),new Color(.18f,.24f,.28f));
-        bar=Panel("Küçülen Adım Süresi",track.transform,Vector2.zero,Vector2.one,Amber).rectTransform;
         Hide();
     }
     private void SetPose(int index)
@@ -84,7 +82,7 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
     }
     public IEnumerator Play()
     {
-        Step=0;Running=true;IsTransitioning=false;float remaining=4,flash=0;
+        Step=0;Running=true;IsTransitioning=false;float flash=0;
         characterRect.anchorMin=characterRect.anchorMax=new Vector2(.33f,.11f);
         SetPose(0);prompt.text="! ÇÖK !";
         for(int i=0;i<3;i++)
@@ -93,13 +91,9 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
             arrows[i].sprite=keys[sequence[i]];arrows[i].color=Color.white;arrows[i].gameObject.SetActive(true);
             arrows[i].rectTransform.localScale=Vector3.one;arrows[i].rectTransform.localRotation=Quaternion.identity;
         }
-        bar.anchorMax=Vector2.one;
         while(Running&&Step<3)
         {
-            if(!IsTransitioning)remaining-=Time.unscaledDeltaTime;
             flash=Mathf.Max(0,flash-Time.unscaledDeltaTime);
-            if(remaining<=0){mistake?.Invoke();remaining=4;flash=.3f;prompt.text="TEKRAR DENE · "+new[]{"ÇÖK","KAPAN","TUTUN"}[Step];}
-            bar.anchorMax=new Vector2(Mathf.Clamp01(remaining/4),1);
             for(int i=Step;i<3;i++)arrows[i].color=flash>0?Red:i==Step?new Color(1,.81f,.42f):Color.white;
             lamp.localRotation=Quaternion.Euler(0,0,Mathf.Sin(Time.unscaledTime*8)*2.5f);
             characterRect.localRotation=Quaternion.Euler(0,0,Mathf.Sin(Time.unscaledTime*11)*.6f);
@@ -119,10 +113,17 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
                         StartCoroutine(Consume(arrows[Step].rectTransform));
                         yield return AnimateStep(Step);
                         if(!Running)yield break;
-                        Step++;remaining=4;
+                        Step++;
                         prompt.text=Step==1?"ÇÖK TAMAM  ·  ŞİMDİ KAPAN!":Step==2?"KAPAN TAMAM  ·  ŞİMDİ TUTUN!":"TUTUN!  BAŞINI KORU, MASAYA TUTUN.";
                     }
-                    else{flash=.25f;}
+                    else
+                    {
+                        flash=.3f;mistake?.Invoke();Step=0;SetPose(0);
+                        characterRect.anchorMin=characterRect.anchorMax=new Vector2(.33f,.11f);
+                        prompt.text="SIRA BOZULDU · YENİDEN ÇÖK!";
+                        StopAllCoroutines();
+                        foreach(var arrow in arrows){arrow.gameObject.SetActive(true);arrow.rectTransform.localScale=Vector3.one;arrow.rectTransform.localRotation=Quaternion.identity;}
+                    }
                 }
             }
             yield return null;

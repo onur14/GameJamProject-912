@@ -19,8 +19,8 @@ public sealed class DispatchAudioCues : MonoBehaviour
         phone.ConfigureRing(Library.phoneRing);
         var chat=FindAnyObjectByType<OnurConversationView>();if(chat)chat.ConfigureTypingSound(Library.callerGrain);
         var broadcast=FindAnyObjectByType<PresidentialBroadcastView>();if(broadcast)broadcast.ConfigureTypingSound(Library.presidentGrain);
-        var questions=FindAnyObjectByType<QuickQuestionView>();if(questions)questions.ConfigureAudio(alerts,Library.notification,Library.warningTick);
-        conversation.ScenarioStarted+=OnStarted;conversation.ScenarioClosing+=OnClosing;
+        foreach(var questions in FindObjectsByType<QuickQuestionView>())questions.ConfigureAudio(alerts,Library.notification,Library.warningTick);
+        conversation.DecisionResolved+=GameAudioFeedback.Feedback;conversation.ScenarioStarted+=OnStarted;conversation.ScenarioClosing+=OnClosing;
     }
     private void OnStarted(int revision,string id){PlayOpen();}
     private void OnClosing(int revision){PlayClose();}
@@ -35,5 +35,5 @@ public sealed class DispatchAudioCues : MonoBehaviour
         lastClosed=conversation.ScenarioRevision;calls.Stop();calls.PlayOneShot(Library.phoneClose,.7f);CloseCount++;
     }
     public void PlayCurse(){if(Library&&alerts){alerts.PlayOneShot(Library.curseImpact,.8f);CurseCount++;}}
-    private void OnDestroy(){if(conversation){conversation.ScenarioStarted-=OnStarted;conversation.ScenarioClosing-=OnClosing;}}
+    private void OnDestroy(){if(conversation){conversation.DecisionResolved-=GameAudioFeedback.Feedback;conversation.ScenarioStarted-=OnStarted;conversation.ScenarioClosing-=OnClosing;}}
 }

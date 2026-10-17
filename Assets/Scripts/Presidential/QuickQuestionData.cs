@@ -28,7 +28,7 @@ public class QuickQuestionConfig
 
     [Header("Timing")]
     [Tooltip("Response limit in seconds.")]
-    [Min(1f)] public float timerDuration = 10f;
+    [Min(1f)] public float timerDuration = 7f;
     [Tooltip("Minimum delay before appearing after scenario conversation starts.")]
     [Min(0f)] public float appearanceDelayMin = 2.5f;
     [Tooltip("Maximum delay before appearing after scenario conversation starts.")]

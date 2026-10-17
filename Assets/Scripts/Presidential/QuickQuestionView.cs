@@ -57,6 +57,7 @@ public sealed class QuickQuestionView : MonoBehaviour
     private Func<int, bool> decisionCallback;
     private Func<int, bool> canChoose;
     private bool visible;
+    private bool rightSide;
     private Action timeoutCallback;
     private Coroutine activeRoutine;
     private bool isHandlingResponse;
@@ -74,12 +75,37 @@ public sealed class QuickQuestionView : MonoBehaviour
     public Button ButtonB => buttonB;
     public TMP_Text QuestionBody => questionBody;
 
+    public QuickQuestionConfig Config => currentConfig;
+    public void SetSide(bool right)
+    {
+        rightSide=right;
+        var rect=(RectTransform)transform;
+        rect.anchorMin=new Vector2(right ? .817f : .012f,right ? .025f : .40f);rect.anchorMax=new Vector2(right ? .995f : .19f,right ? .34f : .88f);
+        rect.offsetMin=rect.offsetMax=Vector2.zero;restingPosition=rect.anchoredPosition;
+        FitSideContent();
+    }
+    private void FitSideContent()
+    {
+        if(!questionBody)return;
+        questionBody.rectTransform.anchorMin=new Vector2(.05f,rightSide ? .42f : .51f);
+        questionBody.rectTransform.anchorMax=new Vector2(.95f,rightSide ? .82f : .81f);
+        var buttons=(RectTransform)buttonA.transform.parent;
+        buttons.anchorMin=new Vector2(.04f,rightSide ? .10f : .14f);
+        buttons.anchorMax=new Vector2(.96f,rightSide ? .39f : .49f);
+    }
+    public QuickQuestionView CreateCompanion()
+    {
+        var go=new GameObject("Hızlı Sorular Sağ",typeof(RectTransform),typeof(CanvasGroup));go.SetActive(false);go.transform.SetParent(transform.parent,false);
+        var other=go.AddComponent<QuickQuestionView>();other.font=font;other.audioSource=audioSource;other.arrivalClip=arrivalClip;other.warningTickClip=warningTickClip;
+        other.frameColor=frameColor;other.innerColor=innerColor;other.headerBarColor=headerBarColor;other.paperText=paperText;other.amberAccent=amberAccent;
+        other.SetSide(true);go.SetActive(true);return other;
+    }
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         panelRect = GetComponent<RectTransform>();
         restingPosition = panelRect.anchoredPosition;
-        BuildUI();
+        BuildUI();FitSideContent();
         HideImmediate();
     }
 
@@ -152,6 +178,8 @@ public sealed class QuickQuestionView : MonoBehaviour
         // Status tag (e.g. "[ ! ACİL ]")
         statusTag = CreateText("StatusTag", headerGo.transform, new Vector2(0.68f, 0.1f), new Vector2(0.96f, 0.9f), 14, coolCyan);
         statusTag.alignment = TextAlignmentOptions.MidlineRight;
+        statusTag.enableAutoSizing=true;statusTag.fontSizeMin=10;statusTag.fontSizeMax=14;
+        statusTag.textWrappingMode=TextWrappingModes.NoWrap;
         statusTag.text = "[ ! ]";
         categoryLabel.enableAutoSizing=true;categoryLabel.fontSizeMin=13;categoryLabel.fontSizeMax=17;
 
@@ -169,6 +197,7 @@ public sealed class QuickQuestionView : MonoBehaviour
         feedbackLabel = CreateText("FeedbackLabel", innerGo.transform, new Vector2(0.05f, 0.16f), new Vector2(0.95f, 0.40f), 22, amberAccent);
         feedbackLabel.alignment = TextAlignmentOptions.Center;
         feedbackLabel.fontStyle = FontStyles.Bold;
+        feedbackLabel.enableAutoSizing=true;feedbackLabel.fontSizeMin=14;feedbackLabel.fontSizeMax=20;
         feedbackLabel.alpha = 0f;
 
         // Choice Buttons Area
@@ -244,6 +273,7 @@ public sealed class QuickQuestionView : MonoBehaviour
         img.raycastTarget = true;
 
         var btn = go.GetComponent<Button>();
+        GameAudioFeedback.Bind(btn);
         btn.targetGraphic = img;
         var colors = btn.colors;
         colors.normalColor = Color.white;
@@ -330,7 +360,7 @@ public sealed class QuickQuestionView : MonoBehaviour
     private IEnumerator RunQuestionCycle()
     {
         // 1. Entrance animation (fade in & subtle slide from left)
-        panelRect.anchoredPosition = restingPosition + new Vector2(-52f, 0f);
+        panelRect.anchoredPosition = restingPosition + new Vector2(rightSide ? 52f : -52f, 0f);
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = true;
@@ -342,7 +372,7 @@ public sealed class QuickQuestionView : MonoBehaviour
             float t = Mathf.Clamp01(elapsed / entranceDuration);
             float smooth = Mathf.SmoothStep(0f, 1f, t);
             canvasGroup.alpha = smooth;
-            panelRect.anchoredPosition = Vector2.Lerp(restingPosition + new Vector2(-52f, 0f), restingPosition, smooth);
+            panelRect.anchoredPosition = Vector2.Lerp(restingPosition + new Vector2(rightSide ? 52f : -52f, 0f), restingPosition, smooth);
 
             // Amber border pulse
             if (borderPulseImage)
@@ -480,7 +510,7 @@ public sealed class QuickQuestionView : MonoBehaviour
 
         float elapsed = 0f;
         Vector2 startPos = panelRect.anchoredPosition;
-        Vector2 endPos = restingPosition + new Vector2(-20f, 0f);
+        Vector2 endPos = restingPosition + new Vector2(rightSide ? 20f : -20f, 0f);
 
         while (elapsed < exitDuration)
         {

@@ -10,6 +10,7 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
     [SerializeField] private AudioSource notices;
     [SerializeField] private AudioClip blink;
     [SerializeField] private AudioClip aftermathMusic;
+    [SerializeField] private AudioClip phoneConversation;
     [SerializeField] private AudioClip decisionStress;
     [SerializeField] private AudioClip choiceClick;
     [SerializeField] private AudioClip lostSound;
@@ -22,17 +23,23 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
     [SerializeField] private PresidentialBriefingManager briefing;
     private AudioSource music,stress,effects;
     private bool ended;
+    public bool ConversationActive { get; private set; }
     private float lastOpen = -10;
     private void Awake()
     {
-        music=gameObject.AddComponent<AudioSource>();music.playOnAwake=false;music.loop=true;music.spatialBlend=0;music.volume=.16f;
-        stress=gameObject.AddComponent<AudioSource>();stress.playOnAwake=false;stress.loop=true;stress.spatialBlend=0;stress.volume=.14f;
+        if(radio && radio.CizirtiSesi)
+        {
+            radio.CizirtiSesi.Stop();radio.CizirtiSesi.clip=phoneConversation;
+            radio.CizirtiSesi.loop=true;radio.CizirtiSesi.volume=.09f;radio.CizirtiSesi.playOnAwake=false;
+        }
+        music=gameObject.AddComponent<AudioSource>();music.playOnAwake=false;music.loop=true;music.spatialBlend=0;music.volume=.07f;
+        stress=gameObject.AddComponent<AudioSource>();stress.playOnAwake=false;stress.loop=true;stress.spatialBlend=0;stress.volume=.055f;
         effects=gameObject.AddComponent<AudioSource>();effects.playOnAwake=false;effects.spatialBlend=0;effects.volume=.28f;
     }
     private void OnEnable()
     {
         ended=false;
-        phone.Answered += Open;flow.ScenarioStarted += ScenarioStarted;flow.ScenarioClosing += Close;awareness.GameEnded += Failed;
+        phone.FocusCompleted += BeginConversation;phone.Answered += Open;flow.ScenarioStarted += ScenarioStarted;flow.ScenarioClosing += Close;awareness.GameEnded += Failed;
         flow.DecisionResolved+=DecisionResolved;flow.DecisionTimedOut+=DecisionTimedOut;flow.UnitDispatched+=UnitDispatched;
         if(conversationView)conversationView.ChoicesShown+=ChoicesShown;
         if(briefing)briefing.RunCompleted+=Won;
@@ -40,11 +47,11 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
     }
     private void OnDisable()
     {
-        phone.Answered -= Open;flow.ScenarioStarted -= ScenarioStarted;flow.ScenarioClosing -= Close;awareness.GameEnded -= Failed;
+        phone.FocusCompleted -= BeginConversation;phone.Answered -= Open;flow.ScenarioStarted -= ScenarioStarted;flow.ScenarioClosing -= Close;awareness.GameEnded -= Failed;
         flow.DecisionResolved-=DecisionResolved;flow.DecisionTimedOut-=DecisionTimedOut;flow.UnitDispatched-=UnitDispatched;
         if(conversationView)conversationView.ChoicesShown-=ChoicesShown;
         if(briefing)briefing.RunCompleted-=Won;
-        music.Stop();stress.Stop();effects.Stop();
+        ConversationActive=false;music.Stop();stress.Stop();effects.Stop();
         if(radio)radio.TelefonKapat();
     }
     private void Update()
@@ -56,21 +63,22 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
         music.clip=next;music.Play();
     }
     private void ChoicesShown(){if(decisionStress){stress.clip=decisionStress;stress.Play();}}
-    private void DecisionResolved(bool correct){stress.Stop();if(choiceClick)effects.PlayOneShot(choiceClick,.45f);}
+    private void DecisionResolved(bool correct){stress.Stop();GameAudioFeedback.Feedback(correct);}
     private void DecisionTimedOut(){stress.Stop();}
     private void UnitDispatched(DispatchResourceEffect effect)
     {
         var clip=effect.ambulances<0?ambulanceSiren:effect.firefighters<0?fireSiren:effect.rescue<0?policeSiren:null;
         if(clip)effects.PlayOneShot(clip,.45f);
     }
-    private void Won(){ended=true;stress.Stop();music.Stop();if(wonSound)effects.PlayOneShot(wonSound,.75f);}
-    private void ScenarioStarted(int revision,string id) { if(phone.State==DispatchCallFlow.CallState.Conversation)Open(); }
+    private void Won(){ConversationActive=false;if(radio&&radio.CizirtiSesi)radio.CizirtiSesi.Stop();ended=true;stress.Stop();music.Stop();if(wonSound)effects.PlayOneShot(wonSound,.75f);}
+    private void ScenarioStarted(int revision,string id) { if(phone.State==DispatchCallFlow.CallState.Conversation){Open();BeginConversation();} }
+    private void BeginConversation() { if(!ended && phone.State==DispatchCallFlow.CallState.Conversation){ConversationActive=true;if(radio)radio.StartConversation();} }
     private void Open()
     {
         if(Time.unscaledTime-lastOpen<.75f)return;
-        lastOpen=Time.unscaledTime;if(radio)radio.TelefonAc();
+        lastOpen=Time.unscaledTime;if(radio)radio.TelefonAc(false);
     }
-    private void Close(int revision) { if(radio)radio.TelefonKapat(); }
-    private void Failed() { ended=true;stress.Stop();music.Stop();if(lostSound)effects.PlayOneShot(lostSound,.75f);if(radio)radio.TelefonKapat(); }
+    private void Close(int revision) { ConversationActive=false;if(radio)radio.TelefonKapat(); }
+    private void Failed() { ConversationActive=false;ended=true;stress.Stop();music.Stop();if(lostSound)effects.PlayOneShot(lostSound,.75f);if(radio)radio.TelefonKapat(); }
     public void PlayCurse() { if(notices && blink)notices.PlayOneShot(blink,.8f); }
 }

@@ -3,6 +3,8 @@ using UnityEngine;
 // Small cross-scene snapshot. The preparation scene always starts a fresh run.
 public static class PreparationRun
 {
+    public const int ActivityCount = 5;
+    public static bool tsunamiComplete { get; private set; }
     public const string ScenePath = "Assets/Scenes/Preparation.unity";
     public const string OperatorScene = "Assets/Working Folder/Taha and Yasin/Onur/Onur Test Place Integrated.unity";
     public static bool bagComplete { get; private set; }
@@ -12,8 +14,8 @@ public static class PreparationRun
     public static bool Visited { get; private set; }
     public static int Health { get; private set; } = 100;
     public static int Mistakes { get; private set; }
-    public static int CompletedCount => (bagComplete?1:0)+(dropCoverHoldComplete?1:0)+(floodComplete?1:0)+(smokeDetectorComplete?1:0);
-    public static bool preparationComplete => CompletedCount == 4;
+    public static int CompletedCount => (bagComplete?1:0)+(dropCoverHoldComplete?1:0)+(floodComplete?1:0)+(smokeDetectorComplete?1:0)+(tsunamiComplete?1:0);
+    public static bool preparationComplete => CompletedCount == ActivityCount;
     public static string Destination { get; private set; } = OperatorScene;
     public static int TakeNumber { get; private set; }
     public static bool IsRecording { get; private set; }
@@ -30,7 +32,7 @@ public static class PreparationRun
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     public static void Reset()
     {
-        bagComplete=dropCoverHoldComplete=floodComplete=smokeDetectorComplete=false;
+        bagComplete=dropCoverHoldComplete=floodComplete=smokeDetectorComplete=tsunamiComplete=false;
         Health=100; Mistakes=0; Visited=false; Destination=OperatorScene;
         TakeNumber=0;IsRecording=false;LastTakeSeconds=BestTakeSeconds=0;
         LastTakeImproved=RewardEarned=Published=false;bestHealth=100;bestMistakes=0;
@@ -41,20 +43,21 @@ public static class PreparationRun
         if (!string.IsNullOrEmpty(destination)) Destination=destination;
         ShiftReportFlow.Clear();
     }
-    public static bool IsComplete(int index) => index==0?bagComplete:index==1?dropCoverHoldComplete:index==2?floodComplete:index==3&&smokeDetectorComplete;
+    public static bool IsComplete(int index) => index==0?bagComplete:index==1?dropCoverHoldComplete:index==2?floodComplete:index==3?smokeDetectorComplete:index==4&&tsunamiComplete;
     public static bool Complete(int index)
     {
-        if(!IsRecording||index<0||index>3||IsComplete(index))return false;
-        switch(index){case 0:bagComplete=true;break;case 1:dropCoverHoldComplete=true;break;case 2:floodComplete=true;break;case 3:smokeDetectorComplete=true;break;}
+        if(!IsRecording||index<0||index>=ActivityCount||IsComplete(index))return false;
+        switch(index){case 0:bagComplete=true;break;case 1:dropCoverHoldComplete=true;break;case 2:floodComplete=true;break;case 3:smokeDetectorComplete=true;break;case 4:tsunamiComplete=true;break;}
         AdjustHealth(5); return true;
     }
     public static bool StartTake()
     {
         if(IsRecording||Published)return false;
-        bagComplete=dropCoverHoldComplete=floodComplete=smokeDetectorComplete=false;
+        bagComplete=dropCoverHoldComplete=floodComplete=smokeDetectorComplete=tsunamiComplete=false;
         Health=100;Mistakes=0;LastTakeImproved=false;TakeNumber++;
         recordingStarted=Time.realtimeSinceStartupAsDouble;IsRecording=true;return true;
     }
+    public static void AbortTake(){if(IsRecording){LastTakeSeconds=RecordingSeconds;IsRecording=false;}}
     public static bool FinishTake()
     {
         if(!IsRecording||!preparationComplete)return false;

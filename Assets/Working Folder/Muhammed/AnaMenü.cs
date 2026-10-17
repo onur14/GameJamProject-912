@@ -13,10 +13,11 @@ public class AnaMenü : MonoBehaviour
     [SerializeField] private AudioClip buttonSound;
     private bool starting;
 
+    private void Start() => MasterVolumeSettings.EnsureMenu(GetComponentInParent<Canvas>());
+
     public void OyunBaslat()
     {
         if(starting || SceneFadeTransition.IsTransitioning)return;
-        if(menuAudio && buttonSound)menuAudio.PlayOneShot(buttonSound,.6f);
         StartCoroutine(BeginAfterNotice());
     }
     private IEnumerator BeginAfterNotice()

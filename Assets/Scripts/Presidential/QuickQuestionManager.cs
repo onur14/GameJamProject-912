@@ -27,8 +27,14 @@ public sealed class QuickQuestionManager : MonoBehaviour
     public event Action<QuickQuestionConfig> QuestionStarted;
     public event Action<QuickQuestionResult> QuestionResolved;
 
-    public bool IsQuestionActive { get; private set; }
-    public QuickQuestionConfig CurrentQuestion { get; private set; }
+    private QuickQuestionView[] views;
+    private readonly QuickQuestionConfig[] activeConfigs=new QuickQuestionConfig[2];
+    private readonly bool[] activeSlots=new bool[2];
+    [SerializeField] private QuickQuestionConfig[] thirdQuestions=new QuickQuestionConfig[8];
+    public IReadOnlyList<QuickQuestionView> Views => views;
+    public bool IsQuestionActive => activeSlots[0]||activeSlots[1];
+    public QuickQuestionConfig CurrentQuestion => activeSlots[0]?activeConfigs[0]:activeSlots[1]?activeConfigs[1]:activeConfigs[0];
+    public QuickQuestionConfig GetQuestionForView(QuickQuestionView target)=>activeConfigs[target==view?0:1];
     public IReadOnlyList<QuickQuestionResult> Results => results;
 
     private readonly List<QuickQuestionResult> results = new List<QuickQuestionResult>();
@@ -38,8 +44,8 @@ public sealed class QuickQuestionManager : MonoBehaviour
     private bool scenarioFinished;
     private int resolvedInScenario;
 
-    public bool QuickQuestionsComplete => currentScenarioRevision >= 0 && resolvedInScenario >= 2
-        && (view == null || !view.IsActive);
+    public bool QuickQuestionsComplete => currentScenarioRevision >= 0 && resolvedInScenario >= 3
+        && !AnyViewVisible;
 
     public int AnsweredCount => results.FindAll(r => r.answered && !r.timedOut).Count;
     public int MissedCount => results.FindAll(r => r.timedOut).Count;
@@ -59,6 +65,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
     {
         InitializeDefaultQuestionsIfNeeded();
         ConfigureVerificationRewards();
+        if(view){view.SetSide(false);views=new[]{view,view.CreateCompanion()};}
     }
 
     [SerializeField, Min(0)] private int returnStockCeiling = 6;
@@ -119,6 +126,12 @@ public sealed class QuickQuestionManager : MonoBehaviour
                 secondQuestions[i] = GetDefaultSecondQuestions()[i];
                 ids.Add(secondQuestions[i].id);
             }
+        if(thirdQuestions==null)thirdQuestions=new QuickQuestionConfig[8];
+        if(thirdQuestions.Length!=8)Array.Resize(ref thirdQuestions,8);
+        var thirds=GetDefaultThirdQuestions();
+        for(int i=0;i<8;i++)
+            if(thirdQuestions[i]==null||string.IsNullOrEmpty(thirdQuestions[i].id)||thirdQuestions[i].targetScenarioId!=scenarioQuestions[i].targetScenarioId||!ids.Add(thirdQuestions[i].id))
+            {thirdQuestions[i]=thirds[i];ids.Add(thirdQuestions[i].id);}
     }
 
     public void ConfigureVerificationRewards()
@@ -160,7 +173,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
                 isDisinformation = true, correctChoiceIndex = correct[i],
                 wrongAnswerHealthDamage = 10, timeoutHealthDamage = 10,
                 timeoutFeedback = "MÜDAHALE EDİLMEDİ · SAĞLIK -10",
-                timerDuration = i < 4 ? 8 : 7, appearanceDelayMin = 1.4f, appearanceDelayMax = 2.2f
+                timerDuration = 7f, appearanceDelayMin = 1.4f, appearanceDelayMax = 2.2f
             };
         }
         return result;
@@ -183,7 +196,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
                 choiceBLabel = "REDDET",
                 choiceBEffect = new DispatchResourceEffect(),
                 choiceBFeedback = "TALEP REDDEDİLDİ",
-                timerDuration = 10f,
+                timerDuration = 7f,
                 appearanceDelayMin = 2.5f,
                 appearanceDelayMax = 3.5f
             },
@@ -201,7 +214,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
                 choiceBLabel = "REDDET",
                 choiceBEffect = new DispatchResourceEffect(),
                 choiceBFeedback = "TALEP REDDEDİLDİ",
-                timerDuration = 9f,
+                timerDuration = 7f,
                 appearanceDelayMin = 2.5f,
                 appearanceDelayMax = 3.5f
             },
@@ -219,7 +232,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
                 choiceBLabel = "REDDET",
                 choiceBEffect = new DispatchResourceEffect(),
                 choiceBFeedback = "TALEP REDDEDİLDİ",
-                timerDuration = 8f,
+                timerDuration = 7f,
                 appearanceDelayMin = 2.0f,
                 appearanceDelayMax = 3.0f
             },
@@ -237,7 +250,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
                 choiceBLabel = "MEVCUT GÖREVDE TUT",
                 choiceBEffect = new DispatchResourceEffect(),
                 choiceBFeedback = "MEVCUT GÖREVDE TUTULDU",
-                timerDuration = 8f,
+                timerDuration = 7f,
                 appearanceDelayMin = 2.0f,
                 appearanceDelayMax = 3.0f
             },
@@ -291,7 +304,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
                 choiceBLabel = "MEVCUT ROTAYI KORU",
                 choiceBEffect = new DispatchResourceEffect(),
                 choiceBFeedback = "MEVCUT ROTA KORUNDU",
-                timerDuration = 6f,
+                timerDuration = 7f,
                 appearanceDelayMin = 1.5f,
                 appearanceDelayMax = 2.2f
             },
@@ -309,13 +322,46 @@ public sealed class QuickQuestionManager : MonoBehaviour
                 choiceBLabel = "REZERVİ KORU",
                 choiceBEffect = new DispatchResourceEffect(),
                 choiceBFeedback = "REZERV KORUNDU",
-                timerDuration = 5f,
+                timerDuration = 7f,
                 appearanceDelayMin = 1.2f,
                 appearanceDelayMax = 2.0f
             }
         };
     }
 
+    private bool AnyViewVisible => views!=null && System.Array.Exists(views,v=>v&&v.IsActive);
+    public void SetPaused(bool paused){if(views!=null)foreach(var card in views)card.SetPaused(paused);}
+    public static QuickQuestionConfig[] GetDefaultThirdQuestions()
+    {
+        string[] text={"Deprem sonrası hasarlı binaya geri dönmek güvenli mi?","Gaz kokusunda elektrik düğmesine basalım mı?","Yoğun dumanda alçaktan ilerleyelim mi?","Sel suyuna araçla girelim mi?","Tsunami uyarısında kıyıdan uzaklaşıp yükseğe çıkalım mı?","Fırtınada devrilebilecek ağaçlardan uzaklaşalım mı?","Yardım bilgisini resmî kaynaklardan doğrulayalım mı?","Acil yardım araçları için yolları açık tutalım mı?"};
+        int[] correct={1,1,0,1,0,0,0,0};
+        var result=GetDefaultSecondQuestions();
+        for(int i=0;i<8;i++)
+        {
+            var q=result[i];q.id="QQ-"+(i+17).ToString("00");q.categoryTitle="GÜVENLİ DAVRANIŞ";q.questionText=text[i];q.correctChoiceIndex=correct[i];
+            q.choiceAEffect=q.choiceBEffect=new DispatchResourceEffect();
+            q.choiceAFeedback=correct[i]==0?"DOĞRU YÖNLENDİRME":"GÜVENSİZ YÖNLENDİRME";
+            q.choiceBFeedback=correct[i]==1?"DOĞRU YÖNLENDİRME":"GÜVENSİZ YÖNLENDİRME";q.timerDuration=7;
+        }
+        return result;
+    }
+    public int IncorrectAnswerCount
+    {
+        get
+        {
+            int count=0;
+            foreach(var result in results)
+            {
+                if(!result.answered || result.cancelled)continue;
+                for(int i=0;i<3;i++)
+                {
+                    var config=GetQuestionForScenario(result.scenarioIndex,i==1,i==2);
+                    if(config!=null&&config.id==result.questionId&&config.isDisinformation&&result.selectedChoice!=config.correctChoiceIndex)count++;
+                }
+            }
+            return count;
+        }
+    }
     private IEnumerator WaitAndTriggerQuestion(QuickQuestionConfig config,int revision)
     {
         while(phone && phone.State!=DispatchCallFlow.CallState.Conversation)
@@ -334,18 +380,23 @@ public sealed class QuickQuestionManager : MonoBehaviour
             if (!phone || !phone.IsPaused) elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
-        while (view && view.IsActive)
+        if(scenarioFinished||currentScenarioRevision!=revision)yield break;
+        int primary=activeScenarioIndex%2==0?0:1;
+        ShowSlot(config,primary);
+        ShowSlot(GetQuestionForScenario(activeScenarioIndex,true),1-primary);
+        while(views[primary].IsActive)
         {
-            if (scenarioFinished || currentScenarioRevision != revision || conversation.GameOver) yield break;
+            if(scenarioFinished||currentScenarioRevision!=revision||conversation.GameOver)yield break;
             yield return null;
         }
-        if(!scenarioFinished && (!briefingManager || briefingManager.Phase==PresidentialBriefingManager.ShiftPhase.Scenario))TriggerQuestion(config);
+        if(!scenarioFinished&&currentScenarioRevision==revision)ShowSlot(GetQuestionForScenario(activeScenarioIndex,false,true),primary);
         triggerRoutine=null;
     }
 
-    public QuickQuestionConfig GetQuestionForScenario(int index, bool second = false)
+    public QuickQuestionConfig GetQuestionForScenario(int index, bool second = false, bool third = false)
     {
         if(index<0)return null;
+        if(third)return thirdQuestions!=null&&index<thirdQuestions.Length?thirdQuestions[index]:null;
         if (second) return secondQuestions != null && index < secondQuestions.Length ? secondQuestions[index] : null;
         if(questionDataAssets!=null && index<questionDataAssets.Length && questionDataAssets[index])return questionDataAssets[index].config;
         return scenarioQuestions!=null && index<scenarioQuestions.Length ? scenarioQuestions[index] : null;
@@ -353,40 +404,41 @@ public sealed class QuickQuestionManager : MonoBehaviour
 
     public void TriggerQuestion(QuickQuestionConfig config)
     {
-        // A second trigger never replaces a live request, including its exit feedback.
-        if(config==null || !view || !resources || IsQuestionActive || view.IsActive || !isActiveAndEnabled || (conversation && conversation.GameOver))return;
-        CurrentQuestion=config.Clone();IsQuestionActive=true;
-        var curses=FindAnyObjectByType<DispatchCurseController>();
-        if(curses)CurrentQuestion.timerDuration=Mathf.Max(1,CurrentQuestion.timerDuration*curses.QuestionTimeMultiplier);
-        view.Show(CurrentQuestion,resources,OnChoiceSelected,OnTimeout,CanChoose);
-        if (visualFeedback) visualFeedback.SignalAlert(false);
-        QuestionStarted?.Invoke(CurrentQuestion);
+        if(IsQuestionActive||AnyViewVisible)return;
+        ShowSlot(config,0);
+    }
+    private void ShowSlot(QuickQuestionConfig config,int slot)
+    {
+        if(config==null||views==null||!resources||activeSlots[slot]||views[slot].IsActive||!isActiveAndEnabled||(conversation&&conversation.GameOver))return;
+        var question=config.Clone();question.timerDuration=7f;activeConfigs[slot]=question;activeSlots[slot]=true;
+        views[slot].Show(question,resources,choice=>OnChoiceSelected(slot,choice),()=>OnTimeout(slot),choice=>CanChoose(slot,choice));
+        if(visualFeedback)visualFeedback.SignalAlert(false);QuestionStarted?.Invoke(question);
     }
 
-    private DispatchResourceEffect EffectiveCost(int choice)
+    private DispatchResourceEffect EffectiveCost(int slot,int choice)
     {
-        var effect=choice==0?CurrentQuestion.choiceAEffect:CurrentQuestion.choiceBEffect;
+        var effect=choice==0?activeConfigs[slot].choiceAEffect:activeConfigs[slot].choiceBEffect;
         if(effect.ambulances>0)effect.ambulances=Mathf.Min(effect.ambulances,Mathf.Max(0,returnStockCeiling-resources.Ambulances));
         if(effect.firefighters>0)effect.firefighters=Mathf.Min(effect.firefighters,Mathf.Max(0,returnStockCeiling-resources.Firefighters));
         if(effect.rescue>0)effect.rescue=Mathf.Min(effect.rescue,Mathf.Max(0,returnStockCeiling-resources.Police));
         return effect;
     }
-    private bool CanChoose(int choice)
+    private bool CanChoose(int slot,int choice)
     {
-        if(!IsQuestionActive || choice<0 || choice>1 || !resources)return false;
-        var raw=choice==0?CurrentQuestion.choiceAEffect:CurrentQuestion.choiceBEffect;
-        var effect=EffectiveCost(choice);
+        if(!activeSlots[slot] || choice<0 || choice>1 || !resources)return false;
+        var raw=choice==0?activeConfigs[slot].choiceAEffect:activeConfigs[slot].choiceBEffect;
+        var effect=EffectiveCost(slot,choice);
         // Do not claim a return succeeded when already at its configured ceiling.
-        if(!raw.IsZero && effect.IsZero && !CurrentQuestion.isDisinformation)return false;
+        if(!raw.IsZero && effect.IsZero && !activeConfigs[slot].isDisinformation)return false;
         return effect.CanApply(resources);
     }
-    private bool OnChoiceSelected(int choice)
+    private bool OnChoiceSelected(int slot,int choice)
     {
-        if(!CanChoose(choice))return false;
-        var config=CurrentQuestion;var effect=EffectiveCost(choice);
-        IsQuestionActive=false; // Lock before Changed listeners run.
-        if(!effect.IsZero && !effect.Apply(resources)){IsQuestionActive=true;return false;}
-        var result=CreateResult(config);result.answered=true;result.selectedChoice=choice;
+        if(!CanChoose(slot,choice))return false;
+        var config=activeConfigs[slot];var effect=EffectiveCost(slot,choice);
+        activeSlots[slot]=false; // Lock before Changed listeners run.
+        if(!effect.IsZero && !effect.Apply(resources)){activeSlots[slot]=true;return false;}
+        var result=CreateResult(config,slot);result.answered=true;result.selectedChoice=choice;
         result.selectedChoiceLabel=choice==0?config.choiceALabel:config.choiceBLabel;
         result.appliedEffect=effect;results.Add(result);
         if(conversation && (effect.ambulances<0 || effect.firefighters<0 || effect.rescue<0))conversation.NotifyUnitDispatched(effect);
@@ -407,47 +459,36 @@ public sealed class QuickQuestionManager : MonoBehaviour
             if (effect.firefighters > 0) bonus += " · İTFAİYE +" + effect.firefighters;
             if (effect.rescue > 0) bonus += " · KURTARMA +" + effect.rescue;
             if (config.isDisinformation && effect.IsZero) bonus += " · EKİP YEDEĞİ DOLU";
-            view.ShowRewardFeedback(bonus);
+            views[slot].ShowRewardFeedback(bonus);
         }
-        QuestionResolved?.Invoke(result);ScheduleNextQuestion();return true;
+        GameAudioFeedback.Feedback(earnsReward);resolvedInScenario++;QuestionResolved?.Invoke(result);return true;
     }
-    private QuickQuestionResult CreateResult(QuickQuestionConfig config)
+    private QuickQuestionResult CreateResult(QuickQuestionConfig config,int slot)
     {
         return new QuickQuestionResult {questionId=config.id,targetScenarioId=activeScenarioId??config.targetScenarioId,
             scenarioIndex=activeScenarioIndex,scenarioRevision=currentScenarioRevision,
-            responseTime=view.ElapsedResponseTime,totalDuration=Mathf.Max(1,config.timerDuration),selectedChoice=-1};
+            responseTime=views[slot].ElapsedResponseTime,totalDuration=Mathf.Max(1,config.timerDuration),selectedChoice=-1};
     }
-    private void OnTimeout()
+    private void OnTimeout(int slot)
     {
-        if(!IsQuestionActive)return;
-        IsQuestionActive=false;var result=CreateResult(CurrentQuestion);
-        result.timedOut=true;result.selectedChoiceLabel="YANITLANMADI";results.Add(result);
-        if (CurrentQuestion.isDisinformation)
-        {
-            if (cityHealth) cityHealth.ApplyDamage(CurrentQuestion.timeoutHealthDamage);
-            if (visualFeedback) visualFeedback.SignalAlert(true);
-        }
-        QuestionResolved?.Invoke(result);
-        ScheduleNextQuestion();
-    }
-    private void ScheduleNextQuestion()
-    {
-        if (scenarioFinished || (conversation && conversation.GameOver) || currentScenarioRevision < 0 || resolvedInScenario >= 2) return;
-        resolvedInScenario++;
-        if (resolvedInScenario != 1) return;
-        QuickQuestionConfig next = GetQuestionForScenario(activeScenarioIndex, true);
-        if (next != null && next.targetScenarioId == activeScenarioId)
-            triggerRoutine = StartCoroutine(WaitAndTriggerQuestion(next, currentScenarioRevision));
+        if(!activeSlots[slot])return;
+        var config=activeConfigs[slot];activeSlots[slot]=false;var result=CreateResult(config,slot);
+        result.timedOut=true;result.selectedChoiceLabel="YANITLANMADI";results.Add(result);resolvedInScenario++;
+        if(config.isDisinformation){if(cityHealth)cityHealth.ApplyDamage(config.timeoutHealthDamage);if(visualFeedback)visualFeedback.SignalAlert(true);}
+        GameAudioFeedback.Feedback(false);QuestionResolved?.Invoke(result);
     }
     public void CancelActiveQuestion()
     {
         if(triggerRoutine!=null){StopCoroutine(triggerRoutine);triggerRoutine=null;}
-        if(IsQuestionActive)
+        for(int slot=0;slot<2;slot++)
         {
-            IsQuestionActive=false;var result=CreateResult(CurrentQuestion);result.cancelled=true;
-            result.selectedChoiceLabel="ANA ÇAĞRI KAPANDI";results.Add(result);QuestionResolved?.Invoke(result);
+            if(activeSlots[slot])
+            {
+                activeSlots[slot]=false;var result=CreateResult(activeConfigs[slot],slot);result.cancelled=true;
+                result.selectedChoiceLabel="ANA ÇAĞRI KAPANDI";results.Add(result);QuestionResolved?.Invoke(result);
+            }
+            if(views!=null&&views[slot])views[slot].HideImmediate();
         }
-        if(view)view.HideImmediate();
     }
     public void RestoreScenarioCheckpoint(int resultCount)
     {
