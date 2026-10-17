@@ -1677,9 +1677,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 563969331}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df94fe7ebe0337c4485ff1ab2b9e04da, type: 3}
+  m_Script: {fileID: 11500000, guid: 22ac08b730d130302169d0a5d8a7b30f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: "Assembly-CSharp::AnaMen\xFC"
+  m_EditorClassIdentifier: "TahaYasin.Runtime::AnaMen\xFC"
   gameplayScene: Assets/Working Folder/Taha and Yasin/Onur/Onur Test Place Integrated.unity
   menuFadeDuration: 0.3
   gameplayFadeInDuration: 0.3
@@ -1801,9 +1801,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 633202843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffba616ca874d94419adb609703384e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 09e37dfda747d977e2a4ae61e708bbb3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MasterVolumeSettings
+  m_EditorClassIdentifier: TahaYasin.Runtime::MasterVolumeSettings
   openButton: {fileID: 1835180693}
   closeButton: {fileID: 1507817762}
   panel: {fileID: 2062770274}
@@ -1893,7 +1893,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 563969333}
-        m_TargetAssemblyTypeName: "AnaMen\xFC, Assembly-CSharp"
+        m_TargetAssemblyTypeName: "AnaMen\xFC, TahaYasin.Runtime"
         m_MethodName: CikisYap
         m_Mode: 1
         m_Arguments:
@@ -3152,7 +3152,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 563969333}
-        m_TargetAssemblyTypeName: "AnaMen\xFC, Assembly-CSharp"
+        m_TargetAssemblyTypeName: "AnaMen\xFC, TahaYasin.Runtime"
         m_MethodName: OyunBaslat
         m_Mode: 1
         m_Arguments:

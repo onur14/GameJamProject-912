@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c5b4f13a1387a18ae82d5885885ce84, type: 3}
+  m_Name: Y-02
+  m_EditorClassIdentifier: TahaYasin.Runtime::DispatchScenarioData
+  scenarioId: Y-02
+  readyForPlay: 1
+  callerName: Kemal
+  callerLocation: Marmaris / Ormanlık alan
+  emergencyType: Orman yangını
+  situationSummary: Oğluyla birlikte duman ve alevlerin yakınında.
+  sourceNotes: "Kaynak: kullan\u0131c\u0131n\u0131n 17.10.2026 tarihli k\u0131sa senaryo metni. Yaln\u0131zca konu\u015fmalar ve se\u00e7enekler g\u00fcncellendi; oyun kurallar\u0131 korundu."
+  opening:
+  - text: "KAZAZEDE: Alo! Orman yan\u0131yor, etraf\u0131m\u0131z duman oldu yeti\u015fin!"
+    fromOperator: 0
+  - text: "Operat\u00f6r: 912 Acil. \u0130sminiz ve konumunuz?"
+    fromOperator: 1
+  - text: "KAZAZEDE: Kemal ben, Marmaris'te ormanday\u0131z! 7 ya\u015f\u0131ndaki o\u011flum yan\u0131mda. Vadi alev dolu, herkes 'Tepeye, zirveye ko\u015fun' diyor!"
+    fromOperator: 0
+  - text: "Operat\u00f6r: Kemal Bey, yang\u0131n s\u00f6nd\u00fcrme araz\u00f6z ekibini b\u00f6lgeye y\u00f6nlendirdim."
+    fromOperator: 1
+  - text: "Kemal: Operat\u00f6r Han\u0131m, da\u011f\u0131n zirvesine do\u011fru t\u0131rman\u0131p kurtulal\u0131m de\u011fil mi?!"
+    fromOperator: 0
+  choiceA: "Evet, yang\u0131n a\u015fa\u011f\u0131daysa da\u011f\u0131n tepesine do\u011fru h\u0131zla t\u0131rman\u0131n!"
+  choiceB: "ASLA YUKARI KO\u015eMAYIN! Yang\u0131n tepeye baca gibi \u00e7ok daha h\u0131zl\u0131 t\u0131rman\u0131r! Yan tarafa, a\u00e7\u0131k yola ka\u00e7\u0131n!"
+  correctChoiceIsB: 1
+  resourceA: 0
+  resourceB: 0
+  dispatchA: 1
+  dispatchB: 1
+  outcomeA:
+  - text: "Kemal: Tepeye t\u0131rman\u0131yoruz... Alevler arkam\u0131zdan u\u00e7arak geliyor resmen! Zirve duman doldu, nefes yok, s\u0131k\u0131\u015ft\u0131k burad---"
+    fromOperator: 0
+  - text: "OGM Telsizi: Yang\u0131n tepeyi sard\u0131! Zirvede mahsur vatanda\u015flar var, 2 araz\u00f6z alev \u00e7emberini yarmak i\u00e7in tepeye t\u0131rman\u0131yor!"
+    fromOperator: 0
+  outcomeB:
+  - text: "Operat\u00f6r: Kemal Bey tepeye \u00e7\u0131kmay\u0131n, yang\u0131n yukar\u0131 f\u0131rlar! Yan taraftaki patikadan a\u015fa\u011f\u0131daki yang\u0131n emniyet yoluna inin!"
+    fromOperator: 1
+  - text: "Kemal: D\u00f6nd\u00fck yan patikaya! Tepe alev topuna d\u00f6nd\u00fc... Yola ula\u015ft\u0131k, y\u00f6nlendirdi\u011finiz itfaiye arac\u0131 bizi kar\u015f\u0131lad\u0131, kurtulduk!"
+    fromOperator: 0

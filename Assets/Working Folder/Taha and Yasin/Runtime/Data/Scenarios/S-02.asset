@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c5b4f13a1387a18ae82d5885885ce84, type: 3}
+  m_Name: S-02
+  m_EditorClassIdentifier: TahaYasin.Runtime::DispatchScenarioData
+  scenarioId: S-02
+  readyForPlay: 1
+  sourceNotes: "Kaynak: afet_senaryolari_kaynak_12.md. Vatanda\u015F s\xF6zleri kaynaktan aynen al\u0131nm\u0131\u015Ft\u0131r."
+  opening:
+  - text: "Operat\xF6r: 912 Acil, buyrun?"
+    fromOperator: 1
+  - text: "KAZAZEDE: Evlad\u0131m Bozkurt'tay\u0131z, dere ta\u015Ft\u0131 biraz, ya\u011Fmur durdu ama sokaklar diz boyu \xE7amurlu su doldu. Ben Hasan Day\u0131, mahalleden ar\u0131yorum."
+    fromOperator: 0
+  - text: "Operat\xF6r: Hasan Amca, acil yard\u0131ma ihtiyac\u0131 olan biri var m\u0131?"
+    fromOperator: 1
+  - text: "Hasan Day\u0131: Yok yok, bizim torunlar kom\u015Funun \xE7ocuklar\u0131yla soka\u011Fa f\u0131rlam\u0131\u015F. Su \u0131l\u0131k diye terlikle su sava\u015F\u0131 yap\u0131yorlar. Ak\u0131nt\u0131 da \xF6yle \xE7ok deli de\u011Fil, \xE7ocuklar e\u011Flensin diyorum ama bir soray\u0131m dedim."
+    fromOperator: 0
+  - text: "Hasan Day\u0131: Diz boyu sudan zarar gelir mi evlad\u0131m? B\u0131rakay\u0131m m\u0131 biraz oynas\u0131nlar sokakta?"
+    fromOperator: 0
+  choiceA: "Ak\u0131nt\u0131 azsa ve su derine gitmiyorsa biraz oynayabilirler."
+  choiceB: "DERHAL \xC7OCUKLARI SUDAN \xC7IKARIN! Sel suyu la\u011F\u0131m ve elektrik doludur, a\xE7\u0131k r\xF6garlar \xE7ocu\u011Fu \xE7eker!"
+  correctChoiceIsB: 1
+  resourceA: 2
+  resourceB: 2
+  dispatchA: 1
+  dispatchB: 1
+  outcomeA:
+  - text: "Hasan Day\u0131: \u0130yi madem, biraz stres ats\u0131n garip-- AMAN ALLAHIM! AL\u0130 NEREDE?! \xC7OCUK KAYBOLDU! R\xD6GAR KAPA\u011EI A\xC7IKMI\u015E, SU \xC7EKT\u0130 \xC7OCU\u011EU! AL\u0130\u0130\u0130\u0130\u0130!!"
+    fromOperator: 0
+  outcomeB:
+  - text: "Operat\xF6r: Hasan Amca ba\u011F\u0131r hemen \xE7\u0131ks\u0131nlar! Sel suyunun alt\u0131 g\xF6r\xFCnmez; a\xE7\u0131k r\xF6gar kapa\u011F\u0131 \xE7ocuklar\u0131 \xE7eker! Ayr\u0131ca elektrik ka\xE7a\u011F\u0131 ve la\u011F\u0131m mikrobu ta\u015F\u0131r!"
+    fromOperator: 1
+  - text: "Hasan Day\u0131: Hemen ba\u011F\u0131rd\u0131m! \xC7\u0131k\u0131n ulan \xE7abuk eve! ... \xC7\u0131kard\u0131m hepsini i\xE7eri soktum. Hakikaten az \xF6nce suyun i\xE7inden pasl\u0131 demirler ge\xE7ti, bacaklar\u0131na \xE7arpsa felaket olurmu\u015F."
+    fromOperator: 0

@@ -854,9 +854,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5778049345471780343}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72a1fb3edfbf4c609a632cfdf643168a, type: 3}
+  m_Script: {fileID: 11500000, guid: 21c3519b50adaf419c5ca84e786629b1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::OnurConversationView
+  m_EditorClassIdentifier: TahaYasin.Runtime::OnurConversationView
   callerName: {fileID: 6548171732943649092}
   dialogueText: {fileID: 8044910533330179572}
   approveButton: {fileID: 6574984665706996155}
@@ -1013,7 +1013,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7445754986739040688}
-        m_TargetAssemblyTypeName: OnurConversationView, Assembly-CSharp
+        m_TargetAssemblyTypeName: OnurConversationView, TahaYasin.Runtime
         m_MethodName: KabulEdildi
         m_Mode: 1
         m_Arguments:
@@ -1170,7 +1170,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7445754986739040688}
-        m_TargetAssemblyTypeName: OnurConversationView, Assembly-CSharp
+        m_TargetAssemblyTypeName: OnurConversationView, TahaYasin.Runtime
         m_MethodName: Reddedildi
         m_Mode: 1
         m_Arguments:

@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c5b4f13a1387a18ae82d5885885ce84, type: 3}
+  m_Name: F-01
+  m_EditorClassIdentifier: TahaYasin.Runtime::DispatchScenarioData
+  scenarioId: F-01
+  readyForPlay: 1
+  callerName: Selim
+  callerLocation: Sahil parkı
+  emergencyType: Fırtına
+  situationSummary: Kızıyla birlikte şiddetli rüzgâr altında.
+  sourceNotes: "Kaynak: kullan\u0131c\u0131n\u0131n 17.10.2026 tarihli k\u0131sa senaryo metni. Yaln\u0131zca konu\u015fmalar ve se\u00e7enekler g\u00fcncellendi; oyun kurallar\u0131 korundu."
+  opening:
+  - text: "KAZAZEDE: Alo! Sahil park\u0131nday\u0131z k\u0131z\u0131mla, aniden f\u0131rt\u0131na koptu!"
+    fromOperator: 0
+  - text: "Operat\u00f6r: 912 Acil. Park b\u00f6lgesine tedbiren ambulans y\u00f6nlendiriyorum, neredesiniz?"
+    fromOperator: 1
+  - text: "KAZAZEDE: Selim ben, 9 ya\u015f\u0131ndaki k\u0131z\u0131m Defne yan\u0131mda. S\u0131r\u0131ls\u0131klam olduk. Park\u0131n ortas\u0131ndaki devasa ulu \u00e7\u0131nar a\u011fac\u0131n\u0131n alt\u0131na s\u0131\u011f\u0131nd\u0131k bekliyoruz!"
+    fromOperator: 0
+  - text: "Selim: Operat\u00f6r Han\u0131m, f\u0131rt\u0131na dinene kadar a\u011fac\u0131n dibinde bekleyelim de\u011fil mi k\u0131z\u0131mla?"
+    fromOperator: 0
+  choiceA: "Evet, a\u011fa\u00e7 alt\u0131 ya\u011fmurdan korur, f\u0131rt\u0131na hafifleyene kadar orada kal\u0131n."
+  choiceB: "DERHAL A\u011eACIN ALTINDAN UZAKLA\u015eIN! Tek ba\u015f\u0131na duran a\u011fa\u00e7lar y\u0131ld\u0131r\u0131m\u0131 m\u0131knat\u0131s gibi \u00e7eker!"
+  correctChoiceIsB: 1
+  resourceA: 1
+  resourceB: 1
+  dispatchA: 1
+  dispatchB: 1
+  outcomeA:
+  - text: "Selim: Bekliyoruz k\u0131z\u0131m... A-aa g\u00f6ky\u00fcz\u00fc bembeyaz ol---"
+    fromOperator: 0
+  outcomeB:
+  - text: "Operat\u00f6r: Selim Bey o a\u011fa\u00e7 y\u0131ld\u0131r\u0131m\u0131 ilk \u00e7ekecek yer! A\u011fa\u00e7tan 20 metre uzakla\u015f\u0131n, \u00e7ukurda ayaklar\u0131 birle\u015ftirip \u00e7\u00f6melin!"
+    fromOperator: 1
+  - text: "Selim: \u00c7ukura \u00e7\u00f6kt\u00fck k\u0131z\u0131mla... ALLAHIM! A\u011faca y\u0131ld\u0131r\u0131m d\u00fc\u015ft\u00fc, alev ald\u0131! Az \u00f6nce tam alt\u0131ndayd\u0131k... Ambulans\u0131n\u0131z bizi yak\u0131ndaki kafeden ald\u0131, kontrol ediyor."
+    fromOperator: 0

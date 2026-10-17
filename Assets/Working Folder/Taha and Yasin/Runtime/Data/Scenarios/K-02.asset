@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c5b4f13a1387a18ae82d5885885ce84, type: 3}
+  m_Name: K-02
+  m_EditorClassIdentifier: TahaYasin.Runtime::DispatchScenarioData
+  scenarioId: K-02
+  readyForPlay: 1
+  callerName: Kerem
+  callerLocation: ""
+  emergencyType: Deprem sonrası durum
+  situationSummary: Hasar bildirmiyor; afet çantasıyla tahliye hazırlığında.
+  sourceNotes: "Kaynak: kullan\u0131c\u0131n\u0131n 17.10.2026 tarihli k\u0131sa senaryo metni. Yaln\u0131zca konu\u015fmalar ve se\u00e7enekler g\u00fcncellendi; oyun kurallar\u0131 korundu."
+  opening:
+  - text: "Operat\u00f6r: 912 Acil \u00c7a\u011fr\u0131 Merkezi, buyrun?"
+    fromOperator: 1
+  - text: "KAZAZEDE: \u0130yi g\u00fcnler operat\u00f6r han\u0131m, Kerem ben. Az \u00f6nce salland\u0131k, sakin kal\u0131p kanepe yan\u0131nda \u00c7\u00d6K-KAPAN-TUTUN yapt\u0131k."
+    fromOperator: 0
+  - text: "Operat\u00f6r: Ge\u00e7mi\u015f olsun Kerem Bey, saha kontrol ekibimiz mahallenizde."
+    fromOperator: 1
+  - text: "Kerem: Hasar yok. Vanalar\u0131 kapatt\u0131k, afet \u00e7antam\u0131z\u0131 ald\u0131k; su, d\u00fcd\u00fck, fener haz\u0131r. Toplanma alan\u0131na \u00e7\u0131k\u0131yoruz."
+    fromOperator: 0
+  - text: "Kerem: Afet \u00e7antam\u0131z\u0131 al\u0131p toplanma alan\u0131na ge\u00e7i\u015fimizi onayl\u0131yor musunuz?"
+    fromOperator: 0
+  choiceA: "Kesinlikle tebrik ederiz! \u00d6rnek bir afet bilinci, toplanma alan\u0131na ge\u00e7in."
+  choiceB: "Hay\u0131r, \u00e7anta gereksiz bir a\u011f\u0131rl\u0131k, sars\u0131nt\u0131 bittiyse evinizde bekleyin."
+  correctChoiceIsB: 0
+  resourceA: 2
+  resourceB: 2
+  dispatchA: 0
+  dispatchB: 1
+  outcomeA:
+  - text: "Operat\u00f6r: Kerem Bey tebrik ederim. Harika bir bilin\u00e7 sergilemi\u015fsiniz. G\u00fcvenli toplanma alan\u0131na ge\u00e7in."
+    fromOperator: 1
+  - text: "Kerem: \u00c7ok te\u015fekk\u00fcrler operat\u00f6r\u00fcm, alandaki arama kurtarma ekibiniz kar\u015f\u0131lad\u0131 bizi."
+    fromOperator: 0
+  outcomeB:
+  - text: "Kerem: \u00c7antay\u0131 b\u0131rak\u0131p eve mi d\u00f6nelim? Art\u00e7\u0131 geldi bina hasar ald\u0131, i\u00e7eride mahsur kald\u0131k operat\u00f6r yeti\u015fin!"
+    fromOperator: 0

@@ -123,9 +123,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1400867055543039311}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01c914322daa4e61bf31173e5d9523d9, type: 3}
+  m_Script: {fileID: 11500000, guid: e434efb5e7ebaaea038d26c45019cffd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BagDraggableItem
+  m_EditorClassIdentifier: TahaYasin.Runtime::BagDraggableItem
   itemName: 
   icon: {fileID: 8084923561945322731}
   startingPosition: {x: 0, y: 0}

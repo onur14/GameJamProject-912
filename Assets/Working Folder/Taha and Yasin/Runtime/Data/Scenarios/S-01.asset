@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c5b4f13a1387a18ae82d5885885ce84, type: 3}
+  m_Name: S-01
+  m_EditorClassIdentifier: TahaYasin.Runtime::DispatchScenarioData
+  scenarioId: S-01
+  readyForPlay: 1
+  callerName: Serdar
+  callerLocation: Basın Ekspres alt geçidi
+  emergencyType: Sel
+  situationSummary: Su yükselen alt geçitte araç içinde.
+  sourceNotes: "Kaynak: kullan\u0131c\u0131n\u0131n 17.10.2026 tarihli k\u0131sa senaryo metni. Yaln\u0131zca konu\u015fmalar ve se\u00e7enekler g\u00fcncellendi; oyun kurallar\u0131 korundu."
+  opening:
+  - text: "Operat\u00f6r: 912 Acil, dinliyorum."
+    fromOperator: 1
+  - text: "KAZAZEDE: Bas\u0131n Ekspres alt ge\u00e7idindeyiz, sa\u011fanak bast\u0131rd\u0131 \u00e7ukur su doldu! Serdar ben."
+    fromOperator: 0
+  - text: "Operat\u00f6r: Serdar Bey, kurtarma botu ekibimizi yola \u00e7\u0131kard\u0131m, su seviyesi ne durumda?"
+    fromOperator: 1
+  - text: "Serdar: Tekerle\u011fin yar\u0131s\u0131nda. Alt\u0131mdaki 4x4 SUV, gaza y\u00fcklenip kar\u015f\u0131ya yard\u0131rsam ge\u00e7erim herhalde?!"
+    fromOperator: 0
+  - text: "Serdar: Operat\u00f6r, arkadaki trafik s\u0131k\u0131\u015ft\u0131r\u0131yor, gaza bas\u0131p ge\u00e7iyorum?!"
+    fromOperator: 0
+  choiceA: "Arac\u0131n\u0131z y\u00fcksekse ge\u00e7in, h\u0131zl\u0131ca gaza bas\u0131p alt ge\u00e7itten \u00e7\u0131kmaya \u00e7al\u0131\u015f\u0131n!"
+  choiceB: "HEMEN DURUN! Konta\u011f\u0131 kapat\u0131n, arac\u0131 terk edip y\u00fcksek ref\u00fcje t\u0131rman\u0131n!"
+  correctChoiceIsB: 1
+  resourceA: 2
+  resourceB: 2
+  dispatchA: 1
+  dispatchB: 1
+  outcomeA:
+  - text: "Serdar: Bast\u0131m gaza gidiy--- Motor stop etti! Su \u00f6n cama vurdu! Kap\u0131 su bas\u0131nc\u0131ndan a\u00e7\u0131lm\u0131yor! ARABA Y\u00dcZ\u00dcYOR, BO\u011eULUYORUM!!"
+    fromOperator: 0
+  - text: "Telsiz: Alt ge\u00e7itte batan ara\u00e7 var, s\u00fcr\u00fcc\u00fc bo\u011fuluyor! Dalg\u0131\u00e7 arama kurtarma ve acil ambulans istiyoruz!"
+    fromOperator: 0
+  outcomeB:
+  - text: "Operat\u00f6r: Serdar Bey durun! 30 cm su bile arac\u0131 s\u00fcr\u00fckler. Kap\u0131y\u0131 a\u00e7\u0131n, arac\u0131 b\u0131rak\u0131p ref\u00fcj bariyerine t\u0131rman\u0131n!"
+    fromOperator: 1
+  - text: "Serdar: \u0130ndim, bariyerlere \u00e7\u0131kt\u0131m! Araba y\u00fczmeye ba\u015flad\u0131 arkamdan! Kurtarma botunuz beni bariyerden ald\u0131, kurtuldum!"
+    fromOperator: 0

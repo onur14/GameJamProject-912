@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c5b4f13a1387a18ae82d5885885ce84, type: 3}
+  m_Name: F-02
+  m_EditorClassIdentifier: TahaYasin.Runtime::DispatchScenarioData
+  scenarioId: F-02
+  readyForPlay: 1
+  sourceNotes: "Kaynak: afet_senaryolari_kaynak_12.md. Vatanda\u015F s\xF6zleri kaynaktan aynen al\u0131nm\u0131\u015Ft\u0131r."
+  opening:
+  - text: "Operat\xF6r: 912 Acil, buyrun?"
+    fromOperator: 1
+  - text: "KAZAZEDE: Yavrum Alanya'day\u0131z, denizden acayip bir hortum geliyor sahile do\u011Fru! Ben Suzan... 9. kattay\u0131z, dev gibi cam balkonumuz var, r\xFCzgardan tir tir titriyor camlar!"
+    fromOperator: 0
+  - text: "Operat\xF6r: Suzan Han\u0131m, hemen camlardan uzakla\u015Fman\u0131z gerekiyor."
+    fromOperator: 1
+  - text: "Suzan: Evlad\u0131m ben koli band\u0131 ald\u0131m elime, camlara boydan boya 'X' \u015Feklinde koli band\u0131 yap\u0131\u015Ft\u0131r\u0131yorum ki k\u0131r\u0131lmas\u0131n. Sonra da cam\u0131n kenar\u0131nda bekleyip elimle destek vereyim diyorum!"
+    fromOperator: 0
+  - text: "Suzan: Bantlay\u0131p cam\u0131n kenar\u0131nda n\xF6bet tutay\u0131m de\u011Fil mi r\xFCzgara kar\u015F\u0131?"
+    fromOperator: 0
+  choiceA: "Evet, camlar\u0131 koli band\u0131yla bantlay\u0131n ve i\xE7eriden destek verin."
+  choiceB: "SAKIN CAMIN YANINDA DURMAYIN! Bant cam\u0131 korumaz, evin pencerisiz koridoruna ge\xE7in!"
+  correctChoiceIsB: 1
+  resourceA: 1
+  resourceB: 1
+  dispatchA: 1
+  dispatchB: 1
+  outcomeA:
+  - text: "Suzan: Bantlad\u0131m, elimle de tutuyorum cam\u0131... Aaa r\xFCzgar \xE7ok fena bast\u0131r---"
+    fromOperator: 0
+  outcomeB:
+  - text: "Operat\xF6r: Suzan Han\u0131m cam\u0131 b\u0131rak\u0131n hemen! Koli band\u0131 cam\u0131 ASLA korumaz, k\u0131r\u0131l\u0131rsa \xFCzerinize jilet gibi par\xE7alar u\xE7ar! Perdeleri \xE7ekin, hemen antreye veya banyoya ge\xE7ip kap\u0131y\u0131 kapat\u0131n!"
+    fromOperator: 1
+  - text: "Suzan: Aman yavrum b\u0131rakt\u0131m hemen, koridora ko\u015Ftum... G\xDC\xDC\xDCM! Salon cam\u0131 i\xE7eri patlad\u0131 operat\xF6r! Yan\u0131nda dursayd\u0131m ne olurdu tahmin edemiyorum... Koridorda g\xFCvendeyim \u015Fu an!"
+    fromOperator: 0

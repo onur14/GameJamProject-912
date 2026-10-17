@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 890ab52acda4f5fcdf5830fffec0362b, type: 3}
+  m_Name: Briefing4
+  m_EditorClassIdentifier: TahaYasin.Runtime::PresidentialBriefingData
+  briefingId: president_4
+  afterScenario: 8
+  heading: "B\u0130R SONRAK\u0130 VARD\u0130YAYA"
+  dialogueLines:
+  - "Bu vardiyada {tamamlanan} vaka tamamlad\u0131n\u0131z, {karar} tahsis karar\u0131 verdiniz. Her tercih, s\u0131n\u0131rl\u0131 bir ekibin hangi kap\u0131ya \xF6nce ula\u015Faca\u011F\u0131n\u0131 belirledi. \u015Eimdi bu sorumlulu\u011Fu gelecek vardiyaya devrediyoruz."
+  - "Dayan\u0131\u015Fma, tehlikeye haz\u0131rl\u0131ks\u0131z ko\u015Fmak de\u011Fildir. Kom\u015Fumuzun ihtiyac\u0131n\u0131 bilmek, aile plan\u0131n\u0131 birlikte yapmak ve do\u011Frulanm\u0131\u015F bilgiyi payla\u015Fmak da yard\u0131m\u0131n bir par\xE7as\u0131d\u0131r."
+  - "Bu gece yeni \xE7a\u011Fr\u0131 a\xE7\u0131lmayacak. Yine de son karar\u0131n\u0131z\u0131n kar\u015F\u0131l\u0131\u011F\u0131 var: kalan ekipler ve bu tahsis, sonraki vardiyan\u0131n haz\u0131rl\u0131k durumuna yaz\u0131lacak. Sa\u011Fl\u0131k yede\u011Fini mi, saha dayan\u0131kl\u0131l\u0131\u011F\u0131n\u0131 m\u0131 g\xFC\xE7lendirelim?"
+  planA:
+    title: "SA\u011ELIK N\xD6BET\u0130"
+    rationale: "\u0130tfaiye yede\u011Finden sa\u011Fl\u0131k haz\u0131rl\u0131\u011F\u0131na aktar\u0131m yap\u0131l\u0131r."
+    ambulances: 4
+    firefighters: -2
+    thirdTeam: 1
+  planB:
+    title: "MAHALLE DAYANIKLILI\u011EI"
+    rationale: "Bir ambulansl\u0131k destek, saha haz\u0131rl\u0131\u011F\u0131na aktar\u0131l\u0131r."
+    ambulances: -1
+    firefighters: 3
+    thirdTeam: 3
+  closing: "Devir plan\u0131n\u0131 onayl\u0131yorum. Son da\u011F\u0131l\u0131m rapora i\u015Flendi. Haz\u0131rl\u0131\u011F\u0131m\u0131z\u0131 yar\u0131na ta\u015F\u0131yaca\u011F\u0131z; bu sorumluluk tek bir vardiyayla bitmiyor."
+  endsShift: 1
