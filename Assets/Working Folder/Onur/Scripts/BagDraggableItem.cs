@@ -87,7 +87,7 @@ public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHa
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left || draggedThisPress || dragging || game == null || game.IsResolved) return;
-        Place(currentArea != null && currentArea.IsBagArea ? startingArea : game.BagArea);
+        Place(currentArea != null && currentArea.IsBagArea ? startingArea : game.BagArea, true);
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -98,18 +98,20 @@ public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHa
     {
         if (!dragging || area == null) return;
         dropped = true;
-        Place(area);
+        Place(area, true);
     }
 
-    private void Place(BagDropZone area)
+    private void Place(BagDropZone area, bool evaluate = false)
     {
         if (area == null) return;
+        bool changed = currentArea != area;
         currentArea = area;
         rect.SetParent(area.ContentRoot, false);
         rect.localScale = area.IsBagArea ? Vector3.one * .58f : Vector3.one;
         rect.localRotation = Quaternion.identity;
         rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(.5f, .5f);
         rect.anchoredPosition = area.IsBagArea ? bagPosition : startingPosition;
+        if (evaluate && changed && game != null) game.OnItemPlacement(IsCorrectlyPlaced);
     }
     public void CancelDrag()
     {

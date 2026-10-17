@@ -19,6 +19,7 @@ public sealed class BagMiniGame : MonoBehaviour
     private float lastCheckTime = -10f;
     private BagDropZone bagArea;
     public BagDropZone BagArea => bagArea;
+    public void OnItemPlacement(bool correct) { if (!resolved) window.EvaluateAction(correct); }
     public void HighlightBag(bool active) { if (bagArea != null) bagArea.SetHighlighted(active); }
 
     public RectTransform DragLayer => dragLayer;
@@ -74,7 +75,7 @@ public sealed class BagMiniGame : MonoBehaviour
         {
             resolved = true;
             Succeeded = true;
-            int gainedHealth = window.Award(rewardPoints);
+            int gainedHealth = window.UsesImmediateFeedback ? 0 : window.Award(rewardPoints);
             resultLabel.text = gainedHealth > 0
                 ? $"Tamamlandı  +{gainedHealth}%"
                 : "Tamamlandı";

@@ -10,7 +10,7 @@ public static class TahaYasinDispatchSetup
 {
     public const string Root = "Assets/Working Folder/Taha and Yasin/Onur";
     public const string Game = Root + "/Onur Test Place Integrated.unity";
-    public const string Menu = Root + "/OnurAnaMenu.unity";
+    public const string Menu = "Assets/Working Folder/Taha and Yasin/AnaMenu.unity";
 
     [MenuItem("GameJam/Taha Yasin/Çalışma Sahnesini Aç")]
     public static void OpenGame()

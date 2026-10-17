@@ -2261,6 +2261,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1139218828}
     - target: {fileID: 3588768600692073138, guid: 505bd30df355e7649b3416242d536b8b, type: 3}
+      propertyPath: tablet
+      value:
+      objectReference: {fileID: 845202279}
+    - target: {fileID: 3588768600692073138, guid: 505bd30df355e7649b3416242d536b8b, type: 3}
       propertyPath: cityHealth
       value: 
       objectReference: {fileID: 3000000032}
@@ -2331,7 +2335,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8192962389830134880, guid: 505bd30df355e7649b3416242d536b8b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 845202279}
   m_SourcePrefab: {fileID: 100100000, guid: 505bd30df355e7649b3416242d536b8b, type: 3}
 --- !u!224 &845202276 stripped
 RectTransform:
@@ -2343,12 +2350,31 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3588768600692073138, guid: 505bd30df355e7649b3416242d536b8b, type: 3}
   m_PrefabInstance: {fileID: 845202275}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 845202278}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7abef61534854a07aebd74bdd858d61a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MiniGameWindow
+--- !u!1 &845202278 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8192962389830134880, guid: 505bd30df355e7649b3416242d536b8b, type: 3}
+  m_PrefabInstance: {fileID: 845202275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &845202279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845202278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7f640b0ee012ff41a14995fb8a0b89f, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchTablet
+  window: {fileID: 845202277}
+  font: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
 --- !u!1 &897557626
 GameObject:
   m_ObjectHideFlags: 0
@@ -5528,7 +5554,7 @@ MonoBehaviour:
   summaryLabel: {fileID: 1211164431}
   replayButton: {fileID: 553829692}
   menuButton: {fileID: 147910225}
-  menuSceneName: Assets/Working Folder/Taha and Yasin/Onur/OnurAnaMenu.unity
+  menuSceneName: Assets/Working Folder/Taha and Yasin/AnaMenu.unity
 --- !u!114 &2064887236
 MonoBehaviour:
   m_ObjectHideFlags: 0

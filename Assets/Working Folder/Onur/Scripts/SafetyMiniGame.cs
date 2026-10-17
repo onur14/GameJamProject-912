@@ -90,8 +90,10 @@ public sealed class SafetyMiniGame : MonoBehaviour
     public void SelectOption(int option)
     {
         if (resolved || selectedPoint < 0 || option < 0 || option > 1) return;
+        if (points[selectedPoint].selectedOption == option) return;
         points[selectedPoint].selectedOption = option;
         Refresh();
+        window.EvaluateAction(option == points[selectedPoint].correctOption);
     }
 
     public void Check()
@@ -110,7 +112,7 @@ public sealed class SafetyMiniGame : MonoBehaviour
         {
             resolved = true;
             Succeeded = true;
-            int gainedHealth = window.Award(rewardPoints);
+            int gainedHealth = window.UsesImmediateFeedback ? 0 : window.Award(rewardPoints);
             resultLabel.text = gainedHealth > 0
                 ? $"Tamamlandı  +{gainedHealth}%"
                 : "Tamamlandı";

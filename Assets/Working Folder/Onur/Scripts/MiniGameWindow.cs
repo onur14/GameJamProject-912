@@ -14,6 +14,22 @@ public sealed class MiniGameWindow : MonoBehaviour
     [SerializeField] private OnurConversationView conversationView;
     [SerializeField] private QuickQuestionView quickQuestionView;
 
+    [SerializeField] private DispatchTablet tablet;
+    [SerializeField, Min(1)] private int actionHealthPoints = 2;
+    public bool UsesImmediateFeedback => tablet != null;
+    public CityHealth Health => cityHealth;
+    public GameObject BagPanel => bagGame.gameObject;
+    public GameObject SafetyPanel => safetyGame.gameObject;
+    public Button BagEntryButton => bagEntryButton;
+    public Button SafetyEntryButton => safetyEntryButton;
+    public void EvaluateAction(bool correct)
+    {
+        if (tablet == null || cityHealth == null || cityHealth.IsGameOver) return;
+        int before = cityHealth.HealthPercent;
+        if (correct) cityHealth.AddHealth(actionHealthPoints); else cityHealth.ApplyDamage(actionHealthPoints);
+        tablet.Feedback(cityHealth.HealthPercent - before, correct);
+    }
+
     private bool wasPhonePaused;
     private bool wasConversationPaused;
     private bool wasQuickQuestionPaused;
@@ -44,7 +60,17 @@ public sealed class MiniGameWindow : MonoBehaviour
 
     private void Open(GameObject panel)
     {
-        if (isOpen || cityHealth == null || cityHealth.IsGameOver) return;
+        if (cityHealth == null || cityHealth.IsGameOver) return;
+        if (tablet != null)
+        {
+            isOpen = true;
+            bagGame.CancelDrags();
+            bagGame.gameObject.SetActive(panel == bagGame.gameObject);
+            safetyGame.gameObject.SetActive(panel == safetyGame.gameObject);
+            tablet.ShowGame(panel);
+            return;
+        }
+        if (isOpen) return;
         isOpen = true;
         wasPhonePaused = phone != null && phone.IsPaused;
         wasConversationPaused = conversationView != null && conversationView.IsPaused;
@@ -67,6 +93,7 @@ public sealed class MiniGameWindow : MonoBehaviour
         overlay.gameObject.SetActive(false);
         bagGame.gameObject.SetActive(false);
         safetyGame.gameObject.SetActive(false);
+        if (tablet != null) { tablet.ShowMenu(); return; }
         if (phone != null) phone.SetPaused(wasPhonePaused);
         if (conversationView != null) conversationView.SetPaused(wasConversationPaused);
         if (quickQuestionView != null) quickQuestionView.SetPaused(wasQuickQuestionPaused);
