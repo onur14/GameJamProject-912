@@ -564,9 +564,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8192962389830134880}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 602fd8c401f30c3bb3bd2cd49e396ecc, type: 3}
+  m_Script: {fileID: 11500000, guid: 7abef61534854a07aebd74bdd858d61a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::MiniGameWindow
+  m_EditorClassIdentifier: Assembly-CSharp::MiniGameWindow
   bagEntryButton: {fileID: 2779284408731320650}
   safetyEntryButton: {fileID: 4011214826874979130}
   overlay: {fileID: 7173384632393127441}
@@ -829,9 +829,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7de6911d6ccb8a46837ffd872382194, type: 3}
+  m_Script: {fileID: 11500000, guid: 4648dd46a20c4463aec870107403313e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::BagMiniGame
+  m_EditorClassIdentifier: Assembly-CSharp::BagMiniGame
 --- !u!1001 &4790074292076746873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -950,6 +950,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2f99af9886b502cd813b124c3126403, type: 3}
+  m_Script: {fileID: 11500000, guid: 129e7b4b486c4534a4a30f5702df7479, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::SafetyMiniGame
+  m_EditorClassIdentifier: Assembly-CSharp::SafetyMiniGame

@@ -2353,9 +2353,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 845202278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 602fd8c401f30c3bb3bd2cd49e396ecc, type: 3}
+  m_Script: {fileID: 11500000, guid: 7abef61534854a07aebd74bdd858d61a, type: 3}
   m_Name: 
-<<<<<<< Updated upstream
   m_EditorClassIdentifier: Assembly-CSharp::MiniGameWindow
 --- !u!1 &845202278 stripped
 GameObject:
@@ -2376,9 +2375,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DispatchTablet
   window: {fileID: 845202277}
   font: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-=======
-  m_EditorClassIdentifier: TahaYasin.Runtime::MiniGameWindow
->>>>>>> Stashed changes
 --- !u!1 &897557626
 GameObject:
   m_ObjectHideFlags: 0
@@ -2756,28 +2752,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 1094786582}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbd3ebbbda0a0e3c32008b149b550f5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 760220cac1653164780d33e2c6373608, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::PresidentialBriefingManager
+  m_EditorClassIdentifier: Assembly-CSharp::PresidentialBriefingManager
   resources: {fileID: 3000000012}
   conversation: {fileID: 3000000010}
   phone: {fileID: 1139218828}
   view: {fileID: 1094786585}
   cityHealth: {fileID: 3000000032}
   scenarioOrder:
-  - {fileID: 11400000, guid: cfd08580f963b04eaf865cf63df9c15d, type: 2}
-  - {fileID: 11400000, guid: 20623fd89583850596e8de2da9209d28, type: 2}
-  - {fileID: 11400000, guid: 9e6a3465c2307ff6c3607ade3f314323, type: 2}
-  - {fileID: 11400000, guid: 2f32997106e2ba0be0a3503a62985ef2, type: 2}
-  - {fileID: 11400000, guid: 3f9106047ecc393e5eba3005f7c94c7c, type: 2}
-  - {fileID: 11400000, guid: b908673c3d461ed80f5fa1fb489330a6, type: 2}
-  - {fileID: 11400000, guid: 7cd43b202916693d9164f9f04d8bac97, type: 2}
-  - {fileID: 11400000, guid: c502bbcbffd3793ac5292027805e9e09, type: 2}
+  - {fileID: 11400000, guid: 04d2fc80345d38140894fdd61f9feb65, type: 2}
+  - {fileID: 11400000, guid: bad312ca35491ae4c837bb7426f94725, type: 2}
+  - {fileID: 11400000, guid: efc6af8b1eddc4540992e3f3c4dd77dd, type: 2}
+  - {fileID: 11400000, guid: b8de8c8270707c84c9e2cb1c4b507c2b, type: 2}
+  - {fileID: 11400000, guid: d4534f6c60758bc4e8b451d63bba4cd5, type: 2}
+  - {fileID: 11400000, guid: 165a5f3b0cf2ce241abbb06e4c4f58ba, type: 2}
+  - {fileID: 11400000, guid: fd08a42fb2b962447b4292be97bbb155, type: 2}
+  - {fileID: 11400000, guid: 8c3cd32b4f04042439a7378f14b735f5, type: 2}
   briefings:
-  - {fileID: 11400000, guid: e8e320d777234a3711100d43826b6ba0, type: 2}
-  - {fileID: 11400000, guid: 9a6b48b3eb78d50ecc9bb9f66760d66b, type: 2}
-  - {fileID: 11400000, guid: 351cd9cfb6c048f1a9083bc2774f08be, type: 2}
-  - {fileID: 11400000, guid: 133dfc6f21c3fc8426f8cee54ae62ecb, type: 2}
+  - {fileID: 11400000, guid: 28be2fa8427ca564488655c69e4f7930, type: 2}
+  - {fileID: 11400000, guid: 00d4b2a77095ecc4c87679bdabd0802b, type: 2}
+  - {fileID: 11400000, guid: 022dbfb5bda63974dbd66f9cefaa7289, type: 2}
+  - {fileID: 11400000, guid: 8b35470c4f2de6844bccae6f7c7a8025, type: 2}
   ScenarioRequested:
     m_PersistentCalls:
       m_Calls: []
@@ -2791,9 +2787,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1094786582}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 923e22909c6393143e1d22ca71581c52, type: 3}
+  m_Script: {fileID: 11500000, guid: 583bfa5c5d8ea94469b12c00e3794f8b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::PresidentialBroadcastView
+  m_EditorClassIdentifier: Assembly-CSharp::PresidentialBroadcastView
   presidentPortrait: {fileID: 21300000, guid: 000a63ed165edf9468f1f04e30cd7437, type: 3}
   broadcastFont: {fileID: 11400000, guid: f997be7d911fe670b4245a46ac6cfdc3, type: 2}
   charactersPerSecond: 120
@@ -2932,9 +2928,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1139218826}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e09e8aa6590b3274a81ae6117357af81, type: 3}
+  m_Script: {fileID: 11500000, guid: b4609c63dd8363b4b94e776dd1e2befd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::DispatchCallFlow
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchCallFlow
   focusRoot: {fileID: 287842865}
   roomArtwork: {fileID: 1497108762}
   surroundingDim: {fileID: 1516668908}
@@ -3418,9 +3414,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1371563888}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 702bf962f0d59aefdb992d2bb212dc43, type: 3}
+  m_Script: {fileID: 11500000, guid: 64f5ceac528e4ce4ca74142cdb48749b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::DispatchResourceHud
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchResourceHud
   resources: {fileID: 3000000012}
   font: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
   feedbackDuration: 0.35
@@ -3625,9 +3621,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1452182747}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e14bc9bac797af589d3335ed81feca2, type: 3}
+  m_Script: {fileID: 11500000, guid: 702aa275b410eb64880405c3f82b27ad, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::CallerInfoView
+  m_EditorClassIdentifier: Assembly-CSharp::CallerInfoView
   nameLabel: {fileID: 2131746270}
   locationLabel: {fileID: 505306637}
   emergencyLabel: {fileID: 1052634214}
@@ -4671,9 +4667,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1835180692}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 244569328e3e6dc1149732a121e82699, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e9051e17735e2843b769478c82de2a4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::QuickQuestionView
+  m_EditorClassIdentifier: Assembly-CSharp::QuickQuestionView
   font: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
   audioSource: {fileID: 0}
   arrivalClip: {fileID: 0}
@@ -4732,9 +4728,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1835180692}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c5d0a1a9457be959f1190151eed9d77, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e75ed7a3f823f14283e86147e2e1a96, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::QuickQuestionManager
+  m_EditorClassIdentifier: Assembly-CSharp::QuickQuestionManager
   resources: {fileID: 3000000012}
   conversation: {fileID: 3000000010}
   phone: {fileID: 1139218828}
@@ -5546,9 +5542,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2062770274}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4b888e7e38a051660c94779481def0c, type: 3}
+  m_Script: {fileID: 11500000, guid: 866bedad5f2923041a41cd59cc5523cb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::RunResultView
+  m_EditorClassIdentifier: Assembly-CSharp::RunResultView
   briefing: {fileID: 1094786584}
   health: {fileID: 3000000032}
   minigames: {fileID: 845202277}
@@ -5582,9 +5578,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414193898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0648507808c33a06e5c2faf3401951c4, type: 3}
+  m_Script: {fileID: 11500000, guid: a276cda150f842c180a7a27743901c83, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::DispatchVisualFeedback
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchVisualFeedback
   conversation: {fileID: 3000000010}
   phone: {fileID: 1139218828}
   conversationPanel: {fileID: 419692063}
@@ -6016,9 +6012,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1118292836}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05f8957729767a30a7171a98ef9eb37e, type: 3}
+  m_Script: {fileID: 11500000, guid: db8c9a3371f7cea40b7f0aabb39ac639, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::OyunAkisiOnur
+  m_EditorClassIdentifier: Assembly-CSharp::OyunAkisiOnur
   GelenSoru: {fileID: 0}
   GelenCevap: {fileID: 0}
   Kabuletti: {fileID: 0}
@@ -6044,9 +6040,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21c3519b50adaf419c5ca84e786629b1, type: 3}
+  m_Script: {fileID: 11500000, guid: 72a1fb3edfbf4c609a632cfdf643168a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::OnurConversationView
+  m_EditorClassIdentifier: Assembly-CSharp::OnurConversationView
 --- !u!114 &3000000012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6056,9 +6052,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414193898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bba3c98ac091882ace44d6718073953f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e7d7be511f64d7ba9caf6a334a3bec8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::DispatchResources
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchResources
   initialFirefighters: 5
   initialAmbulances: 5
   initialPolice: 6
@@ -6485,9 +6481,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414193898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3412dc0c1e12b31cc57ca8a39f35f154, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c1e792ca33f4ce78e5120dd0479921a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::CityHealth
+  m_EditorClassIdentifier: Assembly-CSharp::CityHealth
   conversation: {fileID: 3000000010}
   briefing: {fileID: 1094786584}
   phone: {fileID: 1139218828}

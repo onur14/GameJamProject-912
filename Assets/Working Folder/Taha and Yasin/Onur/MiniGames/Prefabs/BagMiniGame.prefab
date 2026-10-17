@@ -564,9 +564,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2358362859401101249}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7de6911d6ccb8a46837ffd872382194, type: 3}
+  m_Script: {fileID: 11500000, guid: 4648dd46a20c4463aec870107403313e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::BagMiniGame
+  m_EditorClassIdentifier: Assembly-CSharp::BagMiniGame
   startingAttempts: 3
   rewardPoints: 10
   window: {fileID: 0}
@@ -910,9 +910,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4680567186029292931}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9267a3880ac0ede394cf96aaf7ad6d53, type: 3}
+  m_Script: {fileID: 11500000, guid: 81c098dc5b7a4ce43ab39f6ccd26024c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::MiniGameCheckGraphic
+  m_EditorClassIdentifier: Assembly-CSharp::MiniGameCheckGraphic
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -1150,9 +1150,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5002417099316589899}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b597113d0628a0ab1e7f818c6de95cd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 412650497f39470e9b8f3fab856bc06c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::BagDropZone
+  m_EditorClassIdentifier: Assembly-CSharp::BagDropZone
   isBagArea: 0
   contentRoot: {fileID: 9037894968622014003}
 --- !u!114 &1926619539185295487
@@ -1696,9 +1696,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6598605335867655801}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b597113d0628a0ab1e7f818c6de95cd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 412650497f39470e9b8f3fab856bc06c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::BagDropZone
+  m_EditorClassIdentifier: Assembly-CSharp::BagDropZone
   isBagArea: 1
   contentRoot: {fileID: 5526807986611326971}
 --- !u!1 &8827984912814406985
@@ -2091,9 +2091,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e434efb5e7ebaaea038d26c45019cffd, type: 3}
+  m_Script: {fileID: 11500000, guid: 01c914322daa4e61bf31173e5d9523d9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::BagDraggableItem
+  m_EditorClassIdentifier: Assembly-CSharp::BagDraggableItem
 --- !u!224 &3211816954140129442 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3094620259703452821, guid: 837a1778481645c4498071771c7480de, type: 3}
@@ -2297,9 +2297,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e434efb5e7ebaaea038d26c45019cffd, type: 3}
+  m_Script: {fileID: 11500000, guid: 01c914322daa4e61bf31173e5d9523d9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::BagDraggableItem
+  m_EditorClassIdentifier: Assembly-CSharp::BagDraggableItem
 --- !u!1001 &3270518830977639080
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2498,9 +2498,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e434efb5e7ebaaea038d26c45019cffd, type: 3}
+  m_Script: {fileID: 11500000, guid: 01c914322daa4e61bf31173e5d9523d9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::BagDraggableItem
+  m_EditorClassIdentifier: Assembly-CSharp::BagDraggableItem
 --- !u!1001 &3502517787541860942
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2695,9 +2695,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e434efb5e7ebaaea038d26c45019cffd, type: 3}
+  m_Script: {fileID: 11500000, guid: 01c914322daa4e61bf31173e5d9523d9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::BagDraggableItem
+  m_EditorClassIdentifier: Assembly-CSharp::BagDraggableItem
 --- !u!1001 &6344332835715449515
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2887,9 +2887,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e434efb5e7ebaaea038d26c45019cffd, type: 3}
+  m_Script: {fileID: 11500000, guid: 01c914322daa4e61bf31173e5d9523d9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::BagDraggableItem
+  m_EditorClassIdentifier: Assembly-CSharp::BagDraggableItem
 --- !u!224 &8284887887190914622 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3094620259703452821, guid: 837a1778481645c4498071771c7480de, type: 3}
@@ -3093,6 +3093,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e434efb5e7ebaaea038d26c45019cffd, type: 3}
+  m_Script: {fileID: 11500000, guid: 01c914322daa4e61bf31173e5d9523d9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::BagDraggableItem
+  m_EditorClassIdentifier: Assembly-CSharp::BagDraggableItem

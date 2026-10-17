@@ -345,9 +345,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 390392280}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05f8957729767a30a7171a98ef9eb37e, type: 3}
+  m_Script: {fileID: 11500000, guid: db8c9a3371f7cea40b7f0aabb39ac639, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: TahaYasin.Runtime::OyunAkisiOnur
+  m_EditorClassIdentifier: Assembly-CSharp::OyunAkisiOnur
   GelenSoru: {fileID: 67447199}
   GelenCevap: {fileID: 563837789}
   Kabuletti: {fileID: 1901206787}
@@ -1129,7 +1129,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 390392284}
-        m_TargetAssemblyTypeName: OyunAkisiOnur, TahaYasin.Runtime
+        m_TargetAssemblyTypeName: OyunAkisiOnur, Assembly-CSharp
         m_MethodName: KabulEdildi
         m_Mode: 1
         m_Arguments:
@@ -1262,7 +1262,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 390392284}
-        m_TargetAssemblyTypeName: OyunAkisiOnur, TahaYasin.Runtime
+        m_TargetAssemblyTypeName: OyunAkisiOnur, Assembly-CSharp
         m_MethodName: Reddedildi
         m_Mode: 1
         m_Arguments:
