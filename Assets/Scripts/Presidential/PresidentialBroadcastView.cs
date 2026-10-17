@@ -9,6 +9,10 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
     public Sprite presidentPortrait;
     public TMP_FontAsset broadcastFont;
     [Min(0)] public float charactersPerSecond = 38;
+    [SerializeField, Range(6,10)] private float speakingFramesPerSecond = 8;
+    private BroadcastMouthGraphic mouth;
+    public bool IsSpeaking { get; private set; }
+    private static readonly int[] MouthFrames = {0,1,2,1,0,1,1,2};
     public string thirdResourceLabel = "Kurtarma";
     public Action AdvanceRequested;
     public Action<int> OfferSelected;
@@ -77,6 +81,8 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         header = Text("Başlık", board, new Vector2(.035f,.84f), new Vector2(.965f,.9f), 25, Amber);
         var portrait = Panel("Başkan Yayını", board, new Vector2(.035f,.465f), new Vector2(.49f,.825f), Color.white);
         portrait.sprite = presidentPortrait; portrait.preserveAspect = true; portrait.raycastTarget = false;
+        mouth=Rect("Başkan Konuşma",portrait.transform,Vector2.zero,Vector2.one).gameObject.AddComponent<BroadcastMouthGraphic>();
+        mouth.Portrait=portrait;mouth.raycastTarget=false;
         if (!presidentPortrait)
         {
             portrait.color = Ink;
@@ -114,6 +120,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
     {
         if (typing != null) StopCoroutine(typing);
         typing = null;
+        StopSpeaking();
         if (group != null) group.gameObject.SetActive(false);
     }
     public void Line(string line, string resources)
@@ -126,6 +133,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         advance.gameObject.SetActive(true); stock.text = resources;
         footer.text = "RESMÎ BİLGİLENDİRME  /  Tıklayarak ilerleyin";
         if (typing != null) StopCoroutine(typing);
+        StopSpeaking();
         completeLine = line; body.text = line; body.maxVisibleCharacters = 0;
         typing = StartCoroutine(Type());
     }
@@ -133,14 +141,20 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
     {
         body.ForceMeshUpdate(); int count = body.textInfo.characterCount;
         if (charactersPerSecond <= 0) { body.maxVisibleCharacters = int.MaxValue; typing = null; yield break; }
-        float visible = 0;
+        float visible = 0, speakingTime = 0;
+        IsSpeaking = count > 0;
         while (visible < count)
         {
+            if(mouth)mouth.Frame=MouthFrames[(int)(speakingTime*speakingFramesPerSecond)%MouthFrames.Length];
+            speakingTime+=Time.unscaledDeltaTime;
             visible += Time.unscaledDeltaTime * charactersPerSecond;
             body.maxVisibleCharacters = (int)visible; yield return null;
         }
         body.maxVisibleCharacters = int.MaxValue; typing = null;
+        StopSpeaking();
     }
+    private void StopSpeaking(){IsSpeaking=false;if(mouth)mouth.Frame=0;}
+    private void OnDisable(){if(typing!=null)StopCoroutine(typing);typing=null;StopSpeaking();}
     private bool AcceptClick()
     {
         if (Time.unscaledTime - lastClick < .3f) return false;
@@ -152,6 +166,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         if (typing != null)
         {
             StopCoroutine(typing); typing = null; body.text = completeLine;
+            StopSpeaking();
             body.maxVisibleCharacters = int.MaxValue; return;
         }
         AdvanceRequested?.Invoke();
@@ -168,6 +183,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
     public void Offers(ResourceOffer a, ResourceOffer b, DispatchResources r)
     {
         if (typing != null) StopCoroutine(typing);
+        StopSpeaking();
         typing = null; showingOffers = true; body.maxVisibleCharacters = int.MaxValue;
         body.text = "KAYNAK TAHSİS KARARI\n\nİki plandan yalnızca biri uygulanabilir. Kararınız sonraki müdahalelerin kapasitesini belirleyecek.";
         stock.text = Stock(r); advance.gameObject.SetActive(false); footer.text = "Bir plan seçin. Tahsis geri alınamaz.";
@@ -197,6 +213,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         Line(report, resources);
         if (typing != null) StopCoroutine(typing);
         typing = null; body.maxVisibleCharacters = int.MaxValue;
+        StopSpeaking();
         body.rectTransform.anchorMin = new Vector2(.52f,.12f); body.rectTransform.anchorMax = new Vector2(.965f,.825f);
         body.fontSize = 23;
         stock.rectTransform.anchorMin = new Vector2(.035f,.10f); stock.rectTransform.anchorMax = new Vector2(.49f,.43f);

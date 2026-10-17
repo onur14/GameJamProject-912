@@ -41,6 +41,16 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
 
     public CallState State { get; private set; } = CallState.EnteringRoom;
     public float FirstRingDelay => firstRingDelay;
+    public event System.Action FocusCompleted;
+    [Header("Phone visual feedback")]
+    [SerializeField, Range(0, 1f)] private float hoverOpacity = .72f;
+    [SerializeField, Range(.1f, .2f)] private float hoverDuration = .14f;
+    [Tooltip("Only the ring marks rotate: the phone is baked into the artwork.")]
+    [SerializeField, Range(0, 4)] private float ringRotation = 2.5f;
+    [SerializeField, Range(.7f, 1.6f)] private float ringCycle = 1.25f;
+    private PhoneHoverGraphic hoverGraphic;
+    private Coroutine hoverRoutine;
+    private Quaternion ringRestRotation;
     private Image hitImage;
     private Coroutine ringingRoutine;
     private bool hovered;
@@ -52,6 +62,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
     public void SetInteractionLocked(bool locked)
     {
         InteractionLocked = locked;
+        if (locked) SetHover(false);
         if (hitImage) hitImage.raycastTarget = !locked && State == CallState.IncomingCall;
         if (conversationGroup)
         {
@@ -76,6 +87,17 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
         SetConversation(0, false);
         ringIndicator.alpha = 0;
         ringIndicator.blocksRaycasts = false;
+        ringRestRotation = ringIndicator.transform.localRotation;
+        var hoverObject = new GameObject("PhoneHover", typeof(RectTransform), typeof(CanvasRenderer), typeof(PhoneHoverGraphic));
+        hoverObject.transform.SetParent(transform, false);
+        hoverObject.transform.SetAsFirstSibling();
+        hoverGraphic = hoverObject.GetComponent<PhoneHoverGraphic>();
+        hoverGraphic.rectTransform.anchorMin = Vector2.zero;
+        hoverGraphic.rectTransform.anchorMax = Vector2.one;
+        hoverGraphic.rectTransform.offsetMin = hoverGraphic.rectTransform.offsetMax = Vector2.zero;
+        hoverGraphic.Polygon = phoneHitPolygon;
+        hoverGraphic.color = new Color(.65f, .79f, .84f, 0);
+        hoverGraphic.raycastTarget = false;
         surroundingDim.alpha = 0;
         surroundingDim.blocksRaycasts = false;
         if (ringAudioSource)
@@ -95,7 +117,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
         yield return new WaitForSecondsRealtime(Mathf.Max(0, firstRingDelay));
         if (!enabled || State != CallState.Idle) yield break;
         State = CallState.IncomingCall;
-        hitImage.raycastTarget = true;
+        hitImage.raycastTarget = !InteractionLocked;
         if (ringAudioSource && (ringClip || ringAudioSource.clip))
         {
             if (ringClip) ringAudioSource.clip = ringClip;
@@ -112,9 +134,11 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
         while (State == CallState.IncomingCall)
         {
             // A quiet two-pulse cadence; only the small ring marks move in opacity.
-            float phase = elapsed % 1.25f;
+            float phase = (elapsed % ringCycle) / ringCycle * 1.25f;
             bool pulse = phase < 0.19f || (phase > 0.32f && phase < 0.51f);
             ringIndicator.alpha = pulse ? (hovered ? 0.95f : 0.70f) : 0.06f;
+            ringIndicator.transform.localRotation = ringRestRotation * Quaternion.Euler(0, 0,
+                pulse ? Mathf.Sin(phase * Mathf.PI * 32) * ringRotation : 0);
             elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
@@ -124,17 +148,36 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
     {
         if (eventData.button == PointerEventData.InputButton.Left) AnswerPhone();
     }
-    public void OnPointerEnter(PointerEventData eventData) => hovered = State == CallState.IncomingCall;
-    public void OnPointerExit(PointerEventData eventData) => hovered = false;
+    public void OnPointerEnter(PointerEventData eventData) => SetHover(!InteractionLocked && State == CallState.IncomingCall);
+    public void OnPointerExit(PointerEventData eventData) => SetHover(false);
+
+    private void SetHover(bool value)
+    {
+        hovered = value;
+        if (!hoverGraphic || !isActiveAndEnabled) return;
+        if (hoverRoutine != null) StopCoroutine(hoverRoutine);
+        hoverRoutine = StartCoroutine(FadeHover(value ? hoverOpacity : 0));
+    }
+    private IEnumerator FadeHover(float target)
+    {
+        Color c = hoverGraphic.color; float start = c.a;
+        for (float t = 0; t < hoverDuration; t += Time.unscaledDeltaTime)
+        {
+            c.a = Mathf.Lerp(start, target, Mathf.SmoothStep(0, 1, t / hoverDuration));
+            hoverGraphic.color = c; yield return null;
+        }
+        c.a = target; hoverGraphic.color = c; hoverRoutine = null;
+    }
 
     public void AnswerPhone()
     {
         if (InteractionLocked || !isActiveAndEnabled || State != CallState.IncomingCall || SceneFadeTransition.IsTransitioning) return;
         State = CallState.Focusing; // Lock before audio, visuals or coroutines are touched.
         hitImage.raycastTarget = false;
-        hovered = false;
+        SetHover(false);
         if (ringingRoutine != null) { StopCoroutine(ringingRoutine); ringingRoutine = null; }
         ringIndicator.alpha = 0;
+        ringIndicator.transform.localRotation = ringRestRotation;
         if (ringAudioSource) ringAudioSource.Stop();
         StartCoroutine(FocusComputer());
     }
@@ -156,6 +199,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
         ApplyFocus();
         SetConversation(1, true);
         State = CallState.Conversation;
+        FocusCompleted?.Invoke();
     }
 
     private void LateUpdate()
@@ -217,5 +261,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
         if (hitImage) hitImage.raycastTarget = false;
         if (ringAudioSource) ringAudioSource.Stop();
         if (ringIndicator) ringIndicator.alpha = 0;
+        if (ringIndicator) ringIndicator.transform.localRotation = ringRestRotation;
+        if (hoverGraphic) { var c = hoverGraphic.color; c.a = 0; hoverGraphic.color = c; }
     }
 }

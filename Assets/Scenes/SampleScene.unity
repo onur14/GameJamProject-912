@@ -2323,7 +2323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DispatchResourceHud
   resources: {fileID: 1414193903}
   font: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
-  feedbackDuration: 0.35
+  feedbackDuration: 0.22
 --- !u!223 &1058868944
 Canvas:
   m_ObjectHideFlags: 0
@@ -3641,6 +3641,7 @@ GameObject:
   - component: {fileID: 1414193900}
   - component: {fileID: 1414193899}
   - component: {fileID: 1414193903}
+  - component: {fileID: 2099120001}
   m_Layer: 5
   m_Name: DispatchRoomCanvas
   m_TagString: Untagged
@@ -3755,9 +3756,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7d7be511f64d7ba9caf6a334a3bec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DispatchResources
-  initialFirefighters: 10
-  initialAmbulances: 10
-  initialPolice: 10
+  initialFirefighters: 5
+  initialAmbulances: 5
+  initialPolice: 5
   firefightersText: {fileID: 1201620349}
   ambulancesText: {fileID: 195541453}
   policeText: {fileID: 2132215629}
@@ -5142,3 +5143,24 @@ SceneRoots:
   - {fileID: 1414193902}
   - {fileID: 1118292839}
   - {fileID: 1130956321}
+--- !u!114 &2099120001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414193898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a276cda150f842c180a7a27743901c83, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::DispatchVisualFeedback
+  conversation: {fileID: 1130956320}
+  phone: {fileID: 1139218828}
+  conversationPanel: {fileID: 1848930338}
+  shakePixels: 2
+  wrongDuration: 0.32
+  wrongOpacity: 0.1
+  correctDuration: 0.26
+  coolOpacity: 0.065
+  activationDuration: 0.28

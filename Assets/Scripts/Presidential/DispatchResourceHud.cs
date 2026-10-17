@@ -7,15 +7,26 @@ public sealed class DispatchResourceHud : MonoBehaviour
 {
     [SerializeField] private DispatchResources resources;
     [SerializeField] private TMP_FontAsset font;
-    [SerializeField, Range(.2f,.5f)] private float feedbackDuration = .35f;
+    [SerializeField, Range(.15f,.25f)] private float feedbackDuration = .22f;
+    [SerializeField, Min(1)] private int lowResourceThreshold = 3;
+    [SerializeField, Range(.7f,1.1f)] private float warningCycle = .9f;
+    [SerializeField, Range(1.08f,1.15f)] private float numberPulseScale = 1.09f;
     private readonly TMP_Text[] numbers=new TMP_Text[3], deltas=new TMP_Text[3], warnings=new TMP_Text[3];
     private readonly int[] previous=new int[3];
     private readonly float[] feedbackUntil=new float[3];
+    private readonly Color[] emphasis=new Color[3];
+    private readonly Color amber=new Color(.83f,.63f,.32f), critical=new Color(.77f,.35f,.30f), cool=new Color(.77f,.9f,.96f);
+    private Coroutine animation;
     public TMP_Text[] Numbers => numbers;
     private readonly Color normal=new Color(.84f,.9f,.86f);
     private void Awake(){Build();}
     private void OnEnable(){if(resources)resources.Changed+=Changed;Refresh(false);}
-    private void OnDisable(){if(resources)resources.Changed-=Changed;}
+    private void OnDisable()
+    {
+        if(resources)resources.Changed-=Changed;
+        if(animation!=null)StopCoroutine(animation);animation=null;
+        for(int i=0;i<3;i++)if(numbers[i]){numbers[i].rectTransform.localScale=Vector3.one;numbers[i].color=normal;deltas[i].text=string.Empty;warnings[i].alpha=1;}
+    }
     private TMP_Text Text(string name,Transform parent,Vector2 min,Vector2 max,float size,Color color)
     {
         var go=new GameObject(name,typeof(RectTransform),typeof(TextMeshProUGUI));var rect=(RectTransform)go.transform;rect.SetParent(parent,false);
@@ -34,8 +45,14 @@ public sealed class DispatchResourceHud : MonoBehaviour
         {
             float top=.875f-i*.28f;
             Text(labels[i],transform,new Vector2(.07f,top-.08f),new Vector2(.94f,top),17,normal).text=labels[i];
-            numbers[i]=Text(labels[i]+" Sayısı",transform,new Vector2(.08f,top-.21f),new Vector2(.53f,top-.08f),38,normal);
-            deltas[i]=Text("Değişim",transform,new Vector2(.55f,top-.19f),new Vector2(.96f,top-.09f),24,normal);
+            var iconObject=new GameObject(labels[i]+" İkonu",typeof(RectTransform),typeof(CanvasRenderer),typeof(DispatchUnitIcon));
+            iconObject.transform.SetParent(transform,false);
+            var icon=iconObject.GetComponent<DispatchUnitIcon>();icon.UnitIndex=i;icon.raycastTarget=false;icon.color=new Color(.69f,.81f,.86f);
+            var iconRect=icon.rectTransform;iconRect.anchorMin=new Vector2(.07f,top-.21f);iconRect.anchorMax=new Vector2(.33f,top-.08f);
+            iconRect.offsetMin=iconRect.offsetMax=Vector2.zero;
+            numbers[i]=Text(labels[i]+" Sayısı",transform,new Vector2(.40f,top-.21f),new Vector2(.74f,top-.08f),38,normal);
+            numbers[i].enableAutoSizing=true;numbers[i].fontSizeMin=22;numbers[i].fontSizeMax=38;
+            deltas[i]=Text("Değişim",transform,new Vector2(.76f,top-.19f),new Vector2(.98f,top-.09f),18,normal);
             warnings[i]=Text("Yetersizlik",transform,new Vector2(.07f,top-.27f),new Vector2(.96f,top-.21f),14,new Color(1,.46f,.35f));
         }
     }
@@ -43,23 +60,45 @@ public sealed class DispatchResourceHud : MonoBehaviour
     private void Refresh(bool animate)
     {
         if(!resources)return;Build();
-        int[] values={resources.Ambulances,resources.Firefighters,resources.Police};
         for(int i=0;i<3;i++)
         {
-            int delta=values[i]-previous[i];numbers[i].text=values[i].ToString();
-            warnings[i].text=values[i]==0?"EKİP KALMADI":string.Empty;
+            int value=i==0?resources.Ambulances:i==1?resources.Firefighters:resources.Police;
+            int delta=value-previous[i];numbers[i].text=value.ToString();
+            warnings[i].text=value==0?"! EKİP KALMADI":value<lowResourceThreshold?"! AZ EKİP":string.Empty;
+            warnings[i].color=value==0?critical:amber;
             if(animate&&delta!=0)
             {
                 feedbackUntil[i]=Time.unscaledTime+feedbackDuration;
-                numbers[i].color=deltas[i].color=delta>0?new Color(.45f,1,.63f):new Color(1,.42f,.32f);
+                emphasis[i]=deltas[i].color=delta>0?cool:amber;
                 deltas[i].text=delta>0?"+"+delta:delta.ToString();
             }
-            previous[i]=values[i];
+            previous[i]=value;
         }
+        if(animation==null&&isActiveAndEnabled)animation=StartCoroutine(Animate());
     }
-    private void Update()
+    private System.Collections.IEnumerator Animate()
     {
-        for(int i=0;i<3;i++)if(numbers[i]&&Time.unscaledTime>=feedbackUntil[i])
-        {numbers[i].color=previous[i]==0?new Color(1,.46f,.35f):normal;deltas[i].text=string.Empty;}
+        // Runs only while a count is changing or a stock warning is present.
+        bool active;
+        do
+        {
+            active=false;
+            for(int i=0;i<3;i++)
+            {
+                float remaining=Mathf.Clamp01((feedbackUntil[i]-Time.unscaledTime)/feedbackDuration);
+                float pulse=Mathf.Sin((1-remaining)*Mathf.PI);
+                numbers[i].rectTransform.localScale=Vector3.one*(1+(numberPulseScale-1)*pulse);
+                numbers[i].color=Color.Lerp(previous[i]==0?critical:normal,emphasis[i],pulse);
+                if(remaining<=0)deltas[i].text=string.Empty;else active=true;
+                if(previous[i]<lowResourceThreshold)
+                {
+                    float cycle=warningCycle*(previous[i]==0?1.15f:1);
+                    warnings[i].alpha=.45f+.55f*(.5f-.5f*Mathf.Cos(Time.unscaledTime/cycle*Mathf.PI*2));
+                    active=true;
+                }
+            }
+            yield return null;
+        }while(active);
+        animation=null;
     }
 }

@@ -33,6 +33,7 @@ public class OyunAkisiOnur : MonoBehaviour
     private TextMeshProUGUI uyariYazisi;
     private Coroutine geriSayimRutini;
     public event System.Action<int> ScenarioCompleted;
+    public event System.Action<bool> DecisionResolved;
     public int ScenarioRevision { get; private set; }
     public bool LastDecisionCorrect { get; private set; }
     public bool ManagedShift { get; set; }
@@ -293,6 +294,7 @@ public class OyunAkisiOnur : MonoBehaviour
         if (!SpendForChoice(false)) return;
         LastDecisionCorrect = currentScenario != null && !currentScenario.correctChoiceIsB;
         secimBekleniyor = false;
+        DecisionResolved?.Invoke(LastDecisionCorrect);
         GeriSayimiDurdur();
         ButonlariGizle();
         StartCoroutine(currentScenario != null ? DataOutcome(false) : YanlisSecim());
@@ -304,6 +306,7 @@ public class OyunAkisiOnur : MonoBehaviour
         if (!SpendForChoice(true)) return;
         LastDecisionCorrect = currentScenario == null || currentScenario.correctChoiceIsB;
         secimBekleniyor = false;
+        DecisionResolved?.Invoke(LastDecisionCorrect);
         GeriSayimiDurdur();
         ButonlariGizle();
         StartCoroutine(currentScenario != null ? DataOutcome(true) : DogruSecim());

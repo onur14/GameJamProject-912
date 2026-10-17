@@ -110,8 +110,9 @@ public sealed class OnurConversationView : MonoBehaviour
         Anchor(effect.rectTransform,new Vector2(.055f,.025f),new Vector2(.945f,.25f));
         effect.enableAutoSizing=true;effect.fontSizeMin=18;effect.fontSizeMax=21;effect.color=new Color(.96f,.73f,.37f);
         if(button.targetGraphic)button.targetGraphic.color=new Color(.11f,.18f,.21f);
-        var colors=button.colors;colors.normalColor=Color.white;colors.highlightedColor=new Color(1.3f,1.3f,1.2f);
-        colors.pressedColor=new Color(.7f,.85f,.75f);colors.disabledColor=new Color(.45f,.45f,.45f);button.colors=colors;
+        var colors=button.colors;colors.normalColor=Color.white;colors.highlightedColor=new Color(1.22f,1.26f,1.28f);
+        colors.selectedColor=colors.highlightedColor;colors.fadeDuration=.12f;
+        colors.pressedColor=new Color(.72f,.77f,.80f);colors.disabledColor=new Color(.45f,.45f,.45f);button.colors=colors;
         var nav=button.navigation;nav.mode=Navigation.Mode.None;button.navigation=nav;
     }
     private bool AcceptClick()
