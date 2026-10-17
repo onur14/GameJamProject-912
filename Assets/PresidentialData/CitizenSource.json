@@ -3,59 +3,59 @@
     {
       "scenarioId": "D-01",
       "readyForPlay": true,
-      "sourceNotes": "Kaynak: afet_senaryolari_kaynak_12.md. Vatandaş sözleri kaynaktan aynen alınmıştır.",
+      "sourceNotes": "Kaynak: kullanıcının 17.10.2026 tarihli kısa senaryo metni. Yalnızca konuşmalar ve seçenekler güncellendi; oyun kuralları korundu.",
       "opening": [
         {
-          "text": "KAZAZEDE: Alo! ALO, ALO!!!! Kurban olayım sesimi duyun, yardım edin!",
+          "text": "KAZAZEDE: Alo! Kurban olayım yardım edin, yıkılıyoruz!",
           "fromOperator": false
         },
         {
-          "text": "Operatör: 912 Acil Çağrı Merkezi, ben Operatör Melek. Sakin olun, isminizi, nerede olduğunuzu ve durumunuzu söyleyin.",
+          "text": "Operatör: 912 Acil, ben Operatör Melek. Sakin olun, isminiz ve durumunuz nedir?",
           "fromOperator": true
         },
         {
-          "text": "KAZAZEDE: Ben Z-Zeynep... İzmir Bayraklı'dayız, buralarda yüksek katlı bir sitedeyiz, 7. kattayız! Bina beşik gibi sallanıyor şu an, durmuyor! Duvarlar çatladı, vitrin tuzla buz oldu!",
+          "text": "KAZAZEDE: Zeynep ben! İzmir Bayraklı'dayız, 7. kattayız! Bina beşik gibi sallanıyor, vitrin tuzla buz oldu!",
           "fromOperator": false
         },
         {
-          "text": "Operatör: Zeynep Hanım, sakin kalmaya çalışın. Ekipleri bölgeye gönderiyorum. Yanınızda kimse var mı?",
+          "text": "Operatör: Zeynep Hanım, arama kurtarma ekibini yönlendiriyorum. Yanınızda kim var?",
           "fromOperator": true
         },
         {
-          "text": "Zeynep: Kızım Elif var kucağımda, iki yaşında daha! Koridordayım şu an, daire kapısını zorla araladım. Karşı komşu fırladı merdivenlere koşuyor! 'Apartman yıkılacak, merdivenlerden aşağı koşun!' diye bağırıyor!",
+          "text": "Zeynep: 2 yaşındaki kızım kucağımda! Komşu kapıdan fırladı, 'Merdivenlerden aşağı koşun, bina yıkılacak!' diye bağırıyor!",
           "fromOperator": false
         },
         {
-          "text": "Zeynep: Operatör Hanım, ben de hemen Elif'i kucağıma sarıp merdivenlerden aşağı koşayım mı?! 7 kattan hemen fırlarız değil mi?!",
+          "text": "Zeynep: Operatör Hanım, kızımla merdivenlere fırlayayım mı hemen?!",
           "fromOperator": false
         }
       ],
       "outcomeA": [
         {
-          "text": "Zeynep: Tamam koşuyorum! Allah'ım sen bizi koru! Merdiven boşluğundayız... Elif sıkı tutun annecim... Aaaah! Basamaklar sallanıyor, tutunamıyorum!",
+          "text": "Zeynep: Koşuyorum! Merdivendeyiz... Aaaah! Basamaklar ayrılıyor, tutunamıyorum!",
+          "fromOperator": false
+        },
+        {
+          "text": "Telsiz: Merkez! Merdiven çöktü, anne ve bebek enkaz altında! Acil arama kurtarma ve takviye ambulans istiyoruz!",
           "fromOperator": false
         }
       ],
       "outcomeB": [
         {
-          "text": "Operatör: Zeynep Hanım beni dinleyin! Daireye geri dönün. Salondaki o ağır bazanın veya çamaşır makinesinin yanına geçin. Yere çökün, Elif'i göğsünüze sarıp başınızı koruyun, sallantı bitene kadar kıpırdamayın!",
+          "text": "Operatör: Zeynep Hanım geri dönün! Ağır bir bazanın yanına çökün, çocuğu göğsünüze sarıp başınızı koruyun!",
           "fromOperator": true
         },
         {
-          "text": "Zeynep: Tamam... Tamam döndüm içeri! Yatak odasındaki bazanın yanına çöktük... Elif yanımda... Sallantı yavaşlıyor gibi...",
+          "text": "Zeynep: Tamam, bazanın yanına çöktük... Sallantı durdu! Merdiven boşluğu çöktü, iyi ki çıkmamışız! İyiyiz biz, ekiplerinizi bekliyoruz!",
           "fromOperator": false
         },
         {
-          "text": "Zeynep (10 sn sonra): Sarsıntı durdu operatör! Merdiven boşluğundan büyük bir gürültü geldi, galiba basamaklar çökmüş... İyi ki çıkmamışız! Biz iyiyiz, nefes alıyoruz, şimdi ne yapalım?",
-          "fromOperator": false
-        },
-        {
-          "text": "Operatör: Sarsıntı bittiğine göre vanaları kapatın, montunuzu alın ve binayı kontrollü tahliye için ekiplerimizi bekleyin.",
+          "text": "Operatör: Kurtarma ekibimiz sizi güvenle indirmek için kapınıza ulaştı.",
           "fromOperator": true
         }
       ],
-      "choiceA": "Evet, bina yıkılmadan hemen merdivenlerden aşağı koşarak binayı terk edin!",
-      "choiceB": "HAYIR! Sakın merdivenlere koşmayın! İçeri dönün, sağlam bir eşyanın yanında ÇÖK-KAPAN-TUTUN yapın!",
+      "choiceA": "Evet, bina yıkılmadan hemen merdivenlerden aşağı koşun!",
+      "choiceB": "HAYIR! Sakın merdivenlere koşmayın! İçeri dönüp ÇÖK-KAPAN-TUTUN yapın!",
       "correctChoiceIsB": true,
       "resourceA": 2,
       "resourceB": 1,
@@ -65,22 +65,22 @@
     {
       "scenarioId": "D-02",
       "readyForPlay": true,
-      "sourceNotes": "Kaynak: afet_senaryolari_kaynak_12.md. Vatandaş sözleri kaynaktan aynen alınmıştır.",
+      "sourceNotes": "Kaynak: kullanıcının 17.10.2026 tarihli kısa senaryo metni. Yalnızca konuşmalar ve seçenekler güncellendi; oyun kuralları korundu.",
       "opening": [
         {
-          "text": "Operatör: 912 Acil Çağrı, sakin olun. Adresinizi ve durumunuzu söyleyin.",
+          "text": "Operatör: 912 Acil, dinliyorum. Adres ve durumunuz?",
           "fromOperator": true
         },
         {
-          "text": "KAZAZEDE: Alo evladım... Maraş merkezdeyiz, çarşıya yakın bir apartmandayız. Büyük bir deprem atlattık az önce, bina sallandı durdu ama her an daha büyüğü gelir diyorlar, ev çatlak dolu!",
+          "text": "KAZAZEDE: Maraş çarşıdayız evladım. Büyük sallandık, duvarlar çatlak! Emekli öğretmen Mehmet ben.",
           "fromOperator": false
         },
         {
-          "text": "Operatör: Beyefendi sakin olun, isminiz nedir? Yaralanan var mı?",
+          "text": "Operatör: Mehmet Bey, bölgenize sağlık ekibi yönlendiriyorum, yaralanma var mı?",
           "fromOperator": true
         },
         {
-          "text": "KAZAZEDE: Emekli öğretmen Mehmet ben evladım. Hanımla ikimiziz. Hanım 'Gel masanın yanına çökelim' diyor ama ben eski köy evlerinden bilirim! Kapı kasasının altına geçip dikileyim diyorum, ya da mutfaktaki çelik buzdolabına sarılayım!",
+          "text": "Mehmet: Yok ama artçı gelir diye korkuyoruz. Kapı pervazının altına dikileyim diyorum eski evlerdeki gibi!",
           "fromOperator": false
         },
         {
@@ -90,22 +90,22 @@
       ],
       "outcomeA": [
         {
-          "text": "Mehmet: Hah! Ben biliyordum... Kapının kasasına geçtim, tutunuy-- AHHH! Artçı vurdu, kapıdan kırılacak gibi sesler geliyor! Ne yapmalıyı-...",
+          "text": "Mehmet: Pervaza geçtim... AHHH! Artçı vurdu, kapı çarptı, üst lento kafama düşüyo---",
           "fromOperator": false
         }
       ],
       "outcomeB": [
         {
-          "text": "Operatör: Mehmet Amca sakın! Kapı hızla çarpıp seni ezer, üst lentolar çöker. Hemen salondaki alçak ve ağır koltuğun yanına geç, dizlerini çekip başını koru!",
+          "text": "Operatör: Mehmet Amca sakın! Pervaz taşıyıcı değildir, koltuğun yanına büzülün!",
           "fromOperator": true
         },
         {
-          "text": "Mehmet: Tamam evladım, koltuğun yanına minderi çekip çöktük... Bak artçı salladı yine hafiften... Koltuk korudu bizi, sıvalar kapının oraya döküldü hep. Sağ olasın evlat.",
+          "text": "Mehmet: Çöktük mindere... Hafif salladı yine, sıvalar kapının oraya döküldü hep. Koltuk korudu bizi, sıyrıklarımız var sadece, ekipleriniz pansuman yaptı sağ olasın.",
           "fromOperator": false
         }
       ],
-      "choiceA": "Evet Mehmet Amca, kapı kasasında durmak gövdeyi korur, kapının altına geçin!",
-      "choiceB": "Hayır! Kapı pervazları modern binalarda taşıyıcı değildir, buzdolabı da devrilir! Sağlam bir koltuğun yanına çökün!",
+      "choiceA": "Evet Mehmet Amca, kapı pervazı gövdeyi korur, oraya geçin!",
+      "choiceB": "Hayır! Kapı pervazı taşıyıcı değildir, sağlam bir koltuğun yanına çökün!",
       "correctChoiceIsB": true,
       "resourceA": 2,
       "resourceB": 2,
@@ -197,51 +197,51 @@
     {
       "scenarioId": "Y-02",
       "readyForPlay": true,
-      "sourceNotes": "Kaynak: afet_senaryolari_kaynak_12.md. Vatandaş sözleri kaynaktan aynen alınmıştır.",
+      "sourceNotes": "Kaynak: kullanıcının 17.10.2026 tarihli kısa senaryo metni. Yalnızca konuşmalar ve seçenekler güncellendi; oyun kuralları korundu.",
       "opening": [
         {
-          "text": "Operatör: 912 Acil, operatör dinlemede. Durumunuz nedir?",
-          "fromOperator": true
-        },
-        {
-          "text": "KAZAZEDE: Evladım yetişin! Ben komşusu Ayşe... Bursa Nilüfer'deyiz. Karşı daireden kara dumanlar çıkıyor! İçeride 6 yaşındaki Can yalnız kaldı, annesi markete inmişti!",
+          "text": "KAZAZEDE: Alo! Orman yanıyor, etrafımız duman oldu yetişin!",
           "fromOperator": false
         },
         {
-          "text": "Operatör: Ayşe Hanım, itfaiye yolda. Çocuğa ulaşabiliyor musunuz?",
+          "text": "Operatör: 912 Acil. İsminiz ve konumunuz?",
           "fromOperator": true
         },
         {
-          "text": "Ayşe: Kapıyı zorladık açtık ama duman çok yoğun! İçeriden Can'ın sesi geliyor, ' dolabın içine saklandım' diye sesleniyor!!",
+          "text": "KAZAZEDE: Kemal ben, Marmaris'te ormandayız! 7 yaşındaki oğlum yanımda. Vadi alev dolu, herkes 'Tepeye, zirveye koşun' diyor!",
           "fromOperator": false
         },
         {
-          "text": "Ayşe: Çocuğa sesleneyim mi 'Dolaptan çıkma orada bekle' diye? Dumandan saklanmış olur mu orada?!",
+          "text": "Operatör: Kemal Bey, yangın söndürme arazöz ekibini bölgeye yönlendirdim.",
+          "fromOperator": true
+        },
+        {
+          "text": "Kemal: Operatör Hanım, dağın zirvesine doğru tırmanıp kurtulalım değil mi?!",
           "fromOperator": false
         }
       ],
       "outcomeA": [
         {
-          "text": "Ayşe: Can! Yavrum çıkma sakın dolaptan, orda bekle! ... Evladım duman koyulaştı, çocuktan ses kesildi! Can ses ver teyzeye! CAN!!",
+          "text": "Kemal: Tepeye tırmanıyoruz... Alevler arkamızdan uçarak geliyor resmen! Zirve duman doldu, nefes yok, sıkıştık burad---",
           "fromOperator": false
         },
         {
-          "text": "İtfaiye Raporu: Çocuk odadaki gardıropta baygın bulundu. Ağır karbonmonoksit zehirlenmesi mevcut.",
+          "text": "OGM Telsizi: Yangın tepeyi sardı! Zirvede mahsur vatandaşlar var, 2 arazöz alev çemberini yarmak için tepeye tırmanıyor!",
           "fromOperator": false
         }
       ],
       "outcomeB": [
         {
-          "text": "Operatör: Ayşe Hanım derhal bağırın: 'Can saklanma! Yere yat, köpek gibi emekleyerek sesime doğru gel' deyin! Çocuklar yangında asla saklanmamalı!",
+          "text": "Operatör: Kemal Bey tepeye çıkmayın, yangın yukarı fırlar! Yan taraftaki patikadan aşağıdaki yangın emniyet yoluna inin!",
           "fromOperator": true
         },
         {
-          "text": "Ayşe: Can! Çık dolaptan teyzem, saklanmak yok! Yere yat yere, sesime doğru emekle! ... Görüyorum, dumanın altından emekliyor yavrum! Tuttum kolundan, çektim çıkardım! Şükürler olsun!",
+          "text": "Kemal: Döndük yan patikaya! Tepe alev topuna döndü... Yola ulaştık, yönlendirdiğiniz itfaiye aracı bizi karşıladı, kurtulduk!",
           "fromOperator": false
         }
       ],
-      "choiceA": "Evet, dolabın kapağını kapatsın, içeride saklanıp itfaiyeyi beklesin!",
-      "choiceB": "HAYIR! Çocuğa hemen dolaptan çıkıp yere yatmasını, sürünerek kapıya doğru gelmesini söyleyin!",
+      "choiceA": "Evet, yangın aşağıdaysa dağın tepesine doğru hızla tırmanın!",
+      "choiceB": "ASLA YUKARI KOŞMAYIN! Yangın tepeye baca gibi çok daha hızlı tırmanır! Yan tarafa, açık yola kaçın!",
       "correctChoiceIsB": true,
       "resourceA": 0,
       "resourceB": 0,
@@ -251,51 +251,51 @@
     {
       "scenarioId": "S-01",
       "readyForPlay": true,
-      "sourceNotes": "Kaynak: afet_senaryolari_kaynak_12.md. Vatandaş sözleri kaynaktan aynen alınmıştır.",
+      "sourceNotes": "Kaynak: kullanıcının 17.10.2026 tarihli kısa senaryo metni. Yalnızca konuşmalar ve seçenekler güncellendi; oyun kuralları korundu.",
       "opening": [
         {
           "text": "Operatör: 912 Acil, dinliyorum.",
           "fromOperator": true
         },
         {
-          "text": "KAZAZEDE: Alo! İstanbul Basın Ekspres tarafındayız, köprülü alt geçidin ağzındayız! İnanılmaz bir sağanak var, önümüzdeki çukur su dolmuş!",
+          "text": "KAZAZEDE: Basın Ekspres alt geçidindeyiz, sağanak bastırdı çukur su doldu! Serdar ben.",
           "fromOperator": false
         },
         {
-          "text": "Operatör: Beyefendi sakin olun. İsminizi öğrenebilir miyim? Aracınızın durumu nedir?",
+          "text": "Operatör: Serdar Bey, kurtarma botu ekibimizi yola çıkardım, su seviyesi ne durumda?",
           "fromOperator": true
         },
         {
-          "text": "KAZAZEDE: Serdar ben. Şirket aracıyla sevkiyattaydım. Önümdeki küçük araçlar durdu ama benim altımdaki büyük 4x4 SUV. Su tekerleğin yarısına geliyor gibi. Gaza basıp yardırsam 50 metre sonra köprü çıkışı kuru, geçerim gibi duruyor!",
+          "text": "Serdar: Tekerleğin yarısında. Altımdaki 4x4 SUV, gaza yüklenip karşıya yardırsam geçerim herhalde?!",
           "fromOperator": false
         },
         {
-          "text": "Operatör: Serdar Bey, alt geçitlerde su seviyesi saniyeler içinde ikiye katlanır.",
-          "fromOperator": true
-        },
-        {
-          "text": "Serdar: Operatör, araç yüksek diyorum, arkadaki trafik de sıkıştırıyor! Gaza yüklenip geçeceğim?!",
+          "text": "Serdar: Operatör, arkadaki trafik sıkıştırıyor, gaza basıp geçiyorum?!",
           "fromOperator": false
         }
       ],
       "outcomeA": [
         {
-          "text": "Serdar: Bastım gaza gidiyorum! ... Lan motor tekledi! Stop etti araba! Su aniden ön cama dayandı! Kapıyı açamıyorum, suyun ağırlığından kapı itilmiyor! ALO! ARABA YÜZÜYOR, YARDIM EDİN!!",
+          "text": "Serdar: Bastım gaza gidiy--- Motor stop etti! Su ön cama vurdu! Kapı su basıncından açılmıyor! ARABA YÜZÜYOR, BOĞULUYORUM!!",
+          "fromOperator": false
+        },
+        {
+          "text": "Telsiz: Alt geçitte batan araç var, sürücü boğuluyor! Dalgıç arama kurtarma ve acil ambulans istiyoruz!",
           "fromOperator": false
         }
       ],
       "outcomeB": [
         {
-          "text": "Operatör: Serdar Bey hemen durun! 30 cm su bile aracı sürükler, alt geçit çukurdur! Derhal kapıyı açın, inin ve yüksek refüj bariyerlerine tırmanın!",
+          "text": "Operatör: Serdar Bey durun! 30 cm su bile aracı sürükler. Kapıyı açın, aracı bırakıp refüj bariyerine tırmanın!",
           "fromOperator": true
         },
         {
-          "text": "Serdar: Tamam... İndim arabadan, su belime geldi bir anda! Bariyerlere tırmandım... İnanamıyorum, araba arkamdan yüzmeye başladı, alt geçit göl oldu! Arabada kalsaydım bitmiştim...",
+          "text": "Serdar: İndim, bariyerlere çıktım! Araba yüzmeye başladı arkamdan! Kurtarma botunuz beni bariyerden aldı, kurtuldum!",
           "fromOperator": false
         }
       ],
       "choiceA": "Aracınız yüksekse geçin, hızlıca gaza basıp alt geçitten çıkmaya çalışın!",
-      "choiceB": "HEMEN DURUN! Kontağı kapatın, kemerleri çözün, aracı terk edip yüksek refüje tırmanın!",
+      "choiceB": "HEMEN DURUN! Kontağı kapatın, aracı terk edip yüksek refüje tırmanın!",
       "correctChoiceIsB": true,
       "resourceA": 2,
       "resourceB": 2,
@@ -355,51 +355,47 @@
     {
       "scenarioId": "T-01",
       "readyForPlay": true,
-      "sourceNotes": "Kaynak: afet_senaryolari_kaynak_12.md. Vatandaş sözleri kaynaktan aynen alınmıştır.",
+      "sourceNotes": "Kaynak: kullanıcının 17.10.2026 tarihli kısa senaryo metni. Yalnızca konuşmalar ve seçenekler güncellendi; oyun kuralları korundu.",
       "opening": [
         {
-          "text": "Operatör: 912 Acil Çağrı, dinliyorum.",
+          "text": "Operatör: 912 Acil, dinliyorum.",
           "fromOperator": true
         },
         {
-          "text": "KAZAZEDE: İyi günler operatör hanım! Az önce açık denizde acayip bir deprem oldu, sallandık otelde. Ama şimdi sahilde çok garip bir olay var!",
+          "text": "KAZAZEDE: Murat ben, Bodrum sahilindeyiz. Az önce açık denizde deprem oldu ama şimdi deniz en az 100 metre geri çekildi!",
           "fromOperator": false
         },
         {
-          "text": "Operatör: Beyefendi sakin olun, isminiz nedir? Sahilde ne oluyor?",
+          "text": "Operatör: Murat Bey, sahil arama kurtarma ekibimize anons geçtim. Deniz hızla mı çekildi?",
           "fromOperator": true
         },
         {
-          "text": "KAZAZEDE: Murat ben. Deniz kıyıdan en az 100 metre geri çekildi! Kumsalda çırılçıplak kayalar ve çırpınan yüzlerce balık kaldı! Bütün millet kumsala koştu, çocuklar ellerinde kovalarla balık topluyor, herkes video çekiyor!",
+          "text": "Murat: Evet, kumsalda yüzlerce çırpınan balık kaldı! Bütün millet balık toplamaya kumsala koşuyor, video çekiyor!",
           "fromOperator": false
         },
         {
-          "text": "Murat: Biz de kumsala iniyoruz şimdi fotoğraf çekip balık yakalamaya. İnelim değil mi, deniz çekildi bir şey olmaz?",
+          "text": "Murat: Biz de kumsala iniyoruz fotoğraf çekmeye, inelim değil mi?",
           "fromOperator": false
         }
       ],
       "outcomeA": [
         {
-          "text": "Murat: İndik kumsala... O da ne ya? Ufukta dev bir beyaz duvar gibi bir şey yükseliyor! Dalga mı o? OHA DALGA GELİYOR! DUVAR GİBİ GELİYOR! KAÇIN! ÇOCUKLARI ALIN KAÇI---",
+          "text": "Murat: İndik kumsala... O da ne? Ufukta dev bir duvar gibi yükseliyor su! OHA DALGA GELİYOR! DUVAR GİBİ GELİYOR! KAÇI---",
           "fromOperator": false
         }
       ],
       "outcomeB": [
         {
-          "text": "Operatör: Murat Bey o bir TSUNAMİ! Çekilen su devasa bir dalga olarak geri dönecek! Avazınız çıktığı kadar bağırın, herkesi arkadaki yüksek tepelere koşturun!",
+          "text": "Operatör: Murat Bey o TSUNAMİ! Çekilen su dev dalga olarak dönecek! Avazınız çıktığı kadar bağırın, herkes tepeye koşsun!",
           "fromOperator": true
         },
         {
-          "text": "Murat: NE?! KAÇIN! TSUNAMİ GELİYOR, TEPELERE KOŞUN DİYOR 112!!",
-          "fromOperator": false
-        },
-        {
-          "text": "Murat (3 dakika sonra, tepeden nefes nefese): Tepeye çıktık... Operatör... Aman Allahım... Kumsal komple yok oldu! Deniz otellerin giriş katına kadar girdi! Sayenizde herkes tepeye kaçtı, kumsalda kimse kalmadı...",
+          "text": "Murat: KAÇIN! TSUNAMİ GELİYOR DİYOR 112!! Tepeye çıktık... Dalga kumsalı komple yuttu! Arama kurtarma ekibiniz insanları tepeye yönlendiriyor.",
           "fromOperator": false
         }
       ],
-      "choiceA": "Fotoğraf çekebilirsiniz ama fazla açılmayın, deniz seviyesine dikkat edin.",
-      "choiceB": "TSUNAMİ GELİYOR! DERHAL HERKESE BAĞIRIN, SAHİLİ BOŞALTIP EN AZ 30 METRE YÜKSEK TEPELERE KOŞUN!",
+      "choiceA": "Fotoğraf çekebilirsiniz ama fazla açılmayın, deniz seviyesine bakın.",
+      "choiceB": "TSUNAMİ GELİYOR! DERHAL SAHİLİ BOŞALTIP EN AZ 30 METRE YÜKSEK TEPELERE KOŞUN!",
       "correctChoiceIsB": true,
       "resourceA": 2,
       "resourceB": 2,
@@ -459,51 +455,39 @@
     {
       "scenarioId": "F-01",
       "readyForPlay": true,
-      "sourceNotes": "Kaynak: afet_senaryolari_kaynak_12.md. Vatandaş sözleri kaynaktan aynen alınmıştır.",
+      "sourceNotes": "Kaynak: kullanıcının 17.10.2026 tarihli kısa senaryo metni. Yalnızca konuşmalar ve seçenekler güncellendi; oyun kuralları korundu.",
       "opening": [
         {
-          "text": "KAZAZEDE: Alo! 112 mi, yardım edin! Sahil parkındayız kızımla, aniden fırtına koptu!",
+          "text": "KAZAZEDE: Alo! Sahil parkındayız kızımla, aniden fırtına koptu!",
           "fromOperator": false
         },
         {
-          "text": "Operatör: 912 Acil Çağrı Merkezi. Sakin olun, adınız nedir, sığınacak bir yer bulabildiniz mi?",
+          "text": "Operatör: 912 Acil. Park bölgesine tedbiren ambulans yönlendiriyorum, neredesiniz?",
           "fromOperator": true
         },
         {
-          "text": "KAZAZEDE: Adım Selim. 9 yaşındaki kızım Defne yanımda. Kafeler çok uzakta kaldı, sırılsıklam olduk. Parkın ortasında devasa, asırlık ulu bir çınar ağacı var. Gövdesi kocaman, şemsiye gibi hiç yağmur geçirmiyor. Ağacın altına sığındık bekliyoruz!",
+          "text": "KAZAZEDE: Selim ben, 9 yaşındaki kızım Defne yanımda. Sırılsıklam olduk. Parkın ortasındaki devasa ulu çınar ağacının altına sığındık bekliyoruz!",
           "fromOperator": false
         },
         {
-          "text": "Operatör: Selim Bey, ağaç tek başına mı duruyor açık alanda?",
-          "fromOperator": true
-        },
-        {
-          "text": "Selim: Evet parkın tam ortasında tek başına dev gibi bir ağaç. Yağmurdan koruyor bizi şu an.",
-          "fromOperator": false
-        },
-        {
-          "text": "Selim: Operatör Hanım, fırtına dinene kadar ağacın dibinde sarılıp bekleyelim değil mi kızımla?",
+          "text": "Selim: Operatör Hanım, fırtına dinene kadar ağacın dibinde bekleyelim değil mi kızımla?",
           "fromOperator": false
         }
       ],
       "outcomeA": [
         {
-          "text": "Sistem: Yıldırım daima açık alandaki en sivri ve yüksek noktayı seçer. Tekil ağaçlar çok risklidir ve paratoner gibi davranır!",
+          "text": "Selim: Bekliyoruz kızım... A-aa gökyüzü bembeyaz ol---",
           "fromOperator": false
         }
       ],
       "outcomeB": [
         {
-          "text": "Operatör: Selim Bey beni iyi dinleyin! O ağaç parktaki en yüksek nokta! Yıldırım ilk o ağaca düşer! Hemen ağaçtan en az 20 metre uzaklaşın. Açıkta çukur bir alana geçip ayaklarınızı birleştirerek yere çömelin!",
+          "text": "Operatör: Selim Bey o ağaç yıldırımı ilk çekecek yer! Ağaçtan 20 metre uzaklaşın, çukurda ayakları birleştirip çömelin!",
           "fromOperator": true
         },
         {
-          "text": "Selim: Hemen çıkıyoruz! Koş Defne koş! Çimlerin ortasındaki çukura çöktük, ayaklarımızı birleştirdik... ALLAHIM! Ağaca yıldırım düştü! Ağaç alev aldı, ortadan yarıldı! Az önce tam altındaydık...",
+          "text": "Selim: Çukura çöktük kızımla... ALLAHIM! Ağaca yıldırım düştü, alev aldı! Az önce tam altındaydık... Ambulansınız bizi yakındaki kafeden aldı, kontrol ediyor.",
           "fromOperator": false
-        },
-        {
-          "text": "Operatör: Sakin olun Selim Bey. Yağmur biraz azalınca en yakındaki kapalı kafeteryaya geçin.",
-          "fromOperator": true
         }
       ],
       "choiceA": "Evet, ağaç altı yağmurdan korur, fırtına hafifleyene kadar orada kalın.",
@@ -567,46 +551,50 @@
     {
       "scenarioId": "K-01",
       "readyForPlay": true,
-      "sourceNotes": "Kaynak: afet_senaryolari_kaynak_12.md. Vatandaş sözleri kaynaktan aynen alınmıştır.",
+      "sourceNotes": "Kaynak: kullanıcının 17.10.2026 tarihli kısa senaryo metni. Yalnızca konuşmalar ve seçenekler güncellendi; oyun kuralları korundu.",
       "opening": [
         {
           "text": "Operatör: 912 İhbar ve Teyit Masası, buyrun?",
           "fromOperator": true
         },
         {
-          "text": "KAZAZEDE: İyi günler operatör, ben yerel haber sitesi editörüyüm. Adım Emre. Twitter'da ve WhatsApp'ta bir ses kaydı patladı az önce.",
+          "text": "KAZAZEDE: İyi günler, haber editörü Emre ben. WhatsApp'ta bir ses kaydı patladı az önce.",
           "fromOperator": false
         },
         {
-          "text": "Operatör: Emre Bey, ses kaydının içeriği nedir?",
+          "text": "Operatör: İçeriği nedir Emre Bey?",
           "fromOperator": true
         },
         {
-          "text": "Emre: Kendini jeoloji uzmanı diye tanıtan biri *'Fay hattındaki gaz ölçüldü, bu gece tam saat 03:15'te 7.8 büyüklüğünde asıl deprem gelecek, herkes şehri terk etsin'* diyor. Bütün şehir sokaklara döküldü, benzinliklerde izdiham var, yollar kilitlendi!",
+          "text": "Emre: Biri 'Gece 03:15'te 7.8 deprem olacak' diyor. Herkes sokağa döküldü, benzinliklerde izdiham var, panik büyük!",
           "fromOperator": false
         },
         {
-          "text": "Emre: Halk çok panik, ben de sitemizde 'Uzmanlar uyardı, geceye dikkat' diye manşetten paylaşayım mı bu uyarıyı, halk bilsin?!",
+          "text": "Operatör: İzdiham bölgesine tedbiren bir ambulans ekibi çıkarıyorum.",
+          "fromOperator": true
+        },
+        {
+          "text": "Emre: Halk panikte, sitemizde 'Uzmanlar uyardı' diye manşetten geçelim mi haberi?!",
           "fromOperator": false
         }
       ],
       "outcomeA": [
         {
-          "text": "Emre: Tamamdır, manşetten geçiyorum haberi... Şehir felç oldu operatör! Trafik tıkandı, ambulanslar yolda kaldı, panikle çıkanlar kaza yaptı! Şehirde tam bir kaos var!",
+          "text": "Emre: Geçtim haberi... Şehir felç oldu operatör! Trafik tıkandı, panikle kazalar oldu, izdihamda ezilenler var!",
           "fromOperator": false
         }
       ],
       "outcomeB": [
         {
-          "text": "Operatör: Emre Bey kesinlikle yalan haber! Depremin dakikasını dünyada hiçbir bilim insanı tahmin edemez. Haberi derhal 'AFAD Açıkladı: Saatli deprem iddiası sahtedir' şeklinde yalanlama olarak geçin!",
+          "text": "Operatör: Emre Bey yalan haber! Deprem saati bilinemez. Haberi derhal 'AFAD Yalanladı: Saatli deprem iddiası sahtedir' diye geçin!",
           "fromOperator": true
         },
         {
-          "text": "Emre: Anlaşıldı operatör, AFAD açıklamasıyla haberi yalanladık. Sosyal medyadaki panik kırıldı, insanlar evlerine dönüyor.",
+          "text": "Emre: Yalanlama haberi geçtik, panik dalgası anında duruldu, gönderdiğiniz ambulans izdihamdaki hafif fenalaşanlara müdahale etti.",
           "fromOperator": false
         }
       ],
-      "choiceA": "Paylaşın, tedbirli olmakta zarar yok, halk hazırlıklı olsun.",
+      "choiceA": "Paylaşın, tedbirli olmakta zarar yok, halk bilsin.",
       "choiceB": "SAKIN PAYLAŞMAYIN! Depremin günü ve saati BİLİNEMEZ! Bu yalan bilgiyi yalanlayın!",
       "correctChoiceIsB": true,
       "resourceA": 1,
@@ -617,42 +605,42 @@
     {
       "scenarioId": "K-02",
       "readyForPlay": true,
-      "sourceNotes": "Kaynak: afet_senaryolari_kaynak_12.md. Vatandaş sözleri kaynaktan aynen alınmıştır.",
+      "sourceNotes": "Kaynak: kullanıcının 17.10.2026 tarihli kısa senaryo metni. Yalnızca konuşmalar ve seçenekler güncellendi; oyun kuralları korundu.",
       "opening": [
         {
           "text": "Operatör: 912 Acil Çağrı Merkezi, buyrun?",
           "fromOperator": true
         },
         {
-          "text": "KAZAZEDE: İyi günler operatör hanım. Ben Kerem... Az önce bir sarsıntı yaşadık buralarda. Ailece sakin kaldık, sallantıda kanepenin yanına ÇÖK-KAPAN-TUTUN yaptık.",
+          "text": "KAZAZEDE: İyi günler operatör hanım, Kerem ben. Az önce sallandık, sakin kalıp kanepe yanında ÇÖK-KAPAN-TUTUN yaptık.",
           "fromOperator": false
         },
         {
-          "text": "Operatör: Harika Kerem Bey, geçmiş olsun. Herhangi bir hasar veya yaralanma var mı?",
+          "text": "Operatör: Geçmiş olsun Kerem Bey, saha kontrol ekibimiz mahallenizde.",
           "fromOperator": true
         },
         {
-          "text": "Kerem: Çok şükür yok. Sarsıntı bitti, vanaları kapattık. Kapı yanındaki acil durum çantamızı aldık; içinde suyumuz, fenerimiz, düdüğümüz ve evraklarımız var. Toplanma alanına çıkıyoruz. Doğru mu yapıyoruz?",
+          "text": "Kerem: Hasar yok. Vanaları kapattık, afet çantamızı aldık; su, düdük, fener hazır. Toplanma alanına çıkıyoruz.",
           "fromOperator": false
         },
         {
-          "text": "Kerem: Operatörüm, afet çantamızı alıp toplanma alanına geçişimizi onaylıyor musunuz?",
+          "text": "Kerem: Afet çantamızı alıp toplanma alanına geçişimizi onaylıyor musunuz?",
           "fromOperator": false
         }
       ],
       "outcomeA": [
         {
-          "text": "Operatör: Kerem Bey, sizi ve ailenizi tebrik ederim. Harika bir bilinç sergilemişsiniz. Çantanızı alıp güvenli toplanma alanına geçin.",
+          "text": "Operatör: Kerem Bey tebrik ederim. Harika bir bilinç sergilemişsiniz. Güvenli toplanma alanına geçin.",
           "fromOperator": true
         },
         {
-          "text": "Kerem: Çok teşekkür ederiz operatörüm, kolay gelsin sizlere!",
+          "text": "Kerem: Çok teşekkürler operatörüm, alandaki arama kurtarma ekibiniz karşıladı bizi.",
           "fromOperator": false
         }
       ],
       "outcomeB": [
         {
-          "text": "Kerem: Nasıl yani? Afet çantasını bırakıp eve mi dönelim? Ama AFAD tatbikatlarında böyle öğretmişlerdi... Kafamız karıştı...",
+          "text": "Kerem: Çantayı bırakıp eve mi dönelim? Artçı geldi bina hasar aldı, içeride mahsur kaldık operatör yetişin!",
           "fromOperator": false
         }
       ],

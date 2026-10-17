@@ -1624,17 +1624,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2640074064498486514, guid: b20bb34e87cc4f843bdf291912ae675c, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 2798931909901826387, guid: b20bb34e87cc4f843bdf291912ae675c, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
     - target: {fileID: 3588768600692073138, guid: b20bb34e87cc4f843bdf291912ae675c, type: 3}
       propertyPath: phone
-      value:
+      value: 
       objectReference: {fileID: 1139218828}
     - target: {fileID: 3588768600692073138, guid: b20bb34e87cc4f843bdf291912ae675c, type: 3}
       propertyPath: cityHealth
-      value:
+      value: 
       objectReference: {fileID: 3000000032}
     - target: {fileID: 3588768600692073138, guid: b20bb34e87cc4f843bdf291912ae675c, type: 3}
       propertyPath: conversationView
-      value:
+      value: 
       objectReference: {fileID: 3000000011}
     - target: {fileID: 8192962389830134880, guid: b20bb34e87cc4f843bdf291912ae675c, type: 3}
       propertyPath: m_Name
@@ -2896,7 +2904,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a276cda150f842c180a7a27743901c83, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DispatchVisualFeedback
   conversation: {fileID: 3000000010}
   phone: {fileID: 1139218828}
@@ -3659,12 +3667,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c1e792ca33f4ce78e5120dd0479921a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CityHealth
   conversation: {fileID: 3000000010}
   briefing: {fileID: 1094786584}
   phone: {fileID: 1139218828}
   interfaceFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  healthFont: {fileID: 11400000, guid: aba8ef9c544ffa14190cbfe983f30dcc, type: 2}
+  choiceView: {fileID: 3000000011}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

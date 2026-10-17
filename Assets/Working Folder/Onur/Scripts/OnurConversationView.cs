@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -33,12 +33,13 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     private ScrollRect scroll;
     private Button next;
     private TMP_Text nextLabel, effectA, effectB, latestBody;
-    private TMP_Text callEndedLabel;
+    private TMP_Text callEndedLabel, newCallLabel;
     private GameObject connectionOverlay;
     private RectTransform connectionFill;
     private readonly List<RectTransform> messages = new List<RectTransform>();
     private bool choicesVisible, awaitingAdvance, typing, bothUnavailable;
     private float lastClick = -10;
+    public event System.Action ChoicesShown;
     public bool IsPaused { get; private set; }
     public void SetPaused(bool paused) { IsPaused = paused; }
     public bool WaitingForAdvance => awaitingAdvance;
@@ -243,9 +244,37 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         }
         callEndedLabel.gameObject.SetActive(false);
     }
-    public IEnumerator RecoverConnection()
+    public IEnumerator ShowNewCall()
     {
-        Clear();
+        SetChoicesVisible(false);
+        if (newCallLabel == null)
+        {
+            newCallLabel = Text("Yeni Arama Başlığı", panel, 64);
+            Anchor(newCallLabel.rectTransform, new Vector2(.03f, .28f), new Vector2(.97f, .72f));
+            newCallLabel.alignment = TextAlignmentOptions.Center;
+            newCallLabel.fontStyle = FontStyles.Bold;
+            newCallLabel.color = new Color(.45f, 1f, .85f);
+            newCallLabel.raycastTarget = false;
+            newCallLabel.text = "YENİ ARAMA";
+        }
+        newCallLabel.gameObject.SetActive(true);
+        newCallLabel.transform.SetAsLastSibling();
+        for (float t = 0; t < .9f;)
+        {
+            if (IsPaused) { yield return null; continue; }
+            float p = t / .9f;
+            newCallLabel.alpha = Mathf.Min(Mathf.Clamp01(p / .14f), Mathf.Clamp01((1 - p) / .24f));
+            newCallLabel.rectTransform.localScale = Vector3.one * (1 + .12f * (1 - Mathf.Clamp01(p / .25f)));
+            newCallLabel.rectTransform.anchoredPosition = new Vector2(30 * Mathf.Pow(1 - Mathf.Clamp01(p / .25f), 3), 0);
+            t += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        newCallLabel.gameObject.SetActive(false);
+    }
+
+    public IEnumerator RecoverConnection(bool clearHistory = true)
+    {
+        if (clearHistory) Clear();
         if(connectionOverlay==null)BuildConnectionOverlay();
         connectionFill.anchorMax=new Vector2(0f,1f);
         connectionOverlay.SetActive(true);
@@ -308,6 +337,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     {
         approveLabel.text=approve;rejectLabel.text=reject;awaitingAdvance=false;
         SetChoicesVisible(true);UpdateEffects();
+        ChoicesShown?.Invoke();
     }
     private void UpdateEffects()
     {
@@ -329,6 +359,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     {
         awaitingAdvance=false;typing=false;bothUnavailable=false;
         typingAudio.Stop();if(callEndedLabel)callEndedLabel.gameObject.SetActive(false);
+        if(newCallLabel)newCallLabel.gameObject.SetActive(false);
         if(connectionOverlay!=null)connectionOverlay.SetActive(false);
         foreach(var row in messages)if(row){row.gameObject.SetActive(false);Destroy(row.gameObject);}
         messages.Clear();latestBody=null;SetChoicesVisible(false);

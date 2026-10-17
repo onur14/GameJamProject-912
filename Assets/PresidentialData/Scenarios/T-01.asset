@@ -14,32 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
   scenarioId: T-01
   readyForPlay: 1
-  sourceNotes: "Kaynak: afet_senaryolari_kaynak_12.md. Vatanda\u015F s\xF6zleri kaynaktan aynen al\u0131nm\u0131\u015Ft\u0131r."
+  sourceNotes: "Kaynak: kullan\u0131c\u0131n\u0131n 17.10.2026 tarihli k\u0131sa senaryo metni. Yaln\u0131zca konu\u015fmalar ve se\u00e7enekler g\u00fcncellendi; oyun kurallar\u0131 korundu."
   opening:
-  - text: "Operat\xF6r: 912 Acil \xC7a\u011Fr\u0131, dinliyorum."
+  - text: "Operat\u00f6r: 912 Acil, dinliyorum."
     fromOperator: 1
-  - text: "KAZAZEDE: \u0130yi g\xFCnler operat\xF6r han\u0131m! Az \xF6nce a\xE7\u0131k denizde acayip bir deprem oldu, salland\u0131k otelde. Ama \u015Fimdi sahilde \xE7ok garip bir olay var!"
+  - text: "KAZAZEDE: Murat ben, Bodrum sahilindeyiz. Az \u00f6nce a\u00e7\u0131k denizde deprem oldu ama \u015fimdi deniz en az 100 metre geri \u00e7ekildi!"
     fromOperator: 0
-  - text: "Operat\xF6r: Beyefendi sakin olun, isminiz nedir? Sahilde ne oluyor?"
+  - text: "Operat\u00f6r: Murat Bey, sahil arama kurtarma ekibimize anons ge\u00e7tim. Deniz h\u0131zla m\u0131 \u00e7ekildi?"
     fromOperator: 1
-  - text: "KAZAZEDE: Murat ben. Deniz k\u0131y\u0131dan en az 100 metre geri \xE7ekildi! Kumsalda \xE7\u0131r\u0131l\xE7\u0131plak kayalar ve \xE7\u0131rp\u0131nan y\xFCzlerce bal\u0131k kald\u0131! B\xFCt\xFCn millet kumsala ko\u015Ftu, \xE7ocuklar ellerinde kovalarla bal\u0131k topluyor, herkes video \xE7ekiyor!"
+  - text: "Murat: Evet, kumsalda y\u00fczlerce \u00e7\u0131rp\u0131nan bal\u0131k kald\u0131! B\u00fct\u00fcn millet bal\u0131k toplamaya kumsala ko\u015fuyor, video \u00e7ekiyor!"
     fromOperator: 0
-  - text: "Murat: Biz de kumsala iniyoruz \u015Fimdi foto\u011Fraf \xE7ekip bal\u0131k yakalamaya. \u0130nelim de\u011Fil mi, deniz \xE7ekildi bir \u015Fey olmaz?"
+  - text: "Murat: Biz de kumsala iniyoruz foto\u011fraf \u00e7ekmeye, inelim de\u011fil mi?"
     fromOperator: 0
-  choiceA: "Foto\u011Fraf \xE7ekebilirsiniz ama fazla a\xE7\u0131lmay\u0131n, deniz seviyesine dikkat edin."
-  choiceB: "TSUNAM\u0130 GEL\u0130YOR! DERHAL HERKESE BA\u011EIRIN, SAH\u0130L\u0130 BO\u015EALTIP EN AZ 30 METRE Y\xDCKSEK TEPELERE KO\u015EUN!"
+  choiceA: "Foto\u011fraf \u00e7ekebilirsiniz ama fazla a\u00e7\u0131lmay\u0131n, deniz seviyesine bak\u0131n."
+  choiceB: "TSUNAM\u0130 GEL\u0130YOR! DERHAL SAH\u0130L\u0130 BO\u015eALTIP EN AZ 30 METRE Y\u00dcKSEK TEPELERE KO\u015eUN!"
   correctChoiceIsB: 1
   resourceA: 2
   resourceB: 2
   dispatchA: 1
   dispatchB: 1
   outcomeA:
-  - text: "Murat: \u0130ndik kumsala... O da ne ya? Ufukta dev bir beyaz duvar gibi bir \u015Fey y\xFCkseliyor! Dalga m\u0131 o? OHA DALGA GEL\u0130YOR! DUVAR G\u0130B\u0130 GEL\u0130YOR! KA\xC7IN! \xC7OCUKLARI ALIN KA\xC7I---"
+  - text: "Murat: \u0130ndik kumsala... O da ne? Ufukta dev bir duvar gibi y\u00fckseliyor su! OHA DALGA GEL\u0130YOR! DUVAR G\u0130B\u0130 GEL\u0130YOR! KA\u00c7I---"
     fromOperator: 0
   outcomeB:
-  - text: "Operat\xF6r: Murat Bey o bir TSUNAM\u0130! \xC7ekilen su devasa bir dalga olarak geri d\xF6necek! Avaz\u0131n\u0131z \xE7\u0131kt\u0131\u011F\u0131 kadar ba\u011F\u0131r\u0131n, herkesi arkadaki y\xFCksek tepelere ko\u015Fturun!"
+  - text: "Operat\u00f6r: Murat Bey o TSUNAM\u0130! \u00c7ekilen su dev dalga olarak d\u00f6necek! Avaz\u0131n\u0131z \u00e7\u0131kt\u0131\u011f\u0131 kadar ba\u011f\u0131r\u0131n, herkes tepeye ko\u015fsun!"
     fromOperator: 1
-  - text: "Murat: NE?! KA\xC7IN! TSUNAM\u0130 GEL\u0130YOR, TEPELERE KO\u015EUN D\u0130YOR 112!!"
-    fromOperator: 0
-  - text: "Murat (3 dakika sonra, tepeden nefes nefese): Tepeye \xE7\u0131kt\u0131k... Operat\xF6r... Aman Allah\u0131m... Kumsal komple yok oldu! Deniz otellerin giri\u015F kat\u0131na kadar girdi! Sayenizde herkes tepeye ka\xE7t\u0131, kumsalda kimse kalmad\u0131..."
+  - text: "Murat: KA\u00c7IN! TSUNAM\u0130 GEL\u0130YOR D\u0130YOR 112!! Tepeye \u00e7\u0131kt\u0131k... Dalga kumsal\u0131 komple yuttu! Arama kurtarma ekibiniz insanlar\u0131 tepeye y\u00f6nlendiriyor."
     fromOperator: 0

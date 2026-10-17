@@ -14,30 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
   scenarioId: K-01
   readyForPlay: 1
-  sourceNotes: "Kaynak: afet_senaryolari_kaynak_12.md. Vatanda\u015F s\xF6zleri kaynaktan aynen al\u0131nm\u0131\u015Ft\u0131r."
+  sourceNotes: "Kaynak: kullan\u0131c\u0131n\u0131n 17.10.2026 tarihli k\u0131sa senaryo metni. Yaln\u0131zca konu\u015fmalar ve se\u00e7enekler g\u00fcncellendi; oyun kurallar\u0131 korundu."
   opening:
-  - text: "Operat\xF6r: 912 \u0130hbar ve Teyit Masas\u0131, buyrun?"
+  - text: "Operat\u00f6r: 912 \u0130hbar ve Teyit Masas\u0131, buyrun?"
     fromOperator: 1
-  - text: "KAZAZEDE: \u0130yi g\xFCnler operat\xF6r, ben yerel haber sitesi edit\xF6r\xFCy\xFCm. Ad\u0131m Emre. Twitter'da ve WhatsApp'ta bir ses kayd\u0131 patlad\u0131 az \xF6nce."
+  - text: "KAZAZEDE: \u0130yi g\u00fcnler, haber edit\u00f6r\u00fc Emre ben. WhatsApp'ta bir ses kayd\u0131 patlad\u0131 az \u00f6nce."
     fromOperator: 0
-  - text: "Operat\xF6r: Emre Bey, ses kayd\u0131n\u0131n i\xE7eri\u011Fi nedir?"
+  - text: "Operat\u00f6r: \u0130\u00e7eri\u011fi nedir Emre Bey?"
     fromOperator: 1
-  - text: "Emre: Kendini jeoloji uzman\u0131 diye tan\u0131tan biri *'Fay hatt\u0131ndaki gaz \xF6l\xE7\xFCld\xFC, bu gece tam saat 03:15'te 7.8 b\xFCy\xFCkl\xFC\u011F\xFCnde as\u0131l deprem gelecek, herkes \u015Fehri terk etsin'* diyor. B\xFCt\xFCn \u015Fehir sokaklara d\xF6k\xFCld\xFC, benzinliklerde izdiham var, yollar kilitlendi!"
+  - text: "Emre: Biri 'Gece 03:15'te 7.8 deprem olacak' diyor. Herkes soka\u011fa d\u00f6k\u00fcld\u00fc, benzinliklerde izdiham var, panik b\u00fcy\u00fck!"
     fromOperator: 0
-  - text: "Emre: Halk \xE7ok panik, ben de sitemizde 'Uzmanlar uyard\u0131, geceye dikkat' diye man\u015Fetten payla\u015Fay\u0131m m\u0131 bu uyar\u0131y\u0131, halk bilsin?!"
+  - text: "Operat\u00f6r: \u0130zdiham b\u00f6lgesine tedbiren bir ambulans ekibi \u00e7\u0131kar\u0131yorum."
+    fromOperator: 1
+  - text: "Emre: Halk panikte, sitemizde 'Uzmanlar uyard\u0131' diye man\u015fetten ge\u00e7elim mi haberi?!"
     fromOperator: 0
-  choiceA: "Payla\u015F\u0131n, tedbirli olmakta zarar yok, halk haz\u0131rl\u0131kl\u0131 olsun."
-  choiceB: "SAKIN PAYLA\u015EMAYIN! Depremin g\xFCn\xFC ve saati B\u0130L\u0130NEMEZ! Bu yalan bilgiyi yalanlay\u0131n!"
+  choiceA: "Payla\u015f\u0131n, tedbirli olmakta zarar yok, halk bilsin."
+  choiceB: "SAKIN PAYLA\u015eMAYIN! Depremin g\u00fcn\u00fc ve saati B\u0130L\u0130NEMEZ! Bu yalan bilgiyi yalanlay\u0131n!"
   correctChoiceIsB: 1
   resourceA: 1
   resourceB: 2
   dispatchA: 1
   dispatchB: 0
   outcomeA:
-  - text: "Emre: Tamamd\u0131r, man\u015Fetten ge\xE7iyorum haberi... \u015Eehir fel\xE7 oldu operat\xF6r! Trafik t\u0131kand\u0131, ambulanslar yolda kald\u0131, panikle \xE7\u0131kanlar kaza yapt\u0131! \u015Eehirde tam bir kaos var!"
+  - text: "Emre: Ge\u00e7tim haberi... \u015eehir fel\u00e7 oldu operat\u00f6r! Trafik t\u0131kand\u0131, panikle kazalar oldu, izdihamda ezilenler var!"
     fromOperator: 0
   outcomeB:
-  - text: "Operat\xF6r: Emre Bey kesinlikle yalan haber! Depremin dakikas\u0131n\u0131 d\xFCnyada hi\xE7bir bilim insan\u0131 tahmin edemez. Haberi derhal 'AFAD A\xE7\u0131klad\u0131: Saatli deprem iddias\u0131 sahtedir' \u015Feklinde yalanlama olarak ge\xE7in!"
+  - text: "Operat\u00f6r: Emre Bey yalan haber! Deprem saati bilinemez. Haberi derhal 'AFAD Yalanlad\u0131: Saatli deprem iddias\u0131 sahtedir' diye ge\u00e7in!"
     fromOperator: 1
-  - text: "Emre: Anla\u015F\u0131ld\u0131 operat\xF6r, AFAD a\xE7\u0131klamas\u0131yla haberi yalanlad\u0131k. Sosyal medyadaki panik k\u0131r\u0131ld\u0131, insanlar evlerine d\xF6n\xFCyor."
+  - text: "Emre: Yalanlama haberi ge\u00e7tik, panik dalgas\u0131 an\u0131nda duruldu, g\u00f6nderdi\u011finiz ambulans izdihamdaki hafif fenala\u015fanlara m\u00fcdahale etti."
     fromOperator: 0

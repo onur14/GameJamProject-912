@@ -13,6 +13,13 @@ public sealed class CityHealth : MonoBehaviour
     [SerializeField] private DispatchCallFlow phone;
     [SerializeField] private TMP_FontAsset interfaceFont;
 
+    [SerializeField] private TMP_FontAsset healthFont;
+    [SerializeField] private OnurConversationView choiceView;
+    private RectTransform missionNote;
+    private Image noteBorder;
+    private CanvasGroup noteGroup;
+    private bool noteShown;
+
     private RectTransform healthIndicator;
     private TMP_Text healthText;
     private CanvasGroup gameOverOverlay;
@@ -45,11 +52,13 @@ public sealed class CityHealth : MonoBehaviour
     private void OnEnable()
     {
         if (conversation != null) conversation.DecisionResolved += OnDecisionResolved;
+        if (choiceView != null) choiceView.ChoicesShown += ShowMissionNote;
     }
 
     private void OnDisable()
     {
         if (conversation != null) conversation.DecisionResolved -= OnDecisionResolved;
+        if (choiceView != null) choiceView.ChoicesShown -= ShowMissionNote;
     }
 
     private void OnDecisionResolved(bool correct)
@@ -69,6 +78,8 @@ public sealed class CityHealth : MonoBehaviour
     {
         StopAllCoroutines();
         damageAnimation = null;
+        noteShown = false;
+        if (missionNote != null) missionNote.gameObject.SetActive(false);
         HealthPercent = StartingHealth;
         IsGameOver = false;
         if (healthIndicator != null)
@@ -83,6 +94,7 @@ public sealed class CityHealth : MonoBehaviour
     private void EndGame()
     {
         IsGameOver = true;
+        if (missionNote != null) missionNote.gameObject.SetActive(false);
         conversation.EndGame();
         phone.SetInteractionLocked(true);
         gameOverOverlay.gameObject.SetActive(true);
@@ -100,15 +112,22 @@ public sealed class CityHealth : MonoBehaviour
         var indicatorObject = new GameObject("Şehir Sağlığı", typeof(RectTransform), typeof(TextMeshProUGUI));
         healthIndicator = (RectTransform)indicatorObject.transform;
         healthIndicator.SetParent(transform, false);
-        healthIndicator.anchorMin = new Vector2(.02f, .93f);
+        healthIndicator.anchorMin = new Vector2(.02f, .88f);
         healthIndicator.anchorMax = new Vector2(.24f, .99f);
         healthIndicator.offsetMin = healthIndicator.offsetMax = Vector2.zero;
         healthText = indicatorObject.GetComponent<TextMeshProUGUI>();
-        healthText.font = interfaceFont != null ? interfaceFont : TMP_Settings.defaultFontAsset;
+        healthText.font = healthFont != null ? healthFont : interfaceFont != null ? interfaceFont : TMP_Settings.defaultFontAsset;
         healthText.fontSize = 26;
         healthText.alignment = TextAlignmentOptions.TopLeft;
         healthText.color = new Color(.87f, .96f, .91f);
         healthText.raycastTarget = false;
+
+        var subtitle = NoteText("Şehir Hedefi", healthIndicator, "Şehri afete hazırla", 15);
+        subtitle.rectTransform.anchorMin = new Vector2(0, 0);
+        subtitle.rectTransform.anchorMax = new Vector2(1, .3f);
+        subtitle.rectTransform.offsetMin = subtitle.rectTransform.offsetMax = Vector2.zero;
+        subtitle.color = new Color(.65f, .82f, .82f);
+        BuildMissionNote();
 
         var overlayObject = new GameObject("Oyun Bitti Ekranı", typeof(RectTransform), typeof(Image), typeof(CanvasGroup));
         var overlayRect = (RectTransform)overlayObject.transform;
@@ -134,6 +153,86 @@ public sealed class CityHealth : MonoBehaviour
         title.text = "OYUN BİTTİ";
         title.raycastTarget = false;
         overlayObject.SetActive(false);
+    }
+
+    private TMP_Text NoteText(string name, RectTransform parent, string text, float size)
+    {
+        var label = new GameObject(name, typeof(RectTransform), typeof(TextMeshProUGUI)).GetComponent<TextMeshProUGUI>();
+        label.transform.SetParent(parent, false);
+        label.font = healthFont != null ? healthFont : interfaceFont != null ? interfaceFont : TMP_Settings.defaultFontAsset;
+        label.fontSize = size;
+        label.text = text;
+        label.color = new Color(.93f, .95f, .89f);
+        label.alignment = TextAlignmentOptions.TopLeft;
+        label.raycastTarget = false;
+        return label;
+    }
+
+    private void BuildMissionNote()
+    {
+        var root = new GameObject("İlk Karar Bilgi Notu", typeof(RectTransform), typeof(Image), typeof(CanvasGroup));
+        missionNote = (RectTransform)root.transform;
+        missionNote.SetParent(transform, false);
+        missionNote.anchorMin = missionNote.anchorMax = new Vector2(.025f, .48f);
+        missionNote.pivot = new Vector2(0, .5f);
+        missionNote.sizeDelta = new Vector2(270, 320);
+        noteBorder = root.GetComponent<Image>();
+        noteBorder.color = new Color(.95f, .67f, .24f);
+        noteBorder.raycastTarget = false;
+        noteGroup = root.GetComponent<CanvasGroup>();
+        noteGroup.blocksRaycasts = false;
+        noteGroup.interactable = false;
+        var inner = new GameObject("Not Zemini", typeof(RectTransform), typeof(Image));
+        var innerRect = (RectTransform)inner.transform;
+        innerRect.SetParent(missionNote, false);
+        innerRect.anchorMin = Vector2.zero; innerRect.anchorMax = Vector2.one;
+        innerRect.offsetMin = Vector2.one * 3; innerRect.offsetMax = Vector2.one * -3;
+        inner.GetComponent<Image>().color = new Color(.055f, .095f, .14f, .98f);
+        inner.GetComponent<Image>().raycastTarget = false;
+        var body = NoteText("Görev Notu", innerRect,
+            "<color=#F2B54D>! GÖREV NOTU</color>\n\nDoğru ve yanlış cevapların kaynaklarını etkiler.\n\nŞehir sağlığı %0'a düşerse kaybedersin.\n\nAna görevin: şehri doğru bilinçlendirmek ve kaynakları yönetmek.", 17);
+        body.rectTransform.anchorMin = Vector2.zero; body.rectTransform.anchorMax = Vector2.one;
+        body.rectTransform.offsetMin = new Vector2(14, 12); body.rectTransform.offsetMax = new Vector2(-14, -14);
+        root.SetActive(false);
+    }
+
+    private void ShowMissionNote()
+    {
+        if (noteShown || IsGameOver || missionNote == null) return;
+        noteShown = true;
+        StartCoroutine(AnimateMissionNote());
+    }
+
+    private IEnumerator AnimateMissionNote()
+    {
+        missionNote.gameObject.SetActive(true);
+        // Only the note shakes and flashes; choices remain clickable throughout.
+        var canvasRect = (RectTransform)transform;
+        float startX = canvasRect.rect.width + missionNote.rect.width;
+        for (float t = 0; t < .65f; t += Time.unscaledDeltaTime)
+        {
+            float p = Mathf.Clamp01(t / .65f);
+            float shake = p > .6f ? Mathf.Sin(p * 80) * 4 * (1 - p) : 0;
+            missionNote.anchoredPosition = new Vector2(Mathf.Lerp(startX, 0, 1 - Mathf.Pow(1 - p, 4)) + shake, 0);
+            noteGroup.alpha = Mathf.Clamp01(p * 5);
+            noteBorder.color = Color.Lerp(new Color(.95f, .67f, .24f), Color.white, Mathf.Max(0, Mathf.Sin(p * Mathf.PI * 6)) * (1 - p));
+            yield return null;
+        }
+        missionNote.anchoredPosition = Vector2.zero;
+        noteGroup.alpha = 1;
+        noteBorder.color = new Color(.95f, .67f, .24f);
+        float remaining = 18;
+        while (remaining > 0 && !IsGameOver)
+        {
+            if (choiceView == null || !choiceView.IsPaused) remaining -= Time.unscaledDeltaTime;
+            yield return null;
+        }
+        for (float t = 0; t < .25f; t += Time.unscaledDeltaTime)
+        {
+            noteGroup.alpha = 1 - t / .25f;
+            yield return null;
+        }
+        missionNote.gameObject.SetActive(false);
     }
 
     private IEnumerator AnimateDamage()

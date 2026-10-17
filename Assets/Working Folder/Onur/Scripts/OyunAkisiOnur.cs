@@ -20,7 +20,7 @@ public class OyunAkisiOnur : MonoBehaviour
     [SerializeField] private DispatchResources resources;
     [SerializeField] private DispatchResources.ResourceType wrongChoiceResource = DispatchResources.ResourceType.Police;
     [SerializeField] private DispatchResources.ResourceType correctChoiceResource = DispatchResources.ResourceType.Ambulances;
-    private const float ConnectionEventChance = 0.3f;
+    private const float ConnectionEventChance = 0.7f;
 
     private readonly Queue<MesajIstegi> bekleyenMesajlar = new Queue<MesajIstegi>();
     private readonly List<RectTransform> mesajlar = new List<RectTransform>();
@@ -101,8 +101,15 @@ public class OyunAkisiOnur : MonoBehaviour
 
     private IEnumerator DataConversation()
     {
+        yield return conversationView.ShowNewCall();
+        int lineIndex = 0;
         foreach (var line in currentScenario.opening)
+        {
             yield return MesajVeBekle(line.text, line.fromOperator);
+            // A mid-call outage also appears in the fourth call, without losing its history.
+            if (++lineIndex == 2 && currentScenario.scenarioId == "S-01")
+                yield return conversationView.RecoverConnection(false);
+        }
         secimBekleniyor = true;
         conversationView.SetChoices(currentScenario.choiceA, currentScenario.choiceB);
         geriSayimRutini = StartCoroutine(SecimGeriSayimi());
@@ -345,6 +352,7 @@ public class OyunAkisiOnur : MonoBehaviour
 
     private IEnumerator GirisDiyalogu()
     {
+        if (conversationView != null) yield return conversationView.ShowNewCall();
         yield return MesajVeBekle("KAZAZEDE: Alo! ALO, ALO!!!! Kurban olayım sesimi duyun, yardım edin!", false);
         yield return MesajVeBekle("Operatör: 912 Acil Çağrı Merkezi, ben Operatör Melek. Sakin olun, isminizi, nerede olduğunuzu ve durumunuzu söyleyin.", true);
         yield return MesajVeBekle("KAZAZEDE: Ben Z-Zeynep... İzmir Bayraklı'dayız, buralarda yüksek katlı bir sitedeyiz, 7. kattayız! Bina beşik gibi sallanıyor şu an, durmuyor! Duvarlar çatladı, vitrin tuzla buz oldu!", false);

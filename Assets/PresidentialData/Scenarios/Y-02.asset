@@ -14,32 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DispatchScenarioData
   scenarioId: Y-02
   readyForPlay: 1
-  sourceNotes: "Kaynak: afet_senaryolari_kaynak_12.md. Vatanda\u015F s\xF6zleri kaynaktan aynen al\u0131nm\u0131\u015Ft\u0131r."
+  sourceNotes: "Kaynak: kullan\u0131c\u0131n\u0131n 17.10.2026 tarihli k\u0131sa senaryo metni. Yaln\u0131zca konu\u015fmalar ve se\u00e7enekler g\u00fcncellendi; oyun kurallar\u0131 korundu."
   opening:
-  - text: "Operat\xF6r: 912 Acil, operat\xF6r dinlemede. Durumunuz nedir?"
+  - text: "KAZAZEDE: Alo! Orman yan\u0131yor, etraf\u0131m\u0131z duman oldu yeti\u015fin!"
+    fromOperator: 0
+  - text: "Operat\u00f6r: 912 Acil. \u0130sminiz ve konumunuz?"
     fromOperator: 1
-  - text: "KAZAZEDE: Evlad\u0131m yeti\u015Fin! Ben kom\u015Fusu Ay\u015Fe... Bursa Nil\xFCfer'deyiz. Kar\u015F\u0131 daireden kara dumanlar \xE7\u0131k\u0131yor! \u0130\xE7eride 6 ya\u015F\u0131ndaki Can yaln\u0131z kald\u0131, annesi markete inmi\u015Fti!"
+  - text: "KAZAZEDE: Kemal ben, Marmaris'te ormanday\u0131z! 7 ya\u015f\u0131ndaki o\u011flum yan\u0131mda. Vadi alev dolu, herkes 'Tepeye, zirveye ko\u015fun' diyor!"
     fromOperator: 0
-  - text: "Operat\xF6r: Ay\u015Fe Han\u0131m, itfaiye yolda. \xC7ocu\u011Fa ula\u015Fabiliyor musunuz?"
+  - text: "Operat\u00f6r: Kemal Bey, yang\u0131n s\u00f6nd\u00fcrme araz\u00f6z ekibini b\u00f6lgeye y\u00f6nlendirdim."
     fromOperator: 1
-  - text: "Ay\u015Fe: Kap\u0131y\u0131 zorlad\u0131k a\xE7t\u0131k ama duman \xE7ok yo\u011Fun! \u0130\xE7eriden Can'\u0131n sesi geliyor, ' dolab\u0131n i\xE7ine sakland\u0131m' diye sesleniyor!!"
+  - text: "Kemal: Operat\u00f6r Han\u0131m, da\u011f\u0131n zirvesine do\u011fru t\u0131rman\u0131p kurtulal\u0131m de\u011fil mi?!"
     fromOperator: 0
-  - text: "Ay\u015Fe: \xC7ocu\u011Fa sesleneyim mi 'Dolaptan \xE7\u0131kma orada bekle' diye? Dumandan saklanm\u0131\u015F olur mu orada?!"
-    fromOperator: 0
-  choiceA: "Evet, dolab\u0131n kapa\u011F\u0131n\u0131 kapats\u0131n, i\xE7eride saklan\u0131p itfaiyeyi beklesin!"
-  choiceB: "HAYIR! \xC7ocu\u011Fa hemen dolaptan \xE7\u0131k\u0131p yere yatmas\u0131n\u0131, s\xFCr\xFCnerek kap\u0131ya do\u011Fru gelmesini s\xF6yleyin!"
+  choiceA: "Evet, yang\u0131n a\u015fa\u011f\u0131daysa da\u011f\u0131n tepesine do\u011fru h\u0131zla t\u0131rman\u0131n!"
+  choiceB: "ASLA YUKARI KO\u015eMAYIN! Yang\u0131n tepeye baca gibi \u00e7ok daha h\u0131zl\u0131 t\u0131rman\u0131r! Yan tarafa, a\u00e7\u0131k yola ka\u00e7\u0131n!"
   correctChoiceIsB: 1
   resourceA: 0
   resourceB: 0
   dispatchA: 1
   dispatchB: 1
   outcomeA:
-  - text: "Ay\u015Fe: Can! Yavrum \xE7\u0131kma sak\u0131n dolaptan, orda bekle! ... Evlad\u0131m duman koyula\u015Ft\u0131, \xE7ocuktan ses kesildi! Can ses ver teyzeye! CAN!!"
+  - text: "Kemal: Tepeye t\u0131rman\u0131yoruz... Alevler arkam\u0131zdan u\u00e7arak geliyor resmen! Zirve duman doldu, nefes yok, s\u0131k\u0131\u015ft\u0131k burad---"
     fromOperator: 0
-  - text: "\u0130tfaiye Raporu: \xC7ocuk odadaki gard\u0131ropta bayg\u0131n bulundu. A\u011F\u0131r karbonmonoksit zehirlenmesi mevcut."
+  - text: "OGM Telsizi: Yang\u0131n tepeyi sard\u0131! Zirvede mahsur vatanda\u015flar var, 2 araz\u00f6z alev \u00e7emberini yarmak i\u00e7in tepeye t\u0131rman\u0131yor!"
     fromOperator: 0
   outcomeB:
-  - text: "Operat\xF6r: Ay\u015Fe Han\u0131m derhal ba\u011F\u0131r\u0131n: 'Can saklanma! Yere yat, k\xF6pek gibi emekleyerek sesime do\u011Fru gel' deyin! \xC7ocuklar yang\u0131nda asla saklanmamal\u0131!"
+  - text: "Operat\u00f6r: Kemal Bey tepeye \u00e7\u0131kmay\u0131n, yang\u0131n yukar\u0131 f\u0131rlar! Yan taraftaki patikadan a\u015fa\u011f\u0131daki yang\u0131n emniyet yoluna inin!"
     fromOperator: 1
-  - text: "Ay\u015Fe: Can! \xC7\u0131k dolaptan teyzem, saklanmak yok! Yere yat yere, sesime do\u011Fru emekle! ... G\xF6r\xFCyorum, duman\u0131n alt\u0131ndan emekliyor yavrum! Tuttum kolundan, \xE7ektim \xE7\u0131kard\u0131m! \u015E\xFCk\xFCrler olsun!"
+  - text: "Kemal: D\u00f6nd\u00fck yan patikaya! Tepe alev topuna d\u00f6nd\u00fc... Yola ula\u015ft\u0131k, y\u00f6nlendirdi\u011finiz itfaiye arac\u0131 bizi kar\u015f\u0131lad\u0131, kurtulduk!"
     fromOperator: 0
