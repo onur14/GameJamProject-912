@@ -9,16 +9,27 @@ public sealed class CallerInfoView : MonoBehaviour
     [SerializeField] private TMP_Text locationLabel;
     [SerializeField] private TMP_Text emergencyLabel;
     [SerializeField] private TMP_Text summaryLabel;
+    [SerializeField] private bool sentenceMode;
 
     private Coroutine arrival;
 
     public void Show(DispatchScenarioData scenario)
     {
         if (scenario == null) { Clear(); return; }
-        Set(nameLabel, scenario.callerName, "Arayan: ");
-        Set(locationLabel, scenario.callerLocation, "Konum: ");
-        Set(emergencyLabel, scenario.emergencyType, "Olay: ");
-        Set(summaryLabel, scenario.situationSummary, "Durum: ");
+        if (sentenceMode)
+        {
+            Set(nameLabel, scenario.callerName, "");
+            Set(locationLabel, scenario.callerLocation, "", " bölgesinden arıyor.");
+            Set(emergencyLabel, scenario.emergencyType, "Bildirilen olay: ", ".");
+            Set(summaryLabel, scenario.situationSummary, "", EndsSentence(scenario.situationSummary) ? "" : ".");
+        }
+        else
+        {
+            Set(nameLabel, scenario.callerName, "Arayan: ");
+            Set(locationLabel, scenario.callerLocation, "Konum: ");
+            Set(emergencyLabel, scenario.emergencyType, "Olay: ");
+            Set(summaryLabel, scenario.situationSummary, "Durum: ");
+        }
         gameObject.SetActive(true);
         if (arrival != null) StopCoroutine(arrival);
         arrival = StartCoroutine(AnimateArrival());
@@ -46,10 +57,12 @@ public sealed class CallerInfoView : MonoBehaviour
         rect.anchoredPosition = Vector2.zero; fade.alpha = 1; arrival = null;
     }
 
-    private static void Set(TMP_Text label, string value, string prefix)
+    private static bool EndsSentence(string s) { s = s == null ? "" : s.TrimEnd(); return s.EndsWith(".") || s.EndsWith("!") || s.EndsWith("?"); }
+
+    private static void Set(TMP_Text label, string value, string prefix, string suffix = "")
     {
         if (label == null) return;
         label.gameObject.SetActive(!string.IsNullOrWhiteSpace(value));
-        label.text = string.IsNullOrWhiteSpace(value) ? string.Empty : prefix + value;
+        label.text = string.IsNullOrWhiteSpace(value) ? string.Empty : prefix + value + suffix;
     }
 }
