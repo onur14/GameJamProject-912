@@ -179,15 +179,16 @@ public sealed class QuickQuestionView : MonoBehaviour
         headerImage.raycastTarget = false;
 
         // Category title (e.g. "SAHA TALEBİ")
-        categoryLabel = CreateText("CategoryLabel", headerGo.transform, new Vector2(0.04f, 0.1f), new Vector2(0.69f, 0.9f), 17, amberAccent);
+        categoryLabel = CreateText("CategoryLabel", headerGo.transform, new Vector2(0.04f, 0.1f), new Vector2(0.63f, 0.9f), 17, amberAccent);
         categoryLabel.fontStyle = FontStyles.Bold;
         categoryLabel.alignment = TextAlignmentOptions.MidlineLeft;
 
         // Status tag (e.g. "[ ! ACİL ]")
-        statusTag = CreateText("StatusTag", headerGo.transform, new Vector2(0.74f, 0.1f), new Vector2(0.96f, 0.9f), 12, coolCyan);
+        statusTag = CreateText("StatusTag", headerGo.transform, new Vector2(0.64f, 0.1f), new Vector2(0.97f, 0.9f), 12, coolCyan);
         statusTag.alignment = TextAlignmentOptions.MidlineRight;
         statusTag.enableAutoSizing=true;statusTag.fontSizeMin=9;statusTag.fontSizeMax=12;
         statusTag.textWrappingMode=TextWrappingModes.NoWrap;
+        statusTag.overflowMode=TextOverflowModes.Truncate;
         statusTag.text = "[ ! ]";
         categoryLabel.enableAutoSizing=true;categoryLabel.fontSizeMin=10;categoryLabel.fontSizeMax=17;
 
@@ -409,7 +410,7 @@ public sealed class QuickQuestionView : MonoBehaviour
             float progress = Mathf.Clamp01(remaining / questionDuration);
 
             bool critical = progress <= .3f;
-            statusTag.text = (currentConfig.isDisinformation ? "TEYİT " : "ACİL ") + Mathf.CeilToInt(remaining) + "s";
+            statusTag.text = (currentConfig.isDisinformation ? "TEYİT " : "ACİL ") + Mathf.CeilToInt(remaining);
             statusTag.color = critical ? timerRedColor : coolCyan;
             if (borderPulseImage) borderPulseImage.color = critical
                 ? new Color(timerRedColor.r, timerRedColor.g, timerRedColor.b, .3f + .4f * Mathf.Abs(Mathf.Sin(Time.unscaledTime * 9))) : Color.clear;
@@ -480,6 +481,13 @@ public sealed class QuickQuestionView : MonoBehaviour
         feedbackLabel.color = coolCyan;
     }
 
+    public void ShowWarningFeedback(string message)
+    {
+        if(string.IsNullOrEmpty(message))return;
+        feedbackLabel.text += "\n" + message;
+        feedbackLabel.color = timerRedColor;
+    }
+
     private void OnChoiceClicked(int choiceIndex)
     {
         // Strict double-click prevention
@@ -492,7 +500,9 @@ public sealed class QuickQuestionView : MonoBehaviour
 
         string feedback = choiceIndex == 0 ? currentConfig.choiceAFeedback : currentConfig.choiceBFeedback;
         feedbackLabel.text = feedback;
-        feedbackLabel.color = currentConfig.isDisinformation && choiceIndex != currentConfig.correctChoiceIndex ? timerRedColor : coolCyan;
+        bool negative = currentConfig.isDisinformation && choiceIndex != currentConfig.correctChoiceIndex
+            || !currentConfig.isDisinformation && choiceIndex == 1 && currentConfig.choiceBEffect.IsZero;
+        feedbackLabel.color = negative ? timerRedColor : coolCyan;
         feedbackLabel.alpha = 1f;
 
         buttonA.gameObject.SetActive(false);

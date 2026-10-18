@@ -92,7 +92,7 @@ public sealed class ExtinguisherPreparationGame : MonoBehaviour
         reading.text=Mathf.RoundToInt(shownPressure*100)+" / 100";
         stabilityFill.rectTransform.anchorMax=new Vector2(stableTime/.65f,1);
         bottle.anchoredPosition=Vector2.right*(Mathf.Sin(Time.unscaledTime*38)*reaction*3);
-        hint.text=Succeeded?"BASINÇ HAZIR":rejected?"Yeşil aralıkta\ndengelenmesini bekle.":adjustment!=0?"AYARLANIYOR":ready?"DENGELENDİ · KONTROL ET":"ARTIR / AZALT\nBasılı tut.";
+        hint.text=Succeeded?"BASINÇ HAZIR":rejected?"Yeşilde bırak,\ndengeyi bekle.":adjustment!=0?"AYARLANIYOR":ready?"DENGELENDİ · KONTROL ET":"ARTIR / AZALT\nYeşilde bırak.";
         hint.color=rejected?Amber:Succeeded?Green:White;
     }
     public void Check()

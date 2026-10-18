@@ -449,12 +449,14 @@ public sealed class QuickQuestionManager : MonoBehaviour
         {
             bool wrong = choice != config.correctChoiceIndex;
             if (wrong && cityHealth) cityHealth.ApplyDamage(config.wrongAnswerHealthDamage);
+            if (wrong) views[slot].ShowWarningFeedback(WrongAnswerReason(config.id));
             if (visualFeedback) visualFeedback.SignalAlert(wrong);
         }
         if (choice == 1 && config.choiceBHealthDamage > 0 && cityHealth)
             cityHealth.ApplyDamage(config.choiceBHealthDamage);
+        bool unsupportedDecline = !config.isDisinformation && choice == 1 && effect.IsZero;
         bool earnsReward = (!config.isDisinformation || choice == config.correctChoiceIndex)
-            && !(choice == 1 && config.choiceBHealthDamage > 0);
+            && !unsupportedDecline && !(choice == 1 && config.choiceBHealthDamage > 0);
         if (earnsReward && cityHealth)
         {
             int before = cityHealth.HealthPercent;
@@ -468,6 +470,24 @@ public sealed class QuickQuestionManager : MonoBehaviour
             views[slot].ShowRewardFeedback(bonus);
         }
         GameAudioFeedback.Feedback(earnsReward);resolvedInScenario++;QuestionResolved?.Invoke(result);return true;
+    }
+    private static string WrongAnswerReason(string id)
+    {
+        switch(id)
+        {
+            case "QQ-09": return "Depremin saati kesin bilinemez.";
+            case "QQ-10": return "Tahliye emrini resmî kanaldan doğrula.";
+            case "QQ-11": case "QQ-16": return "Videonun tarihini ve konumunu doğrula.";
+            case "QQ-12": return "Yol bilgisini resmî duyurudan doğrula.";
+            case "QQ-15": return "Kişisel IBAN'ı resmî duyuru sanma.";
+            case "QQ-17": return "Hasarlı binaya geri dönme.";
+            case "QQ-18": return "Gaz kokusunda elektrik düğmesine dokunma.";
+            case "QQ-19": return "Dumanda alçakta kalarak çıkışa yönel.";
+            case "QQ-20": return "Sel suyuna araçla girme.";
+            case "QQ-23": return "Acil araçlar için yolları açık tut.";
+            case "QQ-24": return "Yanan yağa su dökme.";
+            default: return "Güvenli bilgiyi resmî kaynakla doğrula.";
+        }
     }
     private QuickQuestionResult CreateResult(QuickQuestionConfig config,int slot)
     {

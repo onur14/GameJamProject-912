@@ -40,8 +40,11 @@ public sealed class ShiftReportData
     public int IncorrectMiniActions { get; private set; }
 
     public static string GradeFor(int score) => score >= 85 ? "A" : score >= 70 ? "B" : score >= 50 ? "C" : "D";
-    public static int CalculateScore(int incorrect, int missed, int failedTasks, int emptyServices, bool slow)
-        => Mathf.Clamp(100 - incorrect * 10 - missed * 5 - failedTasks * 8 - emptyServices * 3 - (slow ? 5 : 0), 0, 100);
+    public static int CalculateScore(int incorrect, int missed, int failedTasks, int emptyServices, bool slow,
+        int verificationMistakes = 0, int timedOutDecisions = 0, int incorrectMiniActions = 0, int health = 100)
+        => Mathf.Clamp(100 - incorrect * 10 - missed * 5 - failedTasks * 8 - emptyServices * 3 - (slow ? 5 : 0)
+            - verificationMistakes * 3 - timedOutDecisions * 2 - Mathf.Min(incorrectMiniActions, 5)
+            - (100 - Mathf.Clamp(health, 0, 100)) / 20, 0, 100);
 
     public static ShiftReportData Capture(PresidentialBriefingManager briefing, QuickQuestionManager questions,
         MiniGameWindow minigames, CityHealth health, string gameplayScene)
@@ -73,7 +76,8 @@ public sealed class ShiftReportData
                         data.VerificationMistakes++;
                 }
         int empty = (data.Ambulances == 0 ? 1 : 0) + (data.Firefighters == 0 ? 1 : 0) + (data.RescueTeams == 0 ? 1 : 0);
-        data.Score = CalculateScore(data.Completed - data.Correct, data.Missed, data.FailedTasks, empty, data.SlowResponses);
+        data.Score = CalculateScore(data.Completed - data.Correct, data.Missed, data.FailedTasks, empty, data.SlowResponses,
+            data.VerificationMistakes, data.TimedOutDecisions, data.IncorrectMiniActions, data.Health);
         var summary = new List<string>();
         var last = briefing.ScenarioOutcomes.LastOrDefault();
         if (last != null) summary.Add(last.scenarioId + " — " + (last.correct ? "Doğru yönlendirme yapıldı." : "Yönlendirme yeniden değerlendirilmeli."));
@@ -90,6 +94,7 @@ public sealed class ShiftReportData
         {
             lines.Add(Completed>0 && Correct*4>=Completed*3 ? "Doğru müdahale kararları vardiyayı destekledi." : "Vardiya tamamlandı; bazı yönlendirmeler hatalıydı.");
             lines.Add(Missed>0 ? $"{Missed} destek talebi yanıtsız kaldı." : HasResponseTimes ? SlowResponses ? "Destek taleplerine yanıtlar gecikti." : "Destek taleplerine zamanında yanıt verildi." : "İkincil taleplere ait yanıt kaydı bulunmuyor.");
+            if(VerificationMistakes>0)lines.Add($"Bilgi teyidinde {VerificationMistakes} hatalı karar verildi.");
             int minimum=Mathf.Min(Ambulances,Mathf.Min(Firefighters,RescueTeams));
             lines.Add(minimum==0 ? "Bazı hizmetlerde ekip kapasitesi tükendi." : minimum<3 ? "Bazı hizmetlerde yedek ekip sayısı azaldı." : "Kaynak yönetimi genel olarak dengeliydi.");
             if(FailedTasks>0)lines.Add($"{FailedTasks} hazırlık görevi başarısız sonuçlandı.");

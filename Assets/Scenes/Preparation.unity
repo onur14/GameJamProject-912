@@ -152,6 +152,7 @@ MonoBehaviour:
   bagWindow: {fileID: 206787156}
   activitySuccess: {fileID: 8300000, guid: d7be0d659ae972c4bac77954f03130cb, type: 3}
   activityFailure: {fileID: 8300000, guid: 415e082ae92b46e4aac655142830c78f, type: 3}
+  minigameMusic: {fileID: 8300000, guid: 82b5c4a4fdcea314ea213af56febd14b, type: 3}
 --- !u!4 &103132446
 Transform:
   m_ObjectHideFlags: 0

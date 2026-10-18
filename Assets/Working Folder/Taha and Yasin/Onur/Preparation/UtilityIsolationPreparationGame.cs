@@ -80,14 +80,14 @@ public sealed class UtilityIsolationPreparationGame : MonoBehaviour
     {
         int count=0;
         for(int i=0;i<5;i++){if(selected[i])count++;borders[i].color=selected[i]?Amber:new Color(.16f,.23f,.27f);tags[i].text=selected[i]?"İŞARETLİ":"";borders[i].transform.localScale=Vector3.one;}
-        hint.text=Succeeded?"İKİ NOKTA DOĞRU İŞARETLENDİ":count+" / 2 NOKTA İŞARETLİ";
+        hint.text=Succeeded?"DOĞALGAZ ANA VANASI VE ELEKTRİK ANA ŞALTERİ İŞARETLENDİ":count+" / 2 NOKTA İŞARETLİ";
         hint.color=Succeeded?Green:White;resultLight.color=Succeeded?Green:new Color(.16f,.23f,.27f);
     }
     public void Check()
     {
         if(!CanAct)return;
         bool correct=true;for(int i=0;i<5;i++)if(selected[i]!=IsTarget(i))correct=false;
-        if(!correct){mistake?.Invoke();hint.text="İki aktif hattı yeniden kontrol et.";hint.color=Amber;resultLight.color=Amber;return;}
+        if(!correct){mistake?.Invoke();hint.text="Alev: doğalgaz · yıldırım: elektrik. İki hattı kontrol et.";hint.color=Amber;resultLight.color=Amber;return;}
         Succeeded=true;foreach(var point in points)point.interactable=false;CheckButton.interactable=false;Refresh();complete?.Invoke();
     }
     private void OnDestroy(){foreach(var sprite in art)if(sprite)Destroy(sprite);if(root)Destroy(root.gameObject);}

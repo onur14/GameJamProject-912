@@ -12,7 +12,9 @@ public sealed class PreparationDirector : MonoBehaviour
     [SerializeField] private MiniGameWindow bagWindow;
     [SerializeField] private AudioClip activitySuccess;
     [SerializeField] private AudioClip activityFailure;
+    [SerializeField] private AudioClip minigameMusic;
     private AudioSource activityAudio;
+    private AudioSource musicAudio;
     private RectTransform house, activityHost;
     private CanvasGroup mapGroup, modal;
     private TMP_Text status, activityTitle, feedback;
@@ -63,6 +65,7 @@ public sealed class PreparationDirector : MonoBehaviour
     {
         if(!FindAnyObjectByType<AudioListener>()&&Camera.main)Camera.main.gameObject.AddComponent<AudioListener>();
         activityAudio=gameObject.AddComponent<AudioSource>();activityAudio.playOnAwake=false;activityAudio.spatialBlend=0;activityAudio.volume=.28f;
+        musicAudio=gameObject.AddComponent<AudioSource>();musicAudio.playOnAwake=false;musicAudio.loop=true;musicAudio.spatialBlend=0;musicAudio.volume=.08f;musicAudio.clip=minigameMusic;
         string destination=PreparationRun.Destination;
         PreparationRun.Begin(destination);
         Build(); RefreshStatus();
@@ -77,6 +80,7 @@ public sealed class PreparationDirector : MonoBehaviour
     public void BeginRecording()
     {
         if(!PreparationRun.StartTake())return;
+        if(musicAudio.clip&&!musicAudio.isPlaying)musicAudio.Play();
         bagWindow.Close();bagWindow.ResetForNewSession();
         earthquake.Hide();flood.Hide();detector.Hide();extinguisher.Hide();isolation.Hide();modal.gameObject.SetActive(false);
         extinguisher.ResetForNewTake();isolation.ResetForNewTake();
@@ -205,17 +209,24 @@ public sealed class PreparationDirector : MonoBehaviour
     private void OnTrainingMistake()
     {
         if(finishing||TimedOut)return;GameAudioFeedback.Feedback(false);PreparationRun.AdjustHealth(-2);RefreshStatus();
-        ShowFeedback(false,ActiveActivity==1?"YANLIŞ TUŞ · TEKRAR DENE":ActiveActivity>=4?"KONTROL BAŞARISIZ · DÜZENLE VE TEKRAR DENE":"GÜVENLİ NOKTA DEĞİL · TEKRAR DENE");
+        string message=ActiveActivity==1?"YANLIŞ TUŞ · BAŞINI KORUYUP TUTUN":
+            ActiveActivity==2?"ALÇAK VE SUYA YAKIN YERLERDEN UZAKLAŞ":
+            ActiveActivity==4?"İBREYİ YEŞİLDE BIRAK · DENGELENMESİNİ BEKLE":
+            ActiveActivity==5?"ALEV: DOĞALGAZ VANASI · YILDIRIM: ELEKTRİK ŞALTERİ":
+            "KONTROL BAŞARISIZ · TEKRAR DENE";
+        ShowFeedback(false,message);
     }
     public void CompleteActivity(int index)
     {
         if(ActiveActivity!=index||busy||finishing||!PreparationRun.Complete(index))return;
         finishing=true;busy=true;modal.interactable=false;RefreshStatus();
-        activityAudio.Stop();if(activitySuccess)activityAudio.PlayOneShot(activitySuccess);
+        activityAudio.Stop();
+        if(activitySuccess){activityAudio.clip=activitySuccess;activityAudio.Play();StartCoroutine(StopSuccessAudio());}
         ShowFeedback(true,"KLİP KAYDEDİLDİ · "+PreparationBroadcast.SafetyMessages[index]);
-        if(PreparationRun.preparationComplete){timerRunning=false;PreparationRun.FinishTake();}
+        if(PreparationRun.preparationComplete){timerRunning=false;PreparationRun.FinishTake();musicAudio.Stop();}
         StartCoroutine(CompleteAndReturn());
     }
+    private IEnumerator StopSuccessAudio(){yield return new WaitForSecondsRealtime(1.3f);if(activityAudio.clip==activitySuccess)activityAudio.Stop();}
     private IEnumerator CompleteAndReturn(){yield return new WaitForSecondsRealtime(1.6f);yield return LeaveActivity();}
     private void ShowFeedback(bool success,string message)
     {
@@ -287,6 +298,7 @@ public sealed class PreparationDirector : MonoBehaviour
         timerRunning=false;remainingSeconds=0;RefreshTimer();busy=true;finishing=false;
         StopAllCoroutines();activity=null;feedbackAnimation=null;
         PreparationRun.AbortTake();mapGroup.interactable=false;
+        musicAudio.Stop();
         bagWindow.Close();bagWindow.BagGame.CancelDrags();earthquake.Hide();flood.Hide();detector.Hide();extinguisher.Hide();isolation.Hide();
         feedbackGroup.alpha=0;feedbackFlash.color=Color.clear;
         activityTitle.text="HAZIRLIK SÜRESİ";modal.gameObject.SetActive(true);modal.alpha=1;modal.interactable=true;

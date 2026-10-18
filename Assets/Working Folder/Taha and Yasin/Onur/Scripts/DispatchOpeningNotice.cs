@@ -19,6 +19,13 @@ public static class DispatchOpeningNotice
         text.font = font ? font : TMP_Settings.defaultFontAsset; text.fontStyle = FontStyles.Bold; text.alignment = TextAlignmentOptions.Center;
         text.enableAutoSizing = true; text.fontSizeMin = 20; text.fontSizeMax = 38; text.raycastTarget = false;
         text.text = "Doğal tehlikelerin afete dönüşmesinde\n<color=#F2B54D>maruz kalma ve kırılganlık</color> belirleyicidir.\n\nHazırlık ve güvenli kararlarla riski azaltabiliriz.\n<size=65%>UNDRR yaklaşımından uyarlanmıştır</size>\n<color=#F2B54D>#NoNaturalDisasters</color>";
+        var disclaimerObject = new GameObject("Kurgusal Numara Uyarısı", typeof(RectTransform), typeof(TextMeshProUGUI));
+        var disclaimer = disclaimerObject.GetComponent<TextMeshProUGUI>(); disclaimer.transform.SetParent(root.transform, false);
+        var disclaimerRect = disclaimer.rectTransform; disclaimerRect.anchorMin = new Vector2(.13f,.11f); disclaimerRect.anchorMax = new Vector2(.87f,.18f);
+        disclaimerRect.offsetMin = disclaimerRect.offsetMax = Vector2.zero;
+        disclaimer.font = text.font; disclaimer.fontSize = 20; disclaimer.alignment = TextAlignmentOptions.Center;
+        disclaimer.color = new Color(.92f,.93f,.88f); disclaimer.raycastTarget = false;
+        disclaimer.text = "912 kurgusal oyun merkezidir · Gerçek acil durumlarda 112'yi arayın.";
         var barObject = new GameObject("Işık Çizgisi", typeof(RectTransform), typeof(Image));
         var bar = (RectTransform)barObject.transform; bar.SetParent(root.transform, false);
         bar.anchorMin = new Vector2(.13f,.22f); bar.anchorMax = new Vector2(.87f,.225f); bar.offsetMin = bar.offsetMax = Vector2.zero;
