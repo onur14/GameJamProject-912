@@ -56,7 +56,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         text.fontStyle |= FontStyles.Bold; text.fontWeight = FontWeight.Heavy;
         text.fontSize = size; text.color = color; text.raycastTarget = false;
         text.textWrappingMode = TextWrappingModes.Normal;
-        text.overflowMode = TextOverflowModes.Overflow;
+        text.overflowMode = TextOverflowModes.Ellipsis;
         return text;
     }
     private Button Button(string name, Transform parent, Vector2 min, Vector2 max, out TMP_Text label)
@@ -70,6 +70,10 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         button.colors = colors;
         var navigation = button.navigation; navigation.mode = Navigation.Mode.None; button.navigation = navigation;
         label = Text("Metin", panel.transform, new Vector2(.045f,.045f), new Vector2(.955f,.955f), 21, Paper);
+        label.enableAutoSizing = true;
+        label.fontSizeMin = 14;
+        label.fontSizeMax = 21;
+        label.lineSpacing = 0;
         return button;
     }
     private void Build()
@@ -103,6 +107,9 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         body.fontSizeMin = 21;
         body.fontSizeMax = 25;
         stock = Text("Mevcut Kaynaklar", board, new Vector2(.035f,.365f), new Vector2(.965f,.44f), 23, Amber);
+        stock.enableAutoSizing = true;
+        stock.fontSizeMin = 17;
+        stock.fontSizeMax = 23;
         offers[0] = Button("Plan A", board, new Vector2(.035f,.10f), new Vector2(.49f,.35f), out offerTexts[0]);
         offers[1] = Button("Plan B", board, new Vector2(.51f,.10f), new Vector2(.965f,.35f), out offerTexts[1]);
         offers[0].onClick.AddListener(() => Choose(0)); offers[1].onClick.AddListener(() => Choose(1));

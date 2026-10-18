@@ -119,11 +119,12 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         label.enableAutoSizing=true;label.fontSizeMin=20;label.fontSizeMax=26;label.fontSize=26;
         label.fontStyle=FontStyles.Bold;label.characterSpacing=.1f;label.lineSpacing=2f;
         label.alignment=TextAlignmentOptions.MidlineLeft;label.margin=new Vector4(4,2,4,2);label.raycastTarget=false;
-        label.textWrappingMode=TextWrappingModes.Normal;label.overflowMode=TextOverflowModes.Overflow;
+        label.textWrappingMode=TextWrappingModes.Normal;label.overflowMode=TextOverflowModes.Ellipsis;
         label.color=new Color(.88f,.92f,.87f);
         Anchor(effect.rectTransform,new Vector2(.055f,.025f),new Vector2(.945f,.25f));
         effect.enableAutoSizing=true;effect.fontSizeMin=17;effect.fontSizeMax=20;effect.color=new Color(.98f,.77f,.43f);
         effect.alignment=TextAlignmentOptions.MidlineLeft;
+        effect.overflowMode=TextOverflowModes.Ellipsis;
         if(button.targetGraphic)button.targetGraphic.color=new Color(.11f,.18f,.21f);
         var colors=button.colors;colors.normalColor=Color.white;colors.highlightedColor=new Color(1.22f,1.26f,1.28f);
         colors.selectedColor=colors.highlightedColor;colors.fadeDuration=.12f;

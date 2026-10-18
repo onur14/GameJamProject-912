@@ -53,7 +53,7 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
         Panel("Zemin",room,Vector2.zero,new Vector2(1,.23f),new Color(.075f,.12f,.16f));
         Panel("Zemin Çizgisi",room,new Vector2(0,.23f),new Vector2(1,.238f),new Color(.31f,.39f,.40f));
         var desk=Panel("Sağlam Masa",room,new Vector2(.62f,.13f),new Vector2(.62f,.13f),Color.white);
-        desk.sprite=cutouts.Cut(576,43,180,119,true);desk.rectTransform.pivot=new Vector2(.5f,0);
+        desk.sprite=cutouts.Cut(31,190,241,143,keepLargest:true,removeBright:true);desk.rectTransform.pivot=new Vector2(.5f,0);
         desk.rectTransform.sizeDelta=desk.sprite.rect.size*pixelScale;
         character=Panel("Aynı Karakter",room,new Vector2(.33f,.11f),new Vector2(.33f,.11f),Color.white);
         characterRect=character.rectTransform;characterRect.pivot=new Vector2(.5f,0);SetPose(0);

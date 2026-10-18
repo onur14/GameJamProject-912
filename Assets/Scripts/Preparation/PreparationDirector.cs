@@ -80,6 +80,7 @@ public sealed class PreparationDirector : MonoBehaviour
     public void BeginRecording()
     {
         if(!PreparationRun.StartTake())return;
+        activityAudio.volume=.28f;
         if(musicAudio.clip&&!musicAudio.isPlaying)musicAudio.Play();
         bagWindow.Close();bagWindow.ResetForNewSession();
         earthquake.Hide();flood.Hide();detector.Hide();extinguisher.Hide();isolation.Hide();modal.gameObject.SetActive(false);
@@ -226,7 +227,19 @@ public sealed class PreparationDirector : MonoBehaviour
         if(PreparationRun.preparationComplete){timerRunning=false;PreparationRun.FinishTake();musicAudio.Stop();}
         StartCoroutine(CompleteAndReturn());
     }
-    private IEnumerator StopSuccessAudio(){yield return new WaitForSecondsRealtime(1.3f);if(activityAudio.clip==activitySuccess)activityAudio.Stop();}
+    private IEnumerator StopSuccessAudio()
+    {
+        yield return new WaitForSecondsRealtime(.86f);
+        if(activityAudio.clip!=activitySuccess||!activityAudio.isPlaying)yield break;
+        float initialVolume=activityAudio.volume;
+        for(float elapsed=0;elapsed<.14f;elapsed+=Time.unscaledDeltaTime)
+        {
+            activityAudio.volume=initialVolume*(1-Mathf.Clamp01(elapsed/.14f));
+            yield return null;
+        }
+        activityAudio.Stop();
+        activityAudio.volume=initialVolume;
+    }
     private IEnumerator CompleteAndReturn(){yield return new WaitForSecondsRealtime(1.6f);yield return LeaveActivity();}
     private void ShowFeedback(bool success,string message)
     {
@@ -303,7 +316,7 @@ public sealed class PreparationDirector : MonoBehaviour
         feedbackGroup.alpha=0;feedbackFlash.color=Color.clear;
         activityTitle.text="HAZIRLIK SÜRESİ";modal.gameObject.SetActive(true);modal.alpha=1;modal.interactable=true;
         timeoutPanel.SetActive(true);back.interactable=false;
-        activityAudio.Stop();if(activityFailure)activityAudio.PlayOneShot(activityFailure);
+        activityAudio.Stop();activityAudio.volume=.28f;if(activityFailure)activityAudio.PlayOneShot(activityFailure);
     }
     private void RetryActivity()
     {
