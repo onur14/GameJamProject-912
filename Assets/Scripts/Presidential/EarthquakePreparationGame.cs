@@ -19,7 +19,10 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
     private readonly Image[] arrows=new Image[3];
     private readonly int[] sequence=new int[3];
     private readonly Sprite[] poses=new Sprite[6], keys=new Sprite[4];
+    private readonly Coroutine[] arrowAnimations=new Coroutine[3];
     private PreparationSpriteCutout cutouts;
+    private Coroutine poseAnimation;
+    private int animatedSteps;
     private Action mistake;
     public int Step { get; private set; }
     public int CurrentPose { get; private set; }
@@ -75,14 +78,15 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
     public void Show(){root.gameObject.SetActive(true);}
     public void Hide()
     {
-        Running=false;IsTransitioning=false;StopAllCoroutines();
+        Running=false;IsTransitioning=false;StopAllCoroutines();poseAnimation=null;
+        for(int i=0;i<arrowAnimations.Length;i++)arrowAnimations[i]=null;
         if(root)root.gameObject.SetActive(false);
         if(characterRect)characterRect.localRotation=Quaternion.identity;
         if(lamp)lamp.localRotation=Quaternion.identity;
     }
     public IEnumerator Play()
     {
-        Step=0;Running=true;IsTransitioning=false;float flash=0;
+        Step=0;animatedSteps=0;Running=true;IsTransitioning=false;poseAnimation=null;float flash=0;
         characterRect.anchorMin=characterRect.anchorMax=new Vector2(.33f,.11f);
         SetPose(0);prompt.text="! ÇÖK !";
         for(int i=0;i<3;i++)
@@ -99,7 +103,7 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
             characterRect.localRotation=Quaternion.Euler(0,0,Mathf.Sin(Time.unscaledTime*11)*.6f);
             prompt.color=Color.Lerp(Amber,White,.18f+.18f*Mathf.Sin(Time.unscaledTime*9));
             var kb=Keyboard.current;
-            if(kb!=null&&!IsTransitioning)
+            if(kb!=null)
             {
                 int pressed=-1,count=0;
                 if(kb.upArrowKey.wasPressedThisFrame){pressed=0;count++;}
@@ -110,10 +114,10 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
                 {
                     if(count==1&&pressed==sequence[Step])
                     {
-                        StartCoroutine(Consume(arrows[Step].rectTransform));
-                        yield return AnimateStep(Step);
-                        if(!Running)yield break;
+                        int acceptedStep=Step;
                         Step++;
+                        arrowAnimations[acceptedStep]=StartCoroutine(Consume(arrows[acceptedStep].rectTransform));
+                        if(poseAnimation==null)poseAnimation=StartCoroutine(AnimateAcceptedSteps());
                         prompt.text=Step==1?"ÇÖK TAMAM  ·  ŞİMDİ KAPAN!":Step==2?"KAPAN TAMAM  ·  ŞİMDİ TUTUN!":"TUTUN!  BAŞINI KORU, MASAYA TUTUN.";
                     }
                     else
@@ -121,19 +125,33 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
                         flash=.3f;mistake?.Invoke();Step=0;SetPose(0);
                         characterRect.anchorMin=characterRect.anchorMax=new Vector2(.33f,.11f);
                         prompt.text="SIRA BOZULDU · YENİDEN ÇÖK!";
-                        StopAllCoroutines();
+                        if(poseAnimation!=null)StopCoroutine(poseAnimation);
+                        poseAnimation=null;animatedSteps=0;IsTransitioning=false;
+                        for(int i=0;i<arrowAnimations.Length;i++)
+                        {if(arrowAnimations[i]!=null)StopCoroutine(arrowAnimations[i]);arrowAnimations[i]=null;}
                         foreach(var arrow in arrows){arrow.gameObject.SetActive(true);arrow.rectTransform.localScale=Vector3.one;arrow.rectTransform.localRotation=Quaternion.identity;}
                     }
                 }
             }
             yield return null;
         }
+        while(Running&&animatedSteps<Step)yield return null;
         Running=false;characterRect.localRotation=Quaternion.identity;lamp.localRotation=Quaternion.identity;
         yield return new WaitForSecondsRealtime(.3f);
     }
-    private IEnumerator AnimateStep(int stage)
+    private IEnumerator AnimateAcceptedSteps()
     {
         IsTransitioning=true;
+        while(Running&&animatedSteps<Step)
+        {
+            yield return AnimateStep(animatedSteps);
+            if(!Running)yield break;
+            animatedSteps++;
+        }
+        IsTransitioning=false;poseAnimation=null;
+    }
+    private IEnumerator AnimateStep(int stage)
+    {
         float duration=stage==0?crouchDuration:stage==1?coverDuration:holdDuration;
         Vector2 start=characterRect.anchorMin;
         Vector2 target=stage==0?new Vector2(.38f,.11f):stage==1?new Vector2(.61f,.11f):new Vector2(.63f,.11f);
@@ -152,7 +170,6 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
         if(!Running)yield break;
         characterRect.anchorMin=characterRect.anchorMax=target;
         SetPose(finish);
-        IsTransitioning=false;
     }
     private IEnumerator Consume(RectTransform arrow)
     {

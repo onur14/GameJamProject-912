@@ -417,7 +417,12 @@ public static class PreparationChecks
             {var p=new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left};item.OnPointerDown(p);item.OnPointerClick(p);}
         bag.Check();await Wait(()=>d.IsBusy);Check(Field<AudioSource>(d,"activityAudio").isPlaying,"Existing preparation success clip is playing");await Home(d,1);
         await Open(d,1);await Wait(()=>d.Earthquake.Running);
-        for(int i=0;i<3;i++){await KeyPress(d.Earthquake.RequiredDirection);int next=i+1;await Wait(()=>d.Earthquake.Step==next);}await Home(d,2);
+        for(int i=0;i<3;i++)
+        {
+            await KeyPress(d.Earthquake.RequiredDirection);
+            Check(d.Earthquake.Step==i+1,"Next earthquake arrow accepts input before the pose animation finishes");
+        }
+        await Home(d,2);
         await Open(d,2);Click(d.Flood.Points[FloodPreparationGame.HighGroundPoint]);await Home(d,3);
         await Open(d,3);var smoke=d.Detector;
         Click(smoke.Cover);await Wait(()=>smoke.Step==1);await Task.Delay(50);
