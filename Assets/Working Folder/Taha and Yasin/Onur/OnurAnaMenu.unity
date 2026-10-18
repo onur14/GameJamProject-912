@@ -2798,6 +2798,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShiftReportView
   reportPanel: {fileID: 1651994000}
   normalMenu: {fileID: 633202843}
+  reportFont: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
   performance: {fileID: 1979907872}
   resources: {fileID: 1748955499}
   grade: {fileID: 1403944022}

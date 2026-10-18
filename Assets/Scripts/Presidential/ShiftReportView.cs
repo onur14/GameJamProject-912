@@ -8,6 +8,7 @@ public sealed class ShiftReportView : MonoBehaviour
 {
     [SerializeField] private GameObject reportPanel;
     [SerializeField] private GameObject normalMenu;
+    [SerializeField] private TMP_FontAsset reportFont;
     [SerializeField] private TMP_Text performance;
     [SerializeField] private TMP_Text resources;
     [SerializeField] private TMP_Text grade;
@@ -75,8 +76,19 @@ public sealed class ShiftReportView : MonoBehaviour
     {
         var card=grade.transform.parent;
         DispatchInsetFrame.Ensure(card);
-        foreach(var label in card.GetComponentsInChildren<TMP_Text>(true))
+        foreach(var label in reportPanel.GetComponentsInChildren<TMP_Text>(true))
         {
+            if (reportFont) { label.font=reportFont;label.fontSharedMaterial=reportFont.material; }
+            float size=label.name=="Rapor Başlığı"?40f:label==grade?32f:
+                label==performance||label==resources||label==events?26f:
+                label==operation||label.GetComponentInParent<Button>()?25f:
+                label==score?24f:22f;
+            label.fontSize=size;
+            label.fontStyle=FontStyles.Bold;
+            label.enableAutoSizing=true;
+            label.fontSizeMin=size-2f;
+            label.fontSizeMax=size;
+            label.overflowMode=TextOverflowModes.Ellipsis;
             if(label==performance||label==resources||label==score||label.GetComponentInParent<Button>())continue;
             label.alignment=TextAlignmentOptions.Top;
         }
