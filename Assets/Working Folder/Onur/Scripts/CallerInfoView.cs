@@ -14,7 +14,10 @@ public sealed class CallerInfoView : MonoBehaviour
 
     private Coroutine arrival;
     private bool textPrepared;
+    private Vector2 restingPosition;
     private readonly Dictionary<TMP_FontAsset,Material> textMaterials=new Dictionary<TMP_FontAsset,Material>();
+
+    private void Awake(){restingPosition=((RectTransform)transform).anchoredPosition;}
 
     public void Show(DispatchScenarioData scenario)
     {
@@ -55,10 +58,10 @@ public sealed class CallerInfoView : MonoBehaviour
         for (float t = 0; t < .28f; t += Time.unscaledDeltaTime)
         {
             float p = Mathf.Clamp01(t / .28f); fade.alpha = p;
-            rect.anchoredPosition = Vector2.left * Mathf.Round(18 * Mathf.Pow(1 - p, 3));
+            rect.anchoredPosition = restingPosition + Vector2.left * Mathf.Round(18 * Mathf.Pow(1 - p, 3));
             yield return null;
         }
-        rect.anchoredPosition = Vector2.zero; fade.alpha = 1; arrival = null;
+        rect.anchoredPosition = restingPosition; fade.alpha = 1; arrival = null;
     }
 
     private static bool EndsSentence(string s) { s = s == null ? "" : s.TrimEnd(); return s.EndsWith(".") || s.EndsWith("!") || s.EndsWith("?"); }

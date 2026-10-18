@@ -197,26 +197,30 @@ public sealed class PreparationBroadcast : MonoBehaviour
     }
     private IEnumerator PublishAndAdvance()
     {
+        const float videoTimeScale=.42f;
+        const float connectionDuration=1.1f*videoTimeScale;
+        const float clipDuration=1.6f*videoTimeScale;
+        const float fadeDuration=.5f*videoTimeScale;
         Phase=BroadcastPhase.Publishing;review.gameObject.SetActive(false);broadcast.gameObject.SetActive(true);ClipsShown=0;
         foreach(var frame in clipFrames)frame.color=new Color(.18f,.26f,.30f);
-        for(float t=0;t<1.1f;t+=Time.unscaledDeltaTime)
-        {signal.text="YAYIN AĞINA BAĞLANILIYOR"+new string('.',1+Mathf.FloorToInt(t*4)%3);transmissionBar.rectTransform.anchorMax=new Vector2(t/1.1f*.14f,1);yield return null;}
+        for(float t=0;t<connectionDuration;t+=Time.unscaledDeltaTime)
+        {signal.text="YAYIN AĞINA BAĞLANILIYOR"+new string('.',1+Mathf.FloorToInt(t/connectionDuration*4)%3);transmissionBar.rectTransform.anchorMax=new Vector2(t/connectionDuration*.14f,1);yield return null;}
         signal.text="KAMU SPOTU YAYINDA";signal.color=Green;
         for(int clip=0;clip<PreparationRun.ActivityCount;clip++)
         {
             clipFrames[clip].color=Amber;ClipsShown=clip+1;
             playbackLabel.text="KLİP "+(clip+1)+" · TOPLAM 6 · "+SafetyMessages[clip];
-            for(float t=0;t<1.6f;t+=Time.unscaledDeltaTime)
+            for(float t=0;t<clipDuration;t+=Time.unscaledDeltaTime)
             {
-                float p=t/1.6f;transmissionBar.rectTransform.anchorMax=new Vector2(.14f+.86f*(clip+p)/PreparationRun.ActivityCount,1);
+                float p=t/clipDuration;transmissionBar.rectTransform.anchorMax=new Vector2(.14f+.86f*(clip+p)/PreparationRun.ActivityCount,1);
                 clipFrames[clip].rectTransform.localScale=Vector3.one*(1+.018f*Mathf.Sin(p*Mathf.PI));yield return null;
             }
             clipFrames[clip].rectTransform.localScale=Vector3.one;clipFrames[clip].color=Green;
         }
         transmissionBar.rectTransform.anchorMax=Vector2.one;playbackLabel.text="KAMU SPOTU YAYINLANDI · HAZIRLIK BİLGİSİ PAYLAŞILDI";
-        yield return new WaitForSecondsRealtime(1.1f);
+        yield return new WaitForSecondsRealtime(connectionDuration);
         var videoFade=broadcast.gameObject.AddComponent<CanvasGroup>();
-        for(float t=0;t<.5f;t+=Time.unscaledDeltaTime){videoFade.alpha=1-t/.5f;yield return null;}
+        for(float t=0;t<fadeDuration;t+=Time.unscaledDeltaTime){videoFade.alpha=1-t/fadeDuration;yield return null;}
         broadcast.gameObject.SetActive(false);story.gameObject.SetActive(true);Phase=BroadcastPhase.MonthsLater;
         storyHeading.text="AYLAR SONRA...";storyHeading.color=White;storyBody.text="";overlayGroup.alpha=1;
         for(float t=0;t<2f;t+=Time.unscaledDeltaTime){storyHeading.alpha=Mathf.Clamp01(t/.45f);yield return null;}

@@ -96,6 +96,19 @@ public static class PreparationChecks
         Check(hits.Count>0&&ExecuteEvents.GetEventHandler<IPointerClickHandler>(hits[0].gameObject)==button.gameObject,"Raycast reaches: "+button.name);
         ExecuteEvents.Execute(button.gameObject,pointer,ExecuteEvents.pointerClickHandler);
     }
+    static void DragBattery(Button battery,Button destination)
+    {
+        Canvas.ForceUpdateCanvases();
+        var canvas=battery.GetComponentInParent<Canvas>();
+        var source=(RectTransform)battery.transform;
+        var target=(RectTransform)destination.transform;
+        var pointer=new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left,
+            position=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,source.TransformPoint(source.rect.center))};
+        ExecuteEvents.Execute(battery.gameObject,pointer,ExecuteEvents.beginDragHandler);
+        pointer.position=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,target.TransformPoint(target.rect.center));
+        ExecuteEvents.Execute(battery.gameObject,pointer,ExecuteEvents.dragHandler);
+        ExecuteEvents.Execute(battery.gameObject,pointer,ExecuteEvents.endDragHandler);
+    }
     static void OneEventSystem()=>Check(UnityEngine.Object.FindObjectsByType<EventSystem>().Count(e=>e.isActiveAndEnabled)==1,"Exactly one active EventSystem");
     static async Task Capture(string file)
     {
@@ -408,9 +421,11 @@ public static class PreparationChecks
         await Open(d,2);Click(d.Flood.Points[FloodPreparationGame.HighGroundPoint]);await Home(d,3);
         await Open(d,3);var smoke=d.Detector;
         Click(smoke.Cover);await Wait(()=>smoke.Step==1);await Task.Delay(50);
-        Click(smoke.OldBattery);await Wait(()=>smoke.Step==2);await Task.Delay(50);
-        Click(smoke.NewBattery);await Wait(()=>smoke.Step==3);await Task.Delay(50);
-        Click(smoke.Slot);await Wait(()=>smoke.Step==4);await Task.Delay(50);Click(smoke.Cover);await Home(d,4);
+        DragBattery(smoke.OldBattery,smoke.Cover);Check(smoke.Step==1,"Old battery stays until dropped outside the detector");
+        DragBattery(smoke.OldBattery,smoke.NewBattery);await Wait(()=>smoke.Step==2);await Task.Delay(50);
+        DragBattery(smoke.NewBattery,smoke.NewBattery);Check(smoke.Step==2,"New battery stays until dropped on the detector");
+        DragBattery(smoke.NewBattery,smoke.Cover);await Wait(()=>smoke.Step==3);await Task.Delay(50);
+        Click(smoke.Cover);await Home(d,4);
         await Open(d,4);await AdjustExtinguisher(d.Extinguisher);await Home(d,5);
         await Open(d,5);for(int i=0;i<5;i++)if(d.Isolation.IsTarget(i))Click(d.Isolation.Points[i]);Click(d.Isolation.CheckButton);
         await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Review);

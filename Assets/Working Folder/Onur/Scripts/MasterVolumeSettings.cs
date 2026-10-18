@@ -52,6 +52,7 @@ public sealed class MasterVolumeSettings : MonoBehaviour
         source.anchoredPosition=new Vector2(0,-258);r.anchoredPosition=new Vector2(0,-314);
         if(exit)((RectTransform)exit.transform).anchoredPosition=new Vector2(0,-370);
         open.image.color=play.image.color;
+        open.colors=play.colors;
         var owner=new GameObject("Menü Ayarları");owner.SetActive(false);owner.transform.SetParent(canvas.transform,false);
         var controller=owner.AddComponent<MasterVolumeSettings>();controller.openButton=open;
         var shade=Panel("Ayarlar Karartması",canvas.transform,Vector2.zero,Vector2.one,new Color(0,0,0,.86f));shade.raycastTarget=true;
