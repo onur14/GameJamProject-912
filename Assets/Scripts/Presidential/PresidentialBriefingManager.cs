@@ -14,7 +14,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     [SerializeField] private CityHealth cityHealth;
     [Tooltip("Ordered playable calls. Briefing thresholds are stored in the briefing assets.")]
     [SerializeField] private DispatchScenarioData[] scenarioOrder = new DispatchScenarioData[7];
-    [SerializeField] private PresidentialBriefingData[] briefings = new PresidentialBriefingData[4];
+    [SerializeField] private PresidentialBriefingData[] briefings = new PresidentialBriefingData[3];
     public UnityEvent<int> ScenarioRequested;
     public event Action ShiftReset;
     public event Action RunCompleted;
@@ -90,8 +90,9 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         acceptingCompletion = false; CompletedScenarios++;
         var curses=FindAnyObjectByType<DispatchCurseController>();
         if(curses)curses.OnScenarioCompleted(CompletedScenarios);
+        if (CompletedScenarios >= TotalScenarios) { ShowFinal(); return; }
         int index = Array.FindIndex(briefings, item => item && item.afterScenario == CompletedScenarios);
-        if(index<0){if(CompletedScenarios>=TotalScenarios)ShowFinal();else RequestNextScenario();return;}
+        if(index<0){RequestNextScenario();return;}
         if (!shown.Add(CompletedScenarios)) return;
         if (index >= briefings.Length || !briefings[index] || briefings[index].afterScenario != CompletedScenarios)
         {
@@ -210,11 +211,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     {
         if (Phase == ShiftPhase.Final) return;
         Phase = ShiftPhase.Final; acceptingCompletion = false; phone.SetInteractionLocked(true);
-        int weakest = Mathf.Min(resources.Ambulances, Mathf.Min(resources.Firefighters, resources.Police));
-        string readiness = weakest >= 3 ? "Dengeli hazırlık: tüm hizmetlerde en az üç ekip hazır."
-            : weakest > 0 ? "Sınırlı hazırlık: tüm hizmetler açık; yedek kapasite düşük."
-            : "Kritik hazırlık: en az bir hizmette ekip kalmadı. İlk destek bu alana ayrılmalı.";
-        view.Final($"{TotalScenarios} vaka tamamlandı. {TotalScenarios} vakada {CorrectDecisions} doğru yönlendirme; {decisions.Count} stratejik tahsis.\n\n{readiness}\n\nSon tahsis: {(decisions.Count > 0 ? decisions[decisions.Count - 1] : "Yok")}\n\nBu ekipler gelecek vardiyaya devredilir. Hazırlık, doğru bilgi ve dayanışma birlikte hayat kurtarır.", view.Stock(resources));
+        view.Hide();
         RunCompleted?.Invoke();
     }
 }

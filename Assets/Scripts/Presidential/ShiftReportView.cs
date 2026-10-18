@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Globalization;
 using TMPro;
 using UnityEngine;
@@ -16,6 +17,7 @@ public sealed class ShiftReportView : MonoBehaviour
     [SerializeField] private Button replayButton;
     [SerializeField] private Button menuButton;
     private bool navigating;
+    private Coroutine typingRoutine;
     public ShiftReportData Data { get; private set; }
     public bool IsVisible => reportPanel.activeSelf;
     public Button ReplayButton => replayButton;
@@ -35,6 +37,7 @@ public sealed class ShiftReportView : MonoBehaviour
     public void Show(ShiftReportData data)
     {
         if (data == null) return;
+        if (typingRoutine != null) StopCoroutine(typingRoutine);
         Data = data;navigating = false;
         string seconds = Data.HasResponseTimes ? Data.AverageSeconds.ToString("F1", CultureInfo.GetCultureInfo("tr-TR")) + " sn" : "—";
         performance.text = $"Doğru müdahale: {Data.Correct}/{Data.Completed}\nKaçırılan talep: {Data.Missed}\nOrtalama tepki: {seconds}";
@@ -43,8 +46,30 @@ public sealed class ShiftReportView : MonoBehaviour
         operation.text = "OPERASYON DURUMU\n" + Data.OperationStatus;
         events.text = string.Join("\n", Data.ExplainOutcome(true));
         score.text = "PUAN  " + Data.Score + "/100";
+        foreach(var label in new[]{performance,resources,grade,operation,events,score})label.maxVisibleCharacters=0;
         normalMenu.SetActive(false);
         reportPanel.SetActive(true);
+        typingRoutine=StartCoroutine(TypeReport());
+    }
+    private IEnumerator TypeReport()
+    {
+        while (SceneFadeTransition.IsTransitioning) yield return null;
+        yield return null;
+        foreach(var label in new[]{performance,resources,grade,operation,events,score})
+        {
+            label.ForceMeshUpdate();
+            int total=label.textInfo.characterCount;
+            float visible=0;
+            while(visible<total)
+            {
+                visible+=Time.unscaledDeltaTime*90f;
+                label.maxVisibleCharacters=Mathf.Min(total,Mathf.FloorToInt(visible));
+                yield return null;
+            }
+            label.maxVisibleCharacters=int.MaxValue;
+            yield return new WaitForSecondsRealtime(.08f);
+        }
+        typingRoutine=null;
     }
     private void PolishLayout()
     {
@@ -72,6 +97,7 @@ public sealed class ShiftReportView : MonoBehaviour
     public void MainMenu()
     {
         if (navigating || SceneFadeTransition.IsTransitioning) return;
+        if (typingRoutine != null) { StopCoroutine(typingRoutine);typingRoutine=null; }
         ShiftReportFlow.Clear();Data = null;reportPanel.SetActive(false);normalMenu.SetActive(true);
         PreparationRun.Reset();
     }

@@ -74,9 +74,9 @@ public sealed class RunResultView : MonoBehaviour
         if(briefing!=null && briefing.Resources!=null)
         {
             var data=ShiftReportData.Capture(briefing,FindAnyObjectByType<QuickQuestionManager>(),minigames,health,SceneManager.GetActiveScene().path);
-            summaryLabel.text=string.Join("\n",data.ExplainOutcome(healthValue>0&&calls>=8));
+            summaryLabel.text=string.Join("\n",data.ExplainOutcome(healthValue>0&&calls>=briefing.TotalScenarios));
         }
-        else summaryLabel.text=$"Tamamlanan çağrı  {calls} (Toplam 8)\nDoğru karar  {correct}\nMinigame  {tasks} (Toplam 2)\nHalk bilinci  %{healthValue}";
+        else summaryLabel.text=$"Tamamlanan çağrı  {calls} (Toplam {briefing?.TotalScenarios ?? 0})\nDoğru karar  {correct}\nMinigame  {tasks} (Toplam 2)\nHalk bilinci  %{healthValue}";
         panel.SetActive(true);
         panel.transform.SetAsLastSibling();
     }

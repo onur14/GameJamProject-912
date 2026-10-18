@@ -3050,7 +3050,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 28be2fa8427ca564488655c69e4f7930, type: 2}
   - {fileID: 11400000, guid: 00d4b2a77095ecc4c87679bdabd0802b, type: 2}
   - {fileID: 11400000, guid: 022dbfb5bda63974dbd66f9cefaa7289, type: 2}
-  - {fileID: 11400000, guid: 8b35470c4f2de6844bccae6f7c7a8025, type: 2}
   ScenarioRequested:
     m_PersistentCalls:
       m_Calls: []

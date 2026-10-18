@@ -16,7 +16,7 @@ public static class ShiftReportFlow
         Pending = ShiftReportData.Capture(briefing, Object.FindAnyObjectByType<QuickQuestionManager>(), minigames, health, SceneManager.GetActiveScene().path);
         if (minigames) minigames.Close();
         Time.timeScale = 1;
-        SceneFadeTransition.LoadScene(MenuScene, .45f, .65f);
+        SceneFadeTransition.LoadScene(MenuScene, .75f, .85f);
         return true;
     }
 }
