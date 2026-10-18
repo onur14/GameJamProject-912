@@ -450,7 +450,7 @@ public static class PreparationChecks
             if(briefing.CompletedScenarios!=last){last=briefing.CompletedScenarios;File.AppendAllText(Logs+"/checks.txt","PROGRESS: calls "+last+"/7\n");}
             CheckNoMinigame(minigames);
             var radio=Find<Cizirti>();var cues=Find<DispatchSceneAudioCues>();
-            if(UnityEngine.Object.FindObjectsByType<AudioSource>().Any(a=>a.isPlaying&&a.clip&&a.clip.name=="Konuşurken"))throw new Exception("Scream audio is active");
+            if(UnityEngine.Object.FindObjectsByType<AudioSource>().Any(a=>a.isPlaying&&a.clip&&a.clip.name=="AfettenSonra"))throw new Exception("Replaced aftermath audio is active");
             if(cues.ConversationActive)
                 Check(radio.CizirtiSesi.isPlaying,"Single conversation loop is playing during active call");
             else Check(!radio.CizirtiSesi.isPlaying,"Conversation loop is off between calls");

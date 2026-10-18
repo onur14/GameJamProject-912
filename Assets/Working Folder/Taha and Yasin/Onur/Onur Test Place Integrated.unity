@@ -7058,7 +7058,7 @@ MonoBehaviour:
   radio: {fileID: 3000000033}
   notices: {fileID: 264906466}
   blink: {fileID: 8300000, guid: ca8a360c027308c49b525c4d3d046af3, type: 3}
-  aftermathMusic: {fileID: 8300000, guid: 75cd6257cd479794f8bfa4b3dda061af, type: 3}
+  aftermathMusic: {fileID: 8300000, guid: 8feac6f807b602f4cb109405396ab014, type: 3}
   phoneConversation: {fileID: 0}
   decisionStress: {fileID: 8300000, guid: 4d52ec76452ec44428b08a0a01d9c21e, type: 3}
   choiceClick: {fileID: 8300000, guid: 4a5c147174326eb42ab64d3bbfd0fb64, type: 3}
