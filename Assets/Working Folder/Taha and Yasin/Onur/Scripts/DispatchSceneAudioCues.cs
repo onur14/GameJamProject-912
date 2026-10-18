@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 // Reuses the authored phone sources; no additional looping notification layer.
@@ -23,6 +24,8 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
     [SerializeField] private PresidentialBriefingManager briefing;
     private AudioSource music,stress,effects;
     private bool ended;
+    private Coroutine musicChange;
+    private AudioClip pendingMusic;
     public bool ConversationActive { get; private set; }
     private float lastOpen = -10;
     private void Awake()
@@ -33,7 +36,7 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
             radio.CizirtiSesi.loop=true;radio.CizirtiSesi.volume=.09f;radio.CizirtiSesi.playOnAwake=false;
         }
         music=gameObject.AddComponent<AudioSource>();music.playOnAwake=false;music.loop=true;music.spatialBlend=0;music.volume=.07f;
-        stress=gameObject.AddComponent<AudioSource>();stress.playOnAwake=false;stress.loop=true;stress.spatialBlend=0;stress.volume=.055f;
+        stress=gameObject.AddComponent<AudioSource>();stress.playOnAwake=false;stress.loop=true;stress.spatialBlend=0;stress.volume=.035f;
         effects=gameObject.AddComponent<AudioSource>();effects.playOnAwake=false;effects.spatialBlend=0;effects.volume=.28f;
     }
     private void OnEnable()
@@ -43,7 +46,7 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
         flow.DecisionResolved+=DecisionResolved;flow.DecisionTimedOut+=DecisionTimedOut;flow.UnitDispatched+=UnitDispatched;
         if(conversationView)conversationView.ChoicesShown+=ChoicesShown;
         if(briefing)briefing.RunCompleted+=Won;
-        if(aftermathMusic){music.clip=aftermathMusic;music.Play();}
+        if(aftermathMusic){pendingMusic=aftermathMusic;music.clip=aftermathMusic;music.Play();}
     }
     private void OnDisable()
     {
@@ -51,7 +54,7 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
         flow.DecisionResolved-=DecisionResolved;flow.DecisionTimedOut-=DecisionTimedOut;flow.UnitDispatched-=UnitDispatched;
         if(conversationView)conversationView.ChoicesShown-=ChoicesShown;
         if(briefing)briefing.RunCompleted-=Won;
-        ConversationActive=false;music.Stop();stress.Stop();effects.Stop();
+        StopAllCoroutines();musicChange=null;ConversationActive=false;music.Stop();stress.Stop();effects.Stop();
         if(radio)radio.TelefonKapat();
     }
     private void Update()
@@ -59,8 +62,18 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
         if(ended || !briefing || !presidentMusic || !aftermathMusic || !music)return;
         bool presidential=briefing.Phase==PresidentialBriefingManager.ShiftPhase.Dialogue || briefing.Phase==PresidentialBriefingManager.ShiftPhase.Allocation || briefing.Phase==PresidentialBriefingManager.ShiftPhase.Confirmation || briefing.Phase==PresidentialBriefingManager.ShiftPhase.Final;
         var next=presidential?presidentMusic:aftermathMusic;
-        if(music.clip==next)return;
-        music.clip=next;music.Play();
+        if(musicChange==null)music.volume=Mathf.MoveTowards(music.volume,flow.WaitingForChoice?.035f:.07f,Time.unscaledDeltaTime*.12f);
+        if(pendingMusic==next)return;
+        pendingMusic=next;if(musicChange!=null)StopCoroutine(musicChange);
+        musicChange=StartCoroutine(ChangeMusic(next));
+    }
+    private IEnumerator ChangeMusic(AudioClip next)
+    {
+        float from=music.volume;
+        for(float t=0;t<.2f;t+=Time.unscaledDeltaTime){music.volume=Mathf.Lerp(from,0,t/.2f);yield return null;}
+        music.Stop();music.clip=next;music.volume=0;if(next)music.Play();
+        for(float t=0;t<.3f;t+=Time.unscaledDeltaTime){music.volume=Mathf.Lerp(0,.07f,t/.3f);yield return null;}
+        musicChange=null;
     }
     private void ChoicesShown(){if(decisionStress){stress.clip=decisionStress;stress.Play();}}
     private void DecisionResolved(bool correct){stress.Stop();GameAudioFeedback.Feedback(correct);}
@@ -70,7 +83,7 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
         var clip=effect.ambulances<0?ambulanceSiren:effect.firefighters<0?fireSiren:effect.rescue<0?policeSiren:null;
         if(clip)effects.PlayOneShot(clip,.45f);
     }
-    private void Won(){ConversationActive=false;if(radio&&radio.CizirtiSesi)radio.CizirtiSesi.Stop();ended=true;stress.Stop();music.Stop();if(wonSound)effects.PlayOneShot(wonSound,.75f);}
+    private void Won(){ConversationActive=false;if(radio&&radio.CizirtiSesi)radio.CizirtiSesi.Stop();ended=true;StopAllCoroutines();musicChange=null;stress.Stop();music.Stop();if(wonSound)effects.PlayOneShot(wonSound,.75f);}
     private void ScenarioStarted(int revision,string id) { if(phone.State==DispatchCallFlow.CallState.Conversation){Open();BeginConversation();} }
     private void BeginConversation() { if(!ended && phone.State==DispatchCallFlow.CallState.Conversation){ConversationActive=true;if(radio)radio.StartConversation();} }
     private void Open()
@@ -79,6 +92,6 @@ public sealed class DispatchSceneAudioCues : MonoBehaviour
         lastOpen=Time.unscaledTime;if(radio)radio.TelefonAc(false);
     }
     private void Close(int revision) { ConversationActive=false;if(radio)radio.TelefonKapat(); }
-    private void Failed() { ConversationActive=false;ended=true;stress.Stop();music.Stop();if(lostSound)effects.PlayOneShot(lostSound,.75f);if(radio)radio.TelefonKapat(); }
+    private void Failed() { ConversationActive=false;ended=true;StopAllCoroutines();musicChange=null;stress.Stop();music.Stop();if(lostSound)effects.PlayOneShot(lostSound,.75f);if(radio)radio.TelefonKapat(); }
     public void PlayCurse() { if(notices && blink)notices.PlayOneShot(blink,.8f); }
 }

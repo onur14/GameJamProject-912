@@ -3043,7 +3043,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bad312ca35491ae4c837bb7426f94725, type: 2}
   - {fileID: 11400000, guid: efc6af8b1eddc4540992e3f3c4dd77dd, type: 2}
   - {fileID: 11400000, guid: b8de8c8270707c84c9e2cb1c4b507c2b, type: 2}
-  - {fileID: 11400000, guid: d4534f6c60758bc4e8b451d63bba4cd5, type: 2}
   - {fileID: 11400000, guid: 165a5f3b0cf2ce241abbb06e4c4f58ba, type: 2}
   - {fileID: 11400000, guid: fd08a42fb2b962447b4292be97bbb155, type: 2}
   - {fileID: 11400000, guid: 8c3cd32b4f04042439a7378f14b735f5, type: 2}
@@ -5249,30 +5248,6 @@ MonoBehaviour:
     appearanceDelayMin: 2
     appearanceDelayMax: 3
     timeoutFeedback: YANITLANMADI
-  - id: QQ-05
-    targetScenarioId: T-01
-    categoryTitle: "EK\u0130P D\xD6N\xDC\u015E\xDC"
-    questionText: "Bir saha ekibi g\xF6revini tamamlad\u0131. Merkeze geri \xE7a\u011Fr\u0131ls\u0131n m\u0131?"
-    choiceALabel: "GER\u0130 \xC7A\u011EIR (+1)"
-    choiceAEffect:
-      ambulances: 1
-      firefighters: 0
-      rescue: 0
-    choiceAFeedback: "AMBULANS MERKEZE D\xD6ND\xDC"
-    choiceBLabel: "B\xD6LGEDE TUT"
-    choiceBEffect:
-      ambulances: 0
-      firefighters: 0
-      rescue: 0
-    choiceBFeedback: "EK\u0130P B\xD6LGEDE BIRAKILDI"
-    isDisinformation: 0
-    correctChoiceIndex: 1
-    wrongAnswerHealthDamage: 0
-    timeoutHealthDamage: 0
-    timerDuration: 7
-    appearanceDelayMin: 1.8
-    appearanceDelayMax: 2.8
-    timeoutFeedback: YANITLANMADI
   - id: QQ-06
     targetScenarioId: F-01
     categoryTitle: "\xD6NCEL\u0130K SE\xC7\u0130M\u0130"
@@ -5442,30 +5417,6 @@ MonoBehaviour:
     appearanceDelayMin: 1.4
     appearanceDelayMax: 2.2
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
-  - id: QQ-13
-    targetScenarioId: T-01
-    categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 VE TEY\u0130T"
-    questionText: "Sahte hesap 'Tsunami uyar\u0131s\u0131 kalkt\u0131' diyor. Resm\xEE teyit isteyelim mi?"
-    choiceALabel: EVET
-    choiceAEffect:
-      ambulances: 0
-      firefighters: 1
-      rescue: 0
-    choiceAFeedback: "TEY\u0130TS\u0130Z B\u0130LG\u0130 ENGELLEND\u0130"
-    choiceBLabel: HAYIR
-    choiceBEffect:
-      ambulances: 0
-      firefighters: 0
-      rescue: 0
-    choiceBFeedback: "YANLI\u015E B\u0130LG\u0130 YAYILDI \xB7 SA\u011ELIK -10"
-    isDisinformation: 1
-    correctChoiceIndex: 0
-    wrongAnswerHealthDamage: 10
-    timeoutHealthDamage: 10
-    timerDuration: 7
-    appearanceDelayMin: 1.4
-    appearanceDelayMax: 2.2
-    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   - id: QQ-14
     targetScenarioId: F-01
     categoryTitle: "B\u0130LG\u0130 K\u0130RL\u0130L\u0130\u011E\u0130 VE TEY\u0130T"
@@ -5539,6 +5490,175 @@ MonoBehaviour:
     appearanceDelayMax: 2.2
     timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   questionDataAssets: []
+  thirdQuestions:
+  - id: QQ-17
+    targetScenarioId: D-01
+    categoryTitle: "G\xDCVENL\u0130 DAVRANI\u015E"
+    questionText: "Deprem sonras\u0131 hasarl\u0131 binaya geri d\xF6nmek g\xFCvenli mi?"
+    choiceALabel: EVET
+    choiceAEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceAFeedback: "G\xDCVENS\u0130Z Y\xD6NLEND\u0130RME"
+    choiceBLabel: HAYIR
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: "DO\u011ERU Y\xD6NLEND\u0130RME"
+    isDisinformation: 1
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
+    timerDuration: 7
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
+  - id: QQ-18
+    targetScenarioId: D-02
+    categoryTitle: "G\xDCVENL\u0130 DAVRANI\u015E"
+    questionText: "Gaz kokusunda elektrik d\xFC\u011Fmesine basal\u0131m m\u0131?"
+    choiceALabel: EVET
+    choiceAEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceAFeedback: "G\xDCVENS\u0130Z Y\xD6NLEND\u0130RME"
+    choiceBLabel: HAYIR
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: "DO\u011ERU Y\xD6NLEND\u0130RME"
+    isDisinformation: 1
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
+    timerDuration: 7
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
+  - id: QQ-19
+    targetScenarioId: Y-02
+    categoryTitle: "G\xDCVENL\u0130 DAVRANI\u015E"
+    questionText: "Yo\u011Fun dumanda al\xE7aktan ilerleyelim mi?"
+    choiceALabel: EVET
+    choiceAEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceAFeedback: "DO\u011ERU Y\xD6NLEND\u0130RME"
+    choiceBLabel: HAYIR
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: "G\xDCVENS\u0130Z Y\xD6NLEND\u0130RME"
+    isDisinformation: 1
+    correctChoiceIndex: 0
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
+    timerDuration: 7
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
+  - id: QQ-20
+    targetScenarioId: S-01
+    categoryTitle: "G\xDCVENL\u0130 DAVRANI\u015E"
+    questionText: "Sel suyuna ara\xE7la girelim mi?"
+    choiceALabel: EVET
+    choiceAEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceAFeedback: "G\xDCVENS\u0130Z Y\xD6NLEND\u0130RME"
+    choiceBLabel: HAYIR
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: "DO\u011ERU Y\xD6NLEND\u0130RME"
+    isDisinformation: 1
+    correctChoiceIndex: 1
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
+    timerDuration: 7
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
+  - id: QQ-22
+    targetScenarioId: F-01
+    categoryTitle: "G\xDCVENL\u0130 DAVRANI\u015E"
+    questionText: "F\u0131rt\u0131nada devrilebilecek a\u011Fa\xE7lardan uzakla\u015Fal\u0131m m\u0131?"
+    choiceALabel: EVET
+    choiceAEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceAFeedback: "DO\u011ERU Y\xD6NLEND\u0130RME"
+    choiceBLabel: HAYIR
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: "G\xDCVENS\u0130Z Y\xD6NLEND\u0130RME"
+    isDisinformation: 1
+    correctChoiceIndex: 0
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
+    timerDuration: 7
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
+  - id: QQ-23
+    targetScenarioId: K-01
+    categoryTitle: "G\xDCVENL\u0130 DAVRANI\u015E"
+    questionText: "Yard\u0131m bilgisini resm\xEE kaynaklardan do\u011Frulayal\u0131m m\u0131?"
+    choiceALabel: EVET
+    choiceAEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceAFeedback: "DO\u011ERU Y\xD6NLEND\u0130RME"
+    choiceBLabel: HAYIR
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: "G\xDCVENS\u0130Z Y\xD6NLEND\u0130RME"
+    isDisinformation: 1
+    correctChoiceIndex: 0
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
+    timerDuration: 7
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
+  - id: QQ-24
+    targetScenarioId: K-02
+    categoryTitle: "G\xDCVENL\u0130 DAVRANI\u015E"
+    questionText: "Acil yard\u0131m ara\xE7lar\u0131 i\xE7in yollar\u0131 a\xE7\u0131k tutal\u0131m m\u0131?"
+    choiceALabel: EVET
+    choiceAEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceAFeedback: "DO\u011ERU Y\xD6NLEND\u0130RME"
+    choiceBLabel: HAYIR
+    choiceBEffect:
+      ambulances: 0
+      firefighters: 0
+      rescue: 0
+    choiceBFeedback: "G\xDCVENS\u0130Z Y\xD6NLEND\u0130RME"
+    isDisinformation: 1
+    correctChoiceIndex: 0
+    wrongAnswerHealthDamage: 10
+    timeoutHealthDamage: 10
+    timerDuration: 7
+    appearanceDelayMin: 1.4
+    appearanceDelayMax: 2.2
+    timeoutFeedback: "M\xDCDAHALE ED\u0130LMED\u0130 \xB7 SA\u011ELIK -10"
   returnStockCeiling: 6
   timelyResponseHealthReward: 2
   verifiedAnswerHealthReward: 5
@@ -5999,11 +6119,11 @@ MonoBehaviour:
   conversation: {fileID: 3000000010}
   phone: {fileID: 1139218828}
   conversationPanel: {fileID: 419692063}
-  shakePixels: 2
+  shakePixels: 1.25
   wrongDuration: 0.32
-  wrongOpacity: 0.1
+  wrongOpacity: 0.08
   correctDuration: 0.26
-  coolOpacity: 0.065
+  coolOpacity: 0.04
   activationDuration: 0.28
   monitorLuminance: 0.012
   monitorCycle: 7.5
@@ -6446,7 +6566,7 @@ MonoBehaviour:
   callerInfo: {fileID: 1452182748}
   wrongChoiceResource: 2
   correctChoiceResource: 1
-  unansweredDecisionSeconds: 7
+  unansweredDecisionSeconds: 12
 --- !u!114 &3000000011 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7445754986739040688, guid: 98a6ef31f01dcd747b30909096eb7534, type: 3}
@@ -6470,9 +6590,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7d7be511f64d7ba9caf6a334a3bec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DispatchResources
-  initialFirefighters: 5
-  initialAmbulances: 5
-  initialPolice: 6
+  initialFirefighters: 4
+  initialAmbulances: 4
+  initialPolice: 5
   firefightersText: {fileID: 3000000022}
   ambulancesText: {fileID: 3000000026}
   policeText: {fileID: 3000000030}
@@ -6939,8 +7059,8 @@ MonoBehaviour:
   radio: {fileID: 3000000033}
   notices: {fileID: 264906466}
   blink: {fileID: 8300000, guid: ca8a360c027308c49b525c4d3d046af3, type: 3}
-  phoneConversation: {fileID: 0}
   aftermathMusic: {fileID: 8300000, guid: 75cd6257cd479794f8bfa4b3dda061af, type: 3}
+  phoneConversation: {fileID: 0}
   decisionStress: {fileID: 8300000, guid: 4d52ec76452ec44428b08a0a01d9c21e, type: 3}
   choiceClick: {fileID: 8300000, guid: 4a5c147174326eb42ab64d3bbfd0fb64, type: 3}
   lostSound: {fileID: 8300000, guid: 415e082ae92b46e4aac655142830c78f, type: 3}
@@ -6969,8 +7089,8 @@ MonoBehaviour:
   awareness: {fileID: 3000000032}
   questions: {fileID: 1835180696}
   phone: {fileID: 1139218828}
-  slownessEmblem: {fileID: 21300000, guid: ff358c46081d85f4b8c5134f42b14c73, type: 3}
-  fogEmblem: {fileID: 21300000, guid: 43ddf18d6e8eb864497f66cafaeccce0, type: 3}
+  slownessEmblem: {fileID: 21300000, guid: 50d5e761044f7044681abc613508f52b, type: 3}
+  fogEmblem: {fileID: 21300000, guid: 701c3c5e3cd305f48a5b378af0a7e550, type: 3}
   font: {fileID: 11400000, guid: 2c80d4d65dcf015980bf603671882a00, type: 2}
   slownessAtScenario: 2
   fogAtScenario: 5

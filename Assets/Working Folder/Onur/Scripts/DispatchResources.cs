@@ -11,9 +11,9 @@ public sealed class DispatchResources : MonoBehaviour
         RescueTeams = Police
     }
 
-    [SerializeField, Min(0)] private int initialFirefighters = 5;
-    [SerializeField, Min(0)] private int initialAmbulances = 5;
-    [SerializeField, Min(0)] private int initialPolice = 6;
+    [SerializeField, Min(0)] private int initialFirefighters = 4;
+    [SerializeField, Min(0)] private int initialAmbulances = 4;
+    [SerializeField, Min(0)] private int initialPolice = 5;
     [SerializeField] private TMP_Text firefightersText;
     [SerializeField] private TMP_Text ambulancesText;
     [SerializeField] private TMP_Text policeText;

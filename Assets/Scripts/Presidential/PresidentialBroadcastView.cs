@@ -118,7 +118,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         var area = ((RectTransform)transform).rect.size;
         board.localScale = Vector3.one * Mathf.Max(.01f, Mathf.Min(area.x / 1200, area.y / 800));
     }
-    public IEnumerator ShowShiftSummary(int completed, int correct, int estimatedHelped, int health)
+    public IEnumerator ShowShiftSummary(int completed, int correct, int estimatedHelped, int health, bool finalShift = false)
     {
         Build(); Hide(); transform.SetAsLastSibling();
         if (shiftSummary != null) Destroy(shiftSummary.gameObject);
@@ -129,7 +129,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         Color accent = critical ? new Color(1,.34f,.25f) : health <= 65 ? Amber : new Color(.38f,.96f,.8f);
         var line = Panel("Sinyal Çizgisi", card, new Vector2(0,.91f), new Vector2(1,.923f), accent);
         var heading = Text("Vardiya Başlığı", card, new Vector2(0,.76f), new Vector2(1,.89f), 32, accent);
-        heading.text = completed >= 8 ? "GÜNLÜK VARDİYA SONU" : "VARDİYA ARA RAPORU";
+        heading.text = finalShift ? "GÜNLÜK VARDİYA SONU" : "VARDİYA ARA RAPORU";
         var count = Text("Yardım Sayacı", card, new Vector2(0,.49f), new Vector2(1,.74f), 60, Paper);
         var message = Text("Vardiya Değerlendirmesi", card, new Vector2(.02f,.15f), new Vector2(.98f,.46f), 25, Paper);
         message.alignment = count.alignment = heading.alignment = TextAlignmentOptions.Center;

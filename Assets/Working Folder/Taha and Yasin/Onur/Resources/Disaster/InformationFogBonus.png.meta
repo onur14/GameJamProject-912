@@ -1,0 +1,1250 @@
+fileFormatVersion: 2
+guid: 701c3c5e3cd305f48a5b378af0a7e550
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1814684780878126231
+    second: InformationFogBonus_0
+  - first:
+      213: 4581033924966269887
+    second: InformationFogBonus_1
+  - first:
+      213: -2156702093987415726
+    second: InformationFogBonus_2
+  - first:
+      213: 1040693871205711402
+    second: InformationFogBonus_3
+  - first:
+      213: 4632448219291810376
+    second: InformationFogBonus_4
+  - first:
+      213: 7092246778820857724
+    second: InformationFogBonus_5
+  - first:
+      213: 3326557445547231624
+    second: InformationFogBonus_6
+  - first:
+      213: -1577555815617904811
+    second: InformationFogBonus_7
+  - first:
+      213: -3714756488124417541
+    second: InformationFogBonus_8
+  - first:
+      213: 7690309845628149315
+    second: InformationFogBonus_9
+  - first:
+      213: -2994589222032226358
+    second: InformationFogBonus_10
+  - first:
+      213: 2001385526102409374
+    second: InformationFogBonus_11
+  - first:
+      213: 8190041832989607742
+    second: InformationFogBonus_12
+  - first:
+      213: -4289865101631221997
+    second: InformationFogBonus_13
+  - first:
+      213: 8322464888668077250
+    second: InformationFogBonus_14
+  - first:
+      213: -143295316684698371
+    second: InformationFogBonus_15
+  - first:
+      213: 847936109755065656
+    second: InformationFogBonus_16
+  - first:
+      213: -7723336427178140270
+    second: InformationFogBonus_17
+  - first:
+      213: 8657477619457912208
+    second: InformationFogBonus_18
+  - first:
+      213: -3044217061298409361
+    second: InformationFogBonus_19
+  - first:
+      213: -1945130769879678931
+    second: InformationFogBonus_20
+  - first:
+      213: 2358813435970877771
+    second: InformationFogBonus_21
+  - first:
+      213: 6079067011807496489
+    second: InformationFogBonus_22
+  - first:
+      213: -3235853747560673630
+    second: InformationFogBonus_23
+  - first:
+      213: 4585705742571086392
+    second: InformationFogBonus_24
+  - first:
+      213: 4688593423143529793
+    second: InformationFogBonus_25
+  - first:
+      213: -569578174063955785
+    second: InformationFogBonus_26
+  - first:
+      213: -5662723296061672691
+    second: InformationFogBonus_27
+  - first:
+      213: -6635455591321733607
+    second: InformationFogBonus_28
+  - first:
+      213: -3591167398043009706
+    second: InformationFogBonus_29
+  - first:
+      213: 5593320548719446290
+    second: InformationFogBonus_30
+  - first:
+      213: 9176529687738066235
+    second: InformationFogBonus_31
+  - first:
+      213: 5019759428794229258
+    second: InformationFogBonus_32
+  - first:
+      213: 2514708840713176331
+    second: InformationFogBonus_33
+  - first:
+      213: 3336382001358493672
+    second: InformationFogBonus_34
+  - first:
+      213: 590232873009337533
+    second: InformationFogBonus_35
+  - first:
+      213: -8023162497095777472
+    second: InformationFogBonus_36
+  - first:
+      213: 5034284206411813235
+    second: InformationFogBonus_37
+  - first:
+      213: 6254454529368458388
+    second: InformationFogBonus_38
+  - first:
+      213: -7856017540123535508
+    second: InformationFogBonus_39
+  - first:
+      213: -7741117631431450078
+    second: InformationFogBonus_40
+  - first:
+      213: 4883715715585586698
+    second: InformationFogBonus_41
+  - first:
+      213: -3410861497121973671
+    second: InformationFogBonus_42
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 256
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: InformationFogBonus_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1237
+        height: 1254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 963a3707ec1f0d6e0800000000000000
+      internalID: -1814684780878126231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_1
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 1210
+        width: 21
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb3c0a9551a139f30800000000000000
+      internalID: 4581033924966269887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_2
+      rect:
+        serializedVersion: 2
+        x: 573
+        y: 1203
+        width: 21
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 259f9894fdad112e0800000000000000
+      internalID: -2156702093987415726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_3
+      rect:
+        serializedVersion: 2
+        x: 890
+        y: 1207
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2e7421ef89417e00800000000000000
+      internalID: 1040693871205711402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_4
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 1202
+        width: 26
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84a77479c13c94040800000000000000
+      internalID: 4632448219291810376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_5
+      rect:
+        serializedVersion: 2
+        x: 1016
+        y: 1203
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7f86077ed8bc6260800000000000000
+      internalID: 7092246778820857724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_6
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 1176
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88906c23f5e4a2e20800000000000000
+      internalID: 3326557445547231624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_7
+      rect:
+        serializedVersion: 2
+        x: 496
+        y: 1191
+        width: 22
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55f3ebc08556b1ae0800000000000000
+      internalID: -1577555815617904811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_8
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 1188
+        width: 19
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf9344ad7a8827cc0800000000000000
+      internalID: -3714756488124417541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_9
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 1183
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34eda514f0879ba60800000000000000
+      internalID: 7690309845628149315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_10
+      rect:
+        serializedVersion: 2
+        x: 930
+        y: 1183
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac74e84f7f41176d0800000000000000
+      internalID: -2994589222032226358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_11
+      rect:
+        serializedVersion: 2
+        x: 1027
+        y: 1189
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9041fd388956cb10800000000000000
+      internalID: 2001385526102409374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_12
+      rect:
+        serializedVersion: 2
+        x: 1037
+        y: 1189
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e374fe687afd8a170800000000000000
+      internalID: 8190041832989607742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_13
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 1144
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31f0de23b665774c0800000000000000
+      internalID: -4289865101631221997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_14
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 1110
+        width: 36
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ccb8b0d8b55f7370800000000000000
+      internalID: 8322464888668077250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_15
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 1146
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfc080f2ba9e20ef0800000000000000
+      internalID: -143295316684698371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_16
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 1146
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8356d26366974cb00800000000000000
+      internalID: 847936109755065656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_17
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 1141
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29d5631807231d490800000000000000
+      internalID: -7723336427178140270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_18
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 1147
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09deeae860a852870800000000000000
+      internalID: 8657477619457912208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_19
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 1158
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f60ff1236b4c0c5d0800000000000000
+      internalID: -3044217061298409361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_20
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 1155
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d20c3abded18105e0800000000000000
+      internalID: -1945130769879678931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_21
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 1156
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b49767e82503cb020800000000000000
+      internalID: 2358813435970877771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_22
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 1140
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 929c49c2d3f2d5450800000000000000
+      internalID: 6079067011807496489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_23
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 1142
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ae878f2920f713d0800000000000000
+      internalID: -3235853747560673630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_24
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 1149
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8322b66a313b3af30800000000000000
+      internalID: 4585705742571086392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_25
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 1144
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14de3ba80ea311140800000000000000
+      internalID: 4688593423143529793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_26
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 1146
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b03a1f1ba37818f0800000000000000
+      internalID: -569578174063955785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_27
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 1142
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d033ae42a27f961b0800000000000000
+      internalID: -5662723296061672691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_28
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 1140
+        width: 17
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 916736cbb402ae3a0800000000000000
+      internalID: -6635455591321733607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_29
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 1124
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65dbeae374c992ec0800000000000000
+      internalID: -3591167398043009706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_30
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 1107
+        width: 54
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 219c05587677f9d40800000000000000
+      internalID: 5593320548719446290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_31
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 1124
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b352474b125995f70800000000000000
+      internalID: 9176529687738066235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 801
+        width: 5
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a02a23bca94c9a540800000000000000
+      internalID: 5019759428794229258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_33
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 708
+        width: 5
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b054e3cfd5a06e220800000000000000
+      internalID: 2514708840713176331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_34
+      rect:
+        serializedVersion: 2
+        x: 474
+        y: 62
+        width: 17
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e7daf9d0c53d4e20800000000000000
+      internalID: 3336382001358493672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_35
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 63
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db4da7abbade03800800000000000000
+      internalID: 590232873009337533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_36
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 67
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 043ce59a73008a090800000000000000
+      internalID: -8023162497095777472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_37
+      rect:
+        serializedVersion: 2
+        x: 1019
+        y: 69
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 371198d10de5dd540800000000000000
+      internalID: 5034284206411813235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_38
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 47
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49407d6c1494cc650800000000000000
+      internalID: 6254454529368458388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_39
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 19
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c67d2b39ba1d9f290800000000000000
+      internalID: -7856017540123535508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_40
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 13
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 222e3064786029490800000000000000
+      internalID: -7741117631431450078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_41
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 23
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a06b87b719176c340800000000000000
+      internalID: 4883715715585586698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InformationFogBonus_42
+      rect:
+        serializedVersion: 2
+        x: 938
+        y: 23
+        width: 14
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95adcf53a8f2aa0d0800000000000000
+      internalID: -3410861497121973671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      InformationFogBonus_0: -1814684780878126231
+      InformationFogBonus_1: 4581033924966269887
+      InformationFogBonus_10: -2994589222032226358
+      InformationFogBonus_11: 2001385526102409374
+      InformationFogBonus_12: 8190041832989607742
+      InformationFogBonus_13: -4289865101631221997
+      InformationFogBonus_14: 8322464888668077250
+      InformationFogBonus_15: -143295316684698371
+      InformationFogBonus_16: 847936109755065656
+      InformationFogBonus_17: -7723336427178140270
+      InformationFogBonus_18: 8657477619457912208
+      InformationFogBonus_19: -3044217061298409361
+      InformationFogBonus_2: -2156702093987415726
+      InformationFogBonus_20: -1945130769879678931
+      InformationFogBonus_21: 2358813435970877771
+      InformationFogBonus_22: 6079067011807496489
+      InformationFogBonus_23: -3235853747560673630
+      InformationFogBonus_24: 4585705742571086392
+      InformationFogBonus_25: 4688593423143529793
+      InformationFogBonus_26: -569578174063955785
+      InformationFogBonus_27: -5662723296061672691
+      InformationFogBonus_28: -6635455591321733607
+      InformationFogBonus_29: -3591167398043009706
+      InformationFogBonus_3: 1040693871205711402
+      InformationFogBonus_30: 5593320548719446290
+      InformationFogBonus_31: 9176529687738066235
+      InformationFogBonus_32: 5019759428794229258
+      InformationFogBonus_33: 2514708840713176331
+      InformationFogBonus_34: 3336382001358493672
+      InformationFogBonus_35: 590232873009337533
+      InformationFogBonus_36: -8023162497095777472
+      InformationFogBonus_37: 5034284206411813235
+      InformationFogBonus_38: 6254454529368458388
+      InformationFogBonus_39: -7856017540123535508
+      InformationFogBonus_4: 4632448219291810376
+      InformationFogBonus_40: -7741117631431450078
+      InformationFogBonus_41: 4883715715585586698
+      InformationFogBonus_42: -3410861497121973671
+      InformationFogBonus_5: 7092246778820857724
+      InformationFogBonus_6: 3326557445547231624
+      InformationFogBonus_7: -1577555815617904811
+      InformationFogBonus_8: -3714756488124417541
+      InformationFogBonus_9: 7690309845628149315
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

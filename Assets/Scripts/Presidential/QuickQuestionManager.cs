@@ -15,11 +15,11 @@ public sealed class QuickQuestionManager : MonoBehaviour
     [SerializeField] private CityHealth cityHealth;
     [SerializeField] private DispatchVisualFeedback visualFeedback;
 
-    [Header("Scenario Questions (8 Slots)")]
+    [Header("Scenario Questions")]
     [Tooltip("One Quick Question configuration per scenario.")]
-    [SerializeField] private QuickQuestionConfig[] scenarioQuestions = new QuickQuestionConfig[8];
+    [SerializeField] private QuickQuestionConfig[] scenarioQuestions = new QuickQuestionConfig[7];
     [Tooltip("Second, sequential information-verification question for each scenario.")]
-    [SerializeField] private QuickQuestionConfig[] secondQuestions = new QuickQuestionConfig[8];
+    [SerializeField] private QuickQuestionConfig[] secondQuestions = new QuickQuestionConfig[7];
 
     [Header("Optional ScriptableObject Overrides")]
     [SerializeField] private QuickQuestionData[] questionDataAssets;
@@ -28,13 +28,13 @@ public sealed class QuickQuestionManager : MonoBehaviour
     public event Action<QuickQuestionResult> QuestionResolved;
 
     private QuickQuestionView[] views;
-    private readonly QuickQuestionConfig[] activeConfigs=new QuickQuestionConfig[2];
-    private readonly bool[] activeSlots=new bool[2];
-    [SerializeField] private QuickQuestionConfig[] thirdQuestions=new QuickQuestionConfig[8];
+    private readonly QuickQuestionConfig[] activeConfigs=new QuickQuestionConfig[3];
+    private readonly bool[] activeSlots=new bool[3];
+    [SerializeField] private QuickQuestionConfig[] thirdQuestions=new QuickQuestionConfig[7];
     public IReadOnlyList<QuickQuestionView> Views => views;
-    public bool IsQuestionActive => activeSlots[0]||activeSlots[1];
-    public QuickQuestionConfig CurrentQuestion => activeSlots[0]?activeConfigs[0]:activeSlots[1]?activeConfigs[1]:activeConfigs[0];
-    public QuickQuestionConfig GetQuestionForView(QuickQuestionView target)=>activeConfigs[target==view?0:1];
+    public bool IsQuestionActive => Array.Exists(activeSlots,active=>active);
+    public QuickQuestionConfig CurrentQuestion { get {for(int i=0;i<activeSlots.Length;i++)if(activeSlots[i])return activeConfigs[i];return activeConfigs[0];} }
+    public QuickQuestionConfig GetQuestionForView(QuickQuestionView target) {int slot=views==null?-1:Array.IndexOf(views,target);return slot>=0?activeConfigs[slot]:null;}
     public IReadOnlyList<QuickQuestionResult> Results => results;
 
     private readonly List<QuickQuestionResult> results = new List<QuickQuestionResult>();
@@ -43,8 +43,9 @@ public sealed class QuickQuestionManager : MonoBehaviour
     private int activeScenarioIndex = -1;
     private bool scenarioFinished;
     private int resolvedInScenario;
+    private bool mainDecisionResolved;
 
-    public bool QuickQuestionsComplete => currentScenarioRevision >= 0 && resolvedInScenario >= 3
+    public bool QuickQuestionsComplete => currentScenarioRevision >= 0 && resolvedInScenario >= (activeScenarioIndex == 0 ? 1 : 3)
         && !AnyViewVisible;
 
     public int AnsweredCount => results.FindAll(r => r.answered && !r.timedOut).Count;
@@ -65,7 +66,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
     {
         InitializeDefaultQuestionsIfNeeded();
         ConfigureVerificationRewards();
-        if(view){view.SetSide(false);views=new[]{view,view.CreateCompanion()};}
+        if(view){view.SetSide(false);views=new[]{view,view.CreateCompanion(),view.CreateCompanion(true)};}
     }
 
     [SerializeField, Min(0)] private int returnStockCeiling = 6;
@@ -76,20 +77,21 @@ public sealed class QuickQuestionManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (conversation) { conversation.ScenarioStarted += OnScenarioStarted; conversation.ScenarioClosing += OnScenarioClosing; }
+        if (conversation) { conversation.ScenarioStarted += OnScenarioStarted; conversation.ScenarioClosing += OnScenarioClosing; conversation.DecisionResolved += OnMainDecision; }
         if (briefingManager) briefingManager.ShiftReset += ResetForNewShift;
     }
     private void OnDisable()
     {
-        if (conversation) { conversation.ScenarioStarted -= OnScenarioStarted; conversation.ScenarioClosing -= OnScenarioClosing; }
+        if (conversation) { conversation.ScenarioStarted -= OnScenarioStarted; conversation.ScenarioClosing -= OnScenarioClosing; conversation.DecisionResolved -= OnMainDecision; }
         if (briefingManager) briefingManager.ShiftReset -= ResetForNewShift;
         CancelActiveQuestion();
     }
+    private void OnMainDecision(bool correct) { mainDecisionResolved=true; }
     private void OnScenarioStarted(int revision, string scenarioId)
     {
         if (!scheduledRevisions.Add(revision)) return;
         CancelActiveQuestion();
-        currentScenarioRevision = revision; activeScenarioId = scenarioId; scenarioFinished = false; resolvedInScenario = 0;
+        currentScenarioRevision = revision; activeScenarioId = scenarioId; scenarioFinished = false; resolvedInScenario = 0; mainDecisionResolved=false;
         activeScenarioIndex = briefingManager ? briefingManager.CompletedScenarios : 0;
         QuickQuestionConfig config = GetQuestionForScenario(activeScenarioIndex);
         if (config != null && config.targetScenarioId != scenarioId) config = null;
@@ -102,36 +104,21 @@ public sealed class QuickQuestionManager : MonoBehaviour
     }
     public void InitializeDefaultQuestionsIfNeeded()
     {
-        var defaults=GetDefault8Questions();
-        if(scenarioQuestions==null)scenarioQuestions=new QuickQuestionConfig[8];
-        if(scenarioQuestions.Length!=8)Array.Resize(ref scenarioQuestions,8);
-        var ids = new HashSet<string>();
-        for (int i = 0; i < 8; i++)
+        var ids=new HashSet<string>();
+        scenarioQuestions=AlignQuestions(scenarioQuestions,GetDefaultQuestions(),ids);
+        secondQuestions=AlignQuestions(secondQuestions,GetDefaultSecondQuestions(),ids);
+        thirdQuestions=AlignQuestions(thirdQuestions,GetDefaultThirdQuestions(),ids);
+    }
+    private static QuickQuestionConfig[] AlignQuestions(QuickQuestionConfig[] source,QuickQuestionConfig[] defaults,HashSet<string> ids)
+    {
+        var result=new QuickQuestionConfig[defaults.Length];
+        for(int i=0;i<defaults.Length;i++)
         {
-            // Repair the unfinished installer's duplicated placeholder slots, preserving unique edits.
-            if (scenarioQuestions[i] == null || string.IsNullOrEmpty(scenarioQuestions[i].id) || !ids.Add(scenarioQuestions[i].id))
-            {
-                scenarioQuestions[i] = defaults[i];
-                ids.Add(scenarioQuestions[i].id);
-            }
+            var expected=defaults[i];
+            var existing=source==null?null:Array.Find(source,q=>q!=null && q.targetScenarioId==expected.targetScenarioId && !string.IsNullOrEmpty(q.id) && !ids.Contains(q.id));
+            result[i]=existing ?? expected;ids.Add(result[i].id);
         }
-        if (secondQuestions == null) secondQuestions = new QuickQuestionConfig[8];
-        if (secondQuestions.Length != 8) Array.Resize(ref secondQuestions, 8);
-        for (int i = 0; i < 8; i++)
-            if (secondQuestions[i] == null || string.IsNullOrEmpty(secondQuestions[i].id)
-                || secondQuestions[i].questionText == "Bu vakanın ikinci hızlı soru metni henüz yazılmadı."
-                || secondQuestions[i].targetScenarioId != scenarioQuestions[i].targetScenarioId
-                || !ids.Add(secondQuestions[i].id))
-            {
-                secondQuestions[i] = GetDefaultSecondQuestions()[i];
-                ids.Add(secondQuestions[i].id);
-            }
-        if(thirdQuestions==null)thirdQuestions=new QuickQuestionConfig[8];
-        if(thirdQuestions.Length!=8)Array.Resize(ref thirdQuestions,8);
-        var thirds=GetDefaultThirdQuestions();
-        for(int i=0;i<8;i++)
-            if(thirdQuestions[i]==null||string.IsNullOrEmpty(thirdQuestions[i].id)||thirdQuestions[i].targetScenarioId!=scenarioQuestions[i].targetScenarioId||!ids.Add(thirdQuestions[i].id))
-            {thirdQuestions[i]=thirds[i];ids.Add(thirdQuestions[i].id);}
+        return result;
     }
 
     public void ConfigureVerificationRewards()
@@ -147,19 +134,18 @@ public sealed class QuickQuestionManager : MonoBehaviour
 
     public static QuickQuestionConfig[] GetDefaultSecondQuestions()
     {
-        string[] ids = { "D-01", "D-02", "Y-02", "S-01", "T-01", "F-01", "K-01", "K-02" };
+        string[] ids = { "D-01", "D-02", "Y-02", "S-01", "F-01", "K-01", "K-02" };
         string[] questions = {
             "Bir hesap 'Gece 03.15’te kesin deprem var' diyor. Paylaşalım mı?",
             "Kaynağı belirsiz ses kaydı tahliye emri veriyor. Yayılsın mı?",
             "Eski yangın videosu 'şimdi burada' diye yayılıyor. Düzeltelim mi?",
             "Teyitsiz mesaj 'Tüm yollar açık' diyor. Resmî bilgi diye yayalım mı?",
-            "Sahte hesap 'Tsunami uyarısı kalktı' diyor. Resmî teyit isteyelim mi?",
             "Tarihsiz fırtına haritası yeniden yayılıyor. Güncel diye sunalım mı?",
             "Uzman adı olmayan deprem tahmini gündemde. Kaynağı doğrulayalım mı?",
             "Kişisel IBAN isteyen yardım mesajını resmî duyuru diye paylaşalım mı?"
         };
-        int[] correct = { 1, 1, 0, 1, 0, 1, 0, 1 };
-        var result = new QuickQuestionConfig[8];
+        int[] correct = { 1, 1, 0, 1, 1, 0, 1 };
+        var result = new QuickQuestionConfig[7];
         for (int i = 0; i < result.Length; i++)
         {
             string good = "TEYİTSİZ BİLGİ ENGELLENDİ";
@@ -179,9 +165,9 @@ public sealed class QuickQuestionManager : MonoBehaviour
         return result;
     }
 
-    public static QuickQuestionConfig[] GetDefault8Questions()
+    public static QuickQuestionConfig[] GetDefaultQuestions()
     {
-        return new QuickQuestionConfig[8]
+        return new QuickQuestionConfig[7]
         {
             // Scenario 1: D-01 (Ambulance request)
             new QuickQuestionConfig
@@ -255,24 +241,6 @@ public sealed class QuickQuestionManager : MonoBehaviour
                 appearanceDelayMax = 3.0f
             },
 
-            // Scenario 5: T-01 (Unit return request - restore +1)
-            new QuickQuestionConfig
-            {
-                id = "QQ-05",
-                targetScenarioId = "T-01",
-                categoryTitle = "EKİP DÖNÜŞÜ",
-                questionText = "Bir saha ekibi görevini tamamladı. Merkeze geri çağrılsın mı?",
-                choiceALabel = "GERİ ÇAĞIR (+1)",
-                choiceAEffect = new DispatchResourceEffect { ambulances = 1 },
-                choiceAFeedback = "AMBULANS MERKEZE DÖNDÜ",
-                choiceBLabel = "BÖLGEDE TUT",
-                choiceBEffect = new DispatchResourceEffect(),
-                choiceBFeedback = "EKİP BÖLGEDE BIRAKILDI",
-                timerDuration = 7f,
-                appearanceDelayMin = 1.8f,
-                appearanceDelayMax = 2.8f
-            },
-
             // Scenario 6: F-01 (Two competing requests - priority choice)
             new QuickQuestionConfig
             {
@@ -333,10 +301,10 @@ public sealed class QuickQuestionManager : MonoBehaviour
     public void SetPaused(bool paused){if(views!=null)foreach(var card in views)card.SetPaused(paused);}
     public static QuickQuestionConfig[] GetDefaultThirdQuestions()
     {
-        string[] text={"Deprem sonrası hasarlı binaya geri dönmek güvenli mi?","Gaz kokusunda elektrik düğmesine basalım mı?","Yoğun dumanda alçaktan ilerleyelim mi?","Sel suyuna araçla girelim mi?","Tsunami uyarısında kıyıdan uzaklaşıp yükseğe çıkalım mı?","Fırtınada devrilebilecek ağaçlardan uzaklaşalım mı?","Yardım bilgisini resmî kaynaklardan doğrulayalım mı?","Acil yardım araçları için yolları açık tutalım mı?"};
-        int[] correct={1,1,0,1,0,0,0,0};
+        string[] text={"Deprem sonrası hasarlı binaya geri dönmek güvenli mi?","Gaz kokusunda elektrik düğmesine basalım mı?","Yoğun dumanda alçaktan ilerleyelim mi?","Sel suyuna araçla girelim mi?","Fırtınada devrilebilecek ağaçlardan uzaklaşalım mı?","Yardım bilgisini resmî kaynaklardan doğrulayalım mı?","Acil yardım araçları için yolları açık tutalım mı?"};
+        int[] correct={1,1,0,1,0,0,0};
         var result=GetDefaultSecondQuestions();
-        for(int i=0;i<8;i++)
+        for(int i=0;i<result.Length;i++)
         {
             var q=result[i];q.id="QQ-"+(i+17).ToString("00");q.categoryTitle="GÜVENLİ DAVRANIŞ";q.questionText=text[i];q.correctChoiceIndex=correct[i];
             q.choiceAEffect=q.choiceBEffect=new DispatchResourceEffect();
@@ -366,6 +334,13 @@ public sealed class QuickQuestionManager : MonoBehaviour
     {
         while(phone && phone.State!=DispatchCallFlow.CallState.Conversation)
         {if(scenarioFinished || conversation.GameOver)yield break;yield return null;}
+        if(activeScenarioIndex == 0)
+        {
+            // Teach the main choice before introducing a single support request.
+            while(!mainDecisionResolved)
+            {if(scenarioFinished || currentScenarioRevision!=revision || conversation.GameOver)yield break;yield return null;}
+            ShowSlot(config,0);triggerRoutine=null;yield break;
+        }
         int requiredLines = resolvedInScenario == 0 ? 2 : 3;
         while (conversation && conversation.CompletedDialogueLines < requiredLines)
         {
@@ -383,23 +358,33 @@ public sealed class QuickQuestionManager : MonoBehaviour
         if(scenarioFinished||currentScenarioRevision!=revision)yield break;
         int primary=activeScenarioIndex%2==0?0:1;
         ShowSlot(config,primary);
-        ShowSlot(GetQuestionForScenario(activeScenarioIndex,true),1-primary);
-        while(views[primary].IsActive)
+        for(float elapsed=0;elapsed<2.5f;)
         {
-            if(scenarioFinished||currentScenarioRevision!=revision||conversation.GameOver)yield break;
+            if(scenarioFinished || currentScenarioRevision!=revision || conversation.GameOver)yield break;
+            if(!phone || !phone.IsPaused)elapsed+=Time.unscaledDeltaTime;
             yield return null;
         }
-        if(!scenarioFinished&&currentScenarioRevision==revision)ShowSlot(GetQuestionForScenario(activeScenarioIndex,false,true),primary);
+        ShowSlot(GetQuestionForScenario(activeScenarioIndex,true),1-primary);
+        for(float elapsed=0;elapsed<2.5f;)
+        {
+            if(scenarioFinished || currentScenarioRevision!=revision || conversation.GameOver)yield break;
+            if(!phone || !phone.IsPaused)elapsed+=Time.unscaledDeltaTime;
+            yield return null;
+        }
+        if(!scenarioFinished && currentScenarioRevision==revision)ShowSlot(GetQuestionForScenario(activeScenarioIndex,false,true),2);
         triggerRoutine=null;
     }
 
     public QuickQuestionConfig GetQuestionForScenario(int index, bool second = false, bool third = false)
     {
         if(index<0)return null;
-        if(third)return thirdQuestions!=null&&index<thirdQuestions.Length?thirdQuestions[index]:null;
-        if (second) return secondQuestions != null && index < secondQuestions.Length ? secondQuestions[index] : null;
-        if(questionDataAssets!=null && index<questionDataAssets.Length && questionDataAssets[index])return questionDataAssets[index].config;
-        return scenarioQuestions!=null && index<scenarioQuestions.Length ? scenarioQuestions[index] : null;
+        var scenario=briefingManager?briefingManager.ScenarioAt(index):null;
+        string expected=scenario?scenario.scenarioId:index<scenarioQuestions.Length?scenarioQuestions[index].targetScenarioId:null;
+        if(string.IsNullOrEmpty(expected))return null;
+        if(third)return Array.Find(thirdQuestions,q=>q!=null && q.targetScenarioId==expected);
+        if(second)return Array.Find(secondQuestions,q=>q!=null && q.targetScenarioId==expected);
+        if(questionDataAssets!=null){var data=Array.Find(questionDataAssets,q=>q && q.config!=null && q.config.targetScenarioId==expected);if(data)return data.config;}
+        return Array.Find(scenarioQuestions,q=>q!=null && q.targetScenarioId==expected);
     }
 
     public void TriggerQuestion(QuickQuestionConfig config)
@@ -410,7 +395,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
     private void ShowSlot(QuickQuestionConfig config,int slot)
     {
         if(config==null||views==null||!resources||activeSlots[slot]||views[slot].IsActive||!isActiveAndEnabled||(conversation&&conversation.GameOver))return;
-        var question=config.Clone();question.timerDuration=7f;activeConfigs[slot]=question;activeSlots[slot]=true;
+        var question=config.Clone();question.timerDuration=activeScenarioIndex==0?14f:11f;activeConfigs[slot]=question;activeSlots[slot]=true;
         views[slot].Show(question,resources,choice=>OnChoiceSelected(slot,choice),()=>OnTimeout(slot),choice=>CanChoose(slot,choice));
         if(visualFeedback)visualFeedback.SignalAlert(false);QuestionStarted?.Invoke(question);
     }
@@ -480,7 +465,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
     public void CancelActiveQuestion()
     {
         if(triggerRoutine!=null){StopCoroutine(triggerRoutine);triggerRoutine=null;}
-        for(int slot=0;slot<2;slot++)
+        for(int slot=0;slot<activeSlots.Length;slot++)
         {
             if(activeSlots[slot])
             {

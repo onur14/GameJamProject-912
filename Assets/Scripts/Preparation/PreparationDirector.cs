@@ -22,7 +22,7 @@ public sealed class PreparationDirector : MonoBehaviour
     private TMP_Text recordingClock;
     private PreparationBroadcast broadcast;
     private Button back;
-    public const float ActivityTimeLimit=45f;
+    public const float ActivityTimeLimit=75f;
     private float remainingSeconds;
     private bool timerRunning;
     private Image timerFill;
@@ -38,13 +38,15 @@ public sealed class PreparationDirector : MonoBehaviour
     private readonly Button[] markers=new Button[PreparationRun.ActivityCount];
     private readonly TMP_Text[] taskLabels=new TMP_Text[PreparationRun.ActivityCount];
     private readonly List<Sprite> sprites=new List<Sprite>();
-    private readonly string[] names={"ACİL DURUM ÇANTASI","ÇÖK · KAPAN · TUTUN","SELDE GÜVENLİ NOKTA","DEDEKTÖRÜ HAZIRLA","TSUNAMİDEN KAÇIŞ"};
-    private readonly Vector2[] locations={new Vector2(.24f,.71f),new Vector2(.41f,.41f),new Vector2(.79f,.49f),new Vector2(.525f,.89f),new Vector2(.84f,.15f)};
+    private readonly string[] names={"ACİL DURUM ÇANTASI","ÇÖK · KAPAN · TUTUN","SELDE GÜVENLİ NOKTA","DEDEKTÖRÜ HAZIRLA","TÜP BASINCINI KONTROL ET","HATLARI İŞARETLE"};
+    private readonly Vector2[] locations={new Vector2(.24f,.71f),new Vector2(.41f,.41f),new Vector2(.79f,.49f),new Vector2(.525f,.89f),new Vector2(.84f,.15f),new Vector2(.13f,.35f)};
     private EarthquakePreparationGame earthquake;
     private FloodPreparationGame flood;
     private SmokeDetectorPreparationGame detector;
-    private TsunamiPreparationGame tsunami;
-    public TsunamiPreparationGame Tsunami => tsunami;
+    private ExtinguisherPreparationGame extinguisher;
+    private UtilityIsolationPreparationGame isolation;
+    public ExtinguisherPreparationGame Extinguisher => extinguisher;
+    public UtilityIsolationPreparationGame Isolation => isolation;
     private Coroutine activity;
     private bool busy, finishing;
     public int ActiveActivity { get; private set; } = -1;
@@ -76,7 +78,8 @@ public sealed class PreparationDirector : MonoBehaviour
     {
         if(!PreparationRun.StartTake())return;
         bagWindow.Close();bagWindow.ResetForNewSession();
-        earthquake.Hide();flood.Hide();detector.Hide();tsunami.Hide();modal.gameObject.SetActive(false);
+        earthquake.Hide();flood.Hide();detector.Hide();extinguisher.Hide();isolation.Hide();modal.gameObject.SetActive(false);
+        extinguisher.ResetForNewTake();isolation.ResetForNewTake();
         remainingSeconds=ActivityTimeLimit;timerRunning=true;RefreshTimer();timeoutPanel.SetActive(false);
         house.localScale=Vector3.one;mapGroup.alpha=1;back.interactable=true;
         ActiveActivity=-1;finishing=false;busy=false;mapGroup.interactable=true;
@@ -97,7 +100,7 @@ public sealed class PreparationDirector : MonoBehaviour
         var screen=(RectTransform)canvasObject.transform;
         Panel("Zemin",screen,Vector2.zero,Vector2.one,Navy);
         Label("Başlık",screen,new Vector2(.045f,.90f),new Vector2(.56f,.94f),"AFETE HAZIRLIK",font,38).alignment=TextAlignmentOptions.Left;
-        Label("Alt Başlık",screen,new Vector2(.045f,.865f),new Vector2(.58f,.91f),"BAKANLIK KAMU SPOTU · BEŞ GÖREV, TEK ÇEKİM",font,19).alignment=TextAlignmentOptions.Left;
+        Label("Alt Başlık",screen,new Vector2(.045f,.865f),new Vector2(.58f,.91f),"BAKANLIK KAMU SPOTU · ALTI GÖREV, TEK ÇEKİM",font,19).alignment=TextAlignmentOptions.Left;
         var rec=Label("Kayıt Göstergesi",screen,new Vector2(.78f,.91f),new Vector2(.96f,.94f),"REC  ●  EĞİTİM KAYDI",font,18);rec.color=Red;
         recordingClock=Label("Çekim Sayacı",screen,new Vector2(.78f,.855f),new Vector2(.97f,.92f),"KAYIT BEKLİYOR",font,24);
         var map=Rect("Ev Haritası",screen,new Vector2(.035f,.11f),new Vector2(.775f,.855f));mapGroup=map.gameObject.AddComponent<CanvasGroup>();
@@ -116,12 +119,12 @@ public sealed class PreparationDirector : MonoBehaviour
         }
         for(int i=0;i<PreparationRun.ActivityCount;i++)
         {
-            float y=.75f-i*.105f;
-            taskLabels[i]=Label("Görev Durumu "+i,screen,new Vector2(.80f,y),new Vector2(.965f,y+.09f),(i+1)+"  "+names[i]+"\nHAZIRLANACAK",font,20);
+            float y=.77f-i*.089f;
+            taskLabels[i]=Label("Görev Durumu "+i,screen,new Vector2(.80f,y),new Vector2(.965f,y+.078f),(i+1)+"  "+names[i]+"\nHAZIRLANACAK",font,20);
             taskLabels[i].alignment=TextAlignmentOptions.Left;
         }
-        status=Label("Hazırlık Durumu",screen,new Vector2(.79f,.15f),new Vector2(.97f,.28f),"",font,23);
-        Label("Harita İpucu",screen,new Vector2(.04f,.025f),new Vector2(.78f,.09f),"5 ÖNEMLİ AFET HAZIRLIĞI · Beş görevi toplam 45 saniyede tamamla.",font,22);
+        status=Label("Hazırlık Durumu",screen,new Vector2(.79f,.10f),new Vector2(.97f,.21f),"",font,23);
+        Label("Harita İpucu",screen,new Vector2(.04f,.025f),new Vector2(.78f,.09f),"6 ÖNEMLİ AFET HAZIRLIĞI · Altı görevi toplam 75 saniyede tamamla.",font,22);
         var menu=Button("Ana Menü",screen,new Vector2(.81f,.035f),new Vector2(.96f,.09f),"ANA MENÜ",font);
         menu.onClick.AddListener(()=>{if(busy||SceneFadeTransition.IsTransitioning)return;PreparationRun.Reset();ShiftReportFlow.Clear();SceneFadeTransition.LoadScene("Assets/Working Folder/Taha and Yasin/AnaMenu.unity",.3f,.4f);});
         // Quiet recording brackets, outside the game and pointer paths.
@@ -150,11 +153,12 @@ public sealed class PreparationDirector : MonoBehaviour
         earthquake=gameObject.AddComponent<EarthquakePreparationGame>();earthquake.Initialize(activityHost,font,OnTrainingMistake);
         flood=gameObject.AddComponent<FloodPreparationGame>();flood.Initialize(activityHost,font,OnTrainingMistake,()=>CompleteActivity(2));
         detector=gameObject.AddComponent<SmokeDetectorPreparationGame>();detector.Initialize(activityHost,font,()=>CompleteActivity(3));
-        tsunami=gameObject.AddComponent<TsunamiPreparationGame>();tsunami.Initialize(activityHost,font,()=>{OnTrainingMistake();activityAudio.Stop();if(activityFailure)activityAudio.PlayOneShot(activityFailure);},()=>CompleteActivity(4));
+        extinguisher=gameObject.AddComponent<ExtinguisherPreparationGame>();extinguisher.Initialize(activityHost,font,OnTrainingMistake,()=>CompleteActivity(4));
+        isolation=gameObject.AddComponent<UtilityIsolationPreparationGame>();isolation.Initialize(activityHost,font,OnTrainingMistake,()=>CompleteActivity(5));
         var shadeTimeout=Panel("Süre Doldu Örtüsü",card,new Vector2(.025f,.10f),new Vector2(.975f,.84f),new Color(.015f,.035f,.055f,.97f));
         shadeTimeout.raycastTarget=true;timeoutPanel=shadeTimeout.gameObject;
         Label("Süre Doldu",shadeTimeout.transform,new Vector2(.15f,.60f),new Vector2(.85f,.76f),"SÜRE DOLDU",font,36).color=Amber;
-        Label("Yeniden Dene Açıklaması",shadeTimeout.transform,new Vector2(.12f,.43f),new Vector2(.88f,.59f),"Çekim süresi bitti. Beş hazırlık için toplam 45 saniyen var.\nÇekimi baştan deneyebilir veya menüye dönebilirsin.",font,23);
+        Label("Yeniden Dene Açıklaması",shadeTimeout.transform,new Vector2(.12f,.43f),new Vector2(.88f,.59f),"Çekim süresi bitti. Altı hazırlık için toplam 75 saniyen var.\nÇekimi baştan deneyebilir veya menüye dönebilirsin.",font,23);
         retryButton=Button("Görevi Yeniden Dene",shadeTimeout.transform,new Vector2(.12f,.22f),new Vector2(.49f,.36f),"ÇEKİMİ YENİLE",font);
         timeoutReturnButton=Button("Süreden Ana Menü",shadeTimeout.transform,new Vector2(.51f,.22f),new Vector2(.88f,.36f),"ANA MENÜ",font);
         retryButton.onClick.AddListener(RetryActivity);timeoutReturnButton.onClick.AddListener(ReturnAfterTimeout);
@@ -165,7 +169,7 @@ public sealed class PreparationDirector : MonoBehaviour
         var track=Panel("Toplam Hazırlık Süresi",screen,new Vector2(.035f,.945f),new Vector2(.965f,.975f),new Color(.14f,.21f,.26f));
         timerStrip=track.gameObject;timerStrip.SetActive(false);
         timerFill=Panel("Kalan Hazırlık Süresi",track.transform,Vector2.zero,Vector2.one,new Color(.28f,.67f,.84f));
-        timerLabel=Label("Toplam Süre",track.transform,new Vector2(.02f,-.1f),new Vector2(.98f,1.1f),"TOPLAM 45 SN",font,18);
+        timerLabel=Label("Toplam Süre",track.transform,new Vector2(.02f,-.1f),new Vector2(.98f,1.1f),"TOPLAM 75 SN",font,18);
     }
     public void OpenActivity(int index)
     {
@@ -178,9 +182,9 @@ public sealed class PreparationDirector : MonoBehaviour
         mapGroup.interactable=false;feedback.text="";feedbackGroup.alpha=0;activityTitle.text=names[index];
         for(float t=0;t<.3f;t+=Time.unscaledDeltaTime){float p=Mathf.SmoothStep(0,1,t/.3f);house.localScale=Vector3.one*(1+p*.035f);mapGroup.alpha=1-p*.35f;yield return null;}
         modal.gameObject.SetActive(true);modal.alpha=0;modal.interactable=false;
-        bagWindow.BagPanel.SetActive(false);earthquake.Hide();flood.Hide();detector.Hide();tsunami.Hide();
+        bagWindow.BagPanel.SetActive(false);earthquake.Hide();flood.Hide();detector.Hide();extinguisher.Hide();isolation.Hide();
         if(index==0){bagWindow.BagGame.ResetForNewSession();bagWindow.OpenBag();}
-        else if(index==1)earthquake.Show();else if(index==2)flood.Show();else if(index==3)detector.Show();else tsunami.Show();
+        else if(index==1)earthquake.Show();else if(index==2)flood.Show();else if(index==3)detector.Show();else if(index==4)extinguisher.Show();else isolation.Show();
         for(float t=0;t<.25f;t+=Time.unscaledDeltaTime){modal.alpha=Mathf.Clamp01(t/.25f);yield return null;}
         modal.alpha=1;modal.interactable=true;busy=false;
         if(index==0)
@@ -201,7 +205,7 @@ public sealed class PreparationDirector : MonoBehaviour
     private void OnTrainingMistake()
     {
         if(finishing||TimedOut)return;GameAudioFeedback.Feedback(false);PreparationRun.AdjustHealth(-2);RefreshStatus();
-        ShowFeedback(false,ActiveActivity==1?"YANLIŞ TUŞ · TEKRAR DENE":ActiveActivity==4?"DALGA YETİŞTİ · YENİDEN DENE":"GÜVENLİ NOKTA DEĞİL · TEKRAR DENE");
+        ShowFeedback(false,ActiveActivity==1?"YANLIŞ TUŞ · TEKRAR DENE":ActiveActivity>=4?"KONTROL BAŞARISIZ · DÜZENLE VE TEKRAR DENE":"GÜVENLİ NOKTA DEĞİL · TEKRAR DENE");
     }
     public void CompleteActivity(int index)
     {
@@ -250,7 +254,7 @@ public sealed class PreparationDirector : MonoBehaviour
     {
         timeoutPanel.SetActive(false);busy=true;modal.interactable=false;
         for(float t=0;t<.3f;t+=Time.unscaledDeltaTime){float p=Mathf.Clamp01(t/.3f);modal.alpha=1-p;mapGroup.alpha=.65f+p*.35f;house.localScale=Vector3.one*(1+(1-p)*.035f);yield return null;}
-        ActiveActivity=-1;bagWindow.Close();earthquake.Hide();flood.Hide();detector.Hide();tsunami.Hide();
+        ActiveActivity=-1;bagWindow.Close();earthquake.Hide();flood.Hide();detector.Hide();extinguisher.Hide();isolation.Hide();
         modal.gameObject.SetActive(false);house.localScale=Vector3.one;mapGroup.alpha=1;busy=false;finishing=false;mapGroup.interactable=true;
         RefreshStatus();
         if(PreparationRun.preparationComplete)
@@ -283,7 +287,7 @@ public sealed class PreparationDirector : MonoBehaviour
         timerRunning=false;remainingSeconds=0;RefreshTimer();busy=true;finishing=false;
         StopAllCoroutines();activity=null;feedbackAnimation=null;
         PreparationRun.AbortTake();mapGroup.interactable=false;
-        bagWindow.Close();bagWindow.BagGame.CancelDrags();earthquake.Hide();flood.Hide();detector.Hide();tsunami.Hide();
+        bagWindow.Close();bagWindow.BagGame.CancelDrags();earthquake.Hide();flood.Hide();detector.Hide();extinguisher.Hide();isolation.Hide();
         feedbackGroup.alpha=0;feedbackFlash.color=Color.clear;
         activityTitle.text="HAZIRLIK SÜRESİ";modal.gameObject.SetActive(true);modal.alpha=1;modal.interactable=true;
         timeoutPanel.SetActive(true);back.interactable=false;

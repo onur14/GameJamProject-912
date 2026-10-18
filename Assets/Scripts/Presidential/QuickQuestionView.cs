@@ -58,6 +58,7 @@ public sealed class QuickQuestionView : MonoBehaviour
     private Func<int, bool> canChoose;
     private bool visible;
     private bool rightSide;
+    private bool compactLayout;
     private Action timeoutCallback;
     private Coroutine activeRoutine;
     private bool isHandlingResponse;
@@ -78,7 +79,7 @@ public sealed class QuickQuestionView : MonoBehaviour
     public QuickQuestionConfig Config => currentConfig;
     public void SetSide(bool right)
     {
-        rightSide=right;
+        rightSide=right;compactLayout=right;
         var rect=(RectTransform)transform;
         rect.anchorMin=new Vector2(right ? .817f : .012f,right ? .025f : .40f);rect.anchorMax=new Vector2(right ? .995f : .19f,right ? .34f : .88f);
         rect.offsetMin=rect.offsetMax=Vector2.zero;restingPosition=rect.anchoredPosition;
@@ -87,18 +88,25 @@ public sealed class QuickQuestionView : MonoBehaviour
     private void FitSideContent()
     {
         if(!questionBody)return;
-        questionBody.rectTransform.anchorMin=new Vector2(.05f,rightSide ? .42f : .51f);
-        questionBody.rectTransform.anchorMax=new Vector2(.95f,rightSide ? .82f : .81f);
+        categoryLabel.fontSizeMin=10;categoryLabel.fontSizeMax=compactLayout ? 14 : 17;
+        questionBody.rectTransform.anchorMin=new Vector2(.05f,compactLayout ? .42f : .51f);
+        questionBody.rectTransform.anchorMax=new Vector2(.95f,compactLayout ? .82f : .81f);
         var buttons=(RectTransform)buttonA.transform.parent;
-        buttons.anchorMin=new Vector2(.04f,rightSide ? .10f : .14f);
-        buttons.anchorMax=new Vector2(.96f,rightSide ? .39f : .49f);
+        buttons.anchorMin=new Vector2(.04f,compactLayout ? .10f : .14f);
+        buttons.anchorMax=new Vector2(.96f,compactLayout ? .39f : .49f);
     }
-    public QuickQuestionView CreateCompanion()
+    public QuickQuestionView CreateCompanion(bool bottomLeft = false)
     {
-        var go=new GameObject("Hızlı Sorular Sağ",typeof(RectTransform),typeof(CanvasGroup));go.SetActive(false);go.transform.SetParent(transform.parent,false);
+        var go=new GameObject(bottomLeft?"Hızlı Sorular Sol Alt":"Hızlı Sorular Sağ",typeof(RectTransform),typeof(CanvasGroup));go.SetActive(false);go.transform.SetParent(transform.parent,false);
         var other=go.AddComponent<QuickQuestionView>();other.font=font;other.audioSource=audioSource;other.arrivalClip=arrivalClip;other.warningTickClip=warningTickClip;
         other.frameColor=frameColor;other.innerColor=innerColor;other.headerBarColor=headerBarColor;other.paperText=paperText;other.amberAccent=amberAccent;
-        other.SetSide(true);go.SetActive(true);return other;
+        if(bottomLeft)other.SetBottomLeft();else other.SetSide(true);go.SetActive(true);return other;
+    }
+    private void SetBottomLeft()
+    {
+        SetSide(false);compactLayout=true;
+        var rect=(RectTransform)transform;rect.anchorMin=new Vector2(.012f,.15f);rect.anchorMax=new Vector2(.19f,.39f);
+        rect.offsetMin=rect.offsetMax=Vector2.zero;restingPosition=rect.anchoredPosition;FitSideContent();
     }
     private void Awake()
     {
@@ -171,17 +179,17 @@ public sealed class QuickQuestionView : MonoBehaviour
         headerImage.raycastTarget = false;
 
         // Category title (e.g. "SAHA TALEBİ")
-        categoryLabel = CreateText("CategoryLabel", headerGo.transform, new Vector2(0.04f, 0.1f), new Vector2(0.70f, 0.9f), 17, amberAccent);
+        categoryLabel = CreateText("CategoryLabel", headerGo.transform, new Vector2(0.04f, 0.1f), new Vector2(0.69f, 0.9f), 17, amberAccent);
         categoryLabel.fontStyle = FontStyles.Bold;
         categoryLabel.alignment = TextAlignmentOptions.MidlineLeft;
 
         // Status tag (e.g. "[ ! ACİL ]")
-        statusTag = CreateText("StatusTag", headerGo.transform, new Vector2(0.68f, 0.1f), new Vector2(0.96f, 0.9f), 14, coolCyan);
+        statusTag = CreateText("StatusTag", headerGo.transform, new Vector2(0.74f, 0.1f), new Vector2(0.96f, 0.9f), 12, coolCyan);
         statusTag.alignment = TextAlignmentOptions.MidlineRight;
-        statusTag.enableAutoSizing=true;statusTag.fontSizeMin=10;statusTag.fontSizeMax=14;
+        statusTag.enableAutoSizing=true;statusTag.fontSizeMin=9;statusTag.fontSizeMax=12;
         statusTag.textWrappingMode=TextWrappingModes.NoWrap;
         statusTag.text = "[ ! ]";
-        categoryLabel.enableAutoSizing=true;categoryLabel.fontSizeMin=13;categoryLabel.fontSizeMax=17;
+        categoryLabel.enableAutoSizing=true;categoryLabel.fontSizeMin=10;categoryLabel.fontSizeMax=17;
 
         // Question content text
         questionBody = CreateText("QuestionText", innerGo.transform, new Vector2(0.05f, 0.51f), new Vector2(0.95f, 0.81f), 19, paperText);

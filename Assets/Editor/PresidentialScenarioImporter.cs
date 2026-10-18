@@ -34,14 +34,14 @@ public static class PresidentialScenarioImporter
             asset.dispatchA=s.dispatchA;asset.dispatchB=s.dispatchB;
             AssetDatabase.CreateAsset(asset,path);
         }
-        string[] approved={"D-01","D-02","Y-02","S-01","T-01","F-01","K-01","K-02"};
+        string[] approved={"D-01","D-02","Y-02","S-01","F-01","K-01","K-02"};
         var manager=UnityEngine.Object.FindFirstObjectByType<PresidentialBriefingManager>();
         if(!manager)return "No briefing manager in current scene.";
-        var so=new SerializedObject(manager);var order=so.FindProperty("scenarioOrder");order.arraySize=8;
-        for(int i=0;i<8;i++)order.GetArrayElementAtIndex(i).objectReferenceValue=AssetDatabase.LoadAssetAtPath<DispatchScenarioData>(folder+"/"+approved[i]+".asset");
+        var so=new SerializedObject(manager);var order=so.FindProperty("scenarioOrder");order.arraySize=approved.Length;
+        for(int i=0;i<approved.Length;i++)order.GetArrayElementAtIndex(i).objectReferenceValue=AssetDatabase.LoadAssetAtPath<DispatchScenarioData>(folder+"/"+approved[i]+".asset");
         so.ApplyModifiedPropertiesWithoutUndo();
         EditorSceneManager.MarkSceneDirty(manager.gameObject.scene);EditorSceneManager.SaveScene(manager.gameObject.scene);
         AssetDatabase.SaveAssets();
-        return "Imported 12 source records; assigned approved eight-scenario order. Y-01 retained as not ready for play.";
+        return "Imported source records; assigned approved seven-scenario order. Y-01 retained as not ready for play.";
     }
 }

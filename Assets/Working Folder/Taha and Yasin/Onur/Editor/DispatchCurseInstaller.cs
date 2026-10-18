@@ -26,7 +26,7 @@ public static class DispatchCurseInstaller
         if(!font)font=AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Working Folder/Taha and Yasin/Fonts/TY_VCR_OSD_MONO_SDF.asset");
         if(!font)throw new InvalidOperationException("Sahnenin pixel fontu eksik.");
         Set(ds,"font",font);
-        Set(ds,"slownessEmblem",ImportEmblem(Root+"/Curses/SlownessPenalty.png"));Set(ds,"fogEmblem",ImportEmblem(Root+"/Curses/InformationFog.png"));
+        Set(ds,"slownessEmblem",ImportEmblem(Root+"/Resources/Disaster/LogisticsDisruption.png"));Set(ds,"fogEmblem",ImportEmblem(Root+"/Resources/Disaster/InformationFogBonus.png"));
         ds.FindProperty("slownessAtScenario").intValue=2;ds.FindProperty("fogAtScenario").intValue=5;ds.ApplyModifiedProperties();
         var radio=UnityEngine.Object.FindFirstObjectByType<Cizirti>(FindObjectsInactive.Include);if(!radio)radio=health.gameObject.AddComponent<Cizirti>();
         if(!radio.CizirtiSesi)radio.CizirtiSesi=Source(health.transform,"Telsiz Ortamı");

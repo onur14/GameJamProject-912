@@ -39,7 +39,7 @@ public class OyunAkisiOnur : MonoBehaviour
     public event System.Action<int> ScenarioClosing;
     public event System.Action<bool> DecisionResolved;
     public event System.Action DecisionTimedOut;
-    [SerializeField, Min(1)] private float unansweredDecisionSeconds = 7;
+    [SerializeField, Min(1)] private float unansweredDecisionSeconds = 12;
     public event System.Action<DispatchResourceEffect> UnitDispatched;
     public void NotifyUnitDispatched(DispatchResourceEffect effect) { if (!effect.IsZero) UnitDispatched?.Invoke(effect); }
     public int ScenarioRevision { get; private set; }
@@ -48,6 +48,8 @@ public class OyunAkisiOnur : MonoBehaviour
     public bool GameOver { get; private set; }
     public bool ManagedShift { get; set; }
     public bool WaitingForChoice => secimBekleniyor;
+    public bool IsIntroductoryCall => currentScenario == null || currentScenario.scenarioId == "D-01";
+    public float DecisionTimeLimit => IsIntroductoryCall ? Mathf.Max(18, unansweredDecisionSeconds) : unansweredDecisionSeconds;
     public DispatchResources Resources => resources;
     private DispatchScenarioData currentScenario;
     public DispatchScenarioData CurrentScenario => currentScenario;
@@ -102,7 +104,7 @@ public class OyunAkisiOnur : MonoBehaviour
         ScenarioClosing?.Invoke(ScenarioRevision);
         if (callerInfo != null) callerInfo.Clear();
         ButonlariGizle();
-        if (conversationView != null && (ConnectionEventChance >= 1f || Random.value < ConnectionEventChance))
+        if (conversationView != null && !IsIntroductoryCall && (ConnectionEventChance >= 1f || Random.value < ConnectionEventChance))
             StartCoroutine(CompleteAfterConnectionRecovery());
         else
             ScenarioCompleted?.Invoke(ScenarioRevision);
@@ -403,7 +405,7 @@ public class OyunAkisiOnur : MonoBehaviour
         if (conversationView != null)
         {
             geriSayimYazisi.gameObject.SetActive(false);
-            float remaining = unansweredDecisionSeconds;
+            float remaining = DecisionTimeLimit;
             while (remaining > 0 && secimBekleniyor && !GameOver)
             {
                 conversationView.SetDecisionTimer(remaining);

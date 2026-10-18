@@ -36,7 +36,9 @@ public sealed class DispatchCurseController : MonoBehaviour
         var root=Rect("Ceza Etkileri",GetComponentInParent<Canvas>().rootCanvas.transform,Vector2.zero,Vector2.one);
         var canvas=root.gameObject.AddComponent<Canvas>();canvas.overrideSorting=true;canvas.sortingOrder=850;root.gameObject.AddComponent<GraphicRaycaster>();
         var sheet=Resources.Load<Texture2D>("Disaster/CurseEmblems");
-        if(sheet){slowIcon=PreparationUI.Sprite(sheet,new Rect(0,0,.5f,1));fogIcon=PreparationUI.Sprite(sheet,new Rect(.5f,0,.5f,1));}
+        var slowTexture=Resources.Load<Texture2D>("Disaster/LogisticsDisruption");var fogTexture=Resources.Load<Texture2D>("Disaster/InformationFogBonus");
+        if(slowTexture)slowIcon=PreparationUI.Sprite(slowTexture,new Rect(0,0,1,1));else if(sheet)slowIcon=PreparationUI.Sprite(sheet,new Rect(0,0,.5f,1));
+        if(fogTexture)fogIcon=PreparationUI.Sprite(fogTexture,new Rect(0,0,1,1));else if(sheet)fogIcon=PreparationUI.Sprite(sheet,new Rect(.5f,0,.5f,1));
         badge=Panel("Aktif Ceza Amblemi",root,new Vector2(.017f,.012f),new Vector2(.37f,.135f),new Color(.12f,.055f,.065f,.98f)).rectTransform;
         badgeIcon=Panel("Ceza Amblemi",badge,new Vector2(.01f,.05f),new Vector2(.25f,.95f),Color.white);badgeIcon.preserveAspect=true;
         badgeText=Label("Ceza Kalan Senaryo",badge,new Vector2(.27f,.04f),new Vector2(.98f,.96f),"",font,19);badgeText.alignment=TextAlignmentOptions.Left;badgeText.color=Amber;
@@ -79,14 +81,14 @@ public sealed class DispatchCurseController : MonoBehaviour
     {
         if(!badge)return;bool active=ActiveCurse!=CurseKind.None;badge.gameObject.SetActive(active);
         if(!active)return;badgeIcon.sprite=ActiveCurse==CurseKind.Slowness?slowIcon:fogIcon;
-        badgeText.text=(ActiveCurse==CurseKind.Slowness?"YAVAŞLIK CEZASI":"BİLGİ SİSİ")+"  ·  "+RemainingScenarios+" SENARYO";
+        badgeText.text=(ActiveCurse==CurseKind.Slowness?"LOJİSTİK AKSAMA":"BİLGİ SİSİ")+"  ·  "+RemainingScenarios+" SENARYO";
     }
     private IEnumerator Announce()
     {
         previousPhonePause=phone.IsPaused;previousChatPause=chat&&chat.IsPaused;previousQuestionPause=questions&&questions.IsPaused;
         phone.SetPaused(true);if(chat)chat.SetPaused(true);if(questions)FindAnyObjectByType<QuickQuestionManager>()?.SetPaused(true);
         notice.gameObject.SetActive(true);largeIcon.sprite=badgeIcon.sprite;
-        title.text=ActiveCurse==CurseKind.Slowness?"YAVAŞLIK CEZASI":"BİLGİ SİSİ";
+        title.text=ActiveCurse==CurseKind.Slowness?"LOJİSTİK AKSAMA":"BİLGİ SİSİ";
         description.text=ActiveCurse==CurseKind.Slowness?"Her ekipten −2 kaynak.\nAmblem iki senaryo sonra kaybolur.":"Başkanın kaynak bonusları %50 azalır.\nKaynaklarını dikkatli yönet.\nEtki iki senaryo sürer.";
         var sound=FindAnyObjectByType<DispatchAudioCues>();if(sound)sound.PlayCurse();
         for(float t=0;t<2.35f;t+=Time.unscaledDeltaTime)

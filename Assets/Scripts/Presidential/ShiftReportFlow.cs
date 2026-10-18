@@ -11,7 +11,7 @@ public static class ShiftReportFlow
 
     public static bool Complete(PresidentialBriefingManager briefing, CityHealth health, MiniGameWindow minigames)
     {
-        if (!briefing || briefing.CompletedScenarios != 8 || SceneFadeTransition.IsTransitioning || Pending != null
+        if (!briefing || briefing.CompletedScenarios != briefing.TotalScenarios || SceneFadeTransition.IsTransitioning || Pending != null
             || !Application.CanStreamedLevelBeLoaded(MenuScene)) return false;
         Pending = ShiftReportData.Capture(briefing, Object.FindAnyObjectByType<QuickQuestionManager>(), minigames, health, SceneManager.GetActiveScene().path);
         if (minigames) minigames.Close();

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public sealed class CityHealth : MonoBehaviour
 {
     private const int StartingHealth = 100;
-    private const int WrongAnswerDamage = 40;
+    private const int WrongAnswerDamage = 20;
 
     [SerializeField] private OyunAkisiOnur conversation;
     [SerializeField] private PresidentialBriefingManager briefing;
@@ -94,7 +94,7 @@ public sealed class CityHealth : MonoBehaviour
     {
         if (correct || IsGameOver || briefing.Phase != PresidentialBriefingManager.ShiftPhase.Scenario) return;
         WrongDecisionCount++;
-        ApplyDamage(WrongAnswerDamage);
+        ApplyDamage(conversation.IsIntroductoryCall ? 10 : WrongAnswerDamage);
     }
 
     public bool ApplyDamage(int percentagePoints)
@@ -268,7 +268,7 @@ public sealed class CityHealth : MonoBehaviour
         inner.GetComponent<Image>().color = new Color(.055f, .095f, .14f, .98f);
         inner.GetComponent<Image>().raycastTarget = false;
         var body = NoteText("Görev Notu", innerRect,
-            "<color=#F2B54D>! GÖREV NOTU</color>\nDoğru ve yanlış cevapların kaynaklarını etkiler.\nHalk bilinci %0 olursa bu senaryonun başına dönersin.\nAna görevin: toplumu bilinçlendirmek ve kaynakları yönetmek.", 14);
+            "<color=#F2B54D>! GÖREV NOTU</color>\nÖnce ana çağrıyı yanıtla: ilk vakada 18 saniyen var.\nSonra yan paneldeki destek talebini karşıla.\nKaynakları yönet; halk bilinci %0 olursa bu vakayı yeniden denersin.", 14);
         body.rectTransform.anchorMin = Vector2.zero; body.rectTransform.anchorMax = Vector2.one;
         body.rectTransform.offsetMin = new Vector2(14, 12); body.rectTransform.offsetMax = new Vector2(-14, -14);
         root.SetActive(false);

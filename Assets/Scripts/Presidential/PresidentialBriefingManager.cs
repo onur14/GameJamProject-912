@@ -12,8 +12,8 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     [SerializeField] private DispatchCallFlow phone;
     [SerializeField] private PresidentialBroadcastView view;
     [SerializeField] private CityHealth cityHealth;
-    [Tooltip("Exactly eight slots. Empty first slot uses the existing Onur earthquake conversation. Other empty slots wait for authored content.")]
-    [SerializeField] private DispatchScenarioData[] scenarioOrder = new DispatchScenarioData[8];
+    [Tooltip("Ordered playable calls. Briefing thresholds are stored in the briefing assets.")]
+    [SerializeField] private DispatchScenarioData[] scenarioOrder = new DispatchScenarioData[7];
     [SerializeField] private PresidentialBriefingData[] briefings = new PresidentialBriefingData[4];
     public UnityEvent<int> ScenarioRequested;
     public event Action ShiftReset;
@@ -26,6 +26,8 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     private readonly HashSet<int> completedRevisions = new HashSet<int>();
     public int CorrectDecisions { get; private set; }
     public DispatchResources Resources => resources;
+    public int TotalScenarios => scenarioOrder == null ? 0 : scenarioOrder.Length;
+    public DispatchScenarioData ScenarioAt(int index) => index>=0 && index<TotalScenarios ? scenarioOrder[index] : null;
     private readonly List<ShiftScenarioOutcome> scenarioOutcomes = new List<ShiftScenarioOutcome>();
     public IReadOnlyList<ShiftScenarioOutcome> ScenarioOutcomes => scenarioOutcomes;
     private PresidentialBriefingData current;
@@ -79,7 +81,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
 
     public void OnScenarioCompleted(int revision)
     {
-        if (!acceptingCompletion || Phase != ShiftPhase.Scenario || CompletedScenarios >= 8
+        if (!acceptingCompletion || Phase != ShiftPhase.Scenario || CompletedScenarios >= TotalScenarios
             || revision != conversation.ScenarioRevision || !completedRevisions.Add(revision)) return;
         if (conversation.LastDecisionCorrect) CorrectDecisions++;
         var scenario = CompletedScenarios < scenarioOrder.Length ? scenarioOrder[CompletedScenarios] : null;
@@ -88,9 +90,9 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         acceptingCompletion = false; CompletedScenarios++;
         var curses=FindAnyObjectByType<DispatchCurseController>();
         if(curses)curses.OnScenarioCompleted(CompletedScenarios);
-        if (CompletedScenarios % 2 != 0) { RequestNextScenario(); return; }
+        int index = Array.FindIndex(briefings, item => item && item.afterScenario == CompletedScenarios);
+        if(index<0){if(CompletedScenarios>=TotalScenarios)ShowFinal();else RequestNextScenario();return;}
         if (!shown.Add(CompletedScenarios)) return;
-        int index = CompletedScenarios / 2 - 1;
         if (index >= briefings.Length || !briefings[index] || briefings[index].afterScenario != CompletedScenarios)
         {
             Phase = ShiftPhase.AwaitingScenarioData; phone.SetInteractionLocked(true);
@@ -105,14 +107,14 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     private IEnumerator SummaryBeforeBroadcast(int index)
     {
         yield return view.ShowShiftSummary(CompletedScenarios, CorrectDecisions,
-            CorrectDecisions * estimatedPeoplePerCorrectDecision, cityHealth ? cityHealth.HealthPercent : 100);
+            CorrectDecisions * estimatedPeoplePerCorrectDecision, cityHealth ? cityHealth.HealthPercent : 100, CompletedScenarios>=TotalScenarios);
         if (cityHealth && cityHealth.IsGameOver) yield break;
         view.Show($"RESMÎ BİLGİLENDİRME {index + 1} · {current.heading}");
         Phase = ShiftPhase.Dialogue; ShowLine();
     }
     public bool RetryCurrentScenario()
     {
-        if(Phase!=ShiftPhase.Scenario||CompletedScenarios>=8)return false;
+        if(Phase!=ShiftPhase.Scenario||CompletedScenarios>=TotalScenarios)return false;
         StopAllCoroutines();view.Hide();acceptingCompletion=true;applied=false;
         conversation.ResetGameOver();phone.SetPaused(false);phone.SetInteractionLocked(false);
         conversation.BeginScenario(CompletedScenarios<scenarioOrder.Length?scenarioOrder[CompletedScenarios]:null);
@@ -134,7 +136,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         if (Phase == ShiftPhase.Dialogue) { line++; ShowLine(); }
         else if (Phase == ShiftPhase.Confirmation && applied)
         {
-            if (CompletedScenarios == 8) ShowFinal();
+            if (CompletedScenarios == TotalScenarios) ShowFinal();
             else { view.Hide(); RequestNextScenario(); }
         }
     }
@@ -191,7 +193,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     }
     private void RequestNextScenario()
     {
-        if (CompletedScenarios >= 8) { ShowFinal(); return; }
+        if (CompletedScenarios >= TotalScenarios) { ShowFinal(); return; }
         ScenarioRequested?.Invoke(CompletedScenarios + 1);
         var data = CompletedScenarios < scenarioOrder.Length ? scenarioOrder[CompletedScenarios] : null;
         if (data == null || !data.readyForPlay)
@@ -212,7 +214,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
         string readiness = weakest >= 3 ? "Dengeli hazırlık: tüm hizmetlerde en az üç ekip hazır."
             : weakest > 0 ? "Sınırlı hazırlık: tüm hizmetler açık; yedek kapasite düşük."
             : "Kritik hazırlık: en az bir hizmette ekip kalmadı. İlk destek bu alana ayrılmalı.";
-        view.Final($"8 vaka tamamlandı. 8 vakada {CorrectDecisions} doğru yönlendirme; {decisions.Count} stratejik tahsis.\n\n{readiness}\n\nSon tahsis: {(decisions.Count > 0 ? decisions[decisions.Count - 1] : "Yok")}\n\nBu ekipler gelecek vardiyaya devredilir. Hazırlık, doğru bilgi ve dayanışma birlikte hayat kurtarır.", view.Stock(resources));
+        view.Final($"{TotalScenarios} vaka tamamlandı. {TotalScenarios} vakada {CorrectDecisions} doğru yönlendirme; {decisions.Count} stratejik tahsis.\n\n{readiness}\n\nSon tahsis: {(decisions.Count > 0 ? decisions[decisions.Count - 1] : "Yok")}\n\nBu ekipler gelecek vardiyaya devredilir. Hazırlık, doğru bilgi ve dayanışma birlikte hayat kurtarır.", view.Stock(resources));
         RunCompleted?.Invoke();
     }
 }

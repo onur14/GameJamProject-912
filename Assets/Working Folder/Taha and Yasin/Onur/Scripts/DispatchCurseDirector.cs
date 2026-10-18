@@ -72,7 +72,7 @@ public sealed class DispatchCurseDirector : MonoBehaviour
         slownessApplied=true;slownessUntil=briefing.CompletedScenarios+2;
         int a=Mathf.Min(2,resources.Ambulances), f=Mathf.Min(2,resources.Firefighters), r=Mathf.Min(2,resources.Police);
         resources.TryApply(-a,-f,-r);
-        Announce("YAVAŞLIK CEZASI",$"Ambulans -{a} · İtfaiye -{f} · Kurtarma -{r}\n2 vaka boyunca etkili",slownessEmblem,new Color(1,.30f,.20f));
+        Announce("LOJİSTİK AKSAMA",$"Ambulans -{a} · İtfaiye -{f} · Kurtarma -{r}\nTakviye sevkiyatı aksadı · Her ekipten 2 eksildi\nAmblem 2 vaka görünür",slownessEmblem,new Color(1,.30f,.20f));
         RefreshBadges();
     }
     public void ApplyFog()
@@ -134,7 +134,7 @@ public sealed class DispatchCurseDirector : MonoBehaviour
     {
         var root=Rect("Ceza Göstergeleri",GetComponentInParent<Canvas>().rootCanvas.transform,Vector2.zero,Vector2.one);
         var c=root.gameObject.AddComponent<Canvas>();c.overrideSorting=true;c.sortingOrder=650;
-        slowBadge=Badge("Yavaşlık Cezası",root,.02f,slownessEmblem,out slowCount);
+        slowBadge=Badge("Lojistik Aksama",root,.02f,slownessEmblem,out slowCount);
         fogBadge=Badge("Bilgi Sisi",root,.135f,fogEmblem,out fogCount);
         flash=Rect("Ceza Işığı",root,Vector2.zero,Vector2.one).gameObject.AddComponent<Image>();flash.color=Color.clear;flash.raycastTarget=false;
         banner=Rect("Ceza Duyurusu",root,new Vector2(.28f,.52f),new Vector2(.82f,.86f));
@@ -158,8 +158,8 @@ public sealed class DispatchCurseDirector : MonoBehaviour
         {
             float enter=Mathf.Clamp01(t/.22f);notice.alpha=Mathf.Min(enter,Mathf.Clamp01((3.5f-t)/.4f));
             banner.localScale=Vector3.one*(1+.14f*(1-enter));
-            banner.anchoredPosition=Vector2.right*Mathf.Round(Mathf.Sin(t*42)*7*Mathf.Clamp01(1-t/.55f));
-            float pulse=t<.6f?Mathf.Max(0,Mathf.Sin(t/.6f*Mathf.PI*4))*.20f:0;
+            banner.anchoredPosition=Vector2.right*Mathf.Round(Mathf.Sin(t*30)*3*Mathf.Clamp01(1-t/.55f));
+            float pulse=t<.6f?Mathf.Max(0,Mathf.Sin(t/.6f*Mathf.PI*2))*.10f:0;
             flash.color=new Color(color.r,color.g,color.b,pulse);yield return null;
         }
         HideNotice();

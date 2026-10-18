@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Briefing4
   m_EditorClassIdentifier: Assembly-CSharp::PresidentialBriefingData
   briefingId: president_4
-  afterScenario: 8
+  afterScenario: 7
   heading: "B\u0130R SONRAK\u0130 VARD\u0130YAYA"
   dialogueLines:
   - "Bu vardiyada {tamamlanan} vaka tamamlad\u0131n\u0131z, {karar} tahsis karar\u0131 verdiniz. Her tercih, s\u0131n\u0131rl\u0131 bir ekibin hangi kap\u0131ya \xF6nce ula\u015Faca\u011F\u0131n\u0131 belirledi. \u015Eimdi bu sorumlulu\u011Fu gelecek vardiyaya devrediyoruz."

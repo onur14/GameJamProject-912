@@ -55,7 +55,6 @@ public static class PreparationChecks
                     if(imagePath.Replace('\\','/').Contains("/MiniGames/Cutouts/"))AssetDatabase.ImportAsset(imagePath,ImportAssetOptions.ForceUpdate);
                 File.WriteAllText(Queue+"/status.txt","BAG REIMPORTED");
             }
-            else if(command=="test-tsunami-visual"){SessionState.SetBool("TsunamiVisual",true);Start();}
             else if(command=="test-sequential"){SessionState.SetBool("SkipVerifiedSharedClock",true);Start();}
             else if(command=="test"||command=="test-focused")Start();
             else if(command=="test-visual")StartVisual();
@@ -135,7 +134,7 @@ public static class PreparationChecks
     {
         await Wait(()=>d.ActiveActivity<0&&!d.IsBusy);
         Check(PreparationRun.CompletedCount==expected,"Completion count retained: "+expected);
-        Check(!Find<DispatchCallFlow>()&&SceneManager.GetActiveScene().path==PreparationRun.ScenePath,"Operator not started with fewer than five tasks");
+        Check(!Find<DispatchCallFlow>()&&SceneManager.GetActiveScene().path==PreparationRun.ScenePath,"Operator not started with fewer than six tasks");
         Fits(d.gameObject);
     }
     static async void Run()
@@ -172,43 +171,29 @@ public static class PreparationChecks
             Check(!d.TimerRunning&&!PreparationRun.IsRecording,"Preparation clock does not run during briefing");
             Click(d.Broadcast.StartButton);await Wait(()=>d.Broadcast.PurposeButton.IsInteractable());Click(d.Broadcast.PurposeButton);
             await Wait(()=>PreparationRun.IsRecording&&!d.IsBusy&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf);
-            Check(d.TimerRunning&&d.RemainingSeconds>44,"One 45-second clock starts when preparation becomes playable");
-            Check(d.GetComponentsInChildren<TMP_Text>().Any(t=>t.text.Contains("5 ÖNEMLİ AFET HAZIRLIĞI")),"Requested preparation text is visible");
-            if(SessionState.GetBool("TsunamiVisual",false))
-            {
-                SessionState.SetBool("TsunamiVisual",false);await TestTsunamiEdges(d);await Open(d,4);
-                typeof(PreparationDirector).GetField("remainingSeconds",Flags).SetValue(d,.25f);
-                InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState(Key.D));await Wait(()=>d.TimedOut);
-                var stoppedPosition=d.Tsunami.Position;await Task.Delay(250);
-                Check(!d.Tsunami.Running&&d.Tsunami.Position==stoppedPosition,"Shared timeout stops tsunami movement even with a held key");
-                InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState());await Capture("five-tsunami-total-timeout");
-                Click(d.RetryButton);Check(d.RemainingSeconds>44&&PreparationRun.CompletedCount==0,"Whole-phase retry resets all five tasks and one 45-second budget");
-                await Open(d,4);await NavigateTsunami(d.Tsunami);await Home(d,1);
-                Check(d.TimerRunning&&!PreparationRun.preparationComplete,"Finishing tsunami alone cannot finish a five-task preparation");
-                await Capture("five-preparation-map");Check(errors.Count==0,"No new tsunami Play Mode errors");
-                SessionState.SetString("PreparationResult","PASS — tsunami visuals, collision, wave retry, shared timeout and actual movement");return;
-            }
+            Check(d.TimerRunning&&d.RemainingSeconds>74,"One 75-second clock starts when preparation becomes playable");
+            Check(d.GetComponentsInChildren<TMP_Text>().Any(t=>t.text.Contains("6 ÖNEMLİ AFET HAZIRLIĞI")),"Requested preparation text is visible");
             TestBagTransparency();bool skipClock=SessionState.GetBool("SkipVerifiedSharedClock",false);SessionState.SetBool("SkipVerifiedSharedClock",false);
             if(!skipClock)await TestSharedPreparationClock(d);
             // The first completed recording deliberately includes a little map time.
             await Task.Delay(6000);await CompleteQuickTake(d);
-            Check(!d.TimerRunning&&PreparationRun.CompletedCount==5,"Completing all five tasks stops the shared timer");
+            Check(!d.TimerRunning&&PreparationRun.CompletedCount==6,"Completing all six tasks stops the shared timer");
             float stopped=d.RemainingSeconds;await Task.Delay(250);Check(d.RemainingSeconds==stopped,"Review does not consume preparation time");
-            Check(PreparationRun.LastTakeSeconds<=45,"All five games completed within one total 45-second take");
+            Check(PreparationRun.LastTakeSeconds<=75,"All six games completed within one total 75-second take");
             await Capture("focused-review");Click(d.Broadcast.RetakeButton);
             await Wait(()=>PreparationRun.IsRecording&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf&&!d.IsBusy);
-            Check(d.RemainingSeconds>44&&PreparationRun.CompletedCount==0,"Retake starts a fresh total budget and resets five tasks");
+            Check(d.RemainingSeconds>74&&PreparationRun.CompletedCount==0,"Retake starts a fresh total budget and resets six tasks");
             await CompleteQuickTake(d);Check(PreparationRun.RewardEarned,"Existing faster-retake reward remains functional");
             Click(d.Broadcast.PublishButton);await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Publishing);
             await Task.Delay(1500);Fits(d.gameObject);await Capture("focused-publication");
-            Check(d.GetComponentsInChildren<TMP_Text>().Any(t=>t.text.Contains("5 ÖNEMLİ AFET HAZIRLIĞI")),"Publication uses requested heading");
+            Check(d.GetComponentsInChildren<TMP_Text>().Any(t=>t.text.Contains("6 ÖNEMLİ AFET HAZIRLIĞI")),"Publication uses requested heading");
             await Wait(()=>SceneManager.GetActiveScene().path==PreparationRun.OperatorScene&&!SceneFadeTransition.IsTransitioning,40);
             Check(!Find<PreparationDirector>(),"Shared preparation timer does not exist in operator phase");
             var manager=Find<QuickQuestionManager>();var flow=Find<OyunAkisiOnur>();var chat=Find<OnurConversationView>();var phone=Find<DispatchCallFlow>();
             var starts=new List<string>();var sides=new List<int>();
             int dualStarts=0;
             manager.QuestionStarted+=q=>{
-                int visible=manager.Views.Count(v=>v.IsActive);Check(visible<=2,"Never more than two active question cards: "+q.id);
+                int visible=manager.Views.Count(v=>v.IsActive);Check(visible<=3,"Never more than three active question cards: "+q.id);
                 if(visible==2)dualStarts++;
             };
             manager.QuestionStarted+=q=>{starts.Add(q.targetScenarioId);sides.Add(manager.Views[0].Config==q?0:1);};
@@ -234,23 +219,23 @@ public static class PreparationChecks
             Check(radio.CizirtiSesi.timeSamples>=samples&&UnityEngine.Object.FindObjectsByType<AudioSource>().Count(a=>a.isPlaying&&a.clip==radio.CizirtiSesi.clip)==1,"Repeated conversation start neither restarts nor stacks the loop");
             await TestDualQuestions(manager,chat);
             while(!flow.WaitingForChoice){chat.RevealCurrentLine();await Task.Delay(80);}
-            Check(Mathf.Approximately(Field<float>(flow,"unansweredDecisionSeconds"),7),"Main two-option decision limit is seven seconds");
+            Check(Mathf.Approximately(Field<float>(flow,"unansweredDecisionSeconds"),12),"Main two-option decision base limit is twelve seconds");
             await Wait(()=>decisionTimeouts>0,12);
-            Check(decisionElapsed>=6.8&&decisionElapsed<7.5,"Actual decision timeout occurs at seven seconds: "+decisionElapsed.ToString("F2"));
+            Check(decisionElapsed>=11.8&&decisionElapsed<12.5,"Actual later decision timeout occurs at twelve seconds: "+decisionElapsed.ToString("F2"));
             int timeoutCount=decisionTimeouts;await Task.Delay(500);Check(decisionTimeouts==timeoutCount&&flow.WaitingForChoice,"Decision timeout notifies once without duplicate action");
             await RunOperatorShift();
             await Wait(()=>Find<ShiftReportView>()&&Find<ShiftReportView>().IsVisible&&!SceneFadeTransition.IsTransitioning,40);
-            var report=Find<ShiftReportView>();Check(report.Data.Completed==8&&report.Data.SuccessfulTasks==5,"Ending retains eight scenarios and five preparation tasks");
-            Check(report.Data.Answered+report.Data.Missed==24,"Ending records exactly 24 Quick Questions");
+            var report=Find<ShiftReportView>();Check(report.Data.Completed==7&&report.Data.SuccessfulTasks==6,"Ending retains seven scenarios and six preparation tasks");
+            Check(report.Data.Answered+report.Data.Missed==19,"Ending records one introductory and 18 later Quick Questions");
             Check(report.Data.VerificationMistakes==2,"Report includes both actual incorrect verification answers");
-            Check(starts.Count==24&&starts.GroupBy(id=>id).Count()==8&&starts.GroupBy(id=>id).All(g=>g.Count()==3),"Every scenario starts exactly three questions");
-            for(int i=0;i<8;i++)
+            Check(starts.Count==19&&starts.GroupBy(id=>id).Count()==7&&starts.GroupBy(id=>id).Count(g=>g.Count()==1)==1&&starts.GroupBy(id=>id).Count(g=>g.Count()==3)==6,"First scenario starts one question; later scenarios start three");
+            for(int i=0;i<7;i++)
             {
                 int left=sides.Skip(i*3).Take(3).Count(side=>side==0);
                 Check(left==(i%2==0?2:1),"Scenario side pattern is 2+1 or 1+2: "+i);
             }
-            Check(dualStarts>=8,"Every scenario supports a simultaneous left/right pair");
-            Check(phoneCloses==8,"Phone close sound plays at every call ending");
+            Check(dualStarts>=6,"Later scenarios support the three-panel layout");
+            Check(phoneCloses==7,"Phone close sound plays at every call ending");
             Check(GameAudioFeedback.Instance.ResourceCount>0&&GameAudioFeedback.Instance.TransitionCount>0&&GameAudioFeedback.Instance.CorrectCount>0&&GameAudioFeedback.Instance.IncorrectCount>0,"Resource, transition, correct and incorrect sound routes actually fired");
             await Capture("focused-ending");Click(report.ReplayButton);
             await Wait(()=>Find<PreparationDirector>()&&!SceneFadeTransition.IsTransitioning);
@@ -264,7 +249,7 @@ public static class PreparationChecks
             await Task.Delay(350);Check(!Find<PreparationDirector>(),"Timeout during an animation can return safely to the main menu");
             Check(!UnityEngine.Object.FindObjectsByType<TMP_Text>().Any(t=>t.text.ToUpperInvariant().Contains("LANET")),"Visible text contains no LANET wording");
             Check(errors.Count==0,"No new Play Mode errors: "+string.Join("; ",errors));
-            File.AppendAllText(Logs+"/checks.txt","COMPLETE FOCUSED FLOW\n");SessionState.SetString("PreparationResult","PASS — five preparation games, shared 45 seconds, dual questions and full shift");
+            File.AppendAllText(Logs+"/checks.txt","COMPLETE FOCUSED FLOW\n");SessionState.SetString("PreparationResult","PASS — six preparation games, shared 75 seconds, dual questions and full shift");
         }
         catch(Exception e){File.AppendAllText(Logs+"/checks.txt","FAIL: "+e+"\n");SessionState.SetString("PreparationResult",e.ToString());}
         finally
@@ -287,21 +272,21 @@ public static class PreparationChecks
             await Task.Delay(200);last=d.RemainingSeconds;Click(d.BackButton);await Home(d,0);
             Check(d.TimerRunning&&d.RemainingSeconds<last,"Shared clock continues on the house map: "+i);last=d.RemainingSeconds;
         }
-        await TestTsunamiEdges(d);
+        await TestPressureEdges(d);
         await Open(d,0);await Capture("focused-shared-blue");
-        await Wait(()=>d.RemainingSeconds<14,45);Check(Field<Image>(d,"timerFill").color.r>.8f,"Shared low-time bar becomes amber");await Capture("focused-shared-amber");
+        await Wait(()=>d.RemainingSeconds<14,75);Check(Field<Image>(d,"timerFill").color.r>.8f,"Shared low-time bar becomes amber");await Capture("focused-shared-amber");
         await Wait(()=>d.RemainingSeconds<4,15);await Capture("focused-shared-red");
         var item=Field<BagDraggableItem[]>(d.BagWindow.BagGame,"items")[0];
         var pointer=new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left,position=RectTransformUtility.WorldToScreenPoint(null,item.transform.position)};
         item.OnPointerDown(pointer);item.OnBeginDrag(pointer);
         await Wait(()=>d.TimedOut,8);await Task.Delay(120);
         double elapsed=Time.realtimeSinceStartupAsDouble-started;
-        Check(elapsed>=44&&elapsed<46,"Actual whole-phase timeout is 45 seconds: "+elapsed.ToString("F2"));
+        Check(elapsed>=74&&elapsed<76,"Actual whole-phase timeout is 75 seconds: "+elapsed.ToString("F2"));
         Check(!d.TimerRunning&&!PreparationRun.IsRecording&&item.GetComponent<CanvasGroup>().blocksRaycasts,"Timeout cancels drag and stops preparation safely");
         Check(Field<AudioSource>(d,"activityAudio").isPlaying,"Existing mini-game failure clip plays on shared timeout");
         d.OpenActivity(1);Check(d.TimedOut,"No activity can reopen after the total budget expires");
         await Capture("focused-shared-timeout");int take=PreparationRun.TakeNumber;Click(d.RetryButton);d.RetryButton.onClick.Invoke();
-        Check(PreparationRun.TakeNumber==take+1&&d.TimerRunning&&d.RemainingSeconds>44&&d.ActiveActivity<0&&PreparationRun.CompletedCount==0,"Timeout retry starts one fresh whole-phase take");
+        Check(PreparationRun.TakeNumber==take+1&&d.TimerRunning&&d.RemainingSeconds>74&&d.ActiveActivity<0&&PreparationRun.CompletedCount==0,"Timeout retry starts one fresh whole-phase take");
         await Open(d,3);await Task.Delay(400);Check(d.Detector.Step==0,"Previous detector interaction cannot affect retry");Click(d.BackButton);await Home(d,0);
     }
     static Rect WorldRect(RectTransform r)
@@ -399,26 +384,17 @@ public static class PreparationChecks
         InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState(key));
         try{await Wait(reached,8);}finally{int frame=Time.frameCount;InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState());await Wait(()=>Time.frameCount>=frame+2,5);}
     }
-    static async Task NavigateTsunami(TsunamiPreparationGame game)
+    static async Task AdjustExtinguisher(ExtinguisherPreparationGame game)
     {
-        await MoveUntil(Key.RightArrow,()=>game.Position.x>=420);
-        await MoveUntil(Key.S,()=>game.Position.y<=115);
-        await MoveUntil(Key.D,()=>game.Position.x>=625);
-        await Capture("five-tsunami-route");
-        await MoveUntil(Key.UpArrow,()=>game.Position.y>=315);
-        await MoveUntil(Key.D,()=>game.Succeeded);
-        Check(game.Succeeded&&!game.Running,"Actual arrow/WASD input navigates barriers and reaches high ground");
+        game.SetAdjustment(1);await Wait(()=>game.Pressure>=.50f,5);game.SetAdjustment(0);
+        await Task.Delay(850);Click(game.CheckButton);Check(game.Succeeded,"Pressure stabilizes in green range and confirms");
     }
-    static async Task TestTsunamiEdges(PreparationDirector d)
+    static async Task TestPressureEdges(PreparationDirector d)
     {
-        await Open(d,4);var game=d.Tsunami;Fits(d.gameObject);await Capture("five-tsunami-start");
-        await MoveUntil(Key.D,()=>game.CollisionCount>0);
-        Check(game.Position.x<490&&!game.Succeeded,"Barrier blocks the direct route and produces slowdown feedback");
-        Click(d.BackButton);await Home(d,0);await Open(d,4);
-        await Wait(()=>game.Failed,10);Check(Field<AudioSource>(d,"activityAudio").isPlaying,"Existing failure sound plays when tsunami catches the player");Check(!game.Running&&game.RetryButton.IsInteractable(),"Wave catches an idle player and allows retry");await Capture("five-tsunami-caught");
-        float before=d.RemainingSeconds;Click(game.RetryButton);game.RetryButton.onClick.Invoke();
-        Check(game.Running&&!game.Failed&&d.RemainingSeconds<=before&&d.RemainingSeconds>before-.2f,"Tsunami retry retains the same shared timer");
-        Click(d.BackButton);await Home(d,0);
+        await Open(d,4);int before=PreparationRun.Mistakes;Click(d.Extinguisher.CheckButton);
+        Check(!d.Extinguisher.Succeeded&&PreparationRun.Mistakes==before+1,"Unsafe pressure check fails once");
+        d.Extinguisher.SetAdjustment(1);await Task.Delay(250);Click(d.BackButton);await Home(d,0);
+        float pressure=d.Extinguisher.Pressure;await Task.Delay(150);Check(d.Extinguisher.Pressure==pressure,"Hidden pressure rig stops adjusting");
     }
     static async Task CompleteQuickTake(PreparationDirector d)
     {
@@ -435,7 +411,8 @@ public static class PreparationChecks
         Click(smoke.OldBattery);await Wait(()=>smoke.Step==2);await Task.Delay(50);
         Click(smoke.NewBattery);await Wait(()=>smoke.Step==3);await Task.Delay(50);
         Click(smoke.Slot);await Wait(()=>smoke.Step==4);await Task.Delay(50);Click(smoke.Cover);await Home(d,4);
-        await Open(d,4);await NavigateTsunami(d.Tsunami);
+        await Open(d,4);await AdjustExtinguisher(d.Extinguisher);await Home(d,5);
+        await Open(d,5);for(int i=0;i<5;i++)if(d.Isolation.IsTarget(i))Click(d.Isolation.Points[i]);Click(d.Isolation.CheckButton);
         await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Review);
     }
     static async Task RunOperatorShift()
@@ -450,7 +427,7 @@ public static class PreparationChecks
         {
             if(DateTime.UtcNow>deadline)throw new TimeoutException("Full operator shift");
             if(health.IsGameOver)throw new Exception("Operator died during full-flow test");
-            if(briefing.CompletedScenarios!=last){last=briefing.CompletedScenarios;File.AppendAllText(Logs+"/checks.txt","PROGRESS: calls "+last+"/8\n");}
+            if(briefing.CompletedScenarios!=last){last=briefing.CompletedScenarios;File.AppendAllText(Logs+"/checks.txt","PROGRESS: calls "+last+"/7\n");}
             CheckNoMinigame(minigames);
             var radio=Find<Cizirti>();var cues=Find<DispatchSceneAudioCues>();
             if(UnityEngine.Object.FindObjectsByType<AudioSource>().Any(a=>a.isPlaying&&a.clip&&a.clip.name=="Konuşurken"))throw new Exception("Scream audio is active");
@@ -468,7 +445,7 @@ public static class PreparationChecks
             if(penaltyTitle&&capturedPenalties.Add(briefing.CompletedScenarios))
             {Check(!penaltyTitle.text.Contains("LANET"),"Penalty announcement says CEZA");await Capture("focused-penalty-"+briefing.CompletedScenarios);}
             chat.RevealCurrentLine();
-            if(questions.Views.Count(v=>v.IsActive)>2)throw new Exception("More than two question cards");
+            if(questions.Views.Count(v=>v.IsActive)>3)throw new Exception("More than three question cards");
             foreach(var card in questions.Views)
             {
                 if(!card.Ready)continue;
@@ -512,7 +489,7 @@ public static class PreparationChecks
     }
     static void CheckNoMinigame(MiniGameWindow window)
     {
-        if(window.BagPanel.activeInHierarchy||window.SafetyPanel.activeInHierarchy||Find<PreparationDirector>()||Find<PreparationBroadcast>()||Find<EarthquakePreparationGame>()||Find<FloodPreparationGame>()||Find<SmokeDetectorPreparationGame>()||Find<TsunamiPreparationGame>())
+        if(window.BagPanel.activeInHierarchy||window.SafetyPanel.activeInHierarchy||Find<PreparationDirector>()||Find<PreparationBroadcast>()||Find<EarthquakePreparationGame>()||Find<FloodPreparationGame>()||Find<SmokeDetectorPreparationGame>()||Find<ExtinguisherPreparationGame>()||Find<UtilityIsolationPreparationGame>())
             throw new Exception("Preparation mini-game appeared in operator phase");
     }
 }

@@ -1,0 +1,1094 @@
+fileFormatVersion: 2
+guid: 50d5e761044f7044681abc613508f52b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1665477741172213029
+    second: LogisticsDisruption_0
+  - first:
+      213: -4804704513196868847
+    second: LogisticsDisruption_1
+  - first:
+      213: 8964346081581510323
+    second: LogisticsDisruption_2
+  - first:
+      213: -2316895955466680968
+    second: LogisticsDisruption_3
+  - first:
+      213: -5556614841732275769
+    second: LogisticsDisruption_4
+  - first:
+      213: -4805221334922442153
+    second: LogisticsDisruption_5
+  - first:
+      213: 6687892211830893703
+    second: LogisticsDisruption_6
+  - first:
+      213: 8171053060894032565
+    second: LogisticsDisruption_7
+  - first:
+      213: -3614140849250362706
+    second: LogisticsDisruption_8
+  - first:
+      213: 7650404548866550629
+    second: LogisticsDisruption_9
+  - first:
+      213: -4837670571119599785
+    second: LogisticsDisruption_10
+  - first:
+      213: 8584928483759835067
+    second: LogisticsDisruption_11
+  - first:
+      213: 6281474606218624503
+    second: LogisticsDisruption_12
+  - first:
+      213: 4067944374498998324
+    second: LogisticsDisruption_13
+  - first:
+      213: -5966008400865652995
+    second: LogisticsDisruption_14
+  - first:
+      213: -2969930947116389364
+    second: LogisticsDisruption_15
+  - first:
+      213: -3543707641969980817
+    second: LogisticsDisruption_16
+  - first:
+      213: -3620040387624308794
+    second: LogisticsDisruption_17
+  - first:
+      213: 3850445240308407751
+    second: LogisticsDisruption_18
+  - first:
+      213: 4630546235319419714
+    second: LogisticsDisruption_19
+  - first:
+      213: -7733544057410873386
+    second: LogisticsDisruption_20
+  - first:
+      213: -3095682561502426133
+    second: LogisticsDisruption_21
+  - first:
+      213: -4402093958936970234
+    second: LogisticsDisruption_22
+  - first:
+      213: 1634362100257001576
+    second: LogisticsDisruption_23
+  - first:
+      213: 6837728117276867677
+    second: LogisticsDisruption_24
+  - first:
+      213: -5567227617267196440
+    second: LogisticsDisruption_25
+  - first:
+      213: 1378555394382904645
+    second: LogisticsDisruption_26
+  - first:
+      213: 4161249232350742209
+    second: LogisticsDisruption_27
+  - first:
+      213: -216888052190647392
+    second: LogisticsDisruption_28
+  - first:
+      213: -2873569390397880380
+    second: LogisticsDisruption_29
+  - first:
+      213: -1120030213134935472
+    second: LogisticsDisruption_30
+  - first:
+      213: 8953687883911590565
+    second: LogisticsDisruption_31
+  - first:
+      213: 2938339876611722719
+    second: LogisticsDisruption_32
+  - first:
+      213: -7772289787064997671
+    second: LogisticsDisruption_33
+  - first:
+      213: 8188238844081857213
+    second: LogisticsDisruption_34
+  - first:
+      213: -4646271995679544486
+    second: LogisticsDisruption_35
+  - first:
+      213: 3017054905492248921
+    second: LogisticsDisruption_36
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 256
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LogisticsDisruption_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1237
+        height: 1254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 525c3e77e27fc1710800000000000000
+      internalID: 1665477741172213029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_1
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 1229
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11b3f20a3b2425db0800000000000000
+      internalID: -4804704513196868847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_2
+      rect:
+        serializedVersion: 2
+        x: 818
+        y: 1223
+        width: 28
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bea45c1441c76c70800000000000000
+      internalID: 8964346081581510323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_3
+      rect:
+        serializedVersion: 2
+        x: 859
+        y: 1222
+        width: 12
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8758ed8676bb8dfd0800000000000000
+      internalID: -2316895955466680968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_4
+      rect:
+        serializedVersion: 2
+        x: 878
+        y: 1154
+        width: 72
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c162ecdd30f2e2b0800000000000000
+      internalID: -5556614841732275769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_5
+      rect:
+        serializedVersion: 2
+        x: 643
+        y: 1205
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75ac1d0b7ac605db0800000000000000
+      internalID: -4805221334922442153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_6
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 1217
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78c284e588a20dc50800000000000000
+      internalID: 6687892211830893703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_7
+      rect:
+        serializedVersion: 2
+        x: 866
+        y: 1198
+        width: 17
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b2057f7779656170800000000000000
+      internalID: 8171053060894032565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_8
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 1195
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eaa1430db0ef7ddc0800000000000000
+      internalID: -3614140849250362706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_9
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 1207
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56b29335762bb2a60800000000000000
+      internalID: 7650404548866550629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_10
+      rect:
+        serializedVersion: 2
+        x: 1011
+        y: 1181
+        width: 21
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75f1e042f342ddcb0800000000000000
+      internalID: -4837670571119599785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_11
+      rect:
+        serializedVersion: 2
+        x: 1035
+        y: 1188
+        width: 25
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb743a898fac32770800000000000000
+      internalID: 8584928483759835067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_12
+      rect:
+        serializedVersion: 2
+        x: 1108
+        y: 1177
+        width: 18
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fd3c49afd74c2750800000000000000
+      internalID: 6281474606218624503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_13
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 1165
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 438bf001bdd347830800000000000000
+      internalID: 4067944374498998324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_14
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 1171
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfe086bf7fa743da0800000000000000
+      internalID: -5966008400865652995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_15
+      rect:
+        serializedVersion: 2
+        x: 1019
+        y: 1154
+        width: 47
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0c20b9f98fa8c6d0800000000000000
+      internalID: -2969930947116389364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_16
+      rect:
+        serializedVersion: 2
+        x: 997
+        y: 1158
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6aca8ccca832dec0800000000000000
+      internalID: -3543707641969980817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_17
+      rect:
+        serializedVersion: 2
+        x: 1176
+        y: 1161
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cfe51f727803cdc0800000000000000
+      internalID: -3620040387624308794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_18
+      rect:
+        serializedVersion: 2
+        x: 854
+        y: 1146
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cd1da7ab878f6530800000000000000
+      internalID: 3850445240308407751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_19
+      rect:
+        serializedVersion: 2
+        x: 890
+        y: 1124
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2438c307441034040800000000000000
+      internalID: 4630546235319419714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_20
+      rect:
+        serializedVersion: 2
+        x: 1051
+        y: 1142
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d7113367aeeca490800000000000000
+      internalID: -7733544057410873386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_21
+      rect:
+        serializedVersion: 2
+        x: 1107
+        y: 1145
+        width: 17
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bebc648ac1de905d0800000000000000
+      internalID: -3095682561502426133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_22
+      rect:
+        serializedVersion: 2
+        x: 1123
+        y: 1150
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60c3bad1ede98e2c0800000000000000
+      internalID: -4402093958936970234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_23
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 1140
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8601e24cbab6ea610800000000000000
+      internalID: 1634362100257001576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_24
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 323
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5cfcfcae7d74ee50800000000000000
+      internalID: 6837728117276867677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_25
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 64
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ed5b018afb3db2b0800000000000000
+      internalID: -5567227617267196440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_26
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 47
+        width: 19
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54d3469c3dc912310800000000000000
+      internalID: 1378555394382904645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_27
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 25
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c6022c212abfb930800000000000000
+      internalID: 4161249232350742209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_28
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 17
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ab662537757dfcf0800000000000000
+      internalID: -216888052190647392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_29
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 21
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c706ef3dd70f18d0800000000000000
+      internalID: -2873569390397880380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_30
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 0
+        width: 204
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05a1360947ad470f0800000000000000
+      internalID: -1120030213134935472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_31
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 6
+        width: 62
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a2f44611b3e14c70800000000000000
+      internalID: 8953687883911590565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_32
+      rect:
+        serializedVersion: 2
+        x: 635
+        y: 29
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdd8ecebc8417c820800000000000000
+      internalID: 2938339876611722719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_33
+      rect:
+        serializedVersion: 2
+        x: 649
+        y: 29
+        width: 25
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d828963e97432490800000000000000
+      internalID: -7772289787064997671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_34
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 17
+        width: 25
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db2ed8578d772a170800000000000000
+      internalID: 8188238844081857213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_35
+      rect:
+        serializedVersion: 2
+        x: 701
+        y: 31
+        width: 42
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5beca7ac30258fb0800000000000000
+      internalID: -4646271995679544486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogisticsDisruption_36
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 17
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95917b5937bbed920800000000000000
+      internalID: 3017054905492248921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      LogisticsDisruption_0: 1665477741172213029
+      LogisticsDisruption_1: -4804704513196868847
+      LogisticsDisruption_10: -4837670571119599785
+      LogisticsDisruption_11: 8584928483759835067
+      LogisticsDisruption_12: 6281474606218624503
+      LogisticsDisruption_13: 4067944374498998324
+      LogisticsDisruption_14: -5966008400865652995
+      LogisticsDisruption_15: -2969930947116389364
+      LogisticsDisruption_16: -3543707641969980817
+      LogisticsDisruption_17: -3620040387624308794
+      LogisticsDisruption_18: 3850445240308407751
+      LogisticsDisruption_19: 4630546235319419714
+      LogisticsDisruption_2: 8964346081581510323
+      LogisticsDisruption_20: -7733544057410873386
+      LogisticsDisruption_21: -3095682561502426133
+      LogisticsDisruption_22: -4402093958936970234
+      LogisticsDisruption_23: 1634362100257001576
+      LogisticsDisruption_24: 6837728117276867677
+      LogisticsDisruption_25: -5567227617267196440
+      LogisticsDisruption_26: 1378555394382904645
+      LogisticsDisruption_27: 4161249232350742209
+      LogisticsDisruption_28: -216888052190647392
+      LogisticsDisruption_29: -2873569390397880380
+      LogisticsDisruption_3: -2316895955466680968
+      LogisticsDisruption_30: -1120030213134935472
+      LogisticsDisruption_31: 8953687883911590565
+      LogisticsDisruption_32: 2938339876611722719
+      LogisticsDisruption_33: -7772289787064997671
+      LogisticsDisruption_34: 8188238844081857213
+      LogisticsDisruption_35: -4646271995679544486
+      LogisticsDisruption_36: 3017054905492248921
+      LogisticsDisruption_4: -5556614841732275769
+      LogisticsDisruption_5: -4805221334922442153
+      LogisticsDisruption_6: 6687892211830893703
+      LogisticsDisruption_7: 8171053060894032565
+      LogisticsDisruption_8: -3614140849250362706
+      LogisticsDisruption_9: 7650404548866550629
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
