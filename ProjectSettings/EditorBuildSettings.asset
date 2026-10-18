@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Working Folder/Taha and Yasin/Onur/Onur Test Place Integrated.unity
     guid: 3b750116fe99c9e4a90e6ca05cd2024b
-  - enabled: 0
+  - enabled: 1
     path: Assets/Working Folder/Taha and Yasin/Onur/OnurAnaMenu.unity
     guid: e1b4b3bb6e50dcd4cb401ac03fd5c99f
   - enabled: 1

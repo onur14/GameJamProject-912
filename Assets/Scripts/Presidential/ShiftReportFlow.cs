@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public static class ShiftReportFlow
 {
-    public const string MenuScene = "Assets/Working Folder/Onur/OnurAnaMenu.unity";
+    public const string MenuScene = "Assets/Working Folder/Taha and Yasin/Onur/OnurAnaMenu.unity";
     public static ShiftReportData Pending { get; private set; }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
