@@ -38,12 +38,12 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
         var sheet=Resources.Load<Texture2D>("Disaster/EarthquakeSheet");
         if(!sheet)throw new InvalidOperationException("Deprem görseli bulunamadı.");
         cutouts=new PreparationSpriteCutout(sheet);
-        poses[0]=cutouts.Cut(40,4,104,160,keepLargest:true);
-        poses[1]=cutouts.Cut(155,20,108,140,keepLargest:true);
-        poses[2]=cutouts.Cut(286,38,113,126,keepLargest:true);
-        poses[3]=cutouts.Cut(419,42,131,121,keepLargest:true);
-        poses[4]=cutouts.Cut(609,73,116,90,keepLargest:true);
-        poses[5]=cutouts.Cut(817,72,119,91,keepLargest:true);
+        poses[0]=cutouts.Cut(40,4,104,160,keepLargest:true,removeBright:true);
+        poses[1]=cutouts.Cut(155,20,108,140,keepLargest:true,removeBright:true);
+        poses[2]=cutouts.Cut(286,38,113,126,keepLargest:true,removeBright:true);
+        poses[3]=cutouts.Cut(419,42,131,121,keepLargest:true,removeBright:true);
+        poses[4]=cutouts.Cut(609,73,116,90,keepLargest:true,removeBright:true);
+        poses[5]=cutouts.Cut(817,72,119,91,keepLargest:true,removeBright:true);
         for(int i=0;i<4;i++)keys[i]=cutouts.Cut(40+i*99,471,83,72);
         root=Rect("Çök Kapan Tutun Eğitimi",parent,Vector2.zero,Vector2.one);
         Panel("Eğitim Zemini",root,Vector2.zero,Vector2.one,PanelColor);

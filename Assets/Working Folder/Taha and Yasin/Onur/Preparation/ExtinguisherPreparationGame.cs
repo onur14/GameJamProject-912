@@ -24,7 +24,7 @@ public sealed class ExtinguisherPreparationGame : MonoBehaviour
     public Button Decrease { get; private set; }
     public Button CheckButton { get; private set; }
     public const float SafeMin=.44f, SafeMax=.60f;
-    private const float ReleaseSpeed=.085f;
+    private const float ReleaseSpeed=.0425f;
     public void Initialize(Transform parent,TMP_FontAsset font,Action onMistake,Action onComplete)
     {
         mistake=onMistake;complete=onComplete;
