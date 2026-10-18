@@ -102,9 +102,10 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         scroll.viewport=textViewport;scroll.content=textContent;
         // Preserve the existing no-team resolution action; ordinary messages have no advance button.
         var go=new GameObject("Sevk Yapılamadı",typeof(RectTransform),typeof(Image),typeof(Button));go.transform.SetParent(panel,false);
-        Anchor((RectTransform)go.transform,new Vector2(.035f,.015f),new Vector2(.965f,.095f));
+        Anchor((RectTransform)go.transform,new Vector2(.035f,.61f),new Vector2(.965f,.72f));
         go.GetComponent<Image>().color=new Color(.10f,.17f,.20f);next=go.GetComponent<Button>();next.targetGraphic=go.GetComponent<Image>();
         nextLabel=Text("Sevk Durumu",go.transform,19);Anchor(nextLabel.rectTransform,Vector2.zero,Vector2.one);nextLabel.alignment=TextAlignmentOptions.Center;
+        nextLabel.enableAutoSizing=true;nextLabel.fontSizeMin=16;nextLabel.fontSizeMax=19;
         next.onClick.AddListener(Advance);next.gameObject.SetActive(false);
         effectA=Text("Gerçek Kaynak Etkisi A",approveButton.transform,21);
         effectB=Text("Gerçek Kaynak Etkisi B",rejectButton.transform,21);
@@ -374,7 +375,7 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     private void Layout()
     {
         if(textViewport==null)return;
-        Anchor(textViewport,new Vector2(.015f,choicesVisible ? .625f : .02f),new Vector2(.985f,.98f));
+        Anchor(textViewport,new Vector2(.015f,choicesVisible ? (bothUnavailable ? .735f : .625f) : .02f),new Vector2(.985f,.98f));
         FitText();
     }
     public void SetDecisionTimer(float remaining, bool expired = false)
@@ -404,6 +405,8 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         approveButton.interactable=a.CanApply(r);rejectButton.interactable=b.CanApply(r);
         bothUnavailable=!approveButton.interactable&&!rejectButton.interactable;
         next.gameObject.SetActive(bothUnavailable);
+        if(bothUnavailable)next.transform.SetAsLastSibling();
+        Layout();
         nextLabel.text="EKİP YOK · Sevk yapılamadı — vakayı kaydet ve ilerle";
     }
     public void SetChoicesVisible(bool visible)
