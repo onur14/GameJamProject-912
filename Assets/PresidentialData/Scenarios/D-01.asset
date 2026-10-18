@@ -36,9 +36,11 @@ MonoBehaviour:
   choiceB: "HAYIR! Merdivenlere ko\u015fmay\u0131n; bulundu\u011funuz yerde \u00c7\u00d6K-KAPAN-TUTUN yap\u0131n."
   correctChoiceIsB: 1
   resourceA: 2
-  resourceB: 1
+  resourceB: 2
   dispatchA: 1
   dispatchB: 1
+  correctChoiceCost: 1
+  wrongChoiceCost: 2
   outcomeA:
   - text: "Zeynep: Ko\u015fuyorum! Merdivendeyiz... Aaaah! Basamaklar ayr\u0131l\u0131yor, tutunam\u0131yorum!"
     fromOperator: 0

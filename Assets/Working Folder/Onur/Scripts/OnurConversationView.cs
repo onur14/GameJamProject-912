@@ -340,10 +340,14 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         title.text="Bağlantı kesildi";title.alignment=TextAlignmentOptions.Center;
         title.color=new Color(1f,.65f,.4f);
 
-        var instruction=Text("Kurtarma Talimatı",connectionCard,20);
-        Anchor(instruction.rectTransform,new Vector2(.06f,.38f),new Vector2(.94f,.53f));
-        instruction.text="Geri bağlanmak için space tuşuna aban";instruction.alignment=TextAlignmentOptions.Center;
-        instruction.enableAutoSizing=true;instruction.fontSizeMin=16;instruction.fontSizeMax=20;
+        var keycap=new GameObject("Space Tuşu Simgesi",typeof(RectTransform),typeof(Image));
+        var keycapRect=(RectTransform)keycap.transform;keycapRect.SetParent(connectionCard,false);
+        Anchor(keycapRect,new Vector2(.34f,.37f),new Vector2(.66f,.52f));
+        var keycapImage=keycap.GetComponent<Image>();keycapImage.color=new Color(.16f,.29f,.34f);keycapImage.raycastTarget=false;
+        var keycapOutline=keycap.AddComponent<Outline>();keycapOutline.effectColor=new Color(.58f,.86f,.83f);keycapOutline.effectDistance=new Vector2(2,-3);
+        var keycapLabel=Text("Space Simgesi",keycapRect,25);
+        Anchor(keycapLabel.rectTransform,new Vector2(.04f,.04f),new Vector2(.96f,.96f));
+        keycapLabel.text="SPACE";keycapLabel.alignment=TextAlignmentOptions.Center;
 
         var bar=new GameObject("Bağlantı Çubuğu",typeof(RectTransform),typeof(Image));
         var barRect=(RectTransform)bar.transform;barRect.SetParent(connectionCard,false);

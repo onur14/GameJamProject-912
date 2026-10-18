@@ -93,10 +93,24 @@ public sealed class ShiftReportView : MonoBehaviour
             label.alignment=TextAlignmentOptions.Top;
         }
         performance.lineSpacing=resources.lineSpacing=events.lineSpacing=2;
+        AlignHeading(card,"Performans Başlığı",performance);
+        AlignHeading(card,"Kaynak Başlığı",resources);
+        performance.alignment=resources.alignment=TextAlignmentOptions.TopLeft;
         score.alignment=TextAlignmentOptions.MidlineRight;
         events.alignment=TextAlignmentOptions.Top;
         var heading=card.Find("Olay Başlığı");
         if(heading)heading.GetComponent<TMP_Text>().text="VARDİYA ÖZETİ";
+    }
+    private static void AlignHeading(Transform card,string name,TMP_Text values)
+    {
+        var heading=card.Find(name)?.GetComponent<TMP_Text>();
+        if(!heading)return;
+        var headingRect=heading.rectTransform;
+        headingRect.anchorMin=new Vector2(values.rectTransform.anchorMin.x,headingRect.anchorMin.y);
+        headingRect.anchorMax=new Vector2(values.rectTransform.anchorMax.x,headingRect.anchorMax.y);
+        headingRect.offsetMin=new Vector2(values.rectTransform.offsetMin.x,headingRect.offsetMin.y);
+        headingRect.offsetMax=new Vector2(values.rectTransform.offsetMax.x,headingRect.offsetMax.y);
+        heading.alignment=TextAlignmentOptions.TopLeft;
     }
     public void Replay()
     {

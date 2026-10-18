@@ -155,7 +155,13 @@ public class OyunAkisiOnur : MonoBehaviour
         if (currentScenario != null && !(choiceB ? currentScenario.dispatchB : currentScenario.dispatchA)) return default;
         var type = currentScenario != null ? (choiceB ? currentScenario.resourceB : currentScenario.resourceA)
             : (choiceB ? correctChoiceResource : wrongChoiceResource);
-        return DispatchResourceEffect.ForTeam(type);
+        var effect = DispatchResourceEffect.ForTeam(type);
+        int cost = currentScenario != null && choiceB == currentScenario.correctChoiceIsB
+            ? currentScenario.correctChoiceCost : currentScenario != null ? currentScenario.wrongChoiceCost : 1;
+        effect.ambulances *= cost;
+        effect.firefighters *= cost;
+        effect.rescue *= cost;
+        return effect;
     }
 
     public void ResolveWithoutDispatch()

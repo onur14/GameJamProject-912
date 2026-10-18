@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -53,6 +55,8 @@ public sealed class GameAudioFeedback : MonoBehaviour
     {
         if(!instance||!button||!instance.buttons.Add(button))return;
         button.onClick.AddListener(Click);
+        if(button.GetComponentInChildren<TMP_Text>(true) && !button.GetComponent<ButtonHoverFeedback>())
+            button.gameObject.AddComponent<ButtonHoverFeedback>();
     }
     static void Click()
     {
@@ -70,4 +74,39 @@ public sealed class GameAudioFeedback : MonoBehaviour
         if(instance&&instance.library&&instance.library.transition){instance.source.PlayOneShot(instance.library.transition,.3f);instance.TransitionCount++;}
     }
     void OnDestroy(){SceneManager.sceneLoaded-=OnSceneLoaded;if(resources)resources.Changed-=ResourceChanged;if(instance==this)instance=null;}
+}
+
+public sealed class ButtonHoverFeedback : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
+    private Button button;
+    private Outline outline;
+    private Vector3 normalScale;
+    private bool hovered;
+
+    private void Awake()
+    {
+        button=GetComponent<Button>();
+        normalScale=transform.localScale;
+        outline=gameObject.AddComponent<Outline>();
+        outline.effectDistance=new Vector2(2,-2);
+        outline.useGraphicAlpha=false;
+        outline.effectColor=new Color(.75f,.91f,.90f,0);
+    }
+    public void OnPointerEnter(PointerEventData eventData){hovered=true;}
+    public void OnPointerExit(PointerEventData eventData){hovered=false;}
+    private void Update()
+    {
+        float strength=hovered && button && button.interactable ? 1f : 0f;
+        float blend=1f-Mathf.Exp(-12f*Time.unscaledDeltaTime);
+        transform.localScale=Vector3.Lerp(transform.localScale,normalScale*(1f+.025f*strength),blend);
+        var color=outline.effectColor;
+        color.a=Mathf.Lerp(color.a,.82f*strength,blend);
+        outline.effectColor=color;
+    }
+    private void OnDisable()
+    {
+        hovered=false;
+        transform.localScale=normalScale;
+        if(outline)outline.effectColor=new Color(.75f,.91f,.90f,0);
+    }
 }

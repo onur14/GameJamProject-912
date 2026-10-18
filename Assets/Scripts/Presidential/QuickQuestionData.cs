@@ -19,6 +19,7 @@ public class QuickQuestionConfig
     public string choiceBLabel = "REDDET";
     public DispatchResourceEffect choiceBEffect = new DispatchResourceEffect();
     public string choiceBFeedback = "TALEP REDDEDİLDİ";
+    [Min(0)] public int choiceBHealthDamage;
 
     [Header("Information verification")]
     public bool isDisinformation;
@@ -51,6 +52,7 @@ public class QuickQuestionConfig
             choiceBLabel = choiceBLabel,
             choiceBEffect = choiceBEffect,
             choiceBFeedback = choiceBFeedback,
+            choiceBHealthDamage = choiceBHealthDamage,
             timerDuration = timerDuration,
             appearanceDelayMin = appearanceDelayMin,
             appearanceDelayMax = appearanceDelayMax,

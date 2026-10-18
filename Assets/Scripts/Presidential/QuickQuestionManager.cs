@@ -134,7 +134,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
 
     public static QuickQuestionConfig[] GetDefaultSecondQuestions()
     {
-        string[] ids = { "D-01", "D-02", "Y-02", "S-01", "F-01", "K-01", "K-02" };
+        string[] ids = { "D-01", "D-02", "Y-02", "S-01", "F-01", "K-01", "K-02", "Y-01" };
         string[] questions = {
             "Bir hesap 'Gece 03.15’te kesin deprem var' diyor. Paylaşalım mı?",
             "Kaynağı belirsiz ses kaydı tahliye emri veriyor. Yayılsın mı?",
@@ -142,10 +142,11 @@ public sealed class QuickQuestionManager : MonoBehaviour
             "Teyitsiz mesaj 'Tüm yollar açık' diyor. Resmî bilgi diye yayalım mı?",
             "Tarihsiz fırtına haritası yeniden yayılıyor. Güncel diye sunalım mı?",
             "Uzman adı olmayan deprem tahmini gündemde. Kaynağı doğrulayalım mı?",
-            "Kişisel IBAN isteyen yardım mesajını resmî duyuru diye paylaşalım mı?"
+            "Kişisel IBAN isteyen yardım mesajını resmî duyuru diye paylaşalım mı?",
+            "Ev yangınına ait eski bir videoyu güncel görüntü diye paylaşalım mı?"
         };
-        int[] correct = { 1, 1, 0, 1, 1, 0, 1 };
-        var result = new QuickQuestionConfig[7];
+        int[] correct = { 1, 1, 0, 1, 1, 0, 1, 1 };
+        var result = new QuickQuestionConfig[8];
         for (int i = 0; i < result.Length; i++)
         {
             string good = "TEYİTSİZ BİLGİ ENGELLENDİ";
@@ -167,7 +168,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
 
     public static QuickQuestionConfig[] GetDefaultQuestions()
     {
-        return new QuickQuestionConfig[7]
+        return new QuickQuestionConfig[8]
         {
             // Scenario 1: D-01 (Ambulance request)
             new QuickQuestionConfig
@@ -241,19 +242,20 @@ public sealed class QuickQuestionManager : MonoBehaviour
                 appearanceDelayMax = 3.0f
             },
 
-            // Scenario 6: F-01 (Two competing requests - priority choice)
+            // Scenario 6: F-01 (Fire support request)
             new QuickQuestionConfig
             {
                 id = "QQ-06",
                 targetScenarioId = "F-01",
-                categoryTitle = "ÖNCELİK SEÇİMİ",
-                questionText = "Tek kurtarma ekibi müsait. Hangi bölgeye yönlendirilsin?",
-                choiceALabel = "BÖLGE A (-1)",
-                choiceAEffect = new DispatchResourceEffect { rescue = -1 },
-                choiceAFeedback = "BÖLGE A'YA SEVK EDİLDİ",
-                choiceBLabel = "BÖLGE B (-1)",
-                choiceBEffect = new DispatchResourceEffect { rescue = -1 },
-                choiceBFeedback = "BÖLGE B'YE SEVK EDİLDİ",
+                categoryTitle = "İTFAİYE TALEBİ",
+                questionText = "Bölge 4'e itfaiye lazım. Gönderelim mi?",
+                choiceALabel = "EVET (-1 İTFAİYE)",
+                choiceAEffect = new DispatchResourceEffect { firefighters = -1 },
+                choiceAFeedback = "BÖLGE 4'E İTFAİYE GÖNDERİLDİ",
+                choiceBLabel = "HAYIR (-5 HALK BİLİNCİ)",
+                choiceBEffect = new DispatchResourceEffect(),
+                choiceBFeedback = "İTFAİYE GÖNDERİLMEDİ · HALK BİLİNCİ -5",
+                choiceBHealthDamage = 5,
                 timerDuration = 7f,
                 appearanceDelayMin = 1.8f,
                 appearanceDelayMax = 2.5f
@@ -293,6 +295,22 @@ public sealed class QuickQuestionManager : MonoBehaviour
                 timerDuration = 7f,
                 appearanceDelayMin = 1.2f,
                 appearanceDelayMax = 2.0f
+            },
+            new QuickQuestionConfig
+            {
+                id = "QQ-05",
+                targetScenarioId = "Y-01",
+                categoryTitle = "YANGIN DESTEĞİ",
+                questionText = "Ev yangını için ek itfaiye ekibi isteniyor. Gönderelim mi?",
+                choiceALabel = "GÖNDER (-1 İTFAİYE)",
+                choiceAEffect = new DispatchResourceEffect { firefighters = -1 },
+                choiceAFeedback = "EK İTFAİYE GÖNDERİLDİ",
+                choiceBLabel = "GÖNDERME",
+                choiceBEffect = new DispatchResourceEffect(),
+                choiceBFeedback = "EK DESTEK GÖNDERİLMEDİ",
+                timerDuration = 7f,
+                appearanceDelayMin = 2f,
+                appearanceDelayMax = 3f
             }
         };
     }
@@ -301,8 +319,8 @@ public sealed class QuickQuestionManager : MonoBehaviour
     public void SetPaused(bool paused){if(views!=null)foreach(var card in views)card.SetPaused(paused);}
     public static QuickQuestionConfig[] GetDefaultThirdQuestions()
     {
-        string[] text={"Deprem sonrası hasarlı binaya geri dönmek güvenli mi?","Gaz kokusunda elektrik düğmesine basalım mı?","Yoğun dumanda alçaktan ilerleyelim mi?","Sel suyuna araçla girelim mi?","Fırtınada devrilebilecek ağaçlardan uzaklaşalım mı?","Yardım bilgisini resmî kaynaklardan doğrulayalım mı?","Acil yardım araçları için yolları açık tutalım mı?"};
-        int[] correct={1,1,0,1,0,0,0};
+        string[] text={"Deprem sonrası hasarlı binaya geri dönmek güvenli mi?","Gaz kokusunda elektrik düğmesine basalım mı?","Yoğun dumanda alçaktan ilerleyelim mi?","Sel suyuna araçla girelim mi?","Fırtınada devrilebilecek ağaçlardan uzaklaşalım mı?","Yardım bilgisini resmî kaynaklardan doğrulayalım mı?","Acil yardım araçları için yolları açık tutalım mı?","Yanan yağa su dökmek güvenli mi?"};
+        int[] correct={1,1,0,1,0,0,0,1};
         var result=GetDefaultSecondQuestions();
         for(int i=0;i<result.Length;i++)
         {
@@ -433,7 +451,10 @@ public sealed class QuickQuestionManager : MonoBehaviour
             if (wrong && cityHealth) cityHealth.ApplyDamage(config.wrongAnswerHealthDamage);
             if (visualFeedback) visualFeedback.SignalAlert(wrong);
         }
-        bool earnsReward = !config.isDisinformation || choice == config.correctChoiceIndex;
+        if (choice == 1 && config.choiceBHealthDamage > 0 && cityHealth)
+            cityHealth.ApplyDamage(config.choiceBHealthDamage);
+        bool earnsReward = (!config.isDisinformation || choice == config.correctChoiceIndex)
+            && !(choice == 1 && config.choiceBHealthDamage > 0);
         if (earnsReward && cityHealth)
         {
             int before = cityHealth.HealthPercent;

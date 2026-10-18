@@ -23,7 +23,8 @@ public sealed class ExtinguisherPreparationGame : MonoBehaviour
     public Button Increase { get; private set; }
     public Button Decrease { get; private set; }
     public Button CheckButton { get; private set; }
-    public const float SafeMin=.42f, SafeMax=.62f;
+    public const float SafeMin=.46f, SafeMax=.58f;
+    private const float ReleaseSpeed=.085f;
     public void Initialize(Transform parent,TMP_FontAsset font,Action onMistake,Action onComplete)
     {
         mistake=onMistake;complete=onComplete;
@@ -78,6 +79,7 @@ public sealed class ExtinguisherPreparationGame : MonoBehaviour
         if(!CanAct){adjustment=0;return;}
         float dt=Mathf.Min(Time.unscaledDeltaTime,.05f);
         Pressure=Mathf.Clamp01(Pressure+adjustment*dt*.24f);
+        if(adjustment==0)Pressure=Mathf.MoveTowards(Pressure,0,ReleaseSpeed*dt);
         shownPressure=Mathf.SmoothDamp(shownPressure,Pressure,ref velocity,.10f,10,dt);
         bool stable=adjustment==0 && Pressure>=SafeMin && Pressure<=SafeMax && Mathf.Abs(shownPressure-Pressure)<.012f;
         stableTime=stable?Mathf.Min(.65f,stableTime+dt):0;

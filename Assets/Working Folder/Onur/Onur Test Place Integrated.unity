@@ -2577,11 +2577,9 @@ MonoBehaviour:
   scenarioOrder:
   - {fileID: 11400000, guid: 04d2fc80345d38140894fdd61f9feb65, type: 2}
   - {fileID: 11400000, guid: bad312ca35491ae4c837bb7426f94725, type: 2}
+  - {fileID: 11400000, guid: c6af75b9e10ea3c4c9d942780e45ccbe, type: 2}
   - {fileID: 11400000, guid: efc6af8b1eddc4540992e3f3c4dd77dd, type: 2}
   - {fileID: 11400000, guid: b8de8c8270707c84c9e2cb1c4b507c2b, type: 2}
-  - {fileID: 11400000, guid: d4534f6c60758bc4e8b451d63bba4cd5, type: 2}
-  - {fileID: 11400000, guid: 165a5f3b0cf2ce241abbb06e4c4f58ba, type: 2}
-  - {fileID: 11400000, guid: fd08a42fb2b962447b4292be97bbb155, type: 2}
   - {fileID: 11400000, guid: 8c3cd32b4f04042439a7378f14b735f5, type: 2}
   briefings:
   - {fileID: 11400000, guid: 28be2fa8427ca564488655c69e4f7930, type: 2}
@@ -2751,7 +2749,7 @@ MonoBehaviour:
   conversationPanel: {fileID: 419692063}
   conversationGroup: {fileID: 183698794}
   ringIndicator: {fileID: 1592510843}
-  firstRingDelay: 0.55
+  firstRingDelay: 2
   computerFocusDuration: 0.42
   conversationFadeDuration: 0.18
   focusedScale: 2
@@ -4639,20 +4637,21 @@ MonoBehaviour:
     timeoutFeedback: YANITLANMADI
   - id: QQ-06
     targetScenarioId: F-01
-    categoryTitle: "\xD6NCEL\u0130K SE\xC7\u0130M\u0130"
-    questionText: "Tek kurtarma ekibi m\xFCsait. Hangi b\xF6lgeye y\xF6nlendirilsin?"
-    choiceALabel: "B\xD6LGE A (-1)"
+    categoryTitle: "\u0130TFA\u0130YE TALEB\u0130"
+    questionText: "B\xF6lge 4'e itfaiye laz\u0131m. G\xF6nderelim mi?"
+    choiceALabel: "EVET (-1 \u0130TFA\u0130YE)"
     choiceAEffect:
       ambulances: 0
-      firefighters: 0
-      rescue: -1
-    choiceAFeedback: "B\xD6LGE A'YA SEVK ED\u0130LD\u0130"
-    choiceBLabel: "B\xD6LGE B (-1)"
+      firefighters: -1
+      rescue: 0
+    choiceAFeedback: "B\xD6LGE 4'E \u0130TFA\u0130YE G\xD6NDER\u0130LD\u0130"
+    choiceBLabel: "HAYIR (-5 HALK B\u0130L\u0130NC\u0130)"
     choiceBEffect:
       ambulances: 0
       firefighters: 0
-      rescue: -1
-    choiceBFeedback: "B\xD6LGE B'YE SEVK ED\u0130LD\u0130"
+      rescue: 0
+    choiceBFeedback: "\u0130TFA\u0130YE G\xD6NDER\u0130LMED\u0130 \xB7 HALK B\u0130L\u0130NC\u0130 -5"
+    choiceBHealthDamage: 5
     timerDuration: 7
     appearanceDelayMin: 1.8
     appearanceDelayMax: 2.5

@@ -34,9 +34,11 @@ MonoBehaviour:
   choiceB: "Hay\u0131r, \u00e7anta gereksiz bir a\u011f\u0131rl\u0131k, sars\u0131nt\u0131 bittiyse evinizde bekleyin."
   correctChoiceIsB: 0
   resourceA: 2
-  resourceB: 2
-  dispatchA: 0
+  resourceB: 1
+  dispatchA: 1
   dispatchB: 1
+  correctChoiceCost: 1
+  wrongChoiceCost: 2
   outcomeA:
   - text: "Operat\u00f6r: Kerem Bey tebrik ederim. Harika bir bilin\u00e7 sergilemi\u015fsiniz. G\u00fcvenli toplanma alan\u0131na ge\u00e7in."
     fromOperator: 1

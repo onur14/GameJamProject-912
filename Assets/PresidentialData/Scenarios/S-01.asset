@@ -37,6 +37,8 @@ MonoBehaviour:
   resourceB: 2
   dispatchA: 1
   dispatchB: 1
+  correctChoiceCost: 1
+  wrongChoiceCost: 2
   outcomeA:
   - text: "Serdar: Bast\u0131m gaza gidiy--- Motor stop etti! Su \u00f6n cama vurdu! Kap\u0131 su bas\u0131nc\u0131ndan a\u00e7\u0131lm\u0131yor! ARABA Y\u00dcZ\u00dcYOR, BO\u011eULUYORUM!!"
     fromOperator: 0

@@ -13,7 +13,7 @@ public sealed class PresidentialBriefingManager : MonoBehaviour
     [SerializeField] private PresidentialBroadcastView view;
     [SerializeField] private CityHealth cityHealth;
     [Tooltip("Ordered playable calls. Briefing thresholds are stored in the briefing assets.")]
-    [SerializeField] private DispatchScenarioData[] scenarioOrder = new DispatchScenarioData[7];
+    [SerializeField] private DispatchScenarioData[] scenarioOrder = new DispatchScenarioData[6];
     [SerializeField] private PresidentialBriefingData[] briefings = new PresidentialBriefingData[3];
     public UnityEvent<int> ScenarioRequested;
     public event Action ShiftReset;

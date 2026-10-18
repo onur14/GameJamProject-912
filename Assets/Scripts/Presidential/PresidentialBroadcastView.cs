@@ -248,6 +248,14 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         if (offer.thirdTeam > 0) additions.Add($"+{offer.thirdTeam} {thirdResourceLabel}");
         return additions.Count == 0 ? "EK KAYNAK YOK" : $"EKLENECEK KAYNAKLAR\n<color=#6DE9B6><size=125%>{string.Join(" · ", additions)}</size></color>";
     }
+    private string DeductedResources(ResourceOffer offer)
+    {
+        var deductions = new System.Collections.Generic.List<string>();
+        if (offer.ambulances < 0) deductions.Add($"{offer.ambulances} Ambulans");
+        if (offer.firefighters < 0) deductions.Add($"{offer.firefighters} İtfaiye");
+        if (offer.thirdTeam < 0) deductions.Add($"{offer.thirdTeam} {thirdResourceLabel}");
+        return deductions.Count == 0 ? "" : $"\n<color=#F47A72>EKSİLECEK: {string.Join(" · ", deductions)}</color>";
+    }
     public void Offers(ResourceOffer a, ResourceOffer b, DispatchResources r)
     {
         if (typing != null) StopCoroutine(typing);
@@ -260,7 +268,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         {
             var p = plans[i]; bool valid = p.IsValid(r);
             offers[i].gameObject.SetActive(true); offers[i].interactable = valid;
-            offerTexts[i].text = $"{(i == 0 ? "A" : "B")} · {p.title}\n{p.rationale}\n{AddedResources(p)}";
+            offerTexts[i].text = $"{(i == 0 ? "A" : "B")} · {p.title}\n{p.rationale}\n{AddedResources(p)}{DeductedResources(p)}";
             if (!valid)
             {
                 string missing = r.Ambulances + (long)p.ambulances < 0 ? "Ambulans" : r.Firefighters + (long)p.firefighters < 0 ? "İtfaiye" : thirdResourceLabel;

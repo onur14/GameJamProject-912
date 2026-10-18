@@ -51,6 +51,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
     public void SetPaused(bool paused) { IsPaused = paused; }
     public event System.Action FocusCompleted;
     public event System.Action Answered;
+    public event System.Action RingPreparationStarted;
     [Header("Phone visual feedback")]
     [SerializeField, Range(0, 1f)] private float hoverOpacity = .72f;
     [SerializeField, Range(.1f, .2f)] private float hoverDuration = .14f;
@@ -123,6 +124,7 @@ public sealed class DispatchCallFlow : MonoBehaviour, IPointerClickHandler, IPoi
         // The scene's Start runs while the persistent scene curtain is still black.
         while (SceneFadeTransition.IsTransitioning) yield return null;
         State = CallState.Idle;
+        RingPreparationStarted?.Invoke();
         float remaining = Mathf.Max(0, firstRingDelay);
         while (remaining > 0)
         {

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public sealed class CityHealth : MonoBehaviour
 {
     private const int StartingHealth = 100;
-    private const int WrongAnswerDamage = 20;
+    private const int WrongAnswerDamage = 25;
 
     [SerializeField] private OyunAkisiOnur conversation;
     [SerializeField] private PresidentialBriefingManager briefing;
@@ -76,13 +76,13 @@ public sealed class CityHealth : MonoBehaviour
     private void OnEnable()
     {
         if (conversation != null) { conversation.DecisionResolved += OnDecisionResolved; conversation.DecisionTimedOut += OnDecisionTimedOut; }
-        if (choiceView != null) choiceView.ChoicesShown += ShowMissionNote;
+        if (phone != null) phone.RingPreparationStarted += ShowMissionNote;
     }
 
     private void OnDisable()
     {
         if (conversation != null) { conversation.DecisionResolved -= OnDecisionResolved; conversation.DecisionTimedOut -= OnDecisionTimedOut; }
-        if (choiceView != null) choiceView.ChoicesShown -= ShowMissionNote;
+        if (phone != null) phone.RingPreparationStarted -= ShowMissionNote;
     }
 
     private void OnDecisionTimedOut()
@@ -94,7 +94,7 @@ public sealed class CityHealth : MonoBehaviour
     {
         if (correct || IsGameOver || briefing.Phase != PresidentialBriefingManager.ShiftPhase.Scenario) return;
         WrongDecisionCount++;
-        ApplyDamage(conversation.IsIntroductoryCall ? 10 : WrongAnswerDamage);
+        ApplyDamage(conversation.IsIntroductoryCall ? 15 : WrongAnswerDamage);
     }
 
     public bool ApplyDamage(int percentagePoints)
@@ -251,9 +251,9 @@ public sealed class CityHealth : MonoBehaviour
         var root = new GameObject("İlk Karar Bilgi Notu", typeof(RectTransform), typeof(Image), typeof(CanvasGroup));
         missionNote = (RectTransform)root.transform;
         missionNote.SetParent(transform, false);
-        missionNote.anchorMin = missionNote.anchorMax = new Vector2(.37f, .80f);
-        missionNote.pivot = new Vector2(0, .5f);
-        missionNote.sizeDelta = new Vector2(500, 128);
+        missionNote.anchorMin = missionNote.anchorMax = new Vector2(.73f, .96f);
+        missionNote.pivot = new Vector2(1, 1);
+        missionNote.sizeDelta = new Vector2(420, 132);
         noteBorder = root.GetComponent<Image>();
         noteBorder.color = new Color(.95f, .67f, .24f);
         noteBorder.raycastTarget = false;
@@ -299,10 +299,9 @@ public sealed class CityHealth : MonoBehaviour
         missionNote.anchoredPosition = Vector2.zero;
         noteGroup.alpha = 1;
         noteBorder.color = new Color(.95f, .67f, .24f);
-        float remaining = 18;
-        while (remaining > 0 && !IsGameOver)
+        while (!IsGameOver && phone != null &&
+            (phone.State == DispatchCallFlow.CallState.Idle || phone.State == DispatchCallFlow.CallState.IncomingCall))
         {
-            if (choiceView == null || !choiceView.IsPaused) remaining -= Time.unscaledDeltaTime;
             yield return null;
         }
         for (float t = 0; t < .25f; t += Time.unscaledDeltaTime)

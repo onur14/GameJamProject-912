@@ -37,6 +37,8 @@ MonoBehaviour:
   resourceB: 0
   dispatchA: 1
   dispatchB: 1
+  correctChoiceCost: 1
+  wrongChoiceCost: 2
   outcomeA:
   - text: "Kemal: Tepeye t\u0131rman\u0131yoruz... Alevler arkam\u0131zdan u\u00e7arak geliyor resmen! Zirve duman doldu, nefes yok, s\u0131k\u0131\u015ft\u0131k burad---"
     fromOperator: 0

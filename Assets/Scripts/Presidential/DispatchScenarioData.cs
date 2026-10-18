@@ -19,5 +19,6 @@ public sealed class DispatchScenarioData : ScriptableObject
     public bool correctChoiceIsB = true;
     public DispatchResources.ResourceType resourceA, resourceB;
     public bool dispatchA = true, dispatchB = true;
+    [Min(1)] public int correctChoiceCost = 1, wrongChoiceCost = 2;
     public Line[] outcomeA, outcomeB;
 }
