@@ -6566,7 +6566,7 @@ MonoBehaviour:
   callerInfo: {fileID: 1452182748}
   wrongChoiceResource: 2
   correctChoiceResource: 1
-  unansweredDecisionSeconds: 12
+  unansweredDecisionSeconds: 14
 --- !u!114 &3000000011 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7445754986739040688, guid: 98a6ef31f01dcd747b30909096eb7534, type: 3}

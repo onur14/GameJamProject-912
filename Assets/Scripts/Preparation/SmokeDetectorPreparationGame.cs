@@ -41,7 +41,8 @@ public sealed class SmokeDetectorPreparationGame : MonoBehaviour
         Label("Yeni Pil Etiketi",root,new Vector2(.66f,.20f),new Vector2(.92f,.30f),"YENİ PİL",font,22);
         indicator=Panel("Dedektör LED",root,new Vector2(.43f,.70f),new Vector2(.447f,.727f),Amber);
         stepLabel=Label("İşlem Adımı",root,new Vector2(.05f,.02f),new Vector2(.95f,.10f),"",font,20);
-        hint=Label("İşlem İpucu",root,new Vector2(.05f,.10f),new Vector2(.95f,.19f),"",font,24);hint.color=Amber;
+        Panel("İşlem İpucu Zemini",root,new Vector2(.05f,.10f),new Vector2(.95f,.19f),new Color(.015f,.035f,.055f,1f));
+        hint=Label("İşlem İpucu",root,new Vector2(.07f,.10f),new Vector2(.93f,.19f),"",font,28);hint.color=Amber;
         Hide();
     }
     public void Show(){StopAllCoroutines();ClearDrag();Step=0;moving=false;root.gameObject.SetActive(true);Refresh();}

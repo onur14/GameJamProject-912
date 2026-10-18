@@ -31,7 +31,7 @@ public sealed class UtilityIsolationPreparationGame : MonoBehaviour
     {
         mistake=onMistake;complete=onComplete;root=Rect("Hat İzolasyon İşaretleme",parent,Vector2.zero,Vector2.one);
         modal=root.GetComponentInParent<CanvasGroup>();
-        Label("İzolasyon Yönergesi",root,new Vector2(.02f,.90f),new Vector2(.98f,1),"ALEV: DOĞALGAZ · YILDIRIM: ELEKTRİK · İKİ HATTI BUL",font,24);
+        Label("İzolasyon Yönergesi",root,new Vector2(.02f,.90f),new Vector2(.98f,1),"Afetten önce doğalgazı ve elektriğin yerini işaretle!",font,24);
         Panel("Tesisat Panosu",root,new Vector2(.02f,.22f),new Vector2(.98f,.88f),new Color(.055f,.085f,.11f));
         var sheet=Resources.Load<Texture2D>("Disaster/UtilityTrainingSheet");
         string[] labels={"HAT A","HAT B","HAT C","HAT D","HAT E"};

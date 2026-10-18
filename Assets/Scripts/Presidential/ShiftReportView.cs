@@ -37,12 +37,12 @@ public sealed class ShiftReportView : MonoBehaviour
         if (data == null) return;
         Data = data;navigating = false;
         string seconds = Data.HasResponseTimes ? Data.AverageSeconds.ToString("F1", CultureInfo.GetCultureInfo("tr-TR")) + " sn" : "—";
-        performance.text = $"Doğru Müdahale: {Data.Correct} (Toplam {Data.Completed})\nKaçırılan Talep: {Data.Missed}\nOrtalama Tepki Süresi: {seconds}";
-        resources.text = $"Ambulans: {Data.Ambulances}\nİtfaiye: {Data.Firefighters}\nKurtarma Ekibi: {Data.RescueTeams}";
+        performance.text = $"Doğru müdahale: {Data.Correct}/{Data.Completed}\nKaçırılan talep: {Data.Missed}\nOrtalama tepki: {seconds}";
+        resources.text = $"Ambulans: {Data.Ambulances}\nİtfaiye: {Data.Firefighters}\nKurtarma: {Data.RescueTeams}";
         grade.text = "VARDİYA NOTU: " + Data.Grade;
         operation.text = "OPERASYON DURUMU\n" + Data.OperationStatus;
         events.text = string.Join("\n", Data.ExplainOutcome(true));
-        score.text = "Puan: " + Data.Score + " (100 üzerinden)";
+        score.text = "PUAN  " + Data.Score + "/100";
         normalMenu.SetActive(false);
         reportPanel.SetActive(true);
     }
@@ -52,9 +52,11 @@ public sealed class ShiftReportView : MonoBehaviour
         DispatchInsetFrame.Ensure(card);
         foreach(var label in card.GetComponentsInChildren<TMP_Text>(true))
         {
-            if(label==performance||label==resources||label.GetComponentInParent<Button>())continue;
+            if(label==performance||label==resources||label==score||label.GetComponentInParent<Button>())continue;
             label.alignment=TextAlignmentOptions.Top;
         }
+        performance.lineSpacing=resources.lineSpacing=events.lineSpacing=2;
+        score.alignment=TextAlignmentOptions.MidlineRight;
         events.alignment=TextAlignmentOptions.Top;
         var heading=card.Find("Olay Başlığı");
         if(heading)heading.GetComponent<TMP_Text>().text="VARDİYA ÖZETİ";

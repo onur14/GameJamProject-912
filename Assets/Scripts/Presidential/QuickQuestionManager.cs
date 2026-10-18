@@ -395,7 +395,7 @@ public sealed class QuickQuestionManager : MonoBehaviour
     private void ShowSlot(QuickQuestionConfig config,int slot)
     {
         if(config==null||views==null||!resources||activeSlots[slot]||views[slot].IsActive||!isActiveAndEnabled||(conversation&&conversation.GameOver))return;
-        var question=config.Clone();question.timerDuration=activeScenarioIndex==0?14f:11f;activeConfigs[slot]=question;activeSlots[slot]=true;
+        var question=config.Clone();question.timerDuration=activeScenarioIndex==0?16f:13f;activeConfigs[slot]=question;activeSlots[slot]=true;
         views[slot].Show(question,resources,choice=>OnChoiceSelected(slot,choice),()=>OnTimeout(slot),choice=>CanChoose(slot,choice));
         if(visualFeedback)visualFeedback.SignalAlert(false);QuestionStarted?.Invoke(question);
     }

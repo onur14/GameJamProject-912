@@ -22,7 +22,7 @@ public class OyunAkisiOnur : MonoBehaviour
     [SerializeField] private CallerInfoView callerInfo;
     [SerializeField] private DispatchResources.ResourceType wrongChoiceResource = DispatchResources.ResourceType.Police;
     [SerializeField] private DispatchResources.ResourceType correctChoiceResource = DispatchResources.ResourceType.Ambulances;
-    private const float ConnectionEventChance = 0.7f;
+    private const float ConnectionEventChance = 0.5f;
 
     private readonly Queue<MesajIstegi> bekleyenMesajlar = new Queue<MesajIstegi>();
     private readonly List<RectTransform> mesajlar = new List<RectTransform>();
@@ -39,7 +39,7 @@ public class OyunAkisiOnur : MonoBehaviour
     public event System.Action<int> ScenarioClosing;
     public event System.Action<bool> DecisionResolved;
     public event System.Action DecisionTimedOut;
-    [SerializeField, Min(1)] private float unansweredDecisionSeconds = 12;
+    [SerializeField, Min(1)] private float unansweredDecisionSeconds = 14;
     public event System.Action<DispatchResourceEffect> UnitDispatched;
     public void NotifyUnitDispatched(DispatchResourceEffect effect) { if (!effect.IsZero) UnitDispatched?.Invoke(effect); }
     public int ScenarioRevision { get; private set; }
@@ -49,7 +49,7 @@ public class OyunAkisiOnur : MonoBehaviour
     public bool ManagedShift { get; set; }
     public bool WaitingForChoice => secimBekleniyor;
     public bool IsIntroductoryCall => currentScenario == null || currentScenario.scenarioId == "D-01";
-    public float DecisionTimeLimit => IsIntroductoryCall ? Mathf.Max(18, unansweredDecisionSeconds) : unansweredDecisionSeconds;
+    public float DecisionTimeLimit => IsIntroductoryCall ? Mathf.Max(20, unansweredDecisionSeconds) : unansweredDecisionSeconds;
     public DispatchResources Resources => resources;
     private DispatchScenarioData currentScenario;
     public DispatchScenarioData CurrentScenario => currentScenario;
@@ -421,7 +421,7 @@ public class OyunAkisiOnur : MonoBehaviour
             }
             yield break;
         }
-        float kalanSure = 7f;
+        float kalanSure = 9f;
         geriSayimYazisi.gameObject.SetActive(true);
 
         while (kalanSure > 0f && secimBekleniyor)

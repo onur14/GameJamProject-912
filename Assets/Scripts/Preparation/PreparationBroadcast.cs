@@ -53,7 +53,7 @@ public sealed class PreparationBroadcast : MonoBehaviour
         var stamp=Label("Bakanlık Görev Başlığı",briefing,new Vector2(.08f,.68f),new Vector2(.92f,.79f),"BAKANLIKTAN KAMU SPOTU ÇEKİM GÖREVİ",font,25);stamp.color=Amber;
         Panel("Başlık Çizgisi",briefing,new Vector2(.08f,.66f),new Vector2(.92f,.665f),Amber);
         Label("Çekim Görev Metni",briefing,new Vector2(.09f,.31f),new Vector2(.91f,.63f),
-            "Bakanlık, afet bilincini artırmak için bir kamu spotu çekmeni istiyor.\n\nAltı hazırlık görevini toplam 75 saniye içinde doğru tamamla. Çektiğin video kamuoyuna yayınlanacak.",font,28);
+            "Bakanlık, afet bilincini artırmak için bir kamu spotu çekmeni istiyor.\n\nAltı hazırlık görevini toplam 90 saniye içinde doğru tamamla. Çektiğin video kamuoyuna yayınlanacak.",font,28);
         var reward=Label("Yeniden Çekim Ödülü",briefing,new Vector2(.10f,.17f),new Vector2(.90f,.31f),
             "Daha kısa bir yeniden çekim yap:\n+1 AMBULANS   +1 İTFAİYE   +1 KURTARMA EKİBİ\nBu ödül her koşuda bir kez verilir.",font,23);reward.color=Amber;
         startButton=Button("Çekime Başla",briefing,new Vector2(.31f,.025f),new Vector2(.82f,.115f),"ÇEKİME BAŞLA",font);startButton.onClick.AddListener(StartRecording);startButton.interactable=false;

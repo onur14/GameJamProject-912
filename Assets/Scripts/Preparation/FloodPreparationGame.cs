@@ -21,7 +21,8 @@ public sealed class FloodPreparationGame : MonoBehaviour
     {
         mistake=onMistake;complete=onComplete;
         root=Rect("Sel Yüksek Bölge Haritası",parent,Vector2.zero,Vector2.one);
-        Label("Yönerge",root,new Vector2(.04f,.89f),new Vector2(.96f,1),"SEL SIRASINDA HANGİ NOKTADA BULUNMALISIN?",font,25);
+        Panel("Soru Zemini",root,new Vector2(.04f,.89f),new Vector2(.96f,1),new Color(.015f,.035f,.055f,1f));
+        var question=Label("Yönerge",root,new Vector2(.06f,.89f),new Vector2(.94f,1),"SEL SIRASINDA HANGİ NOKTADA BULUNMALISIN?",font,31);question.color=Amber;
         var frame=Rect("Harita Alanı",root,new Vector2(.06f,.12f),new Vector2(.94f,.88f));
         var map=Rect("Sel Haritası",frame,Vector2.zero,Vector2.one);
         var fit=map.gameObject.AddComponent<AspectRatioFitter>();fit.aspectMode=AspectRatioFitter.AspectMode.FitInParent;fit.aspectRatio=1.5f;

@@ -122,7 +122,14 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
     {
         Build(); Hide(); transform.SetAsLastSibling();
         if (shiftSummary != null) Destroy(shiftSummary.gameObject);
-        var shade = Panel("Vardiya Özeti", transform, Vector2.zero, Vector2.one, new Color(.015f,.03f,.05f,.96f));
+        var canvas = GetComponentInParent<Canvas>();
+        var summaryParent = canvas ? canvas.rootCanvas.transform : transform;
+        var shade = Panel("Vardiya Özeti", summaryParent, Vector2.zero, Vector2.one, new Color(.015f,.03f,.05f,.96f));
+        shade.transform.SetAsLastSibling();
+        var summaryCanvas = shade.gameObject.AddComponent<Canvas>();
+        summaryCanvas.overrideSorting = true;
+        summaryCanvas.sortingOrder = 600;
+        shade.gameObject.AddComponent<GraphicRaycaster>();
         shiftSummary = shade.gameObject.AddComponent<CanvasGroup>();
         var card = Rect("Özet Terminali", shade.transform, new Vector2(.08f,.17f), new Vector2(.92f,.83f));
         bool critical = health <= 40;
@@ -233,6 +240,14 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
     }
     public string Stock(DispatchResources r) => $"MEVCUT  |  Ambulans {r.Ambulances}    İtfaiye {r.Firefighters}    {thirdResourceLabel} {r.Police}";
     private string Delta(int value) => value >= 0 ? "+" + value : value.ToString();
+    private string AddedResources(ResourceOffer offer)
+    {
+        var additions = new System.Collections.Generic.List<string>();
+        if (offer.ambulances > 0) additions.Add($"+{offer.ambulances} Ambulans");
+        if (offer.firefighters > 0) additions.Add($"+{offer.firefighters} İtfaiye");
+        if (offer.thirdTeam > 0) additions.Add($"+{offer.thirdTeam} {thirdResourceLabel}");
+        return additions.Count == 0 ? "EK KAYNAK YOK" : $"EKLENECEK KAYNAKLAR\n<color=#6DE9B6><size=125%>{string.Join(" · ", additions)}</size></color>";
+    }
     public void Offers(ResourceOffer a, ResourceOffer b, DispatchResources r)
     {
         if (typing != null) StopCoroutine(typing);
@@ -245,7 +260,7 @@ public sealed class PresidentialBroadcastView : MonoBehaviour
         {
             var p = plans[i]; bool valid = p.IsValid(r);
             offers[i].gameObject.SetActive(true); offers[i].interactable = valid;
-            offerTexts[i].text = $"{(i == 0 ? "A" : "B")} · {p.title}\n{p.rationale}\nAmb {Delta(p.ambulances)} · İtf {Delta(p.firefighters)} · {thirdResourceLabel} {Delta(p.thirdTeam)}\nSONUÇ: Amb {r.Ambulances + p.ambulances} · İtf {r.Firefighters + p.firefighters} · {thirdResourceLabel} {r.Police + p.thirdTeam}";
+            offerTexts[i].text = $"{(i == 0 ? "A" : "B")} · {p.title}\n{p.rationale}\n{AddedResources(p)}";
             if (!valid)
             {
                 string missing = r.Ambulances + (long)p.ambulances < 0 ? "Ambulans" : r.Firefighters + (long)p.firefighters < 0 ? "İtfaiye" : thirdResourceLabel;

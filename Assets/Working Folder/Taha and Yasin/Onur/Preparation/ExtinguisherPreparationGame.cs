@@ -45,6 +45,7 @@ public sealed class ExtinguisherPreparationGame : MonoBehaviour
             var pos=new Vector2(.5f+Mathf.Cos(angle)*.41f,.47f+Mathf.Sin(angle)*.41f);
             var tick=Panel("Basınç Çizgisi",dial,pos,pos,p>=SafeMin&&p<=SafeMax?Green:Amber).rectTransform;
             tick.sizeDelta=new Vector2(i%5==0?5:3,i%5==0?22:12);tick.localEulerAngles=new Vector3(0,0,angle*Mathf.Rad2Deg-90);
+            var outline=tick.gameObject.AddComponent<Outline>();outline.effectColor=Color.black;outline.effectDistance=new Vector2(1,-1);outline.useGraphicAlpha=false;
         }
         needle=Panel("Basınç İbresi",dial,new Vector2(.5f,.47f),new Vector2(.5f,.47f),White).rectTransform;
         needle.pivot=new Vector2(.5f,.05f);needle.sizeDelta=new Vector2(6,125);

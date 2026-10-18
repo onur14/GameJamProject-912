@@ -184,7 +184,7 @@ public static class PreparationChecks
             Check(!d.TimerRunning&&!PreparationRun.IsRecording,"Preparation clock does not run during briefing");
             Click(d.Broadcast.StartButton);await Wait(()=>d.Broadcast.PurposeButton.IsInteractable());Click(d.Broadcast.PurposeButton);
             await Wait(()=>PreparationRun.IsRecording&&!d.IsBusy&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf);
-            Check(d.TimerRunning&&d.RemainingSeconds>74,"One 75-second clock starts when preparation becomes playable");
+            Check(d.TimerRunning&&d.RemainingSeconds>89,"One 90-second clock starts when preparation becomes playable");
             Check(d.GetComponentsInChildren<TMP_Text>().Any(t=>t.text.Contains("6 ÖNEMLİ AFET HAZIRLIĞI")),"Requested preparation text is visible");
             TestBagTransparency();bool skipClock=SessionState.GetBool("SkipVerifiedSharedClock",false);SessionState.SetBool("SkipVerifiedSharedClock",false);
             if(!skipClock)await TestSharedPreparationClock(d);
@@ -192,10 +192,10 @@ public static class PreparationChecks
             await Task.Delay(6000);await CompleteQuickTake(d);
             Check(!d.TimerRunning&&PreparationRun.CompletedCount==6,"Completing all six tasks stops the shared timer");
             float stopped=d.RemainingSeconds;await Task.Delay(250);Check(d.RemainingSeconds==stopped,"Review does not consume preparation time");
-            Check(PreparationRun.LastTakeSeconds<=75,"All six games completed within one total 75-second take");
+            Check(PreparationRun.LastTakeSeconds<=90,"All six games completed within one total 90-second take");
             await Capture("focused-review");Click(d.Broadcast.RetakeButton);
             await Wait(()=>PreparationRun.IsRecording&&!d.Broadcast.VisibleOverlay.gameObject.activeSelf&&!d.IsBusy);
-            Check(d.RemainingSeconds>74&&PreparationRun.CompletedCount==0,"Retake starts a fresh total budget and resets six tasks");
+            Check(d.RemainingSeconds>89&&PreparationRun.CompletedCount==0,"Retake starts a fresh total budget and resets six tasks");
             await CompleteQuickTake(d);Check(PreparationRun.RewardEarned,"Existing faster-retake reward remains functional");
             Click(d.Broadcast.PublishButton);await Wait(()=>d.Broadcast.Phase==PreparationBroadcast.BroadcastPhase.Publishing);
             await Task.Delay(1500);Fits(d.gameObject);await Capture("focused-publication");
@@ -232,9 +232,9 @@ public static class PreparationChecks
             Check(radio.CizirtiSesi.timeSamples>=samples&&UnityEngine.Object.FindObjectsByType<AudioSource>().Count(a=>a.isPlaying&&a.clip==radio.CizirtiSesi.clip)==1,"Repeated conversation start neither restarts nor stacks the loop");
             await TestDualQuestions(manager,chat);
             while(!flow.WaitingForChoice){chat.RevealCurrentLine();await Task.Delay(80);}
-            Check(Mathf.Approximately(Field<float>(flow,"unansweredDecisionSeconds"),12),"Main two-option decision base limit is twelve seconds");
+            Check(Mathf.Approximately(Field<float>(flow,"unansweredDecisionSeconds"),14),"Main two-option decision base limit is fourteen seconds");
             await Wait(()=>decisionTimeouts>0,12);
-            Check(decisionElapsed>=11.8&&decisionElapsed<12.5,"Actual later decision timeout occurs at twelve seconds: "+decisionElapsed.ToString("F2"));
+            Check(decisionElapsed>=13.8&&decisionElapsed<14.5,"Actual later decision timeout occurs at fourteen seconds: "+decisionElapsed.ToString("F2"));
             int timeoutCount=decisionTimeouts;await Task.Delay(500);Check(decisionTimeouts==timeoutCount&&flow.WaitingForChoice,"Decision timeout notifies once without duplicate action");
             await RunOperatorShift();
             await Wait(()=>Find<ShiftReportView>()&&Find<ShiftReportView>().IsVisible&&!SceneFadeTransition.IsTransitioning,40);
@@ -262,7 +262,7 @@ public static class PreparationChecks
             await Task.Delay(350);Check(!Find<PreparationDirector>(),"Timeout during an animation can return safely to the main menu");
             Check(!UnityEngine.Object.FindObjectsByType<TMP_Text>().Any(t=>t.text.ToUpperInvariant().Contains("LANET")),"Visible text contains no LANET wording");
             Check(errors.Count==0,"No new Play Mode errors: "+string.Join("; ",errors));
-            File.AppendAllText(Logs+"/checks.txt","COMPLETE FOCUSED FLOW\n");SessionState.SetString("PreparationResult","PASS — six preparation games, shared 75 seconds, dual questions and full shift");
+            File.AppendAllText(Logs+"/checks.txt","COMPLETE FOCUSED FLOW\n");SessionState.SetString("PreparationResult","PASS — six preparation games, shared 90 seconds, dual questions and full shift");
         }
         catch(Exception e){File.AppendAllText(Logs+"/checks.txt","FAIL: "+e+"\n");SessionState.SetString("PreparationResult",e.ToString());}
         finally
@@ -287,19 +287,19 @@ public static class PreparationChecks
         }
         await TestPressureEdges(d);
         await Open(d,0);await Capture("focused-shared-blue");
-        await Wait(()=>d.RemainingSeconds<14,75);Check(Field<Image>(d,"timerFill").color.r>.8f,"Shared low-time bar becomes amber");await Capture("focused-shared-amber");
+        await Wait(()=>d.RemainingSeconds<14,90);Check(Field<Image>(d,"timerFill").color.r>.8f,"Shared low-time bar becomes amber");await Capture("focused-shared-amber");
         await Wait(()=>d.RemainingSeconds<4,15);await Capture("focused-shared-red");
         var item=Field<BagDraggableItem[]>(d.BagWindow.BagGame,"items")[0];
         var pointer=new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left,position=RectTransformUtility.WorldToScreenPoint(null,item.transform.position)};
         item.OnPointerDown(pointer);item.OnBeginDrag(pointer);
         await Wait(()=>d.TimedOut,8);await Task.Delay(120);
         double elapsed=Time.realtimeSinceStartupAsDouble-started;
-        Check(elapsed>=74&&elapsed<76,"Actual whole-phase timeout is 75 seconds: "+elapsed.ToString("F2"));
+        Check(elapsed>=89&&elapsed<91,"Actual whole-phase timeout is 90 seconds: "+elapsed.ToString("F2"));
         Check(!d.TimerRunning&&!PreparationRun.IsRecording&&item.GetComponent<CanvasGroup>().blocksRaycasts,"Timeout cancels drag and stops preparation safely");
         Check(Field<AudioSource>(d,"activityAudio").isPlaying,"Existing mini-game failure clip plays on shared timeout");
         d.OpenActivity(1);Check(d.TimedOut,"No activity can reopen after the total budget expires");
         await Capture("focused-shared-timeout");int take=PreparationRun.TakeNumber;Click(d.RetryButton);d.RetryButton.onClick.Invoke();
-        Check(PreparationRun.TakeNumber==take+1&&d.TimerRunning&&d.RemainingSeconds>74&&d.ActiveActivity<0&&PreparationRun.CompletedCount==0,"Timeout retry starts one fresh whole-phase take");
+        Check(PreparationRun.TakeNumber==take+1&&d.TimerRunning&&d.RemainingSeconds>89&&d.ActiveActivity<0&&PreparationRun.CompletedCount==0,"Timeout retry starts one fresh whole-phase take");
         await Open(d,3);await Task.Delay(400);Check(d.Detector.Step==0,"Previous detector interaction cannot affect retry");Click(d.BackButton);await Home(d,0);
     }
     static Rect WorldRect(RectTransform r)

@@ -22,7 +22,7 @@ public sealed class PreparationDirector : MonoBehaviour
     private TMP_Text recordingClock;
     private PreparationBroadcast broadcast;
     private Button back;
-    public const float ActivityTimeLimit=75f;
+    public const float ActivityTimeLimit=90f;
     private float remainingSeconds;
     private bool timerRunning;
     private Image timerFill;
@@ -124,7 +124,7 @@ public sealed class PreparationDirector : MonoBehaviour
             taskLabels[i].alignment=TextAlignmentOptions.Left;
         }
         status=Label("Hazırlık Durumu",screen,new Vector2(.79f,.10f),new Vector2(.97f,.21f),"",font,23);
-        Label("Harita İpucu",screen,new Vector2(.04f,.025f),new Vector2(.78f,.09f),"6 ÖNEMLİ AFET HAZIRLIĞI · Altı görevi toplam 75 saniyede tamamla.",font,22);
+        Label("Harita İpucu",screen,new Vector2(.04f,.025f),new Vector2(.78f,.09f),"6 ÖNEMLİ AFET HAZIRLIĞI · Altı görevi toplam 90 saniyede tamamla.",font,22);
         var menu=Button("Ana Menü",screen,new Vector2(.81f,.035f),new Vector2(.96f,.09f),"ANA MENÜ",font);
         menu.onClick.AddListener(()=>{if(busy||SceneFadeTransition.IsTransitioning)return;PreparationRun.Reset();ShiftReportFlow.Clear();SceneFadeTransition.LoadScene("Assets/Working Folder/Taha and Yasin/AnaMenu.unity",.3f,.4f);});
         // Quiet recording brackets, outside the game and pointer paths.
@@ -158,7 +158,7 @@ public sealed class PreparationDirector : MonoBehaviour
         var shadeTimeout=Panel("Süre Doldu Örtüsü",card,new Vector2(.025f,.10f),new Vector2(.975f,.84f),new Color(.015f,.035f,.055f,.97f));
         shadeTimeout.raycastTarget=true;timeoutPanel=shadeTimeout.gameObject;
         Label("Süre Doldu",shadeTimeout.transform,new Vector2(.15f,.60f),new Vector2(.85f,.76f),"SÜRE DOLDU",font,36).color=Amber;
-        Label("Yeniden Dene Açıklaması",shadeTimeout.transform,new Vector2(.12f,.43f),new Vector2(.88f,.59f),"Çekim süresi bitti. Altı hazırlık için toplam 75 saniyen var.\nÇekimi baştan deneyebilir veya menüye dönebilirsin.",font,23);
+        Label("Yeniden Dene Açıklaması",shadeTimeout.transform,new Vector2(.12f,.43f),new Vector2(.88f,.59f),"Çekim süresi bitti. Altı hazırlık için toplam 90 saniyen var.\nÇekimi baştan deneyebilir veya menüye dönebilirsin.",font,23);
         retryButton=Button("Görevi Yeniden Dene",shadeTimeout.transform,new Vector2(.12f,.22f),new Vector2(.49f,.36f),"ÇEKİMİ YENİLE",font);
         timeoutReturnButton=Button("Süreden Ana Menü",shadeTimeout.transform,new Vector2(.51f,.22f),new Vector2(.88f,.36f),"ANA MENÜ",font);
         retryButton.onClick.AddListener(RetryActivity);timeoutReturnButton.onClick.AddListener(ReturnAfterTimeout);
@@ -169,7 +169,7 @@ public sealed class PreparationDirector : MonoBehaviour
         var track=Panel("Toplam Hazırlık Süresi",screen,new Vector2(.035f,.945f),new Vector2(.965f,.975f),new Color(.14f,.21f,.26f));
         timerStrip=track.gameObject;timerStrip.SetActive(false);
         timerFill=Panel("Kalan Hazırlık Süresi",track.transform,Vector2.zero,Vector2.one,new Color(.28f,.67f,.84f));
-        timerLabel=Label("Toplam Süre",track.transform,new Vector2(.02f,-.1f),new Vector2(.98f,1.1f),"TOPLAM 75 SN",font,18);
+        timerLabel=Label("Toplam Süre",track.transform,new Vector2(.02f,-.1f),new Vector2(.98f,1.1f),"TOPLAM 90 SN",font,18);
     }
     public void OpenActivity(int index)
     {

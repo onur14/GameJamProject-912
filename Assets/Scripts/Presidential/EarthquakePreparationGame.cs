@@ -47,7 +47,7 @@ public sealed class EarthquakePreparationGame : MonoBehaviour
         for(int i=0;i<4;i++)keys[i]=cutouts.Cut(40+i*99,471,83,72);
         root=Rect("Çök Kapan Tutun Eğitimi",parent,Vector2.zero,Vector2.one);
         Panel("Eğitim Zemini",root,Vector2.zero,Vector2.one,PanelColor);
-        Label("Kısa Yönerge",root,new Vector2(.1f,.88f),new Vector2(.9f,.98f),"ÜÇ OKU SOLDAN SAĞA TAMAMLA · YANLIŞ TUŞTA SIRA BAŞA DÖNER",font,23);
+        Label("Kısa Yönerge",root,new Vector2(.1f,.88f),new Vector2(.9f,.98f),"Ok tuşlarını kullanarak aşağıdaki kombinasyonu tamamla",font,23);
         var room=Rect("Korunaklı Oda",root,new Vector2(.06f,.32f),new Vector2(.94f,.85f));
         Panel("Duvar",room,Vector2.zero,Vector2.one,new Color(.13f,.20f,.25f));
         Panel("Zemin",room,Vector2.zero,new Vector2(1,.23f),new Color(.075f,.12f,.16f));

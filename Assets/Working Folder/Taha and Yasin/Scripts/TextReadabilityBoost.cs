@@ -43,8 +43,7 @@ public sealed class TextReadabilityBoost : MonoBehaviour
             nextRefresh = Time.unscaledTime + RefreshInterval;
             foreach (var t in FindObjectsByType<TMP_Text>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
-                // CallerInfoView owns its measured, compact type scale; do not multiply it twice.
-                if(t.GetComponentInParent<CallerInfoView>(true)!=null)continue;
+                if(t.GetComponentInParent<CallerInfoView>(true)!=null||t.GetComponentInParent<ShiftReportView>(true)!=null)continue;
                 if (entries.ContainsKey(t)) continue;
                 entries[t] = new Entry();
                 if (t.name == NoteTextName && t.transform.parent && t.transform.parent.parent)

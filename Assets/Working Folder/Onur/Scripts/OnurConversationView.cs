@@ -35,7 +35,9 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
     private TMP_Text nextLabel, effectA, effectB, latestBody;
     private TMP_Text callEndedLabel, newCallLabel, decisionTimer;
     private GameObject connectionOverlay;
-    private RectTransform connectionFill;
+    private CanvasGroup connectionGroup;
+    private RectTransform connectionCard, connectionFill;
+    private Image connectionAccent, connectionFillImage;
     private readonly List<RectTransform> messages = new List<RectTransform>();
     private bool choicesVisible, awaitingAdvance, typing, bothUnavailable;
     private float lastClick = -10;
@@ -286,17 +288,27 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         connectionFill.anchorMax=new Vector2(0f,1f);
         connectionOverlay.SetActive(true);
         connectionOverlay.transform.SetAsLastSibling();
-        float progress=0;
+        connectionGroup.alpha=0;
+        float progress=0, elapsed=0, flash=0;
         while(progress<1f)
         {
             if(IsPaused){yield return null;continue;}
+            float delta=Time.unscaledDeltaTime;
+            elapsed+=delta;
             if(Keyboard.current!=null && Keyboard.current.spaceKey.wasPressedThisFrame)
-                progress=Mathf.Min(1f,progress+ConnectionGainPerPress);
+            {progress=Mathf.Min(1f,progress+ConnectionGainPerPress);flash=1f;}
             else
-                progress=Mathf.Max(0f,progress-ConnectionDecayPerSecond*Time.unscaledDeltaTime);
+                progress=Mathf.Max(0f,progress-ConnectionDecayPerSecond*delta);
             connectionFill.anchorMax=new Vector2(progress,1f);
+            connectionGroup.alpha=Mathf.Clamp01(elapsed/.18f);
+            connectionCard.localScale=Vector3.one*(1.025f-.025f*Mathf.Clamp01(elapsed/.25f));
+            connectionAccent.color=new Color(1f,.61f,.35f,.55f+.35f*Mathf.Sin(elapsed*6f)*Mathf.Sin(elapsed*6f));
+            connectionFillImage.color=Color.Lerp(new Color(.42f,.87f,.69f),Color.white,flash);
+            flash=Mathf.MoveTowards(flash,0f,delta*4f);
             yield return null;
         }
+        for(float fade=1f;fade>0f;fade-=Time.unscaledDeltaTime/.18f)
+        {connectionGroup.alpha=fade;yield return null;}
         connectionOverlay.SetActive(false);
     }
     private void BuildConnectionOverlay()
@@ -305,27 +317,46 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
         var overlayRect=(RectTransform)connectionOverlay.transform;overlayRect.SetParent(panel,false);
         Anchor(overlayRect,Vector2.zero,Vector2.one);
         connectionOverlay.GetComponent<Image>().color=new Color(.04f,.09f,.12f,.97f);
+        connectionGroup=connectionOverlay.AddComponent<CanvasGroup>();
 
-        var title=Text("Bağlantı Uyarısı",overlayRect,34);
-        Anchor(title.rectTransform,new Vector2(.08f,.54f),new Vector2(.92f,.72f));
+        var card=new GameObject("Bağlantı Kartı",typeof(RectTransform),typeof(Image));
+        connectionCard=(RectTransform)card.transform;connectionCard.SetParent(overlayRect,false);
+        Anchor(connectionCard,new Vector2(.07f,.22f),new Vector2(.93f,.78f));
+        card.GetComponent<Image>().color=new Color(.08f,.16f,.20f,1f);
+        var outline=card.AddComponent<Outline>();outline.effectColor=new Color(.35f,.62f,.64f,.8f);outline.effectDistance=new Vector2(2,-2);
+
+        var accent=new GameObject("Sinyal Çizgisi",typeof(RectTransform),typeof(Image));
+        var accentRect=(RectTransform)accent.transform;accentRect.SetParent(connectionCard,false);
+        Anchor(accentRect,new Vector2(.04f,.88f),new Vector2(.96f,.895f));
+        connectionAccent=accent.GetComponent<Image>();connectionAccent.raycastTarget=false;
+
+        var status=Text("Sinyal Durumu",connectionCard,16);
+        Anchor(status.rectTransform,new Vector2(.08f,.76f),new Vector2(.92f,.86f));
+        status.text="912  ·  SİNYAL YOK";status.alignment=TextAlignmentOptions.Center;
+        status.color=new Color(.62f,.79f,.80f);
+
+        var title=Text("Bağlantı Uyarısı",connectionCard,34);
+        Anchor(title.rectTransform,new Vector2(.08f,.51f),new Vector2(.92f,.74f));
         title.text="Bağlantı kesildi";title.alignment=TextAlignmentOptions.Center;
         title.color=new Color(1f,.65f,.4f);
 
-        var instruction=Text("Kurtarma Talimatı",overlayRect,19);
-        Anchor(instruction.rectTransform,new Vector2(.08f,.42f),new Vector2(.92f,.52f));
-        instruction.text="SPACE tuşuna art arda bas";instruction.alignment=TextAlignmentOptions.Center;
+        var instruction=Text("Kurtarma Talimatı",connectionCard,20);
+        Anchor(instruction.rectTransform,new Vector2(.06f,.38f),new Vector2(.94f,.53f));
+        instruction.text="Geri bağlanmak için space tuşuna aban";instruction.alignment=TextAlignmentOptions.Center;
+        instruction.enableAutoSizing=true;instruction.fontSizeMin=16;instruction.fontSizeMax=20;
 
         var bar=new GameObject("Bağlantı Çubuğu",typeof(RectTransform),typeof(Image));
-        var barRect=(RectTransform)bar.transform;barRect.SetParent(overlayRect,false);
-        Anchor(barRect,new Vector2(.12f,.30f),new Vector2(.88f,.37f));
-        bar.GetComponent<Image>().color=new Color(.12f,.19f,.22f);
+        var barRect=(RectTransform)bar.transform;barRect.SetParent(connectionCard,false);
+        Anchor(barRect,new Vector2(.09f,.21f),new Vector2(.91f,.31f));
+        bar.GetComponent<Image>().color=new Color(.025f,.06f,.08f);
         bar.GetComponent<Image>().raycastTarget=false;
+        var barOutline=bar.AddComponent<Outline>();barOutline.effectColor=new Color(.35f,.59f,.60f);barOutline.effectDistance=new Vector2(2,-2);
 
         var fill=new GameObject("İlerleme",typeof(RectTransform),typeof(Image));
         connectionFill=(RectTransform)fill.transform;connectionFill.SetParent(barRect,false);
         Anchor(connectionFill,Vector2.zero,new Vector2(0f,1f));
-        fill.GetComponent<Image>().color=new Color(.42f,.87f,.69f);
-        fill.GetComponent<Image>().raycastTarget=false;
+        connectionFillImage=fill.GetComponent<Image>();connectionFillImage.color=new Color(.42f,.87f,.69f);
+        connectionFillImage.raycastTarget=false;
     }
     private void FitText()
     {
