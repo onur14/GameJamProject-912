@@ -343,12 +343,13 @@ public sealed class OnurConversationView : MonoBehaviour, IPointerClickHandler
 
         var keycap=new GameObject("Space Tuşu Simgesi",typeof(RectTransform),typeof(Image));
         var keycapRect=(RectTransform)keycap.transform;keycapRect.SetParent(connectionCard,false);
-        Anchor(keycapRect,new Vector2(.34f,.37f),new Vector2(.66f,.52f));
+        Anchor(keycapRect,new Vector2(.18f,.37f),new Vector2(.82f,.52f));
         var keycapImage=keycap.GetComponent<Image>();keycapImage.color=new Color(.16f,.29f,.34f);keycapImage.raycastTarget=false;
         var keycapOutline=keycap.AddComponent<Outline>();keycapOutline.effectColor=new Color(.58f,.86f,.83f);keycapOutline.effectDistance=new Vector2(2,-3);
         var keycapLabel=Text("Space Simgesi",keycapRect,25);
         Anchor(keycapLabel.rectTransform,new Vector2(.04f,.04f),new Vector2(.96f,.96f));
-        keycapLabel.text="SPACE";keycapLabel.alignment=TextAlignmentOptions.Center;
+        keycapLabel.text="Space'e hızlıca bas!";keycapLabel.alignment=TextAlignmentOptions.Center;
+        keycapLabel.enableAutoSizing=true;keycapLabel.fontSizeMin=16;keycapLabel.fontSizeMax=25;
 
         var bar=new GameObject("Bağlantı Çubuğu",typeof(RectTransform),typeof(Image));
         var barRect=(RectTransform)bar.transform;barRect.SetParent(connectionCard,false);

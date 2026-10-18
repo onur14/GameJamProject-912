@@ -23,6 +23,7 @@ public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHa
     private bool dragging;
     private bool dropped;
     private bool draggedThisPress;
+    private Vector2 dragStartPosition;
 
     public Vector2 StartingPosition { get => startingPosition; set => startingPosition=value; }
     public BagDropZone CurrentArea => currentArea;
@@ -50,6 +51,7 @@ public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHa
         if (game == null || game.IsResolved || currentArea == null) return;
         dragging = true;
         draggedThisPress = true;
+        dragStartPosition = eventData.position;
         dropped = false;
         previousArea = currentArea;
         previousSibling = transform.GetSiblingIndex();
@@ -80,6 +82,9 @@ public sealed class BagDraggableItem : MonoBehaviour, IBeginDragHandler, IDragHa
         {
             Place(previousArea);
             transform.SetSiblingIndex(previousSibling);
+            float clickDistance = EventSystem.current != null ? EventSystem.current.pixelDragThreshold * 2f : 20f;
+            if (Vector2.Distance(dragStartPosition, eventData.position) <= clickDistance)
+                Place(currentArea.IsBagArea ? startingArea : game.BagArea, true);
         }
         group.blocksRaycasts = true;
         game.HighlightBag(false);
