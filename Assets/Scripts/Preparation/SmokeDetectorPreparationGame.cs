@@ -32,8 +32,10 @@ public sealed class SmokeDetectorPreparationGame : MonoBehaviour
         Label("Yönerge",root,new Vector2(.04f,.89f),new Vector2(.96f,1),"DUMAN DEDEKTÖRÜNÜN PİLİNİ DEĞİŞTİR",font,25);
         cover=Button("Dedektör Kapağı",root,new Vector2(.17f,.22f),new Vector2(.62f,.85f),"",font);cover.image.sprite=art[0];cover.image.color=Color.white;cover.image.preserveAspect=true;
         cover.onClick.AddListener(ClickCover);
-        slot=Button("Pil Yuvası",root,new Vector2(.30f,.39f),new Vector2(.47f,.63f),"",font);slot.image.color=Color.clear;
-        oldBattery=Button("Eski Pili Çıkar",root,new Vector2(.32f,.40f),new Vector2(.45f,.62f),"",font);oldBattery.image.sprite=art[2];oldBattery.image.preserveAspect=true;oldBattery.image.color=Color.white;oldBattery.transform.localRotation=Quaternion.Euler(0,0,-90);
+        var batterySeat=Rect("Pil Yatağı Konumu",root,Vector2.zero,Vector2.one);
+        batterySeat.anchoredPosition=Vector2.up*25f;
+        slot=Button("Pil Yuvası",batterySeat,new Vector2(.30f,.39f),new Vector2(.47f,.63f),"",font);slot.image.color=Color.clear;
+        oldBattery=Button("Eski Pili Çıkar",batterySeat,new Vector2(.32f,.40f),new Vector2(.45f,.62f),"",font);oldBattery.image.sprite=art[2];oldBattery.image.preserveAspect=true;oldBattery.image.color=Color.white;oldBattery.transform.localRotation=Quaternion.Euler(0,0,-90);
         newBattery=Button("Yeni Pili Yerleştir",root,new Vector2(.69f,.28f),new Vector2(.90f,.73f),"",font);newBattery.image.sprite=art[3];newBattery.image.preserveAspect=true;newBattery.image.color=Color.white;newBattery.transform.localRotation=Quaternion.Euler(0,0,-90);
         AddDrag(oldBattery,true);AddDrag(newBattery,false);
         foreach(var button in new[]{cover,oldBattery,newBattery,slot})
